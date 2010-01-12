@@ -1,7 +1,7 @@
 ///-----------------------------------------------------------------
 ///
 /// @file      ParamManager.cpp
-/// @author    
+/// @author    cubbiste
 /// Created:   12/12/2009 18:10:19
 /// @section   DESCRIPTION
 ///            ParamManager class implementation
@@ -125,6 +125,14 @@ void ParamManager::GetOrSet(const wxString& tableParam, const wxString& typePara
 //    - s'il est présent en base : retourne les valeurs lues dans val1, val2
 //    - s'il est absent en base : le crée avec les valeurs val1 et val2
 {
+    if (!baseConfig.ouverte()) {
+        wxMessageBox("ParamManager::GetOrSet() : la base config n'est pas ouverte");
+    }
+
+    if (!baseConfig.existe(tableParam)) {
+        baseConfig.exec_rapide("CREATE TABLE " + tableParam + " (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)");
+    }
+
     wxString query = "select val1, val2 from " + tableParam + " where type_param='" + typeParam + "' and nom_param='" + nomParam + "'";
     int ret=baseConfig.transac_prepare(query);
     if (ret < 0) {
@@ -187,6 +195,10 @@ void ParamManager::Set(const wxString& tableParam, const wxString& typeParam, co
 {
     if (!baseConfig.ouverte()) {
         wxMessageBox("ParamManager::Set() : la base config n'est pas ouverte");
+    }
+    
+    if (!baseConfig.existe(tableParam)) {
+        baseConfig.exec_rapide("CREATE TABLE " + tableParam + " (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)");
     }
     
     wxString query = "select val1, val2 from " + tableParam + " where type_param='" + typeParam + "' and nom_param='" + nomParam + "'";
