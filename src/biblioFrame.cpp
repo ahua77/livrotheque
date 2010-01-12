@@ -168,6 +168,17 @@ biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title
     BOOL useSplash = true;
     param->GetOrSet("config", "INIT", "USE_SPLASH", useSplash);
     
+    
+    // l'option -nosplash permet d'empêcher l'affichage du splash screen, essentiellement à des fins de debug en cas de pb de démarrage
+    if (wxTheApp->argc >1) {
+        for (int ii = 1; ii < wxTheApp->argc; ii++)
+        {
+            wxString arg = _T(wxTheApp->argv[ii]);
+            if (arg == "-nosplash")
+                useSplash = false;
+        }
+    }
+        
     wxSplashScreen* splash = NULL;
     if (useSplash) {
         wxBitmap WxStaticBitmap_splash(splash_xpm);
