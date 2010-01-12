@@ -1,0 +1,85 @@
+b64 - History
+=============
+
+Updated:    24th August 2008
+
+
+24th August 2008 - 1.3.4
+------------------------
+
+ * fix for GCC 4.x's defective resolution of function template names for
+   std::string overloads of string access shim
+ * fixed printf format-specifier warning in example.2.c
+
+3rd August 2008 - 1.3.3
+-----------------------
+
+ * fixed warning in GCC 4.x makefile
+ * added makefiles for GCC 4.1, 4.2, 4.3
+ * added makefiles for VC++ 9
+ * fixed printf format-specifier warning in example.2.c
+
+13th May 2008 - 1.3.2
+---------------------
+
+ * Win64 compatibility
+
+15th March 2008 - 1.3.1
+-----------------------
+
+ * added ability to customise namespace name
+ * renamed test/example/sample directories and filenames to fit in with the
+   prevailing standard in all Synesis-related libraries
+
+9th February 2008 - 1.2.6
+-------------------------
+
+ * workaround for weird GCC bug on 64-bit Linux
+
+8th February 2008 - 1.2.5
+-------------------------
+
+ * compatibility with Visual C++ 8+ "Safe String" library
+
+
+30th April 2007 - 1.2.4
+-----------------------
+
+ * compatibility with STLSoft 1.9.1; Extended STL, volume 1: CD
+
+26th January 2007 - 1.2.3
+-------------------------
+
+ * minor fixes to distribution and documentation
+
+22nd January 2007 - 1.2.2
+-------------------------
+
+ * distribution now roots under b64-X.Y, e.g. b64-1.2.2
+
+7th December 2006 - 1.2.1
+-------------------------
+
+ * New error functions to API
+ * Change to C++ namespace and include file path
+
+2nd August 2006 - 1.1.3
+------------------------------
+
+ * No changes to functionality from 1.1.2
+  (see CHANGES.txt for details)
+
+26th July 2006 - 1.1.2
+------------------------------
+
+ * No changes to functionality from 1.1.1
+  (see CHANGES.txt for details)
+
+
+28th April 2006 - 1.1.1
+-------------------------------
+
+ * This will be kept up to date from v1.1 (28th April 2006) onwards.
+
+
+=============================== End of file ================================

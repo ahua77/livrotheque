@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_moncamembert_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        GestionCoul.h
+// Author:      lootens
+// Created:     29/08/2005 17:15:49
+//
+//Copyright  PE Epaillard, 20/07/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+</span><span class="cpp1-preprocessor">#ifndef __GESTIONCOUL_HPP_
+#define __GESTIONCOUL_HPP_
+
+</span><span class="cpp1-comment">// For compilers that support precompilation, includes &quot;wx.h&quot;.
+</span><span class="cpp1-preprocessor">#include &lt;wx/wxprec.h&gt;
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+</span><span class="cpp1-comment">// Include your minimal set of headers here, or wx.h
+</span><span class="cpp1-preprocessor">#include &lt;wx/wx.h&gt;
+#endif
+
+</span><span class="cpp1-comment">//Do not add custom headers.
+//wx-dvcpp designer will remove them
+////Header Include Start
+</span><span class="cpp1-preprocessor">#include &lt;wx/textctrl.h&gt;
+#include &lt;wx/notebook.h&gt;
+#include &lt;wx/button.h&gt;
+#include &lt;wx/panel.h&gt;
+</span><span class="cpp1-comment">////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &lt;wx/frame.h&gt;
+
+</span><span class="cpp1-comment">//#include &quot;moncamembert.h&quot;
+
+////Dialog Style Start
+</span><span class="cpp1-space">	</span><span class="cpp1-preprocessor">#undef THIS_DIALOG_STYLE
+</span><span class="cpp1-space">	</span><span class="cpp1-preprocessor">#define THIS_DIALOG_STYLE wxCAPTION | wxRESIZE_BORDER | wxSYSTEM_MENU | wxMAXIMIZE_BOX | wxCLOSE_BOX
+</span><span class="cpp1-comment">////Dialog Style End
+
+</span><span class="cpp1-preprocessor">#include &lt;wx/scrolwin.h&gt; </span><span class="cpp1-comment">// inheriting class's header file
+</span><span class="cpp1-preprocessor">#include &lt;wx/dcmirror.h&gt;
+#include &lt;wx/colordlg.h&gt;
+#include &lt;wx/fontdlg.h&gt;
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> CarreCouleur;
+
+WX_DECLARE_OBJARRAY(wxColour,wxArrayColour);
+WX_DECLARE_OBJARRAY(wxRect,wxArrayRect);
+</span><span class="cpp1-comment">//WX_DECLARE_OBJARRAY(double,wxArrayDouble);
+
+</span><span class="cpp1-identifier">WX_DEFINE_ARRAY_PTR(wxStaticText *,wxArrayPtrStaticText);
+WX_DEFINE_ARRAY_PTR(CarreCouleur *,wxArrayPtrCarreCouleur);
+
+</span><span class="cpp1-comment">// No description
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> MonCamembert : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxScrolledWindow
+{
+    </span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+        DECLARE_EVENT_TABLE()
+    
+	</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+		</span><span class="cpp1-comment">// class constructor
+</span><span class="cpp1-space">		MonCamembert(wxWindow* parent,wxWindowID id = -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = wxHSCROLL | wxVSCROLL, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; name = </span><span class="cpp1-string">&quot;MonCamembert&quot;</span><span class="cpp1-symbol">);
+		</span><span class="cpp1-comment">// class destructor
+</span><span class="cpp1-space">		~MonCamembert();
+		
+	</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+        
+        </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> dessiner_portion(wxDC &amp;dc,wxRealPoint ptCentre,</span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> rayon,wxRealPoint&amp; point1,</span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> angle2,wxColour couleur);
+        </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnMouseMove(wxMouseEvent &amp;event);
+        </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> estDessine;
+        
+        </span><span class="cpp1-comment">// pour le cercle
+</span><span class="cpp1-space">        wxRealPoint ptCentre;
+        </span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> rayon;
+        wxArrayDouble listeAngle;
+        
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteurTexteMin;
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> num_courant;
+        wxArrayRect listeRect;
+        wxStaticText texte;
+    </span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+	    wxArrayColour listeCouleur;
+		</span><span class="cpp1-comment">// No description
+</span><span class="cpp1-space">		wxFont LaFont;
+		wxFont TitreFont;
+		wxFont AxeFont;
+		wxArrayInt aiNbre;
+        wxArrayString asCommentaire;
+        wxColour couleurTexte;
+        wxColour couleurTitre;
+        wxColour couleurAxe;
+        wxPen penTraits;
+        wxSize tailleDessin;
+        wxString Titre;
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> espaceDroit,espaceHaut,espaceBas,espaceGauche,espaceCentre;
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> espaceCase,espaceTexteCase,espaceRectangle,espaceTitreDessin;
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> espaceBarre;
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> calc_hauteur_min();
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> calc_largeur_min();
+       </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Dessiner();
+        </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> DrawCercle(wxDC&amp; dc);
+	    </span><span class="cpp1-reservedword">enum</span><span class="cpp1-space"> myTypeGraph
+	    {
+             Cercle,
+             Rectangle,
+             RectangleBas
+        } typeGraph;
+    </span><span class="cpp1-reservedword">protected</span><span class="cpp1-symbol">:
+        </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnDraw(wxDC&amp; dcOrig);
+};
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> GestionCoul : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxDialog
+{
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    DECLARE_EVENT_TABLE()
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    GestionCoul( wxWindow *parent,wxArrayColour ListeCouleur,wxArrayString ListeTexte,wxFont laFont,wxColour laCouleur,wxFont titreFont,wxColour laCouleurTitre,wxFont lAxeFont,wxColour lAxeCouleur,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;Gestion de liste de couleur&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition);
+    GestionCoul( wxWindow *parent,MonCamembert *fromage,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;Gestion de liste de couleur&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition);
+    </span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> ~GestionCoul();
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoul::wxButtonOK(wxCommandEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoul::wxButtonCANCEL(wxCommandEvent&amp; event);
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+
+  </span><span class="cpp1-comment">//Do not add custom Control Declarations here.
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wx-devcpp will remove them. Try adding the custom code 
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//after the block.
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">////GUI Control Declaration Start
+</span><span class="cpp1-space">	wxTextCtrl *TexteAxe;
+	wxButton *wxButtonAxe;
+	wxPanel *WxNoteBookPageAxe;
+	wxTextCtrl *TexteTexte;
+	wxButton *wxButtonTexte;
+	wxPanel *WxNoteBookPageTexte;
+	wxTextCtrl *TexteTitre;
+	wxButton *wxButtonTitre;
+	wxPanel *WxNoteBookPageTitre;
+	wxScrolledWindow *WxNoteBookPageCouleur;
+	wxNotebook *WxNotebook1;
+	wxButton *BUTTONANNULER;
+	wxButton *BUTTONOK;
+	wxPanel *WxPanel1;
+  </span><span class="cpp1-comment">////GUI Control Declaration End
+</span><span class="cpp1-space">  
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    wxArrayColour mesCouleurs;
+    wxFont maFont;
+    wxFont monTitreFont;
+    wxFont monAxeFont;
+    wxColour maCouleur;
+    wxColour monTitreCouleur;
+    wxColour monAxeCouleur;
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    MonCamembert *vache;
+    wxFont maFontTmp;
+    wxFont monTitreFontTmp;
+    wxFont monAxeFontTmp;
+    wxArrayColour mesCouleursTmp;
+    wxColour maCouleurTmp;
+    wxColour monTitreCouleurTmp;
+    wxColour monAxeCouleurTmp;
+    wxArrayString mesCommentaires;
+    
+    wxArrayPtrCarreCouleur listeCarreCouleur;
+    wxArrayPtrStaticText listeStaticText;
+        
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-comment">//Note: if you receive any error with these enums, then you need to
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//change your old form code that are based on the #define control ids.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//#defines may replace a numeric value for the enums names.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Try copy pasting the below block in your old Form header Files.
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">enum</span><span class="cpp1-space"> {
+</span><span class="cpp1-comment">////GUI Enum Control ID Start
+</span><span class="cpp1-identifier">ID_TEXTEAXE = </span><span class="cpp1-number">1022</span><span class="cpp1-symbol">,
+ID_BUTTONAXE = </span><span class="cpp1-number">1021</span><span class="cpp1-symbol">,
+ID_WXNOTEBOOKPAGEAXE = </span><span class="cpp1-number">1016</span><span class="cpp1-symbol">,
+ID_TEXTETEXTE = </span><span class="cpp1-number">1020</span><span class="cpp1-symbol">,
+ID_BUTTONTEXTE = </span><span class="cpp1-number">1019</span><span class="cpp1-symbol">,
+ID_WXNOTEBOOKPAGETEXTE = </span><span class="cpp1-number">1015</span><span class="cpp1-symbol">,
+ID_TEXTETITRE = </span><span class="cpp1-number">1018</span><span class="cpp1-symbol">,
+ID_BUTTONTITRE = </span><span class="cpp1-number">1017</span><span class="cpp1-symbol">,
+ID_WXNOTEBOOKPAGETITRE = </span><span class="cpp1-number">1014</span><span class="cpp1-symbol">,
+ID_WXNOTEBOOKPAGECOULEUR = </span><span class="cpp1-number">1013</span><span class="cpp1-symbol">,
+ID_WXNOTEBOOK1 = </span><span class="cpp1-number">1012</span><span class="cpp1-symbol">,
+ID_WXBUTTON2 = </span><span class="cpp1-number">1011</span><span class="cpp1-symbol">,
+ID_WXBUTTON1 = </span><span class="cpp1-number">1010</span><span class="cpp1-symbol">,
+ID_WXPANEL1 = </span><span class="cpp1-number">1009</span><span class="cpp1-symbol">,
+</span><span class="cpp1-comment">////GUI Enum Control ID End
+</span><span class="cpp1-identifier">ID_BUTTONOK = </span><span class="cpp1-number">1150</span><span class="cpp1-symbol">,
+ID_BUTTONANNULER = </span><span class="cpp1-number">1151</span><span class="cpp1-symbol">,
+   ID_DUMMY_VALUE_ </span><span class="cpp1-comment">//Dont Delete this DummyValue
+</span><span class="cpp1-space">   }; </span><span class="cpp1-comment">//End of Enum
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoulClose(wxCloseEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ChangeCouleur(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> wxButtonTitreClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> wxButtonTexteClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> wxButtonAxeClick(wxCommandEvent&amp; event);
+
+};
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> CarreCouleur : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxWindow
+{
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    DECLARE_EVENT_TABLE()
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    CarreCouleur(wxWindow *parent,wxPoint position,wxSize size,wxColour couleurFond,</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> id);
+    ~CarreCouleur();
+    
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> DBClick(wxMouseEvent&amp; event);
+    wxColour couleurFond;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> numero;
+    
+};
+
+</span><span class="cpp1-reservedword">enum
+</span><span class="cpp1-symbol">{
+    GLC_CH_COLOR = </span><span class="cpp1-number">7500
+</span><span class="cpp1-symbol">};
+
+
+</span><span class="cpp1-preprocessor">#endif
+</span><span class="cpp1-space"> 
+ 
+ 
+ 
+</span></span>
+</code></pre>
+</body>
+</html>

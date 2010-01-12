@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_rech_internet_gen_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        rech_internet_gen.h
+// Author:      Epaillard
+// Created:     06/07/05 16:51:43
+//
+//Copyright  PE Epaillard, 06/07/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+</span><span class="cpp1-preprocessor">#ifndef __RECH_INTERNET_GEN_HPP_
+#define __RECH_INTERNET_GEN_HPP_
+
+
+</span><span class="cpp1-comment">// For compilers that support precompilation, includes &quot;wx.h&quot;.
+</span><span class="cpp1-preprocessor">#include &lt;wx/wxprec.h&gt;
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+</span><span class="cpp1-comment">// Include your minimal set of headers here, or wx.h
+</span><span class="cpp1-preprocessor">#include &lt;wx/wx.h&gt;
+#endif
+
+#include &quot;livre_html.h&quot;
+#include &quot;mabase.h&quot;
+#include &quot;divers.h&quot;
+#include &quot;rech_internet.h&quot;
+</span><span class="cpp1-comment">//Do not add custom headers.
+//wx-dvcpp designer will remove them
+////Header Include Start
+</span><span class="cpp1-preprocessor">#include &lt;wx/radiobox.h&gt;
+#include &lt;wx/grid.h&gt;
+#include &lt;wx/checkbox.h&gt;
+#include &lt;wx/textctrl.h&gt;
+#include &lt;wx/stattext.h&gt;
+#include &lt;wx/button.h&gt;
+#include &lt;wx/statbox.h&gt;
+</span><span class="cpp1-comment">////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &lt;wx/dialog.h&gt;
+#include &lt;wx/gdicmn.h&gt;
+
+</span><span class="cpp1-comment">//Compatibility for 2.4.x code
+</span><span class="cpp1-preprocessor">#ifndef wxCLOSE_BOX
+#define wxCLOSE_BOX 0x1000
+#endif
+#ifndef wxFIXED_MINSIZE
+#define wxFIXED_MINSIZE 0
+#endif
+
+#ifdef THIS_DIALOG_STYLE
+#undef THIS_DIALOG_STYLE
+#endif
+
+</span><span class="cpp1-comment">////Dialog Style Start
+</span><span class="cpp1-preprocessor">#undef THIS_DIALOG_STYLE
+#define THIS_DIALOG_STYLE wxCAPTION | wxDIALOG_NO_PARENT
+</span><span class="cpp1-comment">////Dialog Style End
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> rech_internet_gen : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxDialog
+{
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    rech_internet_gen( wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;Recherche Internet g&eacute;n&eacute;rale&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = THIS_DIALOG_STYLE);
+    </span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> ~rech_internet_gen();
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    rech_internet *ma_recherche;
+  </span><span class="cpp1-comment">//Do not add custom Control Declarations here.
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wx-devcpp will remove them. Try adding the custom code 
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//after the block.
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">////GUI Control Declaration Start
+</span><span class="cpp1-space">		wxRadioBox *WxRadioBox_choix_recherche;
+		wxButton *WxButton_recherche;
+		wxStaticText *WxStaticText1;
+		wxGrid *WxGrid_general;
+		wxGrid *WxGrid_precis;
+		wxStaticText *WxStaticText_recherche;
+		wxTextCtrl *WxEdit_recherche;
+		wxCheckBox *WxCheckBox_proxy;
+		wxTextCtrl *WxEdit_proxy_pass;
+		wxStaticText *WxStaticText_proxy_pass;
+		wxTextCtrl *WxEdit_proxy_util;
+		wxStaticText *WxStaticText_proxy_util;
+		wxTextCtrl *WxEdit_proxy_port;
+		wxStaticText *WxStaticText_proxy_port;
+		wxTextCtrl *WxEdit_proxy_adr;
+		wxStaticText *WxStaticText_proxy_adr;
+		wxButton *WxButton_ok;
+		wxStaticBox *WxStaticBox_proxy;
+  </span><span class="cpp1-comment">////GUI Control Declaration End
+
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    DECLARE_EVENT_TABLE()
+    ma_base config;
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-comment">//Note: if you receive any error with these enums, then you need to
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//change your old form code that are based on the #define control ids.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//#defines may replace a numeric value for the enums names.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Try copy pasting the below block in your old Form header Files.
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">enum</span><span class="cpp1-space"> {
+</span><span class="cpp1-comment">////GUI Enum Control ID Start
+</span><span class="cpp1-space">			ID_WXRADIOBOX1 = </span><span class="cpp1-number">1054</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_RECHERCHE = </span><span class="cpp1-number">1053</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT1 = </span><span class="cpp1-number">1052</span><span class="cpp1-symbol">,
+			ID_WXGRID_GENERAL = </span><span class="cpp1-number">1051</span><span class="cpp1-symbol">,
+			ID_WXGRID_PRECIS = </span><span class="cpp1-number">1050</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_RECHERCHE = </span><span class="cpp1-number">1049</span><span class="cpp1-symbol">,
+			ID_WXEDIT_RECHERCHE = </span><span class="cpp1-number">1048</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_PROXY = </span><span class="cpp1-number">1047</span><span class="cpp1-symbol">,
+			ID_WXEDIT_PROXY_PASS = </span><span class="cpp1-number">1046</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PROXY_PASS = </span><span class="cpp1-number">1045</span><span class="cpp1-symbol">,
+			ID_WXEDIT_PROXY_UTIL = </span><span class="cpp1-number">1044</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PROXY_UTIL = </span><span class="cpp1-number">1043</span><span class="cpp1-symbol">,
+			ID_WXEDIT_PROXY_PORT = </span><span class="cpp1-number">1042</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PROXY_PORT = </span><span class="cpp1-number">1041</span><span class="cpp1-symbol">,
+			ID_WXEDIT_PROXY_ADR = </span><span class="cpp1-number">1040</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PROXY_ADR = </span><span class="cpp1-number">1039</span><span class="cpp1-symbol">,
+			ID_WXSTATICBOX_PROXY = </span><span class="cpp1-number">1038</span><span class="cpp1-symbol">,
+</span><span class="cpp1-comment">////GUI Enum Control ID End
+</span><span class="cpp1-space">   ID_DUMMY_VALUE_ </span><span class="cpp1-comment">//Dont Delete this DummyValue
+</span><span class="cpp1-space">   }; </span><span class="cpp1-comment">//End of Enum
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_genClose(wxCloseEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_okClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_rechercheClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxCheckBox_proxyClick(wxCommandEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> change_etat_proxy();
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_grille(wxGrid *grille);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rempli_grille(wxGrid *Grille, liste_caracteristiques *laliste);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sauve_config() ;
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> load_config();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxGrid_precisCellLeftDoubleClick(wxGridEvent&amp; event);
+
+};
+
+
+</span><span class="cpp1-preprocessor">#endif
+</span><span class="cpp1-space"> 
+ 
+ 
+ 
+</span></span>
+</code></pre>
+</body>
+</html>

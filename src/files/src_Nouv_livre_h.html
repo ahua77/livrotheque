@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_Nouv_livre_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        Nouv_livre.h
+// Author:      Fougny
+// Created:     03/01/05 11:28:33
+//
+//Copyright  PE Epaillard, 03/01/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+</span><span class="cpp1-preprocessor">#ifndef __NOUV_LIVRE_HPP_
+#define __NOUV_LIVRE_HPP_
+
+
+#ifndef WX_PRECOMP
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#include &quot;wx/wx.h&quot;
+#endif
+
+#include &quot;mabase.h&quot;
+#include &quot;divers.h&quot;
+#include &quot;liste_champ.h&quot;
+#include &quot;nouv_autre.h&quot;
+#include &quot;rech_internet_gen.h&quot;
+#include &quot;rech_internet.h&quot;
+
+</span><span class="cpp1-comment">////Header Include Start
+</span><span class="cpp1-preprocessor">#include &lt;wx/bmpbuttn.h&gt;
+#include &lt;wx/slider.h&gt;
+#include &lt;wx/datectrl.h&gt;
+#include &lt;wx/dateevt.h&gt;
+#include &lt;wx/combobox.h&gt;
+#include &lt;wx/textctrl.h&gt;
+#include &lt;wx/stattext.h&gt;
+#include &lt;wx/panel.h&gt;
+#include &lt;wx/notebook.h&gt;
+#include &lt;wx/button.h&gt;
+</span><span class="cpp1-comment">////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &lt;wx/dialog.h&gt;
+#include &lt;wx/image.h&gt;
+#include &lt;wx/bitmap.h&gt;
+
+</span><span class="cpp1-comment">//Compatibility for 2.4.x code
+</span><span class="cpp1-preprocessor">#ifndef wxCLOSE_BOX
+#define wxCLOSE_BOX 0x1000
+#endif
+#ifndef wxFIXED_MINSIZE
+#define wxFIXED_MINSIZE 0
+#endif
+
+
+#define ID_WXRADIOBOX_PARTICULARITE 1500
+#define ID_IMAGECANVAS_IMAGE_FACE   1501
+#define ID_IMAGECANVAS_IMAGE_DOS    1502
+#define ID_IMAGECANVAS_IMAGE_DIVERS 1503
+#define ID_IMAGECANVAS_STAR1        1504
+#define ID_IMAGECANVAS_STAR2        1505
+#define ID_IMAGECANVAS_STAR3        1506
+#define ID_IMAGECANVAS_STAR4        1507
+#define ID_IMAGECANVAS_STAR5        1508
+
+#ifdef THIS_DIALOG_STYLE
+#undef THIS_DIALOG_STYLE
+#endif
+</span><span class="cpp1-comment">////Dialog Style Start
+</span><span class="cpp1-preprocessor">#undef THIS_DIALOG_STYLE
+#define THIS_DIALOG_STYLE wxWANTS_CHARS | wxCAPTION
+</span><span class="cpp1-comment">////Dialog Style End
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> Nouv_livre : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxDialog
+{
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+ </span><span class="cpp1-reservedword">enum</span><span class="cpp1-space"> {
+</span><span class="cpp1-comment">////GUI Enum Control ID Start
+</span><span class="cpp1-space">			ID_WXBUTTON_INTERNET_G = </span><span class="cpp1-number">1102</span><span class="cpp1-symbol">,
+			ID_WXMEMO1 = </span><span class="cpp1-number">1101</span><span class="cpp1-symbol">,
+			ID_N_IMAGE_DIVERS = </span><span class="cpp1-number">1082</span><span class="cpp1-symbol">,
+			ID_WXNOTEBOOKPAGE1 = </span><span class="cpp1-number">1081</span><span class="cpp1-symbol">,
+			ID_WXBITMAPBUTTON_SUP_IMAGE = </span><span class="cpp1-number">1080</span><span class="cpp1-symbol">,
+			ID_WXBITMAPBUTTON_IMAGE_OUVRIR = </span><span class="cpp1-number">1078</span><span class="cpp1-symbol">,
+			ID_N_IMAGE_FACE = </span><span class="cpp1-number">1077</span><span class="cpp1-symbol">,
+			ID_WXMEMO_RESUME = </span><span class="cpp1-number">1076</span><span class="cpp1-symbol">,
+			ID_WXMEMO_COMMENTAIRE = </span><span class="cpp1-number">1074</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_RESUME = </span><span class="cpp1-number">1072</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_COMMENTAIRE = </span><span class="cpp1-number">1070</span><span class="cpp1-symbol">,
+			ID_N_RESUME = </span><span class="cpp1-number">1069</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_SERIE_O = </span><span class="cpp1-number">1099</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_TRADUCTEUR = </span><span class="cpp1-number">1096</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_LANGUE = </span><span class="cpp1-number">1095</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_PAYS = </span><span class="cpp1-number">1094</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_TRADUCTEUR = </span><span class="cpp1-number">1068</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TRADUCTEUR = </span><span class="cpp1-number">1067</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_LANGUE = </span><span class="cpp1-number">1064</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_LANGUE_O = </span><span class="cpp1-number">1063</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_PAYS = </span><span class="cpp1-number">1060</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PAYS = </span><span class="cpp1-number">1058</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_SERIE_O = </span><span class="cpp1-number">1098</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_SERIE_O = </span><span class="cpp1-number">1097</span><span class="cpp1-symbol">,
+			ID_WXEDIT_SOUS_TITRE_O = </span><span class="cpp1-number">1062</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_SOUS_TITRE_O = </span><span class="cpp1-number">1061</span><span class="cpp1-symbol">,
+			ID_WXEDIT_TITRE_O = </span><span class="cpp1-number">1057</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TITRE_O = </span><span class="cpp1-number">1056</span><span class="cpp1-symbol">,
+			ID_N_VO = </span><span class="cpp1-number">1043</span><span class="cpp1-symbol">,
+			ID_WXDATEPICKERCTRL_LECTURE = </span><span class="cpp1-number">1105</span><span class="cpp1-symbol">,
+			ID_WXDATEPICKERCTRL_ACHAT = </span><span class="cpp1-number">1104</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_LOCALISATION = </span><span class="cpp1-number">1093</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_ETAT = </span><span class="cpp1-number">1092</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_DATE_LECTURE = </span><span class="cpp1-number">1050</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_LOCALISATION = </span><span class="cpp1-number">1045</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_CONDITION = </span><span class="cpp1-number">1044</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_ETAT = </span><span class="cpp1-number">1039</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_ETAT = </span><span class="cpp1-number">1038</span><span class="cpp1-symbol">,
+			ID_WXEDIT_NB_PAGES = </span><span class="cpp1-number">1036</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_NB_PAGES = </span><span class="cpp1-number">1035</span><span class="cpp1-symbol">,
+			ID_WXEDIT_REFERENCE = </span><span class="cpp1-number">1032</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_REFERENCE = </span><span class="cpp1-number">1031</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_GENIAL = </span><span class="cpp1-number">1030</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_NUL = </span><span class="cpp1-number">1029</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_VAL_NOTE = </span><span class="cpp1-number">1028</span><span class="cpp1-symbol">,
+			ID_WXSLIDER_NOTE = </span><span class="cpp1-number">1027</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_NOTE = </span><span class="cpp1-number">1025</span><span class="cpp1-symbol">,
+			ID_WXEDIT_VALEUR = </span><span class="cpp1-number">1024</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_VALEUR = </span><span class="cpp1-number">1023</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_DATE_ACHAT = </span><span class="cpp1-number">1021</span><span class="cpp1-symbol">,
+			ID_N_DETAIL = </span><span class="cpp1-number">1004</span><span class="cpp1-symbol">,
+			ID_WXDATEPICKERCTRL_PUBLICATION = </span><span class="cpp1-number">1103</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_ARTISTE = </span><span class="cpp1-number">1091</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_FORMAT = </span><span class="cpp1-number">1090</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_EDITEUR = </span><span class="cpp1-number">1089</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_GENRE = </span><span class="cpp1-number">1088</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_SERIE = </span><span class="cpp1-number">1087</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_AUTEUR = </span><span class="cpp1-number">1086</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_RECOMPENSE = </span><span class="cpp1-number">1085</span><span class="cpp1-symbol">,
+			ID_WXEDIT_RECOMPENSE = </span><span class="cpp1-number">1084</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_DATE_MAJ_VAL = </span><span class="cpp1-number">1055</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_DATE_MAJ = </span><span class="cpp1-number">1054</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXTDATE_ENTREE_VAL = </span><span class="cpp1-number">1053</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_DATE_ENTREE = </span><span class="cpp1-number">1052</span><span class="cpp1-symbol">,
+			ID_WXEDIT_PRIX = </span><span class="cpp1-number">1066</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PRIX = </span><span class="cpp1-number">1065</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_ARTISTE = </span><span class="cpp1-number">1049</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_ARTISTE = </span><span class="cpp1-number">1048</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_FORMAT = </span><span class="cpp1-number">1047</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_FORMAT = </span><span class="cpp1-number">1046</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_DATE_PUB = </span><span class="cpp1-number">1018</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_EDITEUR = </span><span class="cpp1-number">1020</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_EDITEUR = </span><span class="cpp1-number">1019</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_INTERNET = </span><span class="cpp1-number">1100</span><span class="cpp1-symbol">,
+			ID_WXEDIT_ISBN = </span><span class="cpp1-number">1034</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_ISBN = </span><span class="cpp1-number">1033</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_GENRE = </span><span class="cpp1-number">1016</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_GENRE = </span><span class="cpp1-number">1015</span><span class="cpp1-symbol">,
+			ID_WXEDIT_NO_SERIE = </span><span class="cpp1-number">1014</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_NO_SERIE = </span><span class="cpp1-number">1013</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_SERIE = </span><span class="cpp1-number">1010</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_SERIE = </span><span class="cpp1-number">1009</span><span class="cpp1-symbol">,
+			ID_WXEDIT_SOUS_TITRE = </span><span class="cpp1-number">1041</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT8 = </span><span class="cpp1-number">1040</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX_AUTEUR = </span><span class="cpp1-number">1012</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_AUTEUR = </span><span class="cpp1-number">1011</span><span class="cpp1-symbol">,
+			ID_WXEDIT_TITRE = </span><span class="cpp1-number">1008</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TITRE = </span><span class="cpp1-number">1005</span><span class="cpp1-symbol">,
+			ID_N_LIVRE = </span><span class="cpp1-number">1003</span><span class="cpp1-symbol">,
+			ID_WXNOTEBOOK_NOUV = </span><span class="cpp1-number">1001</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_NOUV_OK = </span><span class="cpp1-number">1006</span><span class="cpp1-symbol">,
+</span><span class="cpp1-comment">////GUI Enum Control ID End
+</span><span class="cpp1-identifier">ID_DUMMY_VALUE_ </span><span class="cpp1-comment">//Dont Delete this DummyValue
+</span><span class="cpp1-symbol">}; </span><span class="cpp1-comment">//End of Enum
+</span><span class="cpp1-space">    Nouv_livre( wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;Nouveau livre&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = THIS_DIALOG_STYLE);
+    </span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> ~Nouv_livre();
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+	</span><span class="cpp1-comment">//myBitmapPanel *WxPanel_image_face;
+
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">////GUI Control Declaration Start
+</span><span class="cpp1-space">		wxButton *WxButton_internet_g;
+		wxTextCtrl *WxMemo1;
+		wxPanel *n_image_divers;
+		wxPanel *n_image_dos;
+		wxBitmapButton *WxBitmapButton_supp_image_face;
+		wxBitmapButton *WxBitmapButton_face_ouvrir;
+		wxPanel *n_image_face;
+		wxTextCtrl *WxMemo_resume;
+		wxTextCtrl *WxMemo_commentaire;
+		wxStaticText *WxStaticText_resume;
+		wxStaticText *WxStaticText_commentaire;
+		wxPanel *n_resume;
+		wxButton *WxButton_serie_o;
+		wxButton *WxButton_traducteur;
+		wxButton *WxButton_langue;
+		wxButton *WxButton_pays;
+		wxComboBox *WxComboBox_traducteur;
+		wxStaticText *WxStaticText_traducteur;
+		wxComboBox *WxComboBox_langue;
+		wxStaticText *WxStaticText_langue;
+		wxComboBox *WxComboBox_pays;
+		wxStaticText *WxStaticText_pays;
+		wxComboBox *WxComboBox_serie_o;
+		wxStaticText *WxStaticText_serie_o;
+		wxTextCtrl *WxEdit_sous_titre_o;
+		wxStaticText *WxStaticText_sous_titre_o;
+		wxTextCtrl *WxEdit_titre_o;
+		wxStaticText *WxStaticText_titre_o;
+		wxPanel *n_vo;
+		wxDatePickerCtrl *WxDatePickerCtrl_lecture;
+		wxDatePickerCtrl *WxDatePickerCtrl_achat;
+		wxButton *WxButton_localisation;
+		wxButton *WxButton_etat;
+		wxStaticText *WxStaticText_date_lecture;
+		wxComboBox *WxComboBox_localisation;
+		wxStaticText *WxStaticText_condition;
+		wxStaticText *WxStaticText_etat;
+		wxComboBox *WxComboBox_etat;
+		wxTextCtrl *WxEdit_nb_pages;
+		wxStaticText *WxStaticText_nb_pages;
+		wxTextCtrl *WxEdit_reference;
+		wxStaticText *WxStaticText_reference;
+		wxStaticText *WxStaticText_genial;
+		wxStaticText *WxStaticText_nul;
+		wxStaticText *WxStaticText_val_note;
+		wxSlider *WxSlider_note;
+		wxStaticText *WxStaticText_note;
+		wxTextCtrl *WxEdit_valeur;
+		wxStaticText *WxStaticText_valeur;
+		wxStaticText *WxStaticText_date_achat;
+		wxPanel *n_detail;
+		wxDatePickerCtrl *WxDatePickerCtrl_publication;
+		wxButton *WxButton_artiste;
+		wxButton *WxButton_format;
+		wxButton *WxButton_editeur;
+		wxButton *WxButton_genre;
+		wxButton *WxButton_serie;
+		wxButton *WxButton_auteur;
+		wxStaticText *WxStaticText_recompense;
+		wxTextCtrl *WxEdit_recompense;
+		wxStaticText *WxStaticText_date_maj_val;
+		wxStaticText *WxStaticText_date_maj;
+		wxStaticText *WxStaticTextdate_entree_val;
+		wxStaticText *WxStaticText_date_entree;
+		wxTextCtrl *WxEdit_prix;
+		wxStaticText *WxStaticText_prix;
+		wxComboBox *WxComboBox_artiste;
+		wxStaticText *WxStaticText_artiste;
+		wxComboBox *WxComboBox_format;
+		wxStaticText *WxStaticText_format;
+		wxStaticText *WxStaticText_date_pub;
+		wxComboBox *WxComboBox_editeur;
+		wxStaticText *WxStaticText_editeur;
+		wxButton *WxButton_internet;
+		wxTextCtrl *WxEdit_isbn;
+		wxStaticText *WxStaticText_isbn;
+		wxComboBox *WxComboBox_genre;
+		wxStaticText *WxStaticText_genre;
+		wxTextCtrl *WxEdit_no_serie;
+		wxStaticText *WxStaticText_no_serie;
+		wxComboBox *WxComboBox_serie;
+		wxStaticText *WxStaticText_serie;
+		wxTextCtrl *WxEdit_sous_titre;
+		wxStaticText *WxStaticText_sous_titre;
+		wxComboBox *WxComboBox_auteur;
+		wxStaticText *WxStaticText_auteur;
+		wxTextCtrl *WxEdit_titre;
+		wxStaticText *WxStaticText_titre;
+		wxPanel *n_livre;
+		wxNotebook *WxNotebook_nouv;
+		wxButton *WxButton_nouv_annul;
+		wxButton *WxButton_nouv_ok;
+  </span><span class="cpp1-comment">////GUI Control Declaration End
+</span><span class="cpp1-space">	wxBitmapButton *WxBitmapButton_supp_image_dos;
+	wxBitmapButton *WxBitmapButton_dos_ouvrir;
+	wxBitmapButton *WxBitmapButton_supp_image_divers;
+	wxBitmapButton *WxBitmapButton_divers_ouvrir;
+
+    wxRadioBox *wxRadioBox_particularite;
+    ma_base *la_belle;
+    livre monlivre;
+    </span><span class="cpp1-comment">// pour l'autocompletion
+</span><span class="cpp1-space">    wxComboBox *anc_combo;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille_entree; 
+    </span><span class="cpp1-comment">// gestion des images pour la note
+</span><span class="cpp1-space">    ImageCanvas *canvas_note[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">];
+    </span><span class="cpp1-comment">// pour savoir si on est en insertion ou en modification
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> insertion;
+    wxString id_courant;
+    </span><span class="cpp1-comment">// gestion de l'image
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">/*wxImage image_face;
+    bool     image_face_charge;*/
+</span><span class="cpp1-space">    ImageCanvas *canvas_image_face;
+    </span><span class="cpp1-comment">/*wxImage image_dos;
+    bool     image_dos_charge;*/
+</span><span class="cpp1-space">    ImageCanvas *canvas_image_dos;
+    </span><span class="cpp1-comment">/*wxImage image_divers;
+    bool     image_divers_charge;*/
+</span><span class="cpp1-space">    ImageCanvas *canvas_image_divers;
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    DECLARE_EVENT_TABLE()
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+     Nouv_livre( ma_base *pour_insere, wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;Nouveau livre&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = THIS_DIALOG_STYLE);
+     Nouv_livre( ma_base *pour_modif,wxString id_modif, </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> insert, wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;Modification du livre&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = THIS_DIALOG_STYLE);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_edit(wxString nom_champ, wxTextCtrl *zone);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_date(wxString nom_champ, wxDatePickerCtrl *zone);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_statictext(wxString nom_champ, wxStaticText *s_text);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_radiobox(wxString nom_champ, wxRadioBox *zone);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_slider(wxString nom_champ, wxSlider *slider);
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> init_image(wxString nom_champ, ImageCanvas *moncavas);</span><span class="cpp1-comment">//, wxImage *monimage);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_etoiles();
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> init_combo(wxComboBox *lacombo, wxString nomtable);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Nouv_livreClose(wxCloseEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_nouv_okClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_nouv_annulClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxSlider_noteScroll(wxScrollEvent&amp; event);
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> inserer_livre();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> wxCombo_remplir(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> wxCombo_select(wxInitDialogEvent&amp; event);
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> insere_table_annexe(wxComboBox *donnee, wxString nom_table);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ajoute_champ(wxString &amp;liste_champ, wxString &amp;liste_valeur, wxString n_champ, wxString v_champ);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ajoute_image(wxString &amp;liste_champ, wxString &amp;liste_valeur, wxString n_champ, </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> charge);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> create_radiobox();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButtondate_pubClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> wxEdit_Gesdate(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxBitmapButton_face_ouvrirClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-comment">//void OnPaint(wxPaintEvent&amp; event);
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> change_page(wxNotebookEvent &amp;event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxBitmapButton_supp_image_faceClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-comment">//wxString gettempdir();
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">/*void rempli_canvas(ImageCanvas *lecanvas, wxImage *image);*/
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_auteurClick(wxCommandEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_champ(wxString nom_champ, wxString valeur);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_internetClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_internet_gClick(wxCommandEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> mise_a_jour(rech_internet *rech);
+};
+
+
+</span><span class="cpp1-preprocessor">#endif
+</span><span class="cpp1-space"> 
+ 
+ 
+ 
+</span></span>
+</code></pre>
+</body>
+</html>

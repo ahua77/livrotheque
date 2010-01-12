@@ -1,0 +1,983 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>sha_sha2_c.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">/*
+ * FIPS 180-2 SHA-224/256/384/512 implementation
+ * Last update: 02/02/2007
+ * Issue date:  04/30/2005
+ *
+ * Copyright (C) 2005, 2007 Olivier Gay &lt;olivier.gay@a3.epfl.ch&gt;
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE PROJECT AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE PROJECT OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+</span><span class="cpp1-preprocessor">#if 0
+#define UNROLL_LOOPS </span><span class="cpp1-comment">/* Enable loops unrolling */
+</span><span class="cpp1-preprocessor">#endif
+
+#include &lt;string.h&gt;
+
+#include &quot;sha2.h&quot;
+
+#define SHFR(x, n)    (x &gt;&gt; n)
+#define ROTR(x, n)   ((x &gt;&gt; n) | (x &lt;&lt; ((sizeof(x) &lt;&lt; 3) - n)))
+#define ROTL(x, n)   ((x &lt;&lt; n) | (x &gt;&gt; ((sizeof(x) &lt;&lt; 3) - n)))
+#define CH(x, y, z)  ((x &amp; y) ^ (~x &amp; z))
+#define MAJ(x, y, z) ((x &amp; y) ^ (x &amp; z) ^ (y &amp; z))
+
+#define SHA256_F1(x) (ROTR(x,  2) ^ ROTR(x, 13) ^ ROTR(x, 22))
+#define SHA256_F2(x) (ROTR(x,  6) ^ ROTR(x, 11) ^ ROTR(x, 25))
+#define SHA256_F3(x) (ROTR(x,  7) ^ ROTR(x, 18) ^ SHFR(x,  3))
+#define SHA256_F4(x) (ROTR(x, 17) ^ ROTR(x, 19) ^ SHFR(x, 10))
+
+#define SHA512_F1(x) (ROTR(x, 28) ^ ROTR(x, 34) ^ ROTR(x, 39))
+#define SHA512_F2(x) (ROTR(x, 14) ^ ROTR(x, 18) ^ ROTR(x, 41))
+#define SHA512_F3(x) (ROTR(x,  1) ^ ROTR(x,  8) ^ SHFR(x,  7))
+#define SHA512_F4(x) (ROTR(x, 19) ^ ROTR(x, 61) ^ SHFR(x,  6))
+
+#define UNPACK32(x, str)                      \
+{                                             \
+    *((str) + 3) = (uint8) ((x)      );       \
+    *((str) + 2) = (uint8) ((x) &gt;&gt;  8);       \
+    *((str) + 1) = (uint8) ((x) &gt;&gt; 16);       \
+    *((str) + 0) = (uint8) ((x) &gt;&gt; 24);       \
+}
+
+#define PACK32(str, x)                        \
+{                                             \
+    *(x) =   ((uint32) *((str) + 3)      )    \
+           | ((uint32) *((str) + 2) &lt;&lt;  8)    \
+           | ((uint32) *((str) + 1) &lt;&lt; 16)    \
+           | ((uint32) *((str) + 0) &lt;&lt; 24);   \
+}
+
+#define UNPACK64(x, str)                      \
+{                                             \
+    *((str) + 7) = (uint8) ((x)      );       \
+    *((str) + 6) = (uint8) ((x) &gt;&gt;  8);       \
+    *((str) + 5) = (uint8) ((x) &gt;&gt; 16);       \
+    *((str) + 4) = (uint8) ((x) &gt;&gt; 24);       \
+    *((str) + 3) = (uint8) ((x) &gt;&gt; 32);       \
+    *((str) + 2) = (uint8) ((x) &gt;&gt; 40);       \
+    *((str) + 1) = (uint8) ((x) &gt;&gt; 48);       \
+    *((str) + 0) = (uint8) ((x) &gt;&gt; 56);       \
+}
+
+#define PACK64(str, x)                        \
+{                                             \
+    *(x) =   ((uint64) *((str) + 7)      )    \
+           | ((uint64) *((str) + 6) &lt;&lt;  8)    \
+           | ((uint64) *((str) + 5) &lt;&lt; 16)    \
+           | ((uint64) *((str) + 4) &lt;&lt; 24)    \
+           | ((uint64) *((str) + 3) &lt;&lt; 32)    \
+           | ((uint64) *((str) + 2) &lt;&lt; 40)    \
+           | ((uint64) *((str) + 1) &lt;&lt; 48)    \
+           | ((uint64) *((str) + 0) &lt;&lt; 56);   \
+}
+
+</span><span class="cpp1-comment">/* Macros used for loops unrolling */
+
+</span><span class="cpp1-preprocessor">#define SHA256_SCR(i)                         \
+{                                             \
+    w[i] =  SHA256_F4(w[i -  2]) + w[i -  7]  \
+          + SHA256_F3(w[i - 15]) + w[i - 16]; \
+}
+
+#define SHA512_SCR(i)                         \
+{                                             \
+    w[i] =  SHA512_F4(w[i -  2]) + w[i -  7]  \
+          + SHA512_F3(w[i - 15]) + w[i - 16]; \
+}
+
+#define SHA256_EXP(a, b, c, d, e, f, g, h, j)               \
+{                                                           \
+    t1 = wv[h] + SHA256_F2(wv[e]) + CH(wv[e], wv[f], wv[g]) \
+         + sha256_k[j] + w[j];                              \
+    t2 = SHA256_F1(wv[a]) + MAJ(wv[a], wv[b], wv[c]);       \
+    wv[d] += t1;                                            \
+    wv[h] = t1 + t2;                                        \
+}
+
+#define SHA512_EXP(a, b, c, d, e, f, g ,h, j)               \
+{                                                           \
+    t1 = wv[h] + SHA512_F2(wv[e]) + CH(wv[e], wv[f], wv[g]) \
+         + sha512_k[j] + w[j];                              \
+    t2 = SHA512_F1(wv[a]) + MAJ(wv[a], wv[b], wv[c]);       \
+    wv[d] += t1;                                            \
+    wv[h] = t1 + t2;                                        \
+}
+
+</span><span class="cpp1-identifier">uint32 sha224_h0[</span><span class="cpp1-number">8</span><span class="cpp1-symbol">] =
+            {</span><span class="cpp1-hexadecimal">0xc1059ed8</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x367cd507</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x3070dd17</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xf70e5939</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xffc00b31</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x68581511</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x64f98fa7</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xbefa4fa4</span><span class="cpp1-symbol">};
+
+uint32 sha256_h0[</span><span class="cpp1-number">8</span><span class="cpp1-symbol">] =
+            {</span><span class="cpp1-hexadecimal">0x6a09e667</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xbb67ae85</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x3c6ef372</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xa54ff53a</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x510e527f</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x9b05688c</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x1f83d9ab</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x5be0cd19</span><span class="cpp1-symbol">};
+
+uint64 sha384_h0[</span><span class="cpp1-number">8</span><span class="cpp1-symbol">] =
+            {</span><span class="cpp1-hexadecimal">0xcbbb9d5dc1059ed8ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x629a292a367cd507ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x9159015a3070dd17ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x152fecd8f70e5939ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x67332667ffc00b31ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x8eb44a8768581511ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xdb0c2e0d64f98fa7ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x47b5481dbefa4fa4ULL</span><span class="cpp1-symbol">};
+
+uint64 sha512_h0[</span><span class="cpp1-number">8</span><span class="cpp1-symbol">] =
+            {</span><span class="cpp1-hexadecimal">0x6a09e667f3bcc908ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xbb67ae8584caa73bULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x3c6ef372fe94f82bULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xa54ff53a5f1d36f1ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x510e527fade682d1ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x9b05688c2b3e6c1fULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x1f83d9abfb41bd6bULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x5be0cd19137e2179ULL</span><span class="cpp1-symbol">};
+
+uint32 sha256_k[</span><span class="cpp1-number">64</span><span class="cpp1-symbol">] =
+            {</span><span class="cpp1-hexadecimal">0x428a2f98</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x71374491</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xb5c0fbcf</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xe9b5dba5</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x3956c25b</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x59f111f1</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x923f82a4</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xab1c5ed5</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xd807aa98</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x12835b01</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x243185be</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x550c7dc3</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x72be5d74</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x80deb1fe</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x9bdc06a7</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xc19bf174</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xe49b69c1</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xefbe4786</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x0fc19dc6</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x240ca1cc</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x2de92c6f</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x4a7484aa</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x5cb0a9dc</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x76f988da</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x983e5152</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xa831c66d</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xb00327c8</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xbf597fc7</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xc6e00bf3</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xd5a79147</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x06ca6351</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x14292967</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x27b70a85</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x2e1b2138</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x4d2c6dfc</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x53380d13</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x650a7354</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x766a0abb</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x81c2c92e</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x92722c85</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xa2bfe8a1</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xa81a664b</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xc24b8b70</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xc76c51a3</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xd192e819</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xd6990624</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xf40e3585</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x106aa070</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x19a4c116</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x1e376c08</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x2748774c</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x34b0bcb5</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x391c0cb3</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x4ed8aa4a</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x5b9cca4f</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x682e6ff3</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x748f82ee</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x78a5636f</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x84c87814</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x8cc70208</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x90befffa</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xa4506ceb</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xbef9a3f7</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xc67178f2</span><span class="cpp1-symbol">};
+
+uint64 sha512_k[</span><span class="cpp1-number">80</span><span class="cpp1-symbol">] =
+            {</span><span class="cpp1-hexadecimal">0x428a2f98d728ae22ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x7137449123ef65cdULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xb5c0fbcfec4d3b2fULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xe9b5dba58189dbbcULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x3956c25bf348b538ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x59f111f1b605d019ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x923f82a4af194f9bULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xab1c5ed5da6d8118ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xd807aa98a3030242ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x12835b0145706fbeULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x243185be4ee4b28cULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x550c7dc3d5ffb4e2ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x72be5d74f27b896fULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x80deb1fe3b1696b1ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x9bdc06a725c71235ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xc19bf174cf692694ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xe49b69c19ef14ad2ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xefbe4786384f25e3ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x0fc19dc68b8cd5b5ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x240ca1cc77ac9c65ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x2de92c6f592b0275ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x4a7484aa6ea6e483ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x5cb0a9dcbd41fbd4ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x76f988da831153b5ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x983e5152ee66dfabULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xa831c66d2db43210ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xb00327c898fb213fULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xbf597fc7beef0ee4ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xc6e00bf33da88fc2ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xd5a79147930aa725ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x06ca6351e003826fULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x142929670a0e6e70ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x27b70a8546d22ffcULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x2e1b21385c26c926ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x4d2c6dfc5ac42aedULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x53380d139d95b3dfULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x650a73548baf63deULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x766a0abb3c77b2a8ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x81c2c92e47edaee6ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x92722c851482353bULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xa2bfe8a14cf10364ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xa81a664bbc423001ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xc24b8b70d0f89791ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xc76c51a30654be30ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xd192e819d6ef5218ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xd69906245565a910ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xf40e35855771202aULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x106aa07032bbd1b8ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x19a4c116b8d2d0c8ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x1e376c085141ab53ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x2748774cdf8eeb99ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x34b0bcb5e19b48a8ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x391c0cb3c5c95a63ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x4ed8aa4ae3418acbULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x5b9cca4f7763e373ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x682e6ff3d6b2b8a3ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x748f82ee5defb2fcULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x78a5636f43172f60ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x84c87814a1f0ab72ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x8cc702081a6439ecULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x90befffa23631e28ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xa4506cebde82bde9ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xbef9a3f7b2c67915ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xc67178f2e372532bULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xca273eceea26619cULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xd186b8c721c0c207ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0xeada7dd6cde0eb1eULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0xf57d4f7fee6ed178ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x06f067aa72176fbaULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x0a637dc5a2c898a6ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x113f9804bef90daeULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x1b710b35131c471bULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x28db77f523047d84ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x32caab7b40c72493ULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x3c9ebe0a15c9bebcULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x431d67c49c100d4cULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x4cc5d4becb3e42b6ULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x597f299cfc657e2aULL</span><span class="cpp1-symbol">,
+             </span><span class="cpp1-hexadecimal">0x5fcb6fab3ad6faecULL</span><span class="cpp1-symbol">, </span><span class="cpp1-hexadecimal">0x6c44198c4a475817ULL</span><span class="cpp1-symbol">};
+
+</span><span class="cpp1-comment">/* SHA-256 functions */
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha256_transf(sha256_ctx *ctx, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message,
+                   </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> block_nb)
+{
+    uint32 w[</span><span class="cpp1-number">64</span><span class="cpp1-symbol">];
+    uint32 wv[</span><span class="cpp1-number">8</span><span class="cpp1-symbol">];
+    uint32 t1, t2;
+    </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *sub_block;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> j;
+</span><span class="cpp1-preprocessor">#endif
+
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i &lt; (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) block_nb; i++) {
+        sub_block = message + (i &lt;&lt; </span><span class="cpp1-number">6</span><span class="cpp1-symbol">);
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (j = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; j &lt; </span><span class="cpp1-number">16</span><span class="cpp1-symbol">; j++) {
+            PACK32(&amp;sub_block[j &lt;&lt; </span><span class="cpp1-number">2</span><span class="cpp1-symbol">], &amp;w[j]);
+        }
+
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (j = </span><span class="cpp1-number">16</span><span class="cpp1-symbol">; j &lt; </span><span class="cpp1-number">64</span><span class="cpp1-symbol">; j++) {
+            SHA256_SCR(j);
+        }
+
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (j = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; j &lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">; j++) {
+            wv[j] = ctx-&gt;h[j];
+        }
+
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (j = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; j &lt; </span><span class="cpp1-number">64</span><span class="cpp1-symbol">; j++) {
+            t1 = wv[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] + SHA256_F2(wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">]) + CH(wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">], wv[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">], wv[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">])
+                + sha256_k[j] + w[j];
+            t2 = SHA256_F1(wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]) + MAJ(wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">], wv[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">], wv[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">]);
+            wv[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] + t1;
+            wv[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">] = t1 + t2;
+        }
+
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (j = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; j &lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">; j++) {
+            ctx-&gt;h[j] += wv[j];
+        }
+</span><span class="cpp1-preprocessor">#else
+</span><span class="cpp1-space">        PACK32(&amp;sub_block[ </span><span class="cpp1-number">0</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">0</span><span class="cpp1-symbol">]); PACK32(&amp;sub_block[ </span><span class="cpp1-number">4</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">1</span><span class="cpp1-symbol">]);
+        PACK32(&amp;sub_block[ </span><span class="cpp1-number">8</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">2</span><span class="cpp1-symbol">]); PACK32(&amp;sub_block[</span><span class="cpp1-number">12</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">3</span><span class="cpp1-symbol">]);
+        PACK32(&amp;sub_block[</span><span class="cpp1-number">16</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">4</span><span class="cpp1-symbol">]); PACK32(&amp;sub_block[</span><span class="cpp1-number">20</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">5</span><span class="cpp1-symbol">]);
+        PACK32(&amp;sub_block[</span><span class="cpp1-number">24</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">6</span><span class="cpp1-symbol">]); PACK32(&amp;sub_block[</span><span class="cpp1-number">28</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">7</span><span class="cpp1-symbol">]);
+        PACK32(&amp;sub_block[</span><span class="cpp1-number">32</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">8</span><span class="cpp1-symbol">]); PACK32(&amp;sub_block[</span><span class="cpp1-number">36</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">9</span><span class="cpp1-symbol">]);
+        PACK32(&amp;sub_block[</span><span class="cpp1-number">40</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">10</span><span class="cpp1-symbol">]); PACK32(&amp;sub_block[</span><span class="cpp1-number">44</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">11</span><span class="cpp1-symbol">]);
+        PACK32(&amp;sub_block[</span><span class="cpp1-number">48</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">12</span><span class="cpp1-symbol">]); PACK32(&amp;sub_block[</span><span class="cpp1-number">52</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">13</span><span class="cpp1-symbol">]);
+        PACK32(&amp;sub_block[</span><span class="cpp1-number">56</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">14</span><span class="cpp1-symbol">]); PACK32(&amp;sub_block[</span><span class="cpp1-number">60</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">15</span><span class="cpp1-symbol">]);
+
+        SHA256_SCR(</span><span class="cpp1-number">16</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">17</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">18</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">19</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">21</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">22</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">23</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">24</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">25</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">26</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">27</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">28</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">29</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">30</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">31</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">32</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">33</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">34</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">35</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">36</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">37</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">38</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">39</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">40</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">41</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">42</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">43</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">44</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">45</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">46</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">47</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">48</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">49</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">51</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">52</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">53</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">54</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">55</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">56</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">57</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">58</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">59</span><span class="cpp1-symbol">);
+        SHA256_SCR(</span><span class="cpp1-number">60</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">61</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">62</span><span class="cpp1-symbol">); SHA256_SCR(</span><span class="cpp1-number">63</span><span class="cpp1-symbol">);
+
+        wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]; wv[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+        wv[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">]; wv[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+        wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">]; wv[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">];
+        wv[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">]; wv[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">];
+
+        SHA256_EXP(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">, </span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">, </span><span class="cpp1-number">2</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">, </span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">, </span><span class="cpp1-number">4</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">, </span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-number">6</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, </span><span class="cpp1-number">7</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">, </span><span class="cpp1-number">8</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">, </span><span class="cpp1-number">9</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">11</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">12</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">13</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">14</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">16</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">18</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">19</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">20</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">22</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">23</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">24</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">25</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">26</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">27</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">28</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">29</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">30</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">31</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">32</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">33</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">34</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">35</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">36</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">37</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">38</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">39</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">40</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">41</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">42</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">43</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">44</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">45</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">46</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">47</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">48</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">49</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">50</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">51</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">52</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">53</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">54</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">55</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">56</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">57</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">58</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">59</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">60</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">61</span><span class="cpp1-symbol">);
+        SHA256_EXP(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">62</span><span class="cpp1-symbol">); SHA256_EXP(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">63</span><span class="cpp1-symbol">);
+
+        ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+        ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+        ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">];
+        ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">];
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* !UNROLL_LOOPS */
+</span><span class="cpp1-space">    }
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha256(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest)
+{
+    sha256_ctx ctx;
+
+    sha256_init(&amp;ctx);
+    sha256_update(&amp;ctx, message, len);
+    sha256_final(&amp;ctx, digest);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha256_init(sha256_ctx *ctx)
+{
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i &lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">; i++) {
+        ctx-&gt;h[i] = sha256_h0[i];
+    }
+</span><span class="cpp1-preprocessor">#else
+</span><span class="cpp1-space">    ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">] = sha256_h0[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] = sha256_h0[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] = sha256_h0[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = sha256_h0[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">] = sha256_h0[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">] = sha256_h0[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">] = sha256_h0[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] = sha256_h0[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">];
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* !UNROLL_LOOPS */
+
+</span><span class="cpp1-space">    ctx-&gt;len = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    ctx-&gt;tot_len = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha256_update(sha256_ctx *ctx, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message,
+                   </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len)
+{
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> block_nb;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> new_len, rem_len, tmp_len;
+    </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *shifted_message;
+
+    tmp_len = SHA256_BLOCK_SIZE - ctx-&gt;len;
+    rem_len = len &lt; tmp_len ? len : tmp_len;
+
+    memcpy(&amp;ctx-&gt;block[ctx-&gt;len], message, rem_len);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ctx-&gt;len + len &lt; SHA256_BLOCK_SIZE) {
+        ctx-&gt;len += len;
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+
+    new_len = len - rem_len;
+    block_nb = new_len / SHA256_BLOCK_SIZE;
+
+    shifted_message = message + rem_len;
+
+    sha256_transf(ctx, ctx-&gt;block, </span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    sha256_transf(ctx, shifted_message, block_nb);
+
+    rem_len = new_len % SHA256_BLOCK_SIZE;
+
+    memcpy(ctx-&gt;block, &amp;shifted_message[block_nb &lt;&lt; </span><span class="cpp1-number">6</span><span class="cpp1-symbol">],
+           rem_len);
+
+    ctx-&gt;len = rem_len;
+    ctx-&gt;tot_len += (block_nb + </span><span class="cpp1-number">1</span><span class="cpp1-symbol">) &lt;&lt; </span><span class="cpp1-number">6</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha256_final(sha256_ctx *ctx, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest)
+{
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> block_nb;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> pm_len;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len_b;
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+</span><span class="cpp1-preprocessor">#endif
+
+</span><span class="cpp1-space">    block_nb = (</span><span class="cpp1-number">1</span><span class="cpp1-space"> + ((SHA256_BLOCK_SIZE - </span><span class="cpp1-number">9</span><span class="cpp1-symbol">)
+                     &lt; (ctx-&gt;len % SHA256_BLOCK_SIZE)));
+
+    len_b = (ctx-&gt;tot_len + ctx-&gt;len) &lt;&lt; </span><span class="cpp1-number">3</span><span class="cpp1-symbol">;
+    pm_len = block_nb &lt;&lt; </span><span class="cpp1-number">6</span><span class="cpp1-symbol">;
+
+    memset(ctx-&gt;block + ctx-&gt;len, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, pm_len - ctx-&gt;len);
+    ctx-&gt;block[ctx-&gt;len] = </span><span class="cpp1-hexadecimal">0x80</span><span class="cpp1-symbol">;
+    UNPACK32(len_b, ctx-&gt;block + pm_len - </span><span class="cpp1-number">4</span><span class="cpp1-symbol">);
+
+    sha256_transf(ctx, ctx-&gt;block, block_nb);
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-space"> ; i &lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">; i++) {
+        UNPACK32(ctx-&gt;h[i], &amp;digest[i &lt;&lt; </span><span class="cpp1-number">2</span><span class="cpp1-symbol">]);
+    }
+</span><span class="cpp1-preprocessor">#else
+</span><span class="cpp1-space">   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">], &amp;digest[ </span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">], &amp;digest[ </span><span class="cpp1-number">4</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">], &amp;digest[ </span><span class="cpp1-number">8</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">12</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">16</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">20</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">24</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">28</span><span class="cpp1-symbol">]);
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* !UNROLL_LOOPS */
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/* SHA-512 functions */
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha512_transf(sha512_ctx *ctx, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message,
+                   </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> block_nb)
+{
+    uint64 w[</span><span class="cpp1-number">80</span><span class="cpp1-symbol">];
+    uint64 wv[</span><span class="cpp1-number">8</span><span class="cpp1-symbol">];
+    uint64 t1, t2;
+    </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *sub_block;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i, j;
+
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i &lt; (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) block_nb; i++) {
+        sub_block = message + (i &lt;&lt; </span><span class="cpp1-number">7</span><span class="cpp1-symbol">);
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (j = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; j &lt; </span><span class="cpp1-number">16</span><span class="cpp1-symbol">; j++) {
+            PACK64(&amp;sub_block[j &lt;&lt; </span><span class="cpp1-number">3</span><span class="cpp1-symbol">], &amp;w[j]);
+        }
+
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (j = </span><span class="cpp1-number">16</span><span class="cpp1-symbol">; j &lt; </span><span class="cpp1-number">80</span><span class="cpp1-symbol">; j++) {
+            SHA512_SCR(j);
+        }
+
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (j = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; j &lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">; j++) {
+            wv[j] = ctx-&gt;h[j];
+        }
+
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (j = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; j &lt; </span><span class="cpp1-number">80</span><span class="cpp1-symbol">; j++) {
+            t1 = wv[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] + SHA512_F2(wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">]) + CH(wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">], wv[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">], wv[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">])
+                + sha512_k[j] + w[j];
+            t2 = SHA512_F1(wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]) + MAJ(wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">], wv[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">], wv[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">]);
+            wv[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] + t1;
+            wv[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] = wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">];
+            wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">] = t1 + t2;
+        }
+
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (j = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; j &lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">; j++) {
+            ctx-&gt;h[j] += wv[j];
+        }
+</span><span class="cpp1-preprocessor">#else
+</span><span class="cpp1-space">        PACK64(&amp;sub_block[  </span><span class="cpp1-number">0</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">0</span><span class="cpp1-symbol">]); PACK64(&amp;sub_block[  </span><span class="cpp1-number">8</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">1</span><span class="cpp1-symbol">]);
+        PACK64(&amp;sub_block[ </span><span class="cpp1-number">16</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">2</span><span class="cpp1-symbol">]); PACK64(&amp;sub_block[ </span><span class="cpp1-number">24</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">3</span><span class="cpp1-symbol">]);
+        PACK64(&amp;sub_block[ </span><span class="cpp1-number">32</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">4</span><span class="cpp1-symbol">]); PACK64(&amp;sub_block[ </span><span class="cpp1-number">40</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">5</span><span class="cpp1-symbol">]);
+        PACK64(&amp;sub_block[ </span><span class="cpp1-number">48</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">6</span><span class="cpp1-symbol">]); PACK64(&amp;sub_block[ </span><span class="cpp1-number">56</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">7</span><span class="cpp1-symbol">]);
+        PACK64(&amp;sub_block[ </span><span class="cpp1-number">64</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">8</span><span class="cpp1-symbol">]); PACK64(&amp;sub_block[ </span><span class="cpp1-number">72</span><span class="cpp1-symbol">], &amp;w[ </span><span class="cpp1-number">9</span><span class="cpp1-symbol">]);
+        PACK64(&amp;sub_block[ </span><span class="cpp1-number">80</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">10</span><span class="cpp1-symbol">]); PACK64(&amp;sub_block[ </span><span class="cpp1-number">88</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">11</span><span class="cpp1-symbol">]);
+        PACK64(&amp;sub_block[ </span><span class="cpp1-number">96</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">12</span><span class="cpp1-symbol">]); PACK64(&amp;sub_block[</span><span class="cpp1-number">104</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">13</span><span class="cpp1-symbol">]);
+        PACK64(&amp;sub_block[</span><span class="cpp1-number">112</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">14</span><span class="cpp1-symbol">]); PACK64(&amp;sub_block[</span><span class="cpp1-number">120</span><span class="cpp1-symbol">], &amp;w[</span><span class="cpp1-number">15</span><span class="cpp1-symbol">]);
+
+        SHA512_SCR(</span><span class="cpp1-number">16</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">17</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">18</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">19</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">21</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">22</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">23</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">24</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">25</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">26</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">27</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">28</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">29</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">30</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">31</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">32</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">33</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">34</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">35</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">36</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">37</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">38</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">39</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">40</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">41</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">42</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">43</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">44</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">45</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">46</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">47</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">48</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">49</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">51</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">52</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">53</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">54</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">55</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">56</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">57</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">58</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">59</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">60</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">61</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">62</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">63</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">64</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">65</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">66</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">67</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">68</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">69</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">70</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">71</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">72</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">73</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">74</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">75</span><span class="cpp1-symbol">);
+        SHA512_SCR(</span><span class="cpp1-number">76</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">77</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">78</span><span class="cpp1-symbol">); SHA512_SCR(</span><span class="cpp1-number">79</span><span class="cpp1-symbol">);
+
+        wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]; wv[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+        wv[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">]; wv[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+        wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">]; wv[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">];
+        wv[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">]; wv[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] = ctx-&gt;h[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">];
+
+        j = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+
+        </span><span class="cpp1-reservedword">do</span><span class="cpp1-space"> {
+            SHA512_EXP(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,j); j++;
+            SHA512_EXP(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,j); j++;
+            SHA512_EXP(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,j); j++;
+            SHA512_EXP(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,j); j++;
+            SHA512_EXP(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,j); j++;
+            SHA512_EXP(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,j); j++;
+            SHA512_EXP(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,j); j++;
+            SHA512_EXP(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,j); j++;
+        } </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (j &lt; </span><span class="cpp1-number">80</span><span class="cpp1-symbol">);
+
+        ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+        ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+        ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">];
+        ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] += wv[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">];
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* !UNROLL_LOOPS */
+</span><span class="cpp1-space">    }
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha512(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len,
+            </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest)
+{
+    sha512_ctx ctx;
+
+    sha512_init(&amp;ctx);
+    sha512_update(&amp;ctx, message, len);
+    sha512_final(&amp;ctx, digest);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha512_init(sha512_ctx *ctx)
+{
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i &lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">; i++) {
+        ctx-&gt;h[i] = sha512_h0[i];
+    }
+</span><span class="cpp1-preprocessor">#else
+</span><span class="cpp1-space">    ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">] = sha512_h0[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] = sha512_h0[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] = sha512_h0[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = sha512_h0[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">] = sha512_h0[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">] = sha512_h0[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">] = sha512_h0[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] = sha512_h0[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">];
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* !UNROLL_LOOPS */
+
+</span><span class="cpp1-space">    ctx-&gt;len = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    ctx-&gt;tot_len = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha512_update(sha512_ctx *ctx, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message,
+                   </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len)
+{
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> block_nb;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> new_len, rem_len, tmp_len;
+    </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *shifted_message;
+
+    tmp_len = SHA512_BLOCK_SIZE - ctx-&gt;len;
+    rem_len = len &lt; tmp_len ? len : tmp_len;
+
+    memcpy(&amp;ctx-&gt;block[ctx-&gt;len], message, rem_len);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ctx-&gt;len + len &lt; SHA512_BLOCK_SIZE) {
+        ctx-&gt;len += len;
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+
+    new_len = len - rem_len;
+    block_nb = new_len / SHA512_BLOCK_SIZE;
+
+    shifted_message = message + rem_len;
+
+    sha512_transf(ctx, ctx-&gt;block, </span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    sha512_transf(ctx, shifted_message, block_nb);
+
+    rem_len = new_len % SHA512_BLOCK_SIZE;
+
+    memcpy(ctx-&gt;block, &amp;shifted_message[block_nb &lt;&lt; </span><span class="cpp1-number">7</span><span class="cpp1-symbol">],
+           rem_len);
+
+    ctx-&gt;len = rem_len;
+    ctx-&gt;tot_len += (block_nb + </span><span class="cpp1-number">1</span><span class="cpp1-symbol">) &lt;&lt; </span><span class="cpp1-number">7</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha512_final(sha512_ctx *ctx, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest)
+{
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> block_nb;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> pm_len;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len_b;
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+</span><span class="cpp1-preprocessor">#endif
+
+</span><span class="cpp1-space">    block_nb = </span><span class="cpp1-number">1</span><span class="cpp1-space"> + ((SHA512_BLOCK_SIZE - </span><span class="cpp1-number">17</span><span class="cpp1-symbol">)
+                     &lt; (ctx-&gt;len % SHA512_BLOCK_SIZE));
+
+    len_b = (ctx-&gt;tot_len + ctx-&gt;len) &lt;&lt; </span><span class="cpp1-number">3</span><span class="cpp1-symbol">;
+    pm_len = block_nb &lt;&lt; </span><span class="cpp1-number">7</span><span class="cpp1-symbol">;
+
+    memset(ctx-&gt;block + ctx-&gt;len, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, pm_len - ctx-&gt;len);
+    ctx-&gt;block[ctx-&gt;len] = </span><span class="cpp1-hexadecimal">0x80</span><span class="cpp1-symbol">;
+    UNPACK32(len_b, ctx-&gt;block + pm_len - </span><span class="cpp1-number">4</span><span class="cpp1-symbol">);
+
+    sha512_transf(ctx, ctx-&gt;block, block_nb);
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-space"> ; i &lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">; i++) {
+        UNPACK64(ctx-&gt;h[i], &amp;digest[i &lt;&lt; </span><span class="cpp1-number">3</span><span class="cpp1-symbol">]);
+    }
+</span><span class="cpp1-preprocessor">#else
+</span><span class="cpp1-space">    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">], &amp;digest[ </span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">], &amp;digest[ </span><span class="cpp1-number">8</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">16</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">24</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">32</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">40</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">48</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">56</span><span class="cpp1-symbol">]);
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* !UNROLL_LOOPS */
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/* SHA-384 functions */
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha384(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len,
+            </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest)
+{
+    sha384_ctx ctx;
+
+    sha384_init(&amp;ctx);
+    sha384_update(&amp;ctx, message, len);
+    sha384_final(&amp;ctx, digest);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha384_init(sha384_ctx *ctx)
+{
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i &lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">; i++) {
+        ctx-&gt;h[i] = sha384_h0[i];
+    }
+</span><span class="cpp1-preprocessor">#else
+</span><span class="cpp1-space">    ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">] = sha384_h0[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] = sha384_h0[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] = sha384_h0[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = sha384_h0[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">] = sha384_h0[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">] = sha384_h0[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">] = sha384_h0[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] = sha384_h0[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">];
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* !UNROLL_LOOPS */
+
+</span><span class="cpp1-space">    ctx-&gt;len = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    ctx-&gt;tot_len = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha384_update(sha384_ctx *ctx, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message,
+                   </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len)
+{
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> block_nb;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> new_len, rem_len, tmp_len;
+    </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *shifted_message;
+
+    tmp_len = SHA384_BLOCK_SIZE - ctx-&gt;len;
+    rem_len = len &lt; tmp_len ? len : tmp_len;
+
+    memcpy(&amp;ctx-&gt;block[ctx-&gt;len], message, rem_len);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ctx-&gt;len + len &lt; SHA384_BLOCK_SIZE) {
+        ctx-&gt;len += len;
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+
+    new_len = len - rem_len;
+    block_nb = new_len / SHA384_BLOCK_SIZE;
+
+    shifted_message = message + rem_len;
+
+    sha512_transf(ctx, ctx-&gt;block, </span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    sha512_transf(ctx, shifted_message, block_nb);
+
+    rem_len = new_len % SHA384_BLOCK_SIZE;
+
+    memcpy(ctx-&gt;block, &amp;shifted_message[block_nb &lt;&lt; </span><span class="cpp1-number">7</span><span class="cpp1-symbol">],
+           rem_len);
+
+    ctx-&gt;len = rem_len;
+    ctx-&gt;tot_len += (block_nb + </span><span class="cpp1-number">1</span><span class="cpp1-symbol">) &lt;&lt; </span><span class="cpp1-number">7</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha384_final(sha384_ctx *ctx, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest)
+{
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> block_nb;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> pm_len;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len_b;
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+</span><span class="cpp1-preprocessor">#endif
+
+</span><span class="cpp1-space">    block_nb = (</span><span class="cpp1-number">1</span><span class="cpp1-space"> + ((SHA384_BLOCK_SIZE - </span><span class="cpp1-number">17</span><span class="cpp1-symbol">)
+                     &lt; (ctx-&gt;len % SHA384_BLOCK_SIZE)));
+
+    len_b = (ctx-&gt;tot_len + ctx-&gt;len) &lt;&lt; </span><span class="cpp1-number">3</span><span class="cpp1-symbol">;
+    pm_len = block_nb &lt;&lt; </span><span class="cpp1-number">7</span><span class="cpp1-symbol">;
+
+    memset(ctx-&gt;block + ctx-&gt;len, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, pm_len - ctx-&gt;len);
+    ctx-&gt;block[ctx-&gt;len] = </span><span class="cpp1-hexadecimal">0x80</span><span class="cpp1-symbol">;
+    UNPACK32(len_b, ctx-&gt;block + pm_len - </span><span class="cpp1-number">4</span><span class="cpp1-symbol">);
+
+    sha512_transf(ctx, ctx-&gt;block, block_nb);
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-space"> ; i &lt; </span><span class="cpp1-number">6</span><span class="cpp1-symbol">; i++) {
+        UNPACK64(ctx-&gt;h[i], &amp;digest[i &lt;&lt; </span><span class="cpp1-number">3</span><span class="cpp1-symbol">]);
+    }
+</span><span class="cpp1-preprocessor">#else
+</span><span class="cpp1-space">    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">], &amp;digest[ </span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">], &amp;digest[ </span><span class="cpp1-number">8</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">16</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">24</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">32</span><span class="cpp1-symbol">]);
+    UNPACK64(ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">40</span><span class="cpp1-symbol">]);
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* !UNROLL_LOOPS */
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/* SHA-224 functions */
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha224(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len,
+            </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest)
+{
+    sha224_ctx ctx;
+
+    sha224_init(&amp;ctx);
+    sha224_update(&amp;ctx, message, len);
+    sha224_final(&amp;ctx, digest);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha224_init(sha224_ctx *ctx)
+{
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i &lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">; i++) {
+        ctx-&gt;h[i] = sha224_h0[i];
+    }
+</span><span class="cpp1-preprocessor">#else
+</span><span class="cpp1-space">    ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">] = sha224_h0[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] = sha224_h0[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] = sha224_h0[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = sha224_h0[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">] = sha224_h0[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">] = sha224_h0[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">];
+    ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">] = sha224_h0[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">]; ctx-&gt;h[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">] = sha224_h0[</span><span class="cpp1-number">7</span><span class="cpp1-symbol">];
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* !UNROLL_LOOPS */
+
+</span><span class="cpp1-space">    ctx-&gt;len = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    ctx-&gt;tot_len = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha224_update(sha224_ctx *ctx, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message,
+                   </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len)
+{
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> block_nb;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> new_len, rem_len, tmp_len;
+    </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *shifted_message;
+
+    tmp_len = SHA224_BLOCK_SIZE - ctx-&gt;len;
+    rem_len = len &lt; tmp_len ? len : tmp_len;
+
+    memcpy(&amp;ctx-&gt;block[ctx-&gt;len], message, rem_len);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ctx-&gt;len + len &lt; SHA224_BLOCK_SIZE) {
+        ctx-&gt;len += len;
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+
+    new_len = len - rem_len;
+    block_nb = new_len / SHA224_BLOCK_SIZE;
+
+    shifted_message = message + rem_len;
+
+    sha256_transf(ctx, ctx-&gt;block, </span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    sha256_transf(ctx, shifted_message, block_nb);
+
+    rem_len = new_len % SHA224_BLOCK_SIZE;
+
+    memcpy(ctx-&gt;block, &amp;shifted_message[block_nb &lt;&lt; </span><span class="cpp1-number">6</span><span class="cpp1-symbol">],
+           rem_len);
+
+    ctx-&gt;len = rem_len;
+    ctx-&gt;tot_len += (block_nb + </span><span class="cpp1-number">1</span><span class="cpp1-symbol">) &lt;&lt; </span><span class="cpp1-number">6</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha224_final(sha224_ctx *ctx, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest)
+{
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> block_nb;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> pm_len;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len_b;
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+</span><span class="cpp1-preprocessor">#endif
+
+</span><span class="cpp1-space">    block_nb = (</span><span class="cpp1-number">1</span><span class="cpp1-space"> + ((SHA224_BLOCK_SIZE - </span><span class="cpp1-number">9</span><span class="cpp1-symbol">)
+                     &lt; (ctx-&gt;len % SHA224_BLOCK_SIZE)));
+
+    len_b = (ctx-&gt;tot_len + ctx-&gt;len) &lt;&lt; </span><span class="cpp1-number">3</span><span class="cpp1-symbol">;
+    pm_len = block_nb &lt;&lt; </span><span class="cpp1-number">6</span><span class="cpp1-symbol">;
+
+    memset(ctx-&gt;block + ctx-&gt;len, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, pm_len - ctx-&gt;len);
+    ctx-&gt;block[ctx-&gt;len] = </span><span class="cpp1-hexadecimal">0x80</span><span class="cpp1-symbol">;
+    UNPACK32(len_b, ctx-&gt;block + pm_len - </span><span class="cpp1-number">4</span><span class="cpp1-symbol">);
+
+    sha256_transf(ctx, ctx-&gt;block, block_nb);
+
+</span><span class="cpp1-preprocessor">#ifndef UNROLL_LOOPS
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-space"> ; i &lt; </span><span class="cpp1-number">7</span><span class="cpp1-symbol">; i++) {
+        UNPACK32(ctx-&gt;h[i], &amp;digest[i &lt;&lt; </span><span class="cpp1-number">2</span><span class="cpp1-symbol">]);
+    }
+</span><span class="cpp1-preprocessor">#else
+</span><span class="cpp1-space">   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">], &amp;digest[ </span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">], &amp;digest[ </span><span class="cpp1-number">4</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">], &amp;digest[ </span><span class="cpp1-number">8</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">12</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">16</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">5</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">20</span><span class="cpp1-symbol">]);
+   UNPACK32(ctx-&gt;h[</span><span class="cpp1-number">6</span><span class="cpp1-symbol">], &amp;digest[</span><span class="cpp1-number">24</span><span class="cpp1-symbol">]);
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* !UNROLL_LOOPS */
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-preprocessor">#ifdef TEST_VECTORS
+
+</span><span class="cpp1-comment">/* FIPS 180-2 Validation tests */
+
+</span><span class="cpp1-preprocessor">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> test(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *vector, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest,
+          </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> digest_size)
+{
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> output[</span><span class="cpp1-number">2</span><span class="cpp1-space"> * SHA512_DIGEST_SIZE + </span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+
+    output[</span><span class="cpp1-number">2</span><span class="cpp1-space"> * digest_size] = '\0';
+
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i &lt; (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) digest_size ; i++) {
+       sprintf((</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) output + </span><span class="cpp1-number">2</span><span class="cpp1-space"> * i, </span><span class="cpp1-string">&quot;%02x&quot;</span><span class="cpp1-symbol">, digest[i]);
+    }
+
+    printf(</span><span class="cpp1-string">&quot;H: %s\n&quot;</span><span class="cpp1-symbol">, output);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (strcmp((</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) vector, (</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) output)) {
+        fprintf(stderr, </span><span class="cpp1-string">&quot;Test failed.\n&quot;</span><span class="cpp1-symbol">);
+        exit(EXIT_FAILURE);
+    }
+}
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> main()
+{
+    </span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *vectors[</span><span class="cpp1-number">4</span><span class="cpp1-symbol">][</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] =
+    {   </span><span class="cpp1-comment">/* SHA-224 */
+</span><span class="cpp1-space">        {
+        </span><span class="cpp1-string">&quot;23097d223405d8228642a477bda255b32aadbce4bda0b3f7e36c9da7&quot;</span><span class="cpp1-symbol">,
+        </span><span class="cpp1-string">&quot;75388b16512776cc5dba5da1fd890150b0c6455cb4f58b1952522525&quot;</span><span class="cpp1-symbol">,
+        </span><span class="cpp1-string">&quot;20794655980c91d8bbb4c1ea97618a4bf03f42581948b2ee4ee7ad67&quot;</span><span class="cpp1-symbol">,
+        },
+        </span><span class="cpp1-comment">/* SHA-256 */
+</span><span class="cpp1-space">        {
+        </span><span class="cpp1-string">&quot;ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad&quot;</span><span class="cpp1-symbol">,
+        </span><span class="cpp1-string">&quot;248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1&quot;</span><span class="cpp1-symbol">,
+        </span><span class="cpp1-string">&quot;cdc76e5c9914fb9281a1c7e284d73e67f1809a48a497200e046d39ccc7112cd0&quot;</span><span class="cpp1-symbol">,
+        },
+        </span><span class="cpp1-comment">/* SHA-384 */
+</span><span class="cpp1-space">        {
+        </span><span class="cpp1-string">&quot;cb00753f45a35e8bb5a03d699ac65007272c32ab0eded1631a8b605a43ff5bed&quot;
+</span><span class="cpp1-space">        </span><span class="cpp1-string">&quot;8086072ba1e7cc2358baeca134c825a7&quot;</span><span class="cpp1-symbol">,
+        </span><span class="cpp1-string">&quot;09330c33f71147e83d192fc782cd1b4753111b173b3b05d22fa08086e3b0f712&quot;
+</span><span class="cpp1-space">        </span><span class="cpp1-string">&quot;fcc7c71a557e2db966c3e9fa91746039&quot;</span><span class="cpp1-symbol">,
+        </span><span class="cpp1-string">&quot;9d0e1809716474cb086e834e310a4a1ced149e9c00f248527972cec5704c2a5b&quot;
+</span><span class="cpp1-space">        </span><span class="cpp1-string">&quot;07b8b3dc38ecc4ebae97ddd87f3d8985&quot;</span><span class="cpp1-symbol">,
+        },
+        </span><span class="cpp1-comment">/* SHA-512 */
+</span><span class="cpp1-space">        {
+        </span><span class="cpp1-string">&quot;ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a&quot;
+</span><span class="cpp1-space">        </span><span class="cpp1-string">&quot;2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f&quot;</span><span class="cpp1-symbol">,
+        </span><span class="cpp1-string">&quot;8e959b75dae313da8cf4f72814fc143f8f7779c6eb9f7fa17299aeadb6889018&quot;
+</span><span class="cpp1-space">        </span><span class="cpp1-string">&quot;501d289e4900f7e4331b99dec4b5433ac7d329eeb6dd26545e96e55b874be909&quot;</span><span class="cpp1-symbol">,
+        </span><span class="cpp1-string">&quot;e718483d0ce769644e2e42c7bc15b4638e1f98b13b2044285632a803afa973eb&quot;
+</span><span class="cpp1-space">        </span><span class="cpp1-string">&quot;de0ff244877ea60a4cb0432ce577c31beb009c5c2c49aa2e4eadb217ad8cc09b&quot;
+</span><span class="cpp1-space">        }
+    };
+
+    </span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> message1[] = </span><span class="cpp1-string">&quot;abc&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> message2a[] = </span><span class="cpp1-string">&quot;abcdbcdecdefdefgefghfghighijhi&quot;
+</span><span class="cpp1-space">                                             </span><span class="cpp1-string">&quot;jkijkljklmklmnlmnomnopnopq&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> message2b[] =
+                                      </span><span class="cpp1-string">&quot;abcdefghbcdefghicdefghijdefghijkefghij&quot;
+</span><span class="cpp1-space">                                      </span><span class="cpp1-string">&quot;klfghijklmghijklmnhijklmnoijklmnopjklm&quot;
+</span><span class="cpp1-space">                                      </span><span class="cpp1-string">&quot;nopqklmnopqrlmnopqrsmnopqrstnopqrstu&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message3;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> message3_len  = </span><span class="cpp1-number">1000000</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> digest[SHA512_DIGEST_SIZE];
+
+    message3 = malloc(message3_len);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (message3 == NULL) {
+        fprintf(stderr, </span><span class="cpp1-string">&quot;Can't allocate memory\n&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    memset(message3, 'a', message3_len);
+
+    printf(</span><span class="cpp1-string">&quot;SHA-2 FIPS 180-2 Validation tests\n\n&quot;</span><span class="cpp1-symbol">);
+    printf(</span><span class="cpp1-string">&quot;SHA-224 Test vectors\n&quot;</span><span class="cpp1-symbol">);
+
+    sha224(message1, strlen((</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) message1), digest);
+    test(vectors[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">][</span><span class="cpp1-number">0</span><span class="cpp1-symbol">], digest, SHA224_DIGEST_SIZE);
+    sha224(message2a, strlen((</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) message2a), digest);
+    test(vectors[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">][</span><span class="cpp1-number">1</span><span class="cpp1-symbol">], digest, SHA224_DIGEST_SIZE);
+    sha224(message3, message3_len, digest);
+    test(vectors[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">][</span><span class="cpp1-number">2</span><span class="cpp1-symbol">], digest, SHA224_DIGEST_SIZE);
+    printf(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">);
+
+    printf(</span><span class="cpp1-string">&quot;SHA-256 Test vectors\n&quot;</span><span class="cpp1-symbol">);
+
+    sha256(message1, strlen((</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) message1), digest);
+    test(vectors[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][</span><span class="cpp1-number">0</span><span class="cpp1-symbol">], digest, SHA256_DIGEST_SIZE);
+    sha256(message2a, strlen((</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) message2a), digest);
+    test(vectors[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][</span><span class="cpp1-number">1</span><span class="cpp1-symbol">], digest, SHA256_DIGEST_SIZE);
+    sha256(message3, message3_len, digest);
+    test(vectors[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][</span><span class="cpp1-number">2</span><span class="cpp1-symbol">], digest, SHA256_DIGEST_SIZE);
+    printf(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">);
+
+    printf(</span><span class="cpp1-string">&quot;SHA-384 Test vectors\n&quot;</span><span class="cpp1-symbol">);
+
+    sha384(message1, strlen((</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) message1), digest);
+    test(vectors[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">][</span><span class="cpp1-number">0</span><span class="cpp1-symbol">], digest, SHA384_DIGEST_SIZE);
+    sha384(message2b, strlen((</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) message2b), digest);
+    test(vectors[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">][</span><span class="cpp1-number">1</span><span class="cpp1-symbol">], digest, SHA384_DIGEST_SIZE);
+    sha384(message3, message3_len, digest);
+    test(vectors[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">][</span><span class="cpp1-number">2</span><span class="cpp1-symbol">], digest, SHA384_DIGEST_SIZE);
+    printf(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">);
+
+    printf(</span><span class="cpp1-string">&quot;SHA-512 Test vectors\n&quot;</span><span class="cpp1-symbol">);
+
+    sha512(message1, strlen((</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) message1), digest);
+    test(vectors[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">][</span><span class="cpp1-number">0</span><span class="cpp1-symbol">], digest, SHA512_DIGEST_SIZE);
+    sha512(message2b, strlen((</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *) message2b), digest);
+    test(vectors[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">][</span><span class="cpp1-number">1</span><span class="cpp1-symbol">], digest, SHA512_DIGEST_SIZE);
+    sha512(message3, message3_len, digest);
+    test(vectors[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">][</span><span class="cpp1-number">2</span><span class="cpp1-symbol">], digest, SHA512_DIGEST_SIZE);
+    printf(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">);
+
+    printf(</span><span class="cpp1-string">&quot;All tests passed.\n&quot;</span><span class="cpp1-symbol">);
+
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-preprocessor">#endif </span><span class="cpp1-comment">/* TEST_VECTORS */
+
+</span></span>
+</code></pre>
+</body>
+</html>

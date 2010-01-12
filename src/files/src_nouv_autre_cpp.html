@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_nouv_autre_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        nouv_autre.cpp
+// Author:      fougny
+// Created:     31/01/2005 20:54:44
+//
+//Copyright  PE Epaillard, 31/01/2005 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#ifdef __GNUG__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma implementation &quot;nouv_autre.cpp&quot;
+#endif
+
+</span><span class="cpp1-comment">/* for compilers that support precompilation
+   includes &quot;wx/wx.h&quot; */
+
+</span><span class="cpp1-preprocessor">#include &quot;wx/wxprec.h&quot;
+
+#ifdef __BORLANDC__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma hdrstop
+#endif
+
+
+#include &quot;nouv_autre.h&quot;
+
+</span><span class="cpp1-comment">////Header Include Start
+</span><span class="cpp1-preprocessor">#include &quot;WxBitmapButton_supprime_XPM.xpm&quot;
+#include &quot;WxBitmapButton1_ouvrir_XPM.xpm&quot;
+</span><span class="cpp1-comment">////Header Include End
+
+
+
+//----------------------------------------------------------------------------
+// nouv_autre
+//----------------------------------------------------------------------------
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(nouv_autre,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+//	EVT_TEXT(ID_WXEDIT_DATE_NAISSANCE,nouv_autre::wxEdit_Gesdate)
+//	EVT_TEXT(ID_WXEDIT_DATE_MORT,nouv_autre::wxEdit_Gesdate)
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(nouv_autre::nouv_autreClose)
+	EVT_BUTTON(wxID_CANCEL,nouv_autre::WxButton_annulClick)
+	EVT_BUTTON(ID_WXBUTTON_OK,nouv_autre::WxButton_okClick)
+	
+	EVT_GRID_CELL_LEFT_DCLICK(nouv_autre::WxGrid_listeCellLeftDoubleClick)
+	EVT_BUTTON(ID_WXBITMAPBUTTON_SUPPRIME,nouv_autre::WxBitmapButton_supprimeClick)
+	EVT_BUTTON(ID_WXBITMAPBUTTON1_OUVRIR,nouv_autre::WxBitmapButton1_ouvrirClick)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+
+
+
+</span><span class="cpp1-identifier">nouv_autre::nouv_autre( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    CreateGUIControls();
+}
+
+nouv_autre::nouv_autre( ma_base *pour_modif, wxString id_champ, wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    wxString champ;
+    wxString type;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> x,y;
+    
+    la_belle=pour_modif;
+    id_courant=id_champ;
+    nom_table=title;
+    CreateGUIControls();
+    champ=</span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">+nom_table;
+    type=monlivre.Get_token_type(champ);
+    type_table=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(type.Right(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">) != </span><span class="cpp1-string">&quot;_P&quot;</span><span class="cpp1-symbol">) {
+        type_table=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+        WxStaticText_date_mort-&gt;Destroy();
+        WxDatePickerCtrl_mort-&gt;Destroy();
+        WxStaticText_date_naissance-&gt;Destroy();
+        WxDatePickerCtrl_naissance-&gt;Destroy();
+        WxBitmapButton_supprime-&gt;Destroy();
+        WxBitmapButton1_ouvrir-&gt;Destroy();
+        WxStaticText_image-&gt;Destroy();
+        WxPanel_image-&gt;Destroy();
+        WxEdit_nom-&gt;GetPosition(&amp;x,&amp;y);
+        WxStaticText_commentaire-&gt;Move(x,y+</span><span class="cpp1-number">30</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        type_table=</span><span class="cpp1-string">&quot;_P&quot;</span><span class="cpp1-symbol">;
+    }    
+        </span><span class="cpp1-comment">//wxMessageBox(type_table,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    init_tout();
+}
+
+nouv_autre::~nouv_autre()
+{
+    
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> nouv_autre::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeur_obj, hauteur_obj;
+    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	wxBoxSizer* WxBoxSizer1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBoxSizer(wxVERTICAL);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetSizer(WxBoxSizer1);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetAutoLayout(TRUE);
+
+	WxScrolledWindow1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxScrolledWindow(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSCROLLEDWINDOW1, wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">500</span><span class="cpp1-symbol">,</span><span class="cpp1-number">167</span><span class="cpp1-symbol">));
+	WxBoxSizer1-&gt;Add(WxScrolledWindow1,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_LEFT | wxALL,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+
+	WxStaticText_nom = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_NOM, wxT(</span><span class="cpp1-string">&quot;Nom :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">32</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_nom&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_nom = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(WxScrolledWindow1, ID_WXEDIT_NOM, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">229</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_nom&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_date_naissance = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_DATE_NAISSANCE, wxT(</span><span class="cpp1-string">&quot;Date de naissance :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">51</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">99</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_date_naissance&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_date_mort = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_DATE_MORT, wxT(</span><span class="cpp1-string">&quot;Date du d&eacute;c&egrave;s&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">99</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">74</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_date_mort&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_commentaire = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_COMMENTAIRE, wxT(</span><span class="cpp1-string">&quot;Commentaire :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">146</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">71</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_commentaire&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_image = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_IMAGE, wxT(</span><span class="cpp1-string">&quot;Image :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">226</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">39</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_image&quot;</span><span class="cpp1-symbol">));
+
+	wxBitmap WxBitmapButton1_ouvrir_BITMAP (WxBitmapButton1_ouvrir_XPM);
+	WxBitmapButton1_ouvrir = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmapButton(WxScrolledWindow1, ID_WXBITMAPBUTTON1_OUVRIR, WxBitmapButton1_ouvrir_BITMAP, wxPoint(</span><span class="cpp1-number">242</span><span class="cpp1-symbol">,</span><span class="cpp1-number">25</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">22</span><span class="cpp1-symbol">,</span><span class="cpp1-number">22</span><span class="cpp1-symbol">), wxBU_AUTODRAW, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxBitmapButton1_ouvrir&quot;</span><span class="cpp1-symbol">));
+
+	wxBitmap WxBitmapButton_supprime_BITMAP (WxBitmapButton_supprime_XPM);
+	WxBitmapButton_supprime = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmapButton(WxScrolledWindow1, ID_WXBITMAPBUTTON_SUPPRIME, WxBitmapButton_supprime_BITMAP, wxPoint(</span><span class="cpp1-number">241</span><span class="cpp1-symbol">,</span><span class="cpp1-number">50</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">22</span><span class="cpp1-symbol">,</span><span class="cpp1-number">22</span><span class="cpp1-symbol">), wxBU_AUTODRAW, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxBitmapButton_supprime&quot;</span><span class="cpp1-symbol">));
+
+	WxPanel_image = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(WxScrolledWindow1, ID_WXPANEL_IMAGE, wxPoint(</span><span class="cpp1-number">269</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">226</span><span class="cpp1-symbol">,</span><span class="cpp1-number">162</span><span class="cpp1-symbol">));
+
+	WxMemo_commentaire = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXMEMO_COMMENTAIRE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">182</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">500</span><span class="cpp1-symbol">,</span><span class="cpp1-number">138</span><span class="cpp1-symbol">), wxTE_MULTILINE, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxMemo_commentaire&quot;</span><span class="cpp1-symbol">));
+	WxMemo_commentaire-&gt;SetMaxLength(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	WxMemo_commentaire-&gt;SetFocus();
+	WxMemo_commentaire-&gt;SetInsertionPointEnd();
+	WxBoxSizer1-&gt;Add(WxMemo_commentaire,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,wxGROW | wxALL,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+
+	WxGrid_liste = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxGrid(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXGRID_LISTE, wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">330</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">501</span><span class="cpp1-symbol">,</span><span class="cpp1-number">100</span><span class="cpp1-symbol">));
+	WxGrid_liste-&gt;SetDefaultColSize(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">);
+	WxGrid_liste-&gt;SetDefaultRowSize(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">);
+	WxGrid_liste-&gt;SetRowLabelSize(</span><span class="cpp1-number">25</span><span class="cpp1-symbol">);
+	WxGrid_liste-&gt;SetColLabelSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+	WxGrid_liste-&gt;CreateGrid(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,wxGrid::wxGridSelectCells);
+	WxBoxSizer1-&gt;Add(WxGrid_liste,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,wxGROW | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	wxBoxSizer* WxBoxSizer2 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer1-&gt;Add(WxBoxSizer2,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_HORIZONTAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	WxButton_ok = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON_OK, wxT(</span><span class="cpp1-string">&quot;OK&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">80</span><span class="cpp1-symbol">,</span><span class="cpp1-number">28</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_ok&quot;</span><span class="cpp1-symbol">));
+	WxBoxSizer2-&gt;Add(WxButton_ok,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_VERTICAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	WxButton_annul = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, wxID_CANCEL, wxT(</span><span class="cpp1-string">&quot;Annuler&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">95</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">80</span><span class="cpp1-symbol">,</span><span class="cpp1-number">28</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_annul&quot;</span><span class="cpp1-symbol">));
+	WxBoxSizer2-&gt;Add(WxButton_annul,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_VERTICAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	wxDateTime WxDatePickerCtrl_naissance_Date(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,wxDateTime::Mar,</span><span class="cpp1-number">2006</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">294</span><span class="cpp1-symbol">);
+	WxDatePickerCtrl_naissance = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxDatePickerCtrl(WxScrolledWindow1, ID_WXDATEPICKERCTRL_NAISSANCE, WxDatePickerCtrl_naissance_Date, wxPoint(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">72</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">140</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxDatePickerCtrl_naissance&quot;</span><span class="cpp1-symbol">));
+
+	wxDateTime WxDatePickerCtrl_mort_Date(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,wxDateTime::Mar,</span><span class="cpp1-number">2006</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">19</span><span class="cpp1-symbol">,</span><span class="cpp1-number">306</span><span class="cpp1-symbol">);
+	WxDatePickerCtrl_mort = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxDatePickerCtrl(WxScrolledWindow1, ID_WXDATEPICKERCTRL_MORT, WxDatePickerCtrl_mort_Date, wxPoint(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">116</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">140</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxDatePickerCtrl_mort&quot;</span><span class="cpp1-symbol">));
+
+	GetSizer()-&gt;Fit(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+	GetSizer()-&gt;SetSizeHints(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetTitle(wxT(</span><span class="cpp1-string">&quot;modif&quot;</span><span class="cpp1-symbol">));
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;Center();
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetIcon(wxNullIcon);
+	
+    </span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-space">    WxPanel_image-&gt;GetSize(&amp;largeur_obj,&amp;hauteur_obj);
+    canvas_image = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> ImageCanvas(WxPanel_image, ID_IMAGECANVAS_IMAGE, wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">),wxSize(largeur_obj,hauteur_obj) );
+    </span><span class="cpp1-comment">//image_charge=false;
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> nouv_autre::init_tout() {
+    wxString query, mess, join;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, taille;
+    wxFile fichier;
+    wxDateTime madate;
+    </span><span class="cpp1-comment">//bool tt;
+</span><span class="cpp1-space">    
+    query = </span><span class="cpp1-string">&quot;SELECT nom, commentaire&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_table == </span><span class="cpp1-string">&quot;_P&quot;</span><span class="cpp1-symbol">) {
+        query+=</span><span class="cpp1-string">&quot;, date_naissance, date_mort, image_auteur&quot;</span><span class="cpp1-symbol">;
+    }
+    query+=</span><span class="cpp1-string">&quot; FROM &quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot; WHERE rowid=&quot;</span><span class="cpp1-symbol">+id_courant;
+    
+    ret=la_belle-&gt;transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+
+    ret=la_belle-&gt;transac_step();
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret!=SQLITE_ROW) {
+        la_belle-&gt;transac_fin();
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }  
+
+    la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,mess,taille);
+    WxEdit_nom-&gt;SetValue(mess);
+    la_belle-&gt;get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,mess,taille);
+    WxMemo_commentaire-&gt;SetValue(mess);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_table == </span><span class="cpp1-string">&quot;_P&quot;</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,mess,taille);
+        madate.ParseFormat(mess,</span><span class="cpp1-string">&quot;%d/%m/%Y&quot;</span><span class="cpp1-symbol">);
+        WxDatePickerCtrl_naissance-&gt;SetValue(madate);
+        </span><span class="cpp1-comment">//WxEdit_date_naissance-&gt;SetValue(mess);
+</span><span class="cpp1-space">        
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,mess,taille);
+        madate.ParseFormat(mess,</span><span class="cpp1-string">&quot;%d/%m/%Y&quot;</span><span class="cpp1-symbol">);
+        WxDatePickerCtrl_mort-&gt;SetValue(madate);
+        </span><span class="cpp1-comment">//WxEdit_date_mort-&gt;SetValue(mess);
+</span><span class="cpp1-space">        
+        wxString chemin=gettempdir();
+        chemin+=</span><span class="cpp1-string">&quot;\\a1.jpg&quot;</span><span class="cpp1-symbol">;
+        fichier.Open(chemin,wxFile::write);
+        ret=la_belle-&gt;get_value_blob(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,&amp;fichier,taille);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            taille=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (taille &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            canvas_image-&gt;init(chemin);
+</span><span class="cpp1-comment">/*            tt=image.LoadFile(chemin, wxBITMAP_TYPE_JPEG);
+            if (tt==true) {
+                image_charge=true;
+                rempli_canvas(canvas_image, &amp;image);
+            }    */
+</span><span class="cpp1-space">        }    
+    }    
+    
+    la_belle-&gt;transac_fin();
+    
+    </span><span class="cpp1-comment">// destruction de la grille
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ir = WxGrid_liste-&gt;GetNumberRows();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ir)
+		WxGrid_liste-&gt;DeleteRows(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, ir);
+</span><span class="cpp1-comment">/*	ir = WxGrid_liste-&gt;GetNumberCols();
+	if (ir)
+		WxGrid_liste-&gt;DeleteCols(0, ir);*/
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-comment">// initialisation de la grille
+</span><span class="cpp1-space">	WxGrid_liste-&gt;SetSelectionMode(wxGrid::wxGridSelectRows);
+    WxGrid_liste-&gt;SetColLabelValue(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;id&quot;</span><span class="cpp1-symbol">);
+    WxGrid_liste-&gt;SetColLabelValue(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Auteur&quot;</span><span class="cpp1-symbol">);
+    WxGrid_liste-&gt;SetColLabelValue(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Titre&quot;</span><span class="cpp1-symbol">);
+    
+</span><span class="cpp1-comment">//    query=&quot;SELECT livre.rowid, auteur.nom, livre.titre FROM livre LEFT JOIN auteur ON livre.id_auteur=auteur.rowid where livre.id_auteur=&quot;+id_courant;
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//saloperie de left join de merde
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_table!=</span><span class="cpp1-string">&quot;auteur&quot;</span><span class="cpp1-symbol">)
+        join= </span><span class="cpp1-string">&quot;LEFT JOIN &quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot; ON livre.id_&quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot;=&quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot;.rowid &quot;</span><span class="cpp1-symbol">;
+    query=</span><span class="cpp1-string">&quot;SELECT livre.rowid, auteur.nom, livre.titre FROM livre LEFT JOIN auteur ON livre.id_auteur=auteur.rowid &quot;</span><span class="cpp1-symbol">+join+</span><span class="cpp1-string">&quot; where livre.id_&quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot;=&quot;</span><span class="cpp1-symbol">+id_courant+</span><span class="cpp1-string">&quot; order by auteur.nom&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+
+    ret=la_belle-&gt;transac_step();
+    i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+        WxGrid_liste-&gt;AppendRows();
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,mess,taille);
+        WxGrid_liste-&gt;SetCellValue(i,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,mess);
+        WxGrid_liste-&gt;SetReadOnly( i, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> );
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,mess,taille);
+        WxGrid_liste-&gt;SetCellValue(i,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,mess);
+        WxGrid_liste-&gt;SetReadOnly( i, </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> );
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,mess,taille);
+        WxGrid_liste-&gt;SetCellValue(i,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,mess);
+        WxGrid_liste-&gt;SetReadOnly( i, </span><span class="cpp1-number">2</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> );
+        
+        i++;
+        ret=la_belle-&gt;transac_step();
+    }
+    la_belle-&gt;transac_fin();
+    WxGrid_liste-&gt;AutoSizeColumns(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+    WxGrid_liste-&gt;AutoSizeRows(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> nouv_autre::nouv_autreClose(wxCloseEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a wxDialog,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    Destroy();
+}
+ 
+</span><span class="cpp1-comment">/*
+ * WxButton_annulClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> nouv_autre::WxButton_annulClick(wxCommandEvent&amp; event)
+{
+    Destroy();
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_okClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> nouv_autre::WxButton_okClick(wxCommandEvent&amp; event)
+{
+    enregistrer();
+    Destroy();
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> nouv_autre::enregistrer() {
+    wxString query;
+    wxString mess;
+    wxFile monfichier;
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> tt;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+
+    </span><span class="cpp1-comment">//wxMessageBox(id_courant,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id_courant ==</span><span class="cpp1-string">&quot;-1&quot;</span><span class="cpp1-space"> || id_courant==</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">) {
+        query=</span><span class="cpp1-string">&quot;INSERT INTO &quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot;( nom, commentaire&quot;</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_table == </span><span class="cpp1-string">&quot;_P&quot;</span><span class="cpp1-symbol">) {
+            query+=</span><span class="cpp1-string">&quot;, date_naissance, date_mort, image_auteur&quot;</span><span class="cpp1-symbol">;
+        }
+        mess=WxEdit_nom-&gt;GetValue();
+        gestion_quote(mess);
+        query+=</span><span class="cpp1-string">&quot;) VALUES ('&quot;</span><span class="cpp1-symbol">+mess+</span><span class="cpp1-string">&quot;','&quot;</span><span class="cpp1-symbol">;
+        mess=WxMemo_commentaire-&gt;GetValue();
+        gestion_quote(mess);
+        query+=mess+</span><span class="cpp1-string">&quot;'&quot;</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_table == </span><span class="cpp1-string">&quot;_P&quot;</span><span class="cpp1-symbol">) {
+            mess=WxDatePickerCtrl_naissance-&gt;GetValue().Format(</span><span class="cpp1-string">&quot;%d/%m/%Y&quot;</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-comment">//mess=WxEdit_date_naissance-&gt;GetValue();
+</span><span class="cpp1-space">            gestion_quote(mess);
+            query+=</span><span class="cpp1-string">&quot;,'&quot;</span><span class="cpp1-symbol">+mess;
+            mess=WxDatePickerCtrl_mort-&gt;GetValue().Format(</span><span class="cpp1-string">&quot;%d/%m/%Y&quot;</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-comment">//mess=WxEdit_date_mort-&gt;GetValue();
+</span><span class="cpp1-space">            gestion_quote(mess);
+            query+=</span><span class="cpp1-string">&quot;','&quot;</span><span class="cpp1-symbol">+mess+</span><span class="cpp1-string">&quot;',?&quot;</span><span class="cpp1-symbol">;
+        }    
+        query+=</span><span class="cpp1-string">&quot;)&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        mess=WxEdit_nom-&gt;GetValue();
+        gestion_quote(mess);
+        query=</span><span class="cpp1-string">&quot;UPDATE &quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot; SET nom='&quot;</span><span class="cpp1-symbol">+mess;
+        mess=WxMemo_commentaire-&gt;GetValue();
+        gestion_quote(mess);
+        query+=</span><span class="cpp1-string">&quot;', commentaire='&quot;</span><span class="cpp1-symbol">+mess+</span><span class="cpp1-string">&quot;'&quot;</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_table == </span><span class="cpp1-string">&quot;_P&quot;</span><span class="cpp1-symbol">) {
+            mess=WxDatePickerCtrl_naissance-&gt;GetValue().Format(</span><span class="cpp1-string">&quot;%d/%m/%Y&quot;</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-comment">//mess=WxEdit_date_naissance-&gt;GetValue();
+</span><span class="cpp1-space">            gestion_quote(mess);
+            query+=</span><span class="cpp1-string">&quot;,date_naissance='&quot;</span><span class="cpp1-symbol">+mess+</span><span class="cpp1-string">&quot;',date_mort='&quot;</span><span class="cpp1-symbol">;
+            mess=WxDatePickerCtrl_mort-&gt;GetValue().Format(</span><span class="cpp1-string">&quot;%d/%m/%Y&quot;</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-comment">//mess=WxEdit_date_mort-&gt;GetValue();
+</span><span class="cpp1-space">            gestion_quote(mess);
+            query+=mess+</span><span class="cpp1-string">&quot;',image_auteur=?&quot;</span><span class="cpp1-symbol">;
+        }    
+        query+=</span><span class="cpp1-string">&quot; WHERE rowid=&quot;</span><span class="cpp1-symbol">+id_courant;
+    }    
+
+</span><span class="cpp1-comment">//    wxMessageBox(query,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    ret=la_belle-&gt;transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (canvas_image-&gt;charge == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+        wxString chemin=gettempdir();
+        chemin+=</span><span class="cpp1-string">&quot;\\a0.jpg&quot;</span><span class="cpp1-symbol">;
+        canvas_image-&gt;image_s.SaveFile(chemin,wxBITMAP_TYPE_JPEG);
+        tt=monfichier.Open(chemin, wxFile::read);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (tt == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+            mess=</span><span class="cpp1-string">&quot;Probleme lors de la lecture de &quot;</span><span class="cpp1-space"> + chemin + </span><span class="cpp1-string">&quot;impossible de sauver dans la base&quot;</span><span class="cpp1-symbol">;
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }    
+       
+        ret=la_belle-&gt;transac_blob(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,&amp;monfichier);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }
+        </span><span class="cpp1-comment">//wxMessageBox(query,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    }    
+
+    ret=la_belle-&gt;transac_step();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(query+</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">+mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    ret=la_belle-&gt;transac_fin();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-comment">//query_update=&quot;UPDATE &quot;+nom_table+&quot; SET &quot;;
+</span><span class="cpp1-space">    
+}    
+</span><span class="cpp1-comment">/*void nouv_autre::rempli_canvas(ImageCanvas *lecanvas, wxImage *image) {
+    int largeur_obj,hauteur_obj;
+    int largeur_img,hauteur_img;
+    float multi; 
+    wxBitmap *affiche;
+    wxImage tempo;
+
+    lecanvas-&gt;GetSize(&amp;largeur_obj,&amp;hauteur_obj);
+    largeur_obj-=50;
+    multi=0.0;
+    largeur_img=image-&gt;GetWidth();
+    hauteur_img=image-&gt;GetHeight();
+    if (largeur_img&gt;largeur_obj) {
+        multi=(float)largeur_obj/(float)largeur_img;
+        largeur_img=(int)(multi*(float)largeur_img);
+        hauteur_img=(int)(multi*(float)hauteur_img);
+    }
+    if (hauteur_img&gt;hauteur_obj) {
+        multi=(float)hauteur_obj/(float)hauteur_img;
+        largeur_img=(int)(multi*(float)largeur_img);
+        hauteur_img=(int)(multi*(float)hauteur_img);
+    }
+    tempo=image-&gt;Scale(largeur_img, hauteur_img);
+    affiche=new wxBitmap(tempo, -1);
+    lecanvas-&gt;init(*affiche);        
+    lecanvas-&gt;Refresh();
+}*/
+
+/*
+ * WxBitmapButton1_ouvrirClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> nouv_autre::WxBitmapButton1_ouvrirClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-comment">//bool tt=true;
+
+</span><span class="cpp1-space">    wxString filename = wxFileSelector(</span><span class="cpp1-string">&quot;Ouvrir une image&quot;</span><span class="cpp1-symbol">,chemin_image,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;image (tout format reconnu)|*.jpg;*.jpeg;*.png;*.gif;*.bmp|Tous (*.*)|*.*&quot;</span><span class="cpp1-symbol">,wxOPEN|wxFILE_MUST_EXIST);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( !filename.empty() )
+    {
+        wxFileName lefichier(filename);
+        chemin_image=lefichier.GetPath();
+        canvas_image-&gt;init(filename);
+        </span><span class="cpp1-comment">/*tt=image.LoadFile(filename);
+        if (tt==true) {
+            rempli_canvas(canvas_image, &amp;image);
+            image_charge=true;
+        } else {
+            wxMessageBox(&quot;Probleme de chargement de l'image&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+        }*/
+</span><span class="cpp1-space">    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }            
+    </span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">    event.Skip();
+}
+
+</span><span class="cpp1-comment">/*void nouv_autre::wxEdit_Gesdate(wxCommandEvent&amp; event){
+    wxTextCtrl *texte_date;
+    wxString valeur;
+
+   texte_date = (wxTextCtrl*)event.GetEventObject();
+   valeur=texte_date-&gt;GetValue();
+
+   if(texte_date-&gt;GetInsertionPoint() == 2){// &amp;&amp; date_mod==true){
+      //wxMessageBox(valeur,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+      if (valeur.Length() == 2) {
+       valeur.Append(&quot;/&quot;);
+         texte_date-&gt;SetValue(valeur);
+       texte_date-&gt;SetInsertionPoint(3);
+     } else if(valeur.GetChar(2) !='/'){
+       valeur.SetChar(2,'/');
+       texte_date-&gt;SetValue(valeur);
+       texte_date-&gt;SetInsertionPoint(3);
+      }    
+   }    
+
+   if(texte_date-&gt;GetInsertionPoint() == 5){// &amp;&amp; date_mod==true){
+      //wxMessageBox(valeur,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+      if (valeur.Length() == 5) {
+       valeur.Append(&quot;/&quot;);
+       texte_date-&gt;SetValue(valeur);
+       texte_date-&gt;SetInsertionPoint(6);
+      }    
+      else if (valeur.GetChar(5) !='/') {
+       valeur.SetChar(5,'/');
+       //wxMessageBox(valeur,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+      
+       texte_date-&gt;SetValue(valeur);
+       texte_date-&gt;SetInsertionPoint(6);
+      }    
+   }
+    event.Skip();
+}    
+*/
+/*
+ * WxBitmapButton_supprimeClick
+ */</span><span class="cpp1-space"> 
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> nouv_autre::WxBitmapButton_supprimeClick(wxCommandEvent&amp; event)
+{
+    canvas_image-&gt;efface();
+    canvas_image-&gt;Refresh();
+    </span><span class="cpp1-comment">//image_charge=false;
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+
+
+</span><span class="cpp1-comment">/*
+ * WxGrid_listeCellLeftDoubleClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> nouv_autre::WxGrid_listeCellLeftDoubleClick(wxGridEvent&amp; event)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb_ligne, ret;
+    wxString id;
+    </span><span class="cpp1-comment">//wxString mess;
+</span><span class="cpp1-space">    
+    nb_ligne=event.GetRow();
+    id=WxGrid_liste-&gt;GetCellValue(nb_ligne,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-comment">//wxMessageBox(id,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    Nouv_livre insere_livre(la_belle, id,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Modification du livre&quot;</span><span class="cpp1-symbol">, wxDefaultPosition, wxDefaultSize);</span><span class="cpp1-comment">//, style_dialog_choix);
+</span><span class="cpp1-space">    ret=insere_livre.ShowModal();
+    init_tout();
+}
+</span></span>
+</code></pre>
+</body>
+</html>

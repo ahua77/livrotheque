@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_rech_internet_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        rech_internet.cpp
+// Author:      Epaillard
+// Created:     06/06/05 17:52:38
+//
+//Copyright  PE Epaillard, 06/06/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &quot;rech_internet.h&quot;
+
+#include &lt;wx/filename.h&gt;
+
+
+</span><span class="cpp1-comment">//Do not add custom headers.
+//wx-dvcpp designer will remove them
+////Header Include Start
+////Header Include End
+
+
+
+//----------------------------------------------------------------------------
+// rech_internet
+//----------------------------------------------------------------------------
+</span><span class="cpp1-space">     </span><span class="cpp1-comment">//Add Custom Events only in the appropriate Block.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// Code added in  other places will be removed by wx-dvcpp 
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(rech_internet,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(rech_internet::rech_internetClose)
+	EVT_BUTTON(ID_WXBUTTON_ANNULER,rech_internet::WxButton_annulerClick)
+	EVT_BUTTON(ID_WXBUTTON_OK,rech_internet::WxButton_OKClick)
+	EVT_CHECKBOX(ID_WXCHECKBOX_IMAGE_DOS,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_IMAGE_FACE,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_COMMENTAIRE,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_PRIX,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_TRADUCTEUR,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_LANGUE,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_DATE_PUB,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_GENRE,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_EDITEUR,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_TITRE,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_AUTEUR,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_MINUSCULE,rech_internet::WxCheckBox_Click)
+	EVT_CHECKBOX(ID_WXCHECKBOX_AUTEUR_INVERSE,rech_internet::WxCheckBox_Click)
+	
+	EVT_TEXT_URL(ID_WXMEMO_URL,rech_internet::WxMemo_URLClickUrl)
+	EVT_CHECKBOX(ID_WXCHECKBOX_PROXY,rech_internet::WxCheckBox_proxyClick)
+	EVT_BUTTON(ID_WXBUTTON_LANCER,rech_internet::WxButton_lancerClick)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+
+
+
+</span><span class="cpp1-identifier">rech_internet::rech_internet( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    isbn=</span><span class="cpp1-string">&quot;0&quot;</span><span class="cpp1-symbol">;
+    auteur=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    traducteur=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    titre=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    genre=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    recherche_auto=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+    type_recherche=-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    CreateGUIControls();
+}
+
+rech_internet::rech_internet( wxString p_isbn , wxWindow *parent, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> moteur_recherche, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    isbn=p_isbn;
+    auteur=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    traducteur=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    titre=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    genre=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    recherche_auto=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    type_recherche=moteur_recherche;
+    CreateGUIControls();
+  </span><span class="cpp1-comment">/*  if (moteur_recherche != -1) {
+        WxRadioBox_choix_recherche-&gt;SetSelection(moteur_recherche);
+    }*/
+</span><span class="cpp1-symbol">}
+
+rech_internet::~rech_internet() {} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+    </span><span class="cpp1-comment">//Do not add custom Code here
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wx-devcpp designer will remove them.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Add the custom code before or after the Blocks
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	WxStaticText_isbn = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_ISBN, wxT(</span><span class="cpp1-string">&quot;I.S.B.N :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">14</span><span class="cpp1-symbol">,</span><span class="cpp1-number">14</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_isbn&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_isbn = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_ISBN, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">66</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">124</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), wxTE_PROCESS_TAB | wxTE_READONLY, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_isbn&quot;</span><span class="cpp1-symbol">));
+
+	WxButton_lancer = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON_LANCER, wxT(</span><span class="cpp1-string">&quot;Lancer la recherche&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">174</span><span class="cpp1-symbol">,</span><span class="cpp1-number">56</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">121</span><span class="cpp1-symbol">,</span><span class="cpp1-number">34</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_lancer&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticBox_proxy = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICBOX_PROXY, wxT(</span><span class="cpp1-string">&quot;Param&ecirc;tre du Proxy&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">325</span><span class="cpp1-symbol">,</span><span class="cpp1-number">30</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">417</span><span class="cpp1-symbol">,</span><span class="cpp1-number">81</span><span class="cpp1-symbol">));
+
+	WxCheckBox_proxy = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_PROXY, wxT(</span><span class="cpp1-string">&quot;Utiliser un proxy&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">325</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">114</span><span class="cpp1-symbol">,</span><span class="cpp1-number">26</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_proxy&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_proxy-&gt;SetToolTip(wxT(</span><span class="cpp1-string">&quot;Coc&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_proxy-&gt;SetHelpText(wxT(</span><span class="cpp1-string">&quot;Cocher la case si vous voulez utiliser un proxy&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_proxy_adr = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_PROXY_ADR, wxT(</span><span class="cpp1-string">&quot;Adresse : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">332</span><span class="cpp1-symbol">,</span><span class="cpp1-number">50</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_proxy_adr&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_proxy_adr = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_PROXY_ADR, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">384</span><span class="cpp1-symbol">,</span><span class="cpp1-number">48</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">142</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_proxy_adr&quot;</span><span class="cpp1-symbol">));
+	WxEdit_proxy_adr-&gt;Enable(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+
+	WxStaticText_proxy_util = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_PROXY_UTIL, wxT(</span><span class="cpp1-string">&quot;Utilisateur : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">536</span><span class="cpp1-symbol">,</span><span class="cpp1-number">50</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_proxy_util&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_proxy_util = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_PROXY_UTIL, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">597</span><span class="cpp1-symbol">,</span><span class="cpp1-number">49</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">136</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_proxy_util&quot;</span><span class="cpp1-symbol">));
+	WxEdit_proxy_util-&gt;Enable(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+
+	WxStaticText_proxy_port = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_PROXY_PORT, wxT(</span><span class="cpp1-string">&quot;Port : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">346</span><span class="cpp1-symbol">,</span><span class="cpp1-number">80</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_proxy_port&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_proxy_port = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_PROXY_PORT, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">383</span><span class="cpp1-symbol">,</span><span class="cpp1-number">79</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">143</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_proxy_port&quot;</span><span class="cpp1-symbol">));
+	WxEdit_proxy_port-&gt;Enable(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+
+	WxStaticText_proxy_pass = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_PROXY_PASS, wxT(</span><span class="cpp1-string">&quot;Password : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">534</span><span class="cpp1-symbol">,</span><span class="cpp1-number">83</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_proxy_pass&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_aide = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_AIDE, wxT(</span><span class="cpp1-string">&quot;Cochez Les &eacute;l&eacute;ments que vous d&eacute;sirez importer&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">202</span><span class="cpp1-symbol">,</span><span class="cpp1-number">113</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_aide&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_aide-&gt;SetFont(wxFont(</span><span class="cpp1-number">14</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL,wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">));
+
+	WxStaticText_url = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_URL, wxT(</span><span class="cpp1-string">&quot;Url : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">149</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_url&quot;</span><span class="cpp1-symbol">));
+
+	WxMemo_URL = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXMEMO_URL, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">30</span><span class="cpp1-symbol">,</span><span class="cpp1-number">141</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">724</span><span class="cpp1-symbol">,</span><span class="cpp1-number">30</span><span class="cpp1-symbol">), wxNO_BORDER | wxTE_READONLY | wxTE_AUTO_URL | wxTE_MULTILINE, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxMemo_URL&quot;</span><span class="cpp1-symbol">));
+	WxMemo_URL-&gt;SetMaxLength(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	WxMemo_URL-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;http://www.alapage.com/&quot;</span><span class="cpp1-symbol">));
+	WxMemo_URL-&gt;SetFocus();
+	WxMemo_URL-&gt;SetInsertionPointEnd();
+
+	WxEdit_proxy_pass = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_PROXY_PASS, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">597</span><span class="cpp1-symbol">,</span><span class="cpp1-number">80</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">138</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), wxTE_PASSWORD, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_proxy_pass&quot;</span><span class="cpp1-symbol">));
+	WxEdit_proxy_pass-&gt;Enable(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+
+	</span><span class="cpp1-comment">/* A cocher si vous voulez inverser le pr&eacute;nom/nom de l'auteur (marche moyen pour les noms triples
+	*/
+</span><span class="cpp1-space">	WxCheckBox_auteur_inverse = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_AUTEUR_INVERSE, wxT(</span><span class="cpp1-string">&quot;Inverser nom/pr&eacute;nom&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">67</span><span class="cpp1-symbol">,</span><span class="cpp1-number">174</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">119</span><span class="cpp1-symbol">,</span><span class="cpp1-number">14</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_auteur_inverse&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_auteur_inverse-&gt;SetToolTip(wxT(</span><span class="cpp1-string">&quot;A cocher si vous voulez inverser le pr&eacute;nom/nom de l'auteur et du traducteur (marche moyen pour les noms triples&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_minuscule = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_MINUSCULE, wxT(</span><span class="cpp1-string">&quot;Mettre en minuscule&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">467</span><span class="cpp1-symbol">,</span><span class="cpp1-number">174</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">134</span><span class="cpp1-symbol">,</span><span class="cpp1-number">14</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_minuscule&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_minuscule-&gt;SetToolTip(wxT(</span><span class="cpp1-string">&quot;Cocher Pour mettre titre et genre en minuscule&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_auteur = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_AUTEUR, wxT(</span><span class="cpp1-string">&quot;Auteur :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">193</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_auteur&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_auteur = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_AUTEUR, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">55</span><span class="cpp1-symbol">,</span><span class="cpp1-number">191</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">260</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_auteur&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_auteur = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_AUTEUR, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">322</span><span class="cpp1-symbol">,</span><span class="cpp1-number">194</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_auteur&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_auteur-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxStaticText_titre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_TITRE, wxT(</span><span class="cpp1-string">&quot;Titre :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">393</span><span class="cpp1-symbol">,</span><span class="cpp1-number">197</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_titre&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_titre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_TITRE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">430</span><span class="cpp1-symbol">,</span><span class="cpp1-number">191</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">261</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_titre&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_titre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_TITRE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">696</span><span class="cpp1-symbol">,</span><span class="cpp1-number">190</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">22</span><span class="cpp1-symbol">,</span><span class="cpp1-number">18</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_titre&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_titre-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxStaticText_editeur = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_EDITEUR, wxT(</span><span class="cpp1-string">&quot;Editeur :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">214</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_editeur&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_editeur = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_EDITEUR, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">55</span><span class="cpp1-symbol">,</span><span class="cpp1-number">214</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">261</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_editeur&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_editeur = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_EDITEUR, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">323</span><span class="cpp1-symbol">,</span><span class="cpp1-number">217</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">21</span><span class="cpp1-symbol">,</span><span class="cpp1-number">19</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_editeur&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_editeur-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxStaticText_genre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_GENRE, wxT(</span><span class="cpp1-string">&quot;Genre :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">387</span><span class="cpp1-symbol">,</span><span class="cpp1-number">217</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_genre&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_genre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_GENRE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">431</span><span class="cpp1-symbol">,</span><span class="cpp1-number">214</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">262</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_genre&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_genre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_GENRE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">698</span><span class="cpp1-symbol">,</span><span class="cpp1-number">214</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_genre&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_genre-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxStaticText_date_pub = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_DATE_PUB, wxT(</span><span class="cpp1-string">&quot;Date de publication :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">240</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_date_pub&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_date_pub = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_DATE_PUB, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">114</span><span class="cpp1-symbol">,</span><span class="cpp1-number">237</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">202</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_date_pub&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_date_pub = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_DATE_PUB, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">323</span><span class="cpp1-symbol">,</span><span class="cpp1-number">237</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">23</span><span class="cpp1-symbol">,</span><span class="cpp1-number">22</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_date_pub&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_date_pub-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxStaticText_langue = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_LANGUE, wxT(</span><span class="cpp1-string">&quot;Langue d'origine :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">388</span><span class="cpp1-symbol">,</span><span class="cpp1-number">239</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_langue&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_langue = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_LANGUE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">480</span><span class="cpp1-symbol">,</span><span class="cpp1-number">237</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">213</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_langue&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_langue = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_LANGUE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">698</span><span class="cpp1-symbol">,</span><span class="cpp1-number">237</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">22</span><span class="cpp1-symbol">,</span><span class="cpp1-number">23</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_langue&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_langue-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxStaticText_traducteur = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_TRADUCTEUR, wxT(</span><span class="cpp1-string">&quot;Traducteur :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,</span><span class="cpp1-number">263</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_traducteur&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_traducteur = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_TRADUCTEUR, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">74</span><span class="cpp1-symbol">,</span><span class="cpp1-number">260</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">244</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_traducteur&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_traducteur = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_TRADUCTEUR, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">323</span><span class="cpp1-symbol">,</span><span class="cpp1-number">262</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">21</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_traducteur&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_traducteur-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxStaticText_prix = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_PRIX, wxT(</span><span class="cpp1-string">&quot;Prix :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">394</span><span class="cpp1-symbol">,</span><span class="cpp1-number">263</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_prix&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_prix = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_PRIX, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">425</span><span class="cpp1-symbol">,</span><span class="cpp1-number">260</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">269</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_prix&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_prix = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_PRIX, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">698</span><span class="cpp1-symbol">,</span><span class="cpp1-number">260</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">23</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_prix&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_prix-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxMemo_commentaire = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXMEMO_COMMENTAIRE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">17</span><span class="cpp1-symbol">,</span><span class="cpp1-number">342</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">331</span><span class="cpp1-symbol">,</span><span class="cpp1-number">156</span><span class="cpp1-symbol">), wxTE_MULTILINE, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxMemo_commentaire&quot;</span><span class="cpp1-symbol">));
+	WxMemo_commentaire-&gt;SetMaxLength(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	WxMemo_commentaire-&gt;SetFocus();
+	WxMemo_commentaire-&gt;SetInsertionPointEnd();
+
+	WxStaticText_commentaire = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_COMMENTAIRE, wxT(</span><span class="cpp1-string">&quot;R&eacute;sum&eacute; :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">44</span><span class="cpp1-symbol">,</span><span class="cpp1-number">322</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_commentaire&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_commentaire = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_COMMENTAIRE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">117</span><span class="cpp1-symbol">,</span><span class="cpp1-number">319</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">23</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_commentaire&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_commentaire-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxStaticText_image_face = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_IMAGE_FACE, wxT(</span><span class="cpp1-string">&quot;recto : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">366</span><span class="cpp1-symbol">,</span><span class="cpp1-number">322</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_image_face&quot;</span><span class="cpp1-symbol">));
+
+	WxPanel_image_face = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXPANEL_IMAGE_FACE, wxPoint(</span><span class="cpp1-number">363</span><span class="cpp1-symbol">,</span><span class="cpp1-number">344</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">170</span><span class="cpp1-symbol">,</span><span class="cpp1-number">213</span><span class="cpp1-symbol">));
+
+	WxCheckBox_image_face = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_IMAGE_FACE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">404</span><span class="cpp1-symbol">,</span><span class="cpp1-number">321</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">21</span><span class="cpp1-symbol">,</span><span class="cpp1-number">22</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_image_face&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_image_face-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxPanel_image_dos = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXPANEL_IMAGE_DOS, wxPoint(</span><span class="cpp1-number">561</span><span class="cpp1-symbol">,</span><span class="cpp1-number">344</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">170</span><span class="cpp1-symbol">,</span><span class="cpp1-number">213</span><span class="cpp1-symbol">));
+
+	WxCheckBox_image_dos = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_IMAGE_DOS, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">604</span><span class="cpp1-symbol">,</span><span class="cpp1-number">319</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">22</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_image_dos&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_image_dos-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxStaticText_image_verso = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_IMAGE_VERSO, wxT(</span><span class="cpp1-string">&quot;Verso :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">565</span><span class="cpp1-symbol">,</span><span class="cpp1-number">323</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_image_verso&quot;</span><span class="cpp1-symbol">));
+
+	WxButton_OK = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON_OK, wxT(</span><span class="cpp1-string">&quot;Importer&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">27</span><span class="cpp1-symbol">,</span><span class="cpp1-number">519</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">86</span><span class="cpp1-symbol">,</span><span class="cpp1-number">27</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_OK&quot;</span><span class="cpp1-symbol">));
+
+	wxID_CANCEL = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON_ANNULER, wxT(</span><span class="cpp1-string">&quot;Annuler&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">165</span><span class="cpp1-symbol">,</span><span class="cpp1-number">519</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">86</span><span class="cpp1-symbol">,</span><span class="cpp1-number">27</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;wxID_CANCEL&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_nb_pages = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_NB_PAGES, wxT(</span><span class="cpp1-string">&quot;NB_Pages :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">11</span><span class="cpp1-symbol">,</span><span class="cpp1-number">284</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_nb_pages&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_nb_pages = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_NB_PAGES, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">74</span><span class="cpp1-symbol">,</span><span class="cpp1-number">283</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">243</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_nb_pages&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_nb_pages = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_NB_PAGES, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">323</span><span class="cpp1-symbol">,</span><span class="cpp1-number">283</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">17</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_nb_pages&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_nb_pages-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxStaticText_format = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_FORMAT, wxT(</span><span class="cpp1-string">&quot;Format :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">380</span><span class="cpp1-symbol">,</span><span class="cpp1-number">286</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_format&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_format = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_FORMAT, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">426</span><span class="cpp1-symbol">,</span><span class="cpp1-number">285</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">268</span><span class="cpp1-symbol">,</span><span class="cpp1-number">19</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_format&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_format = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_FORMAT, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">699</span><span class="cpp1-symbol">,</span><span class="cpp1-number">283</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_format&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_format-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	wxArrayString arrayStringFor_WxRadioBox_choix_recherche;
+	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT(</span><span class="cpp1-string">&quot;Amazon (fr)&quot;</span><span class="cpp1-symbol">));
+	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT(</span><span class="cpp1-string">&quot;Alapage (fr)&quot;</span><span class="cpp1-symbol">));
+	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT(</span><span class="cpp1-string">&quot;Amazon (us)&quot;</span><span class="cpp1-symbol">));
+	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT(</span><span class="cpp1-string">&quot;Amazon (uk)&quot;</span><span class="cpp1-symbol">));
+	WxRadioBox_choix_recherche = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxRadioBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXRADIOBOX_CHOIX_RECHERCHE, wxT(</span><span class="cpp1-string">&quot;Moteur de recherche&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">18</span><span class="cpp1-symbol">,</span><span class="cpp1-number">32</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">122</span><span class="cpp1-symbol">,</span><span class="cpp1-number">94</span><span class="cpp1-symbol">), arrayStringFor_WxRadioBox_choix_recherche, </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, wxRA_SPECIFY_COLS, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxRadioBox_choix_recherche&quot;</span><span class="cpp1-symbol">));
+	WxRadioBox_choix_recherche-&gt;SetToolTip(wxT(</span><span class="cpp1-string">&quot;Choix du moteur de recherche&quot;</span><span class="cpp1-symbol">));
+	WxRadioBox_choix_recherche-&gt;SetSelection(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+
+	SetTitle(wxT(</span><span class="cpp1-string">&quot;recherche sur internet&quot;</span><span class="cpp1-symbol">));
+	SetIcon(wxNullIcon);
+	SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">766</span><span class="cpp1-symbol">,</span><span class="cpp1-number">618</span><span class="cpp1-symbol">);
+	Center();
+	
+    </span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-space">  
+    </span><span class="cpp1-comment">// initialisation des variables internes
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//WxMemo_URL-&gt;SetWindowStyleFlag(wxNO_3D | wxNO_BORDER );
+</span><span class="cpp1-space">    WxMemo_URL-&gt;SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
+    WxMemo_URL-&gt;Refresh();
+    WxEdit_isbn-&gt;SetValue(isbn);
+    img_recto=gettempdir()+</span><span class="cpp1-string">&quot;\\&quot;</span><span class="cpp1-symbol">+ isbn + </span><span class="cpp1-string">&quot;_r.jpeg&quot;</span><span class="cpp1-symbol">;
+    img_verso=gettempdir()+</span><span class="cpp1-string">&quot;\\&quot;</span><span class="cpp1-symbol">+ isbn + </span><span class="cpp1-string">&quot;_v.jpeg&quot;</span><span class="cpp1-symbol">;
+    load_config();
+    change_etat_proxy();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_recherche != -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">) {
+        WxRadioBox_choix_recherche-&gt;SetSelection(type_recherche);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (recherche_auto==</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+        lancer_recherche();
+    }
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::rech_internetClose(wxCloseEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a wxDialog,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    Destroy();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_OKClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::WxButton_OKClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-comment">//wxMessageBox(isbn,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	sauve_config();
+    SetReturnCode(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    Destroy();
+	event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_annulerClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::WxButton_annulerClick(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	sauve_config();
+    SetReturnCode(-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    Destroy();
+	event.Skip();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::lancer_recherche() {
+    LIVRE_HTML l_livre;
+    caracteristiques l_carac;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeur_obj, hauteur_obj;
+    </span><span class="cpp1-comment">//wxImage image_face;
+</span><span class="cpp1-space">    ImageCanvas *canvas_image_face;
+    </span><span class="cpp1-comment">//wxImage image_dos;
+</span><span class="cpp1-space">    ImageCanvas *canvas_image_dos;
+    </span><span class="cpp1-comment">//bool tt;
+
+</span><span class="cpp1-space">     wxSetCursor(wxCursor(wxCURSOR_WAIT));
+    l_livre.setproxy(WxCheckBox_proxy-&gt;GetValue(), WxEdit_proxy_adr-&gt;GetValue(), WxEdit_proxy_port-&gt;GetValue(), WxEdit_proxy_util-&gt;GetValue(), WxEdit_proxy_pass-&gt;GetValue());
+    l_livre.traiter_isbn(isbn,img_recto,img_verso, l_carac,WxRadioBox_choix_recherche-&gt;GetSelection());
+    </span><span class="cpp1-comment">/*if (ret&lt;0) {
+       wxMessageBox(&quot;Probl&ecirc;me lors de la r&eacute;cup&eacute;rationdes donn&eacute;es&quot;,&quot;Prob&ecirc;me&quot;, wxOK | wxICON_EXCLAMATION);
+    }*/
+</span><span class="cpp1-space">        
+     </span><span class="cpp1-comment">/*traiter_isbn();*/
+</span><span class="cpp1-space">     auteur=l_carac.Auteur;
+     traducteur=l_carac.Traducteur;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((l_carac.Traducteur.Len() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) &amp;&amp; (WxCheckBox_traducteur-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)) {
+        WxCheckBox_traducteur-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    }
+    </span><span class="cpp1-comment">//WxEdit_traducteur-&gt;SetValue(l_carac.Traducteur);
+</span><span class="cpp1-space">    inverse_auteur();
+    titre=l_carac.Titre;
+    genre=l_carac.Genre;
+    minusculisation();
+    </span><span class="cpp1-comment">//WxEdit_titre-&gt;SetValue(l_carac.Titre);
+</span><span class="cpp1-space">    WxEdit_editeur-&gt;SetValue(l_carac.Editeur);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((l_carac.Editeur.Len() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) &amp;&amp; (WxCheckBox_editeur-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)) {
+        WxCheckBox_editeur-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    }
+    </span><span class="cpp1-comment">//WxEdit_genre-&gt;SetValue(l_carac.Genre);
+</span><span class="cpp1-space">    WxEdit_date_pub-&gt;SetValue(l_carac.Date_parution);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((l_carac.Date_parution.Len()) == </span><span class="cpp1-number">0</span><span class="cpp1-space"> &amp;&amp; (WxCheckBox_date_pub-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)) {
+        WxCheckBox_date_pub-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    }
+    WxEdit_langue-&gt;SetValue(l_carac.Langue);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((l_carac.Langue.Len()) == </span><span class="cpp1-number">0</span><span class="cpp1-space"> &amp;&amp; (WxCheckBox_langue-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)) {
+        WxCheckBox_langue-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    }
+    WxEdit_prix-&gt;SetValue(l_carac.Prix);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((l_carac.Prix.Len() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) &amp;&amp; (WxCheckBox_prix-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)) {
+        WxCheckBox_prix-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    }
+    WxEdit_nb_pages-&gt;SetValue(l_carac.Nb_pages);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((l_carac.Nb_pages.Len() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) &amp;&amp; (WxCheckBox_nb_pages-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)) {
+        WxCheckBox_nb_pages-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    }
+    WxEdit_format-&gt;SetValue(l_carac.Presentation);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((l_carac.Presentation.Len() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) &amp;&amp; (WxCheckBox_format-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)) {
+        WxCheckBox_format-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    }
+    WxMemo_commentaire-&gt;SetValue(l_carac.Commentaires);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((l_carac.Commentaires.Len() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) &amp;&amp; (WxCheckBox_commentaire-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)) {
+        WxCheckBox_commentaire-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    }
+    
+    wxFileName fich_img_recto(img_recto);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fich_img_recto.FileExists() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> &amp;&amp; fich_img_recto.GetSize()&gt;</span><span class="cpp1-number">500</span><span class="cpp1-symbol">) {
+        WxCheckBox_image_face-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+        WxPanel_image_face-&gt;GetSize(&amp;largeur_obj,&amp;hauteur_obj);
+        canvas_image_face = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> ImageCanvas(WxPanel_image_face, ID_IMAGE_FACE, wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">),wxSize(largeur_obj,hauteur_obj) );
+        canvas_image_face-&gt;init(img_recto);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        WxCheckBox_image_face-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    }
+</span><span class="cpp1-comment">/*    tt=image_face.LoadFile(img_recto);
+    if (tt==true) {
+        rempli_canvas(canvas_image_face, &amp;image_face);
+    } else {
+        wxMessageBox(&quot;Probleme de chargement de l'image rectos&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    }*/
+</span><span class="cpp1-space">    wxFileName fich_img_verso(img_verso);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fich_img_verso.FileExists() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> &amp;&amp; fich_img_verso.GetSize()&gt;</span><span class="cpp1-number">500</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;verso&quot; + img_verso+&quot;test &quot;+fich_img_verso.GetHumanReadableSize() ,&quot;info&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        WxCheckBox_image_dos-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+        WxPanel_image_dos-&gt;GetSize(&amp;largeur_obj,&amp;hauteur_obj);
+        canvas_image_dos = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> ImageCanvas(WxPanel_image_dos, ID_IMAGE_DOS, wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">),wxSize(largeur_obj,hauteur_obj) );
+        canvas_image_dos-&gt;init(img_verso);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        WxCheckBox_image_dos-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    }
+</span><span class="cpp1-comment">/*    tt=image_dos.LoadFile(img_verso);
+    if (tt==true) {
+        rempli_canvas(canvas_image_dos, &amp;image_dos);
+    } else {
+        wxMessageBox(&quot;Probleme de chargement de l'image versos&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    }*/
+</span><span class="cpp1-space">    WxMemo_URL-&gt;SetValue(l_carac.Url);
+    wxSetCursor(wxNullCursor);
+}
+</span><span class="cpp1-comment">/*
+ * WxButton_lancerClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::WxButton_lancerClick(wxCommandEvent&amp; event)
+{
+    lancer_recherche();
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+ 
+</span><span class="cpp1-comment">/*
+ * WxCheckBox_proxyClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::WxCheckBox_proxyClick(wxCommandEvent&amp; event)
+{
+    change_etat_proxy();
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::change_etat_proxy(){
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> etat_check;
+    
+    etat_check=WxCheckBox_proxy-&gt;IsChecked();
+    WxEdit_proxy_pass-&gt;Enable(etat_check);
+    WxEdit_proxy_util-&gt;Enable(etat_check);
+    WxEdit_proxy_port-&gt;Enable(etat_check);
+    WxEdit_proxy_adr-&gt;Enable(etat_check);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::sauve_config() {
+    wxString fichier_conf;
+    wxString query, mess;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    
+    fichier_conf=::wxGetCwd();
+    fichier_conf+=</span><span class="cpp1-string">&quot;\\config&quot;</span><span class="cpp1-symbol">;
+    config.ouvrir(fichier_conf);
+    query = </span><span class="cpp1-string">&quot;DROP TABLE rech_internet&quot;</span><span class="cpp1-symbol">;
+    config.exec_rapide(query);
+    query=</span><span class="cpp1-string">&quot;CREATE TABLE rech_internet (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'UTILISE', '&quot;</span><span class="cpp1-symbol">+wxString::Format(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,WxCheckBox_proxy-&gt;GetValue())+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'ADRESSE', '&quot;</span><span class="cpp1-symbol">+WxEdit_proxy_adr-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'PORT', '&quot;</span><span class="cpp1-symbol">+WxEdit_proxy_port-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'USER', '&quot;</span><span class="cpp1-symbol">+WxEdit_proxy_util-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'PASS', '&quot;</span><span class="cpp1-symbol">+WxEdit_proxy_pass-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    
+    mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,WxCheckBox_auteur_inverse-&gt;GetValue());
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('OPTION', 'INVERSE', '&quot;</span><span class="cpp1-symbol">+mess+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration d'option d'inversion&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,WxCheckBox_minuscule-&gt;GetValue());
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('OPTION', 'MINUSCULE', '&quot;</span><span class="cpp1-symbol">+mess+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration d'option de minusculisation&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'MOTEUR', '&quot;</span><span class="cpp1-symbol">+wxString::Format(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,WxRadioBox_choix_recherche-&gt;GetSelection())+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du moteur&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    
+    config.fermer();
+}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::load_config() {
+    wxString fichier_conf, mess;
+    wxString query,nom_param, valeur=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, taille; 
+    </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> utilise;
+    
+    fichier_conf=::wxGetCwd();
+    fichier_conf+=</span><span class="cpp1-string">&quot;\\config&quot;</span><span class="cpp1-symbol">;
+    config.ouvrir(fichier_conf);
+    query = </span><span class="cpp1-string">&quot;SELECT nom_param, val1 FROM rech_internet WHERE type_param='PROXY'&quot;</span><span class="cpp1-symbol">;
+    ret=config.transac_prepare(query);
+
+    ret=config.transac_step();
+
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+        config.get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,nom_param,taille);
+        config.get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,valeur,taille);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;UTILISE&quot;</span><span class="cpp1-symbol">) {
+            valeur.ToLong(&amp;utilise);
+            WxCheckBox_proxy-&gt;SetValue((</span><span class="cpp1-reservedword">bool</span><span class="cpp1-symbol">)utilise);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;ADRESSE&quot;</span><span class="cpp1-symbol">) {
+            WxEdit_proxy_adr-&gt;SetValue(valeur);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;PORT&quot;</span><span class="cpp1-symbol">) {
+            WxEdit_proxy_port-&gt;SetValue(valeur);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;USER&quot;</span><span class="cpp1-symbol">) {
+            WxEdit_proxy_util-&gt;SetValue(valeur);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;PASS&quot;</span><span class="cpp1-symbol">) {
+            WxEdit_proxy_pass-&gt;SetValue(valeur);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;MOTEUR&quot;</span><span class="cpp1-symbol">) {
+            valeur.ToLong(&amp;utilise);
+            WxRadioBox_choix_recherche-&gt;SetSelection((</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)utilise);
+        }
+        ret=config.transac_step();
+    }  
+    config.transac_fin();
+    query = </span><span class="cpp1-string">&quot;SELECT nom_param, val1 FROM rech_internet WHERE type_param='OPTION'&quot;</span><span class="cpp1-symbol">;
+    ret=config.transac_prepare(query);
+
+    ret=config.transac_step();
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> check;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+        config.get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,nom_param,taille);
+        config.get_value_int(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,check);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;INVERSE&quot;</span><span class="cpp1-symbol">) {
+             WxCheckBox_auteur_inverse-&gt;SetValue((</span><span class="cpp1-reservedword">bool</span><span class="cpp1-symbol">)check);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;MINUSCULE&quot;</span><span class="cpp1-symbol">) {
+             WxCheckBox_minuscule-&gt;SetValue((</span><span class="cpp1-reservedword">bool</span><span class="cpp1-symbol">)check);
+        }
+        ret=config.transac_step();
+    }  
+    
+    config.transac_fin();
+    </span><span class="cpp1-comment">//wxMessageBox(valeur,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    config.fermer();
+}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::inverse_auteur() {
+    </span><span class="cpp1-comment">//wxMessageBox(auteur,&quot;auteur&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxCheckBox_auteur_inverse-&gt;IsChecked()) {
+        wxString fin_ch=auteur.AfterLast(' ');
+        wxString debut_ch=auteur.BeforeLast(' ');
+        WxEdit_auteur-&gt;SetValue(fin_ch+wxT(</span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">)+debut_ch);
+        fin_ch=traducteur.AfterLast(' ');
+        debut_ch=traducteur.BeforeLast(' ');
+        WxEdit_traducteur-&gt;SetValue(fin_ch+wxT(</span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">)+debut_ch);
+    }</span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        WxEdit_auteur-&gt;SetValue(auteur);
+        WxEdit_traducteur-&gt;SetValue(traducteur);
+    }
+}
+
+</span><span class="cpp1-comment">/* et encore vous avez &eacute;chapp&eacute; &agrave; lowercasisation... */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::minusculisation() {
+    </span><span class="cpp1-comment">//wxMessageBox(auteur,&quot;auteur&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxCheckBox_minuscule-&gt;IsChecked()) {
+        wxString fin_ch=titre.Right(titre.Length()-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        wxString debut_ch=titre.Left(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        WxEdit_titre-&gt;SetValue(debut_ch+fin_ch.MakeLower());
+        fin_ch=genre.Right(genre.Length()-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        debut_ch=genre.Left(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        WxEdit_genre-&gt;SetValue(debut_ch+fin_ch.MakeLower());
+    }</span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        WxEdit_titre-&gt;SetValue(titre);
+        WxEdit_genre-&gt;SetValue(genre);
+    }
+}
+
+</span><span class="cpp1-comment">/*
+ * WxCheckBox_auteurClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::WxCheckBox_Click(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> id;
+    
+    id = event.GetId();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_AUTEUR) {
+        WxEdit_auteur-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_TITRE) {
+        WxEdit_titre-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_EDITEUR) {
+        WxEdit_editeur-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_GENRE) {
+        WxEdit_genre-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_DATE_PUB) {
+        WxEdit_date_pub-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_LANGUE) {
+        WxEdit_langue-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_TRADUCTEUR) {
+        WxEdit_traducteur-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_PRIX) {
+        WxEdit_prix-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_COMMENTAIRE) {
+        WxMemo_commentaire-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_IMAGE_FACE) {
+        WxPanel_image_face-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_IMAGE_DOS) {
+        WxPanel_image_dos-&gt;Enable(event.IsChecked());
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_MINUSCULE) {
+        minusculisation();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id == ID_WXCHECKBOX_AUTEUR_INVERSE) {
+        inverse_auteur();
+    }
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxMemo_URLClickUrl
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet::WxMemo_URLClickUrl(wxTextUrlEvent&amp; event)
+{
+    wxMouseEvent souris=event.GetMouseEvent();
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (souris.m_leftDown == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+        ::wxLaunchDefaultBrowser(WxMemo_URL-&gt;GetValue());
+</span><span class="cpp1-comment">//        ::wxShell(&quot;start &quot;+WxMemo_URL-&gt;GetValue()+&quot;&quot;);
+</span><span class="cpp1-space">    }
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">    souris.Skip();
+	event.Skip();
+}
+
+</span></span>
+</code></pre>
+</body>
+</html>

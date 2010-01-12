@@ -1,0 +1,1886 @@
+object frmNewForm_2: TfrmNewForm
+  Left = 8
+  Top = 8
+  AutoScroll = False
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Nouveau livre'
+  ClientHeight = 417
+  ClientWidth = 648
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = True
+  PopupMenu = MainForm.DesignerPopup
+  Visible = True
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnResize = NewFormResize
+  EVT_CLOSE = 'Nouv_livreClose'
+  Wx_ICON.Data = {07544269746D617000000000}
+  Wx_Name = 'Nouv_livre'
+  Wx_IDName = 'ID_NOUV_LIVRE'
+  Wx_IDValue = 1000
+  Wx_Class = 'wxDialog'
+  Wx_Center = True
+  Wx_Hidden = False
+  Wx_SizeToContents = True
+  Wx_GeneralStyle = [wxWANTS_CHARS]
+  Wx_DialogStyle = [wxCAPTION]
+  Wx_Border = 0
+  Wx_BorderAlignment = []
+  PixelsPerInch = 96
+  TextHeight = 13
+  object WxButton_nouv_ok: TWxButton
+    Left = 181
+    Top = 383
+    Width = 83
+    Height = 28
+    Caption = 'OK'
+    TabOrder = 1
+    EVT_BUTTON = 'WxButton_nouv_okClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_NOUV_OK'
+    Wx_IDValue = 1006
+    Wx_Height = 28
+    Wx_Width = 83
+  end
+  object WxButton_nouv_annul: TWxButton
+    Left = 367
+    Top = 383
+    Width = 79
+    Height = 28
+    Caption = 'Annuler'
+    TabOrder = 2
+    EVT_BUTTON = 'WxButton_nouv_annulClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'wxID_CANCEL '
+    Wx_IDValue = 1007
+    Wx_Height = 28
+    Wx_Width = 79
+  end
+  object WxNotebook_nouv: TWxNotebook
+    Left = 2
+    Top = 0
+    Width = 637
+    Height = 381
+    ActivePage = n_image_face
+    TabIndex = 4
+    TabOrder = 0
+    Wx_Class = 'wxNotebook'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EventList.Strings = (
+      'EVT_NOTEBOOK_PAGE_CHANGED:OnPageChanged'
+      'EVT_UPDATE_UI:OnUpdateUI'
+      'EVT_NOTEBOOK_PAGE_CHANGING:OnPageChanging')
+    Wx_IDName = 'ID_WXNOTEBOOK_NOUV'
+    Wx_IDValue = 1001
+    Wx_Hidden = False
+    Wx_NoteBookStyle = []
+    Wx_GeneralStyle = []
+    object n_livre: TWxNoteBookPage
+      Caption = 'Livre'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_LIVRE'
+      Wx_IDValue = 1003
+      object WxStaticText_titre: TWxStaticText
+        Left = 3
+        Top = 23
+        Width = 31
+        Height = 17
+        Caption = 'Titre :'
+        TabOrder = 0
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_TITRE'
+        Wx_IDValue = 1005
+        Wx_LabelStyle = []
+      end
+      object WxEdit_titre: TWxEdit
+        Left = 52
+        Top = 21
+        Width = 236
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 1
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_TITRE'
+        Wx_IDValue = 1008
+        Wx_MaxLength = 0
+      end
+      object WxStaticText_auteur: TWxStaticText
+        Left = 319
+        Top = 22
+        Width = 41
+        Height = 17
+        Caption = 'Auteur :'
+        TabOrder = 4
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_AUTEUR'
+        Wx_IDValue = 1011
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_auteur: TWxComboBox
+        Left = 365
+        Top = 19
+        Width = 232
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 5
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_AUTEUR'
+        Wx_IDValue = 1012
+      end
+      object WxStaticText_sous_titre: TWxStaticText
+        Left = 0
+        Top = 47
+        Width = 52
+        Height = 17
+        Caption = 'sous titre :'
+        TabOrder = 15
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT8'
+        Wx_IDValue = 1040
+        Wx_LabelStyle = []
+      end
+      object WxEdit_sous_titre: TWxEdit
+        Left = 52
+        Top = 45
+        Width = 236
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 16
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_SOUS_TITRE'
+        Wx_IDValue = 1041
+        Wx_MaxLength = 0
+      end
+      object WxStaticText_serie: TWxStaticText
+        Left = 2
+        Top = 73
+        Width = 34
+        Height = 17
+        Caption = 'S'#233'rie :'
+        TabOrder = 2
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_SERIE'
+        Wx_IDValue = 1009
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_serie: TWxComboBox
+        Left = 52
+        Top = 71
+        Width = 236
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 3
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = [wxCB_SORT]
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_SERIE'
+        Wx_IDValue = 1010
+      end
+      object WxStaticText_no_serie: TWxStaticText
+        Left = 313
+        Top = 73
+        Width = 49
+        Height = 17
+        Caption = 'N'#176' Serie :'
+        TabOrder = 6
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_NO_SERIE'
+        Wx_IDValue = 1013
+        Wx_LabelStyle = []
+      end
+      object WxEdit_no_serie: TWxEdit
+        Left = 364
+        Top = 71
+        Width = 52
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 7
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_NO_SERIE'
+        Wx_IDValue = 1014
+        Wx_MaxLength = 0
+      end
+      object WxStaticText_genre: TWxStaticText
+        Left = 4
+        Top = 103
+        Width = 39
+        Height = 17
+        Caption = 'Genre :'
+        TabOrder = 8
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_GENRE'
+        Wx_IDValue = 1015
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_genre: TWxComboBox
+        Left = 52
+        Top = 100
+        Width = 236
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 9
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_GENRE'
+        Wx_IDValue = 1016
+      end
+      object WxStaticText_isbn: TWxStaticText
+        Left = 314
+        Top = 105
+        Width = 44
+        Height = 17
+        Caption = 'I.S.B.N :'
+        TabOrder = 13
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_ISBN'
+        Wx_IDValue = 1033
+        Wx_LabelStyle = []
+      end
+      object WxEdit_isbn: TWxEdit
+        Left = 363
+        Top = 100
+        Width = 121
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 14
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_ISBN'
+        Wx_IDValue = 1034
+        Wx_MaxLength = 0
+      end
+      object WxStaticText_editeur: TWxStaticText
+        Left = 3
+        Top = 132
+        Width = 43
+        Height = 17
+        Caption = 'Editeur :'
+        TabOrder = 11
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_EDITEUR'
+        Wx_IDValue = 1019
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_editeur: TWxComboBox
+        Left = 52
+        Top = 129
+        Width = 236
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 12
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_EDITEUR'
+        Wx_IDValue = 1020
+      end
+      object WxStaticText_date_pub: TWxStaticText
+        Left = 316
+        Top = 132
+        Width = 102
+        Height = 17
+        Caption = 'Date de publication :'
+        TabOrder = 10
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_PUB'
+        Wx_IDValue = 1018
+        Wx_LabelStyle = []
+      end
+      object WxStaticText_format: TWxStaticText
+        Left = 2
+        Top = 162
+        Width = 42
+        Height = 17
+        Caption = 'Format :'
+        TabOrder = 17
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_FORMAT'
+        Wx_IDValue = 1046
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_format: TWxComboBox
+        Left = 52
+        Top = 158
+        Width = 236
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 18
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_FORMAT'
+        Wx_IDValue = 1047
+      end
+      object WxStaticText_artiste: TWxStaticText
+        Left = 315
+        Top = 159
+        Width = 39
+        Height = 17
+        Caption = 'Artiste :'
+        TabOrder = 19
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_ARTISTE'
+        Wx_IDValue = 1048
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_artiste: TWxComboBox
+        Left = 357
+        Top = 157
+        Width = 238
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 20
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_ARTISTE'
+        Wx_IDValue = 1049
+      end
+      object WxStaticText_prix: TWxStaticText
+        Left = 4
+        Top = 188
+        Width = 27
+        Height = 17
+        Caption = 'Prix :'
+        TabOrder = 25
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_PRIX'
+        Wx_IDValue = 1065
+        Wx_LabelStyle = []
+      end
+      object WxEdit_prix: TWxEdit
+        Left = 52
+        Top = 187
+        Width = 106
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 26
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_PRIX'
+        Wx_IDValue = 1066
+        Wx_MaxLength = 0
+      end
+      object WxStaticText_date_entree: TWxStaticText
+        Left = 9
+        Top = 326
+        Width = 66
+        Height = 17
+        Caption = 'Date entree :'
+        TabOrder = 21
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_ENTREE'
+        Wx_IDValue = 1052
+        Wx_LabelStyle = []
+      end
+      object WxStaticTextdate_entree_val: TWxStaticText
+        Left = 74
+        Top = 326
+        Width = 62
+        Height = 17
+        Caption = '01/01/1980'
+        TabOrder = 22
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXTDATE_ENTREE_VAL'
+        Wx_IDValue = 1053
+        Wx_LabelStyle = []
+      end
+      object WxStaticText_date_maj: TWxStaticText
+        Left = 148
+        Top = 325
+        Width = 142
+        Height = 17
+        Caption = 'Date de derni'#232're mise '#224' jour :'
+        TabOrder = 23
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_MAJ'
+        Wx_IDValue = 1054
+        Wx_LabelStyle = []
+      end
+      object WxStaticText_date_maj_val: TWxStaticText
+        Left = 289
+        Top = 325
+        Width = 62
+        Height = 17
+        Caption = '01/01/1980'
+        TabOrder = 24
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_MAJ_VAL'
+        Wx_IDValue = 1055
+        Wx_LabelStyle = []
+      end
+      object WxEdit_recompense: TWxEdit
+        Left = 357
+        Top = 185
+        Width = 236
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 27
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_RECOMPENSE'
+        Wx_IDValue = 1084
+        Wx_MaxLength = 0
+      end
+      object WxStaticText_recompense: TWxStaticText
+        Left = 281
+        Top = 186
+        Width = 73
+        Height = 17
+        Caption = 'Recompense :'
+        TabOrder = 28
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_RECOMPENSE'
+        Wx_IDValue = 1085
+        Wx_LabelStyle = []
+      end
+      object WxButton_auteur: TWxButton
+        Left = 598
+        Top = 20
+        Width = 16
+        Height = 20
+        Caption = '...'
+        TabOrder = 29
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_AUTEUR'
+        Wx_IDValue = 1086
+        Wx_Height = 20
+        Wx_Width = 16
+      end
+      object WxButton_serie: TWxButton
+        Left = 290
+        Top = 72
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 30
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_SERIE'
+        Wx_IDValue = 1087
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+      object WxButton_genre: TWxButton
+        Left = 290
+        Top = 101
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 31
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_GENRE'
+        Wx_IDValue = 1088
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+      object WxButton_editeur: TWxButton
+        Left = 290
+        Top = 130
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 32
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_EDITEUR'
+        Wx_IDValue = 1089
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+      object WxButton_format: TWxButton
+        Left = 290
+        Top = 158
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 33
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_FORMAT'
+        Wx_IDValue = 1090
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+      object WxButton_artiste: TWxButton
+        Left = 597
+        Top = 157
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 34
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_ARTISTE'
+        Wx_IDValue = 1091
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+      object WxButton_internet: TWxButton
+        Left = 489
+        Top = 101
+        Width = 131
+        Height = 19
+        Caption = 'Recherche internet (ISBN)'
+        TabOrder = 35
+        EVT_BUTTON = 'WxButton_internetClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_INTERNET'
+        Wx_IDValue = 1100
+        Wx_Height = 19
+        Wx_Width = 131
+      end
+      object WxDatePickerCtrl_publication: TWxDatePickerCtrl
+        Left = 421
+        Top = 129
+        Width = 123
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 36
+        Text = '3/1/2006'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxDatePickerCtrl'
+        Wx_Date = 38777.6459465625
+        Wx_PickCalStyle = [wxDP_DROPDOWN, wxDP_ALLOWNONE]
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXDATEPICKERCTRL_PUBLICATION'
+        Wx_IDValue = 1103
+      end
+    end
+    object n_detail: TWxNoteBookPage
+      Caption = 'D'#233'tails'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_DETAIL'
+      Wx_IDValue = 1004
+      object WxStaticText_date_achat: TWxStaticText
+        Left = 2
+        Top = 18
+        Width = 71
+        Height = 17
+        Caption = 'Date d'#39'achat :'
+        TabOrder = 0
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_ACHAT'
+        Wx_IDValue = 1021
+        Wx_LabelStyle = []
+      end
+      object WxStaticText_valeur: TWxStaticText
+        Left = 28
+        Top = 42
+        Width = 40
+        Height = 17
+        Caption = 'Valeur :'
+        TabOrder = 1
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_VALEUR'
+        Wx_IDValue = 1023
+        Wx_LabelStyle = []
+      end
+      object WxEdit_valeur: TWxEdit
+        Left = 80
+        Top = 39
+        Width = 236
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 2
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_VALEUR'
+        Wx_IDValue = 1024
+        Wx_MaxLength = 0
+      end
+      object WxStaticText_note: TWxStaticText
+        Left = 337
+        Top = 20
+        Width = 33
+        Height = 17
+        Caption = 'Note :'
+        TabOrder = 3
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_NOTE'
+        Wx_IDValue = 1025
+        Wx_LabelStyle = []
+      end
+      object WxSlider_note: TWxSlider
+        Left = 395
+        Top = 14
+        Width = 150
+        Height = 30
+        Orientation = trHorizontal
+        Frequency = 1
+        Position = 0
+        SelEnd = 0
+        SelStart = 0
+        TabOrder = 4
+        TickMarks = tmBottomRight
+        TickStyle = tsAuto
+        EVT_COMMAND_SCROLL = 'WxSlider_noteScroll'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxSlider'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_IDName = 'ID_WXSLIDER_NOTE'
+        Wx_IDValue = 1027
+        Wx_SliderStyle = []
+        Wx_SliderOrientation = wxSL_HORIZONTAL
+        Wx_SliderRange = wxSL_SELRANGE
+        Wx_ToolTip = 'Note du livre (0 '#224' 10)'
+      end
+      object WxStaticText_val_note: TWxStaticText
+        Left = 550
+        Top = 18
+        Width = 10
+        Height = 17
+        Caption = '0'
+        TabOrder = 5
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_VAL_NOTE'
+        Wx_IDValue = 1028
+        Wx_LabelStyle = []
+      end
+      object WxStaticText_nul: TWxStaticText
+        Left = 395
+        Top = 48
+        Width = 20
+        Height = 17
+        Caption = 'Nul'
+        TabOrder = 6
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_NUL'
+        Wx_IDValue = 1029
+        Wx_LabelStyle = []
+      end
+      object WxStaticText_genial: TWxStaticText
+        Left = 521
+        Top = 48
+        Width = 34
+        Height = 17
+        Caption = 'G'#233'nial'
+        TabOrder = 7
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_GENIAL'
+        Wx_IDValue = 1030
+        Wx_LabelStyle = []
+      end
+      object WxStaticText_reference: TWxStaticText
+        Left = 8
+        Top = 65
+        Width = 60
+        Height = 17
+        Caption = 'Reference :'
+        TabOrder = 8
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_REFERENCE'
+        Wx_IDValue = 1031
+        Wx_LabelStyle = []
+      end
+      object WxEdit_reference: TWxEdit
+        Left = 80
+        Top = 65
+        Width = 236
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 9
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_REFERENCE'
+        Wx_IDValue = 1032
+        Wx_MaxLength = 0
+      end
+      object WxStaticText_nb_pages: TWxStaticText
+        Left = 1
+        Top = 94
+        Width = 71
+        Height = 17
+        Caption = 'Nb de pages :'
+        TabOrder = 10
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_NB_PAGES'
+        Wx_IDValue = 1035
+        Wx_LabelStyle = []
+      end
+      object WxEdit_nb_pages: TWxEdit
+        Left = 80
+        Top = 90
+        Width = 90
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 11
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_NB_PAGES'
+        Wx_IDValue = 1036
+        Wx_MaxLength = 0
+      end
+      object WxComboBox_etat: TWxComboBox
+        Left = 80
+        Top = 117
+        Width = 236
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 12
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_ETAT'
+        Wx_IDValue = 1038
+      end
+      object WxStaticText_etat: TWxStaticText
+        Left = 38
+        Top = 118
+        Width = 29
+        Height = 17
+        Caption = 'Etat :'
+        TabOrder = 13
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_ETAT'
+        Wx_IDValue = 1039
+        Wx_LabelStyle = []
+      end
+      object WxStaticText_condition: TWxStaticText
+        Left = 13
+        Top = 144
+        Width = 66
+        Height = 17
+        Caption = 'Localisation :'
+        TabOrder = 14
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_CONDITION'
+        Wx_IDValue = 1044
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_localisation: TWxComboBox
+        Left = 80
+        Top = 142
+        Width = 236
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 15
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_LOCALISATION'
+        Wx_IDValue = 1045
+      end
+      object WxStaticText_date_lecture: TWxStaticText
+        Left = -1
+        Top = 171
+        Width = 83
+        Height = 17
+        Caption = 'Date de lecture :'
+        TabOrder = 16
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_LECTURE'
+        Wx_IDValue = 1050
+        Wx_LabelStyle = []
+      end
+      object WxButton_etat: TWxButton
+        Left = 318
+        Top = 117
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 17
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_ETAT'
+        Wx_IDValue = 1092
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+      object WxButton_localisation: TWxButton
+        Left = 318
+        Top = 142
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 18
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_LOCALISATION'
+        Wx_IDValue = 1093
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+      object WxDatePickerCtrl_achat: TWxDatePickerCtrl
+        Left = 79
+        Top = 14
+        Width = 148
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 19
+        Text = '3/3/2006'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxDatePickerCtrl'
+        Wx_Date = 38779.404674213
+        Wx_PickCalStyle = [wxDP_DROPDOWN, wxDP_ALLOWNONE]
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXDATEPICKERCTRL_ACHAT'
+        Wx_IDValue = 1104
+      end
+      object WxDatePickerCtrl_lecture: TWxDatePickerCtrl
+        Left = 80
+        Top = 169
+        Width = 150
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 20
+        Text = '3/3/2006'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxDatePickerCtrl'
+        Wx_Date = 38779.4059410069
+        Wx_PickCalStyle = [wxDP_DROPDOWN, wxDP_ALLOWNONE]
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXDATEPICKERCTRL_LECTURE'
+        Wx_IDValue = 1105
+      end
+    end
+    object n_vo: TWxNoteBookPage
+      Caption = 'Version originale'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_VO'
+      Wx_IDValue = 1043
+      object WxStaticText_titre_o: TWxStaticText
+        Left = 23
+        Top = 33
+        Width = 67
+        Height = 17
+        Caption = 'Titre original :'
+        TabOrder = 0
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_TITRE_O'
+        Wx_IDValue = 1056
+        Wx_LabelStyle = []
+      end
+      object WxEdit_titre_o: TWxEdit
+        Left = 95
+        Top = 28
+        Width = 238
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 1
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_TITRE_O'
+        Wx_IDValue = 1057
+        Wx_MaxLength = 0
+      end
+      object WxStaticText_sous_titre_o: TWxStaticText
+        Left = 5
+        Top = 60
+        Width = 90
+        Height = 17
+        Caption = 'Sous titre original :'
+        TabOrder = 4
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_SOUS_TITRE_O'
+        Wx_IDValue = 1061
+        Wx_LabelStyle = []
+      end
+      object WxEdit_sous_titre_o: TWxEdit
+        Left = 95
+        Top = 55
+        Width = 238
+        Height = 21
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        AutoSize = False
+        TabOrder = 5
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_SOUS_TITRE_O'
+        Wx_IDValue = 1062
+        Wx_MaxLength = 0
+      end
+      object WxStaticText_serie_o: TWxStaticText
+        Left = 6
+        Top = 84
+        Width = 74
+        Height = 17
+        Caption = 'serie originale :'
+        TabOrder = 13
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_SERIE_O'
+        Wx_IDValue = 1097
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_serie_o: TWxComboBox
+        Left = 95
+        Top = 80
+        Width = 238
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 14
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_SERIE_O'
+        Wx_IDValue = 1098
+      end
+      object WxStaticText_pays: TWxStaticText
+        Left = 9
+        Top = 108
+        Width = 75
+        Height = 17
+        Caption = 'Pays d'#39'origine :'
+        TabOrder = 2
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_PAYS'
+        Wx_IDValue = 1058
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_pays: TWxComboBox
+        Left = 95
+        Top = 106
+        Width = 238
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 3
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_PAYS'
+        Wx_IDValue = 1060
+      end
+      object WxStaticText_langue: TWxStaticText
+        Left = 0
+        Top = 136
+        Width = 88
+        Height = 17
+        Caption = 'Langue d'#39'origine :'
+        TabOrder = 6
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_LANGUE_O'
+        Wx_IDValue = 1063
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_langue: TWxComboBox
+        Left = 95
+        Top = 133
+        Width = 238
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 7
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_LANGUE'
+        Wx_IDValue = 1064
+      end
+      object WxStaticText_traducteur: TWxStaticText
+        Left = 22
+        Top = 160
+        Width = 62
+        Height = 17
+        Caption = 'Traducteur :'
+        TabOrder = 8
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_TRADUCTEUR'
+        Wx_IDValue = 1067
+        Wx_LabelStyle = []
+      end
+      object WxComboBox_traducteur: TWxComboBox
+        Left = 95
+        Top = 157
+        Width = 238
+        Height = 21
+        ItemHeight = 0
+        TabOrder = 9
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_TRADUCTEUR'
+        Wx_IDValue = 1068
+      end
+      object WxButton_pays: TWxButton
+        Left = 335
+        Top = 107
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 10
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_PAYS'
+        Wx_IDValue = 1094
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+      object WxButton_langue: TWxButton
+        Left = 335
+        Top = 133
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 11
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_LANGUE'
+        Wx_IDValue = 1095
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+      object WxButton_traducteur: TWxButton
+        Left = 335
+        Top = 158
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 12
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_TRADUCTEUR'
+        Wx_IDValue = 1096
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+      object WxButton_serie_o: TWxButton
+        Left = 335
+        Top = 80
+        Width = 15
+        Height = 19
+        Caption = '...'
+        TabOrder = 15
+        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_SERIE_O'
+        Wx_IDValue = 1099
+        Wx_Height = 19
+        Wx_Width = 15
+      end
+    end
+    object n_resume: TWxNoteBookPage
+      Caption = 'resum'#233
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_RESUME'
+      Wx_IDValue = 1069
+      object WxStaticText_commentaire: TWxStaticText
+        Left = 3
+        Top = -2
+        Width = 71
+        Height = 17
+        Caption = 'Commentaire :'
+        TabOrder = 0
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_COMMENTAIRE'
+        Wx_IDValue = 1070
+        Wx_LabelStyle = []
+      end
+      object WxStaticText_resume: TWxStaticText
+        Left = 3
+        Top = 175
+        Width = 49
+        Height = 17
+        Caption = 'R'#233'sum'#233' :'
+        TabOrder = 1
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_RESUME'
+        Wx_IDValue = 1072
+        Wx_LabelStyle = []
+      end
+      object WxMemo_commentaire: TWxMemo
+        Left = 0
+        Top = 15
+        Width = 629
+        Height = 159
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        ScrollBars = ssVertical
+        TabOrder = 2
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = [wxTE_MULTILINE]
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_IDName = 'ID_WXMEMO_COMMENTAIRE'
+        Wx_IDValue = 1074
+        Wx_MaxLength = 0
+      end
+      object WxMemo_resume: TWxMemo
+        Left = 0
+        Top = 192
+        Width = 629
+        Height = 161
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        ScrollBars = ssVertical
+        TabOrder = 3
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = [wxTE_MULTILINE]
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_IDName = 'ID_WXMEMO_RESUME'
+        Wx_IDValue = 1076
+        Wx_MaxLength = 0
+      end
+    end
+    object n_image_face: TWxNoteBookPage
+      Caption = 'image face'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_IMAGE_FACE'
+      Wx_IDValue = 1077
+      object WxBitmapButton_face_ouvrir: TWxBitmapButton
+        Left = 605
+        Top = 0
+        Width = 20
+        Height = 20
+        TabOrder = 0
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          18000000000000030000C30E0000C30E00000000000000000000C8D0D4C8D0D4
+          C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0
+          D4C8D0D4C8D0D4C8D0D4A7B1B64B8EAF4B8EAF4B8EAF4B8EAF4B8EAF4B8EAF4B
+          8EAF4B8EAF4B8EAF4B8EAF4B8EAFC8D0D4C8D0D4C8D0D4C8D0D4A7B1B6A7B1B6
+          65BBDD4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4B8EAFC8D0
+          D4C8D0D4C8D0D4C8D0D4A7B1B6A7B1B69ED0DD8EE3F789DFF685DCF480D8F27A
+          D5F175D2F071CFEF6CCCED4FB0DA4B8EAFC8D0D4C8D0D4C8D0D4A7B1B690E3F8
+          A7B1B697DEF090E3F78BE0F686DCF480DAF37BD6F177D3F071D0EF67C9EC4B8E
+          AFC8D0D4C8D0D4C8D0D4A7B1B6A1ECF8A7B1B69BD2DF92E5F891E4F88BE0F686
+          DCF481DAF37BD6F177D3F071D0EF4FB0DA4B8EAFC8D0D4C8D0D4A7B1B6A8F0F8
+          90E3F8A7B1B698DEF092E5F890E3F88BE0F686DCF480DAF37BD6F177D3F06CCA
+          EB4B8EAFC8D0D4C8D0D4A7B1B6AFF5F8A8F0F8A7B1B69BD3E192E4F892E5F891
+          E4F88CE0F686DDF581DAF37CD7F173D1EF4FB0DA4B8EAFC8D0D4A7B1B6B2F5F8
+          AFF5F890E3F8A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1
+          B6A7B1B6A7B1B6C8D0D4A7B1B6B2F5F8B2F5F8AFF5F890E3F890E3F890E3F890
+          E3F890E3F890E3F890E3F890E3F8A7B1B6C8D0D4C8D0D4C8D0D4A7B1B6B2F5F8
+          B2F5F8B2F5F8AFF5F890E3F8A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6B46C
+          4BB46C4BB46C4BB46C4BA7B1B6B2F5F8B2F5F8B2F5F8B2F5F8A7B1B6C8D0D4C8
+          D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4B46C4BE9BEA6B46C4BC8D0D4A7B1B6
+          A7B1B6A7B1B6A7B1B6C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0
+          D4CF9A75B46C4BB46C4BC8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8
+          D0D4C8D0D4B46C4BCF9A75C8D0D4CF9A75B46C4BC8D0D4B46C4BC8D0D4C8D0D4
+          C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4B46C4BB46C4BB46C
+          4BC8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8
+          D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4}
+        EVT_BUTTON = 'WxBitmapButton_face_ouvrirClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxBitmapButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_BITMAP.Data = {
+          07544269746D617036030000424D360300000000000036000000280000001000
+          0000100000000100180000000000000300000000000000000000000000000000
+          0000C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4
+          C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4A7B1B64B8EAF4B8EAF4B8EAF4B8E
+          AF4B8EAF4B8EAF4B8EAF4B8EAF4B8EAF4B8EAF4B8EAFC8D0D4C8D0D4C8D0D4C8
+          D0D4A7B1B6A7B1B665BBDD4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA
+          4FB0DA4B8EAFC8D0D4C8D0D4C8D0D4C8D0D4A7B1B6A7B1B69ED0DD8EE3F789DF
+          F685DCF480D8F27AD5F175D2F071CFEF6CCCED4FB0DA4B8EAFC8D0D4C8D0D4C8
+          D0D4A7B1B690E3F8A7B1B697DEF090E3F78BE0F686DCF480DAF37BD6F177D3F0
+          71D0EF67C9EC4B8EAFC8D0D4C8D0D4C8D0D4A7B1B6A1ECF8A7B1B69BD2DF92E5
+          F891E4F88BE0F686DCF481DAF37BD6F177D3F071D0EF4FB0DA4B8EAFC8D0D4C8
+          D0D4A7B1B6A8F0F890E3F8A7B1B698DEF092E5F890E3F88BE0F686DCF480DAF3
+          7BD6F177D3F06CCAEB4B8EAFC8D0D4C8D0D4A7B1B6AFF5F8A8F0F8A7B1B69BD3
+          E192E4F892E5F891E4F88CE0F686DDF581DAF37CD7F173D1EF4FB0DA4B8EAFC8
+          D0D4A7B1B6B2F5F8AFF5F890E3F8A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6
+          A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6C8D0D4A7B1B6B2F5F8B2F5F8AFF5F890E3
+          F890E3F890E3F890E3F890E3F890E3F890E3F890E3F8A7B1B6C8D0D4C8D0D4C8
+          D0D4A7B1B6B2F5F8B2F5F8B2F5F8AFF5F890E3F8A7B1B6A7B1B6A7B1B6A7B1B6
+          A7B1B6A7B1B6B46C4BB46C4BB46C4BB46C4BA7B1B6B2F5F8B2F5F8B2F5F8B2F5
+          F8A7B1B6C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4B46C4BE9BEA6B4
+          6C4BC8D0D4A7B1B6A7B1B6A7B1B6A7B1B6C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4
+          C8D0D4C8D0D4C8D0D4CF9A75B46C4BB46C4BC8D0D4C8D0D4C8D0D4C8D0D4C8D0
+          D4C8D0D4C8D0D4C8D0D4C8D0D4B46C4BCF9A75C8D0D4CF9A75B46C4BC8D0D4B4
+          6C4BC8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4
+          B46C4BB46C4BB46C4BC8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0
+          D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8
+          D0D4}
+        Wx_IDName = 'ID_WXBITMAPBUTTON_IMAGE_OUVRIR'
+        Wx_IDValue = 1078
+        Wx_ToolTip = 'charger une image'
+      end
+      object WxBitmapButton_supp_image_face: TWxBitmapButton
+        Left = 605
+        Top = 22
+        Width = 20
+        Height = 20
+        TabOrder = 1
+        Glyph.Data = {
+          42020000424D4202000000000000420000002800000010000000100000000100
+          1000030000000002000000000000000000000000000000000000007C0000E003
+          00001F0000001863186318631863186318631863186318631863186318631863
+          1863186318631863186318631863000018631863186318631863186300001863
+          1863186318631863186318630000005000001863186318631863000000500000
+          186318631863186318630000007C006800500000186318630000006800680050
+          00001863186318630000EF7DAD7D007C00680050000000000068007C007C0068
+          005000001863186318630000EF7DAD7D007C0068007C007C007C007C007C0068
+          0000186318631863186318630000EF7DAD7D007C007C007C007C007C00680000
+          18631863186318631863186318630000007C007C007C007C007C007C00001863
+          18631863186318631863186318630000007C007C007C007C007C007C00001863
+          1863186318631863186318630000AD7D007C007C007C007C007C006800500000
+          186318631863186318630000AD7D007C007C007C007C007CAD7D007C00680050
+          00001863186318630000EF7DAD7D007C007CAD7D00000000EF7DAD7D007C0068
+          005000001863186318630000EF7DAD7DAD7D0000186318630000EF7DAD7D007C
+          0000186318631863186318630000EF7D000018631863186318630000EF7D0000
+          1863186318631863186318631863000018631863186318631863186300001863
+          1863186318631863186318631863186318631863186318631863186318631863
+          186318631863}
+        EVT_BUTTON = 'WxBitmapButton_supp_image_faceClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxBitmapButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_BITMAP.Data = {
+          07544269746D617042020000424D420200000000000042000000280000001000
+          0000100000000100100003000000000200000000000000000000000000000000
+          0000007C0000E00300001F00000018C618C618C618C618C618C618C618C618C6
+          18C618C618C618C618C618C618C618C618C618C618C6000018C618C618C618C6
+          18C618C6000018C618C618C618C618C618C618C6000000A0000018C618C618C6
+          18C6000000A0000018C618C618C618C618C6000000F800D000A0000018C618C6
+          000000D000D000A0000018C618C618C60000CFFB4DFB00F800D000A000000000
+          00D000F800F800D000A0000018C618C618C60000CFFB4DFB00F800D000F800F8
+          00F800F800F800D0000018C618C618C618C618C60000CFFB4DFB00F800F800F8
+          00F800F800D0000018C618C618C618C618C618C618C6000000F800F800F800F8
+          00F800F8000018C618C618C618C618C618C618C618C6000000F800F800F800F8
+          00F800F8000018C618C618C618C618C618C618C600004DFB00F800F800F800F8
+          00F800D000A0000018C618C618C618C618C600004DFB00F800F800F800F800F8
+          4DFB00F800D000A0000018C618C618C60000CFFB4DFB00F800F84DFB00000000
+          CFFB4DFB00F800D000A0000018C618C618C60000CFFB4DFB4DFB000018C618C6
+          0000CFFB4DFB00F8000018C618C618C618C618C60000CFFB000018C618C618C6
+          18C60000CFFB000018C618C618C618C618C618C618C6000018C618C618C618C6
+          18C618C6000018C618C618C618C618C618C618C618C618C618C618C618C618C6
+          18C618C618C618C618C618C618C6}
+        Wx_IDName = 'ID_WXBITMAPBUTTON_SUP_IMAGE'
+        Wx_IDValue = 1080
+        Wx_ToolTip = 'Supprimer l'#39'image'
+      end
+    end
+    object n_image_dos: TWxNoteBookPage
+      Caption = 'image dos'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_WXNOTEBOOKPAGE1'
+      Wx_IDValue = 1081
+    end
+    object n_image_divers: TWxNoteBookPage
+      Caption = 'image divers'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_IMAGE_DIVERS'
+      Wx_IDValue = 1082
+    end
+  end
+  object WxMemo1: TWxMemo
+    Left = 251
+    Top = 10
+    Width = 2
+    Height = 1
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    Lines.Strings = (
+      'W'
+      'x'
+      'M'
+      'e'
+      'm'
+      'o'
+      '1')
+    ScrollBars = ssVertical
+    TabOrder = 3
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = [wxTE_MULTILINE]
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_IDName = 'ID_WXMEMO1'
+    Wx_IDValue = 1101
+    Wx_MaxLength = 0
+  end
+  object WxButton_internet_g: TWxButton
+    Left = 530
+    Top = 383
+    Width = 101
+    Height = 28
+    Caption = 'Recherche internet'
+    TabOrder = 4
+    EVT_BUTTON = 'WxButton_internet_gClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_INTERNET_G'
+    Wx_IDValue = 1102
+    Wx_Height = 28
+    Wx_Width = 101
+  end
+end

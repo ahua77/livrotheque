@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_choix_colonnes_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        choix_colonnes.h
+// Author:      
+// Created:     12/01/05 12:55:25
+//
+//Copyright  PE Epaillard, 12/01/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+</span><span class="cpp1-preprocessor">#ifndef __CHOIX_COLONNES_HPP_
+#define __CHOIX_COLONNES_HPP_
+
+
+#ifndef WX_PRECOMP
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#include &quot;wx/wx.h&quot;
+#endif
+#include &lt;wx/splitter.h&gt;
+#include &lt;wx/listbox.h&gt;
+
+
+
+</span><span class="cpp1-comment">////Header Include Start
+</span><span class="cpp1-preprocessor">#include &lt;wx/bmpbuttn.h&gt;
+#include &lt;wx/button.h&gt;
+#include &lt;wx/panel.h&gt;
+#include &lt;wx/listbox.h&gt;
+#include &lt;wx/splitter.h&gt;
+</span><span class="cpp1-comment">////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &lt;wx/dialog.h&gt;
+
+</span><span class="cpp1-comment">//Compatibility for 2.4.x code
+</span><span class="cpp1-preprocessor">#ifndef wxCLOSE_BOX
+#define wxCLOSE_BOX 0x1000
+#endif
+#ifndef wxFIXED_MINSIZE
+#define wxFIXED_MINSIZE 0
+#endif
+
+#define ID_SPLITTERWINDOW_GAUCHE 10009
+#define ID_LISTBOX_CHOIX 10010
+#define ID_SPLITTERWINDOW_DROIT 10011
+#define ID_PANEL_BOUTON 10012
+#define ID_LISTBOX_CHOISIS 10013
+#define ID_BUTTON_OK 10014
+#define ID_BUTTON_ANNULER 10015
+#define ID_BUTTON_AJOUTE 10016
+#define ID_BUTTON_ENLEVE 10017
+#define ID_LISTBOX2 10013
+
+</span><span class="cpp1-comment">//WX_DEFINE_ARRAY(int, ArrayOfInt);
+
+</span><span class="cpp1-preprocessor">#ifdef THIS_DIALOG_STYLE
+#undef THIS_DIALOG_STYLE
+#endif
+
+</span><span class="cpp1-comment">////Dialog Style Start
+</span><span class="cpp1-preprocessor">#undef THIS_DIALOG_STYLE
+#define THIS_DIALOG_STYLE wxCAPTION
+</span><span class="cpp1-comment">////Dialog Style End
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> choix_colonnes : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxDialog
+{
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+ </span><span class="cpp1-reservedword">enum</span><span class="cpp1-space"> {
+</span><span class="cpp1-comment">////GUI Enum Control ID Start
+</span><span class="cpp1-space">			ID_ITEMLISTBOX_CHOISIS = </span><span class="cpp1-number">1015</span><span class="cpp1-symbol">,
+			ID_WXBITMAPBUTTON_BAS = </span><span class="cpp1-number">1012</span><span class="cpp1-symbol">,
+			ID_WXBITMAPBUTTON_HAUT = </span><span class="cpp1-number">1011</span><span class="cpp1-symbol">,
+			ID_WXBITMAPBUTTON1 = </span><span class="cpp1-number">1010</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_ENLEVE = </span><span class="cpp1-number">1008</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_ANNULER = </span><span class="cpp1-number">1007</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_OK = </span><span class="cpp1-number">1006</span><span class="cpp1-symbol">,
+			ID_ITEMPANEL_BOUTON = </span><span class="cpp1-number">1004</span><span class="cpp1-symbol">,
+			ID_ITEMSPLITTERWINDOW_DROIT = </span><span class="cpp1-number">1003</span><span class="cpp1-symbol">,
+			ID_ITEMLISTBOX_CHOIX = </span><span class="cpp1-number">1002</span><span class="cpp1-symbol">,
+			ID_ITEMSPLITTERWINDOW_GAUCHE = </span><span class="cpp1-number">1001</span><span class="cpp1-symbol">,
+</span><span class="cpp1-comment">////GUI Enum Control ID End
+</span><span class="cpp1-identifier">ID_DUMMY_VALUE_ </span><span class="cpp1-comment">//Dont Delete this DummyValue
+</span><span class="cpp1-symbol">}; </span><span class="cpp1-comment">//End of Enum
+</span><span class="cpp1-space">    choix_colonnes( wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;choix_colonnes&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = wxRESIZE_BORDER );
+    </span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> ~choix_colonnes();
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">: 
+  </span><span class="cpp1-comment">////GUI Control Declaration Start
+</span><span class="cpp1-space">		wxListBox *itemListBox_choisis;
+		wxBitmapButton *WxBitmapButton_bas;
+		wxBitmapButton *WxBitmapButton_haut;
+		wxBitmapButton *WxBitmapButton1;
+		wxBitmapButton *wxButton_enleve;
+		wxButton *wxButton_annuler;
+		wxButton *wxButton_OK;
+		wxPanel *itemPanel_bouton;
+		wxSplitterWindow *itemSplitterWindow_droit;
+		wxListBox *itemListBox_choix;
+		wxSplitterWindow *itemSplitterWindow_gauche;
+  </span><span class="cpp1-comment">////GUI Control Declaration End
+</span><span class="cpp1-space">  
+  </span><span class="cpp1-comment">//wxSplitterWindow* itemSplitterWindow_gauche;
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wxListBox* itemListBox_choix;
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wxSplitterWindow* itemSplitterWindow_droit;
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wxListBox* itemListBox_choisis;
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wxPanel* itemPanel_bouton;
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wxButton* wxButton_OK ;
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wxButton* wxButton_annuler;
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wxButton* wxButton_ajoute;
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wxButton* wxButton_enleve;
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//
+</span><span class="cpp1-space">  wxArrayString liste_choix;
+  wxArrayInt *liste_choisis;
+  wxArrayString *liste_choisis_nom;
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    DECLARE_EVENT_TABLE()
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    choix_colonnes( wxArrayString &amp;l_choix, wxArrayInt *l_choisis, wxArrayString *l_choisis_nom, wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;choix_colonnes&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = wxRESIZE_BORDER );
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnesClose(wxCloseEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_annulClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_okClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_ajouteClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_enleveClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Wxlist_ajouteClick( wxCommandEvent &amp;event ) ;
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_listbox();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ajouteClick();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxBitmapButton_hautClick(wxCommandEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::deplace_choisi(</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> haut);
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxBitmapButton_basClick(wxCommandEvent&amp; event);
+};
+
+
+</span><span class="cpp1-preprocessor">#endif
+</span><span class="cpp1-space"> 
+ 
+ 
+ 
+</span></span>
+</code></pre>
+</body>
+</html>

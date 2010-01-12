@@ -1,0 +1,76 @@
+object frmNewForm_1: TfrmNewForm
+  Left = 8
+  Top = 8
+  AutoScroll = False
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Image'
+  ClientHeight = 524
+  ClientWidth = 427
+  Color = clBtnFace
+  OldCreateOrder = True
+  PopupMenu = MainForm.DesignerPopup
+  Visible = True
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnResize = FormResize
+  EVT_CLOSE = 'OnClose'
+  Wx_ICON.Data = {07544269746D617000000000}
+  Wx_Name = 'affiche_image'
+  Wx_IDName = 'ID_DIALOG_AFFICHE_IMAGE'
+  Wx_IDValue = 1000
+  Wx_Class = 'wxDialog'
+  Wx_Center = True
+  Wx_Hidden = False
+  Wx_SizeToContents = True
+  Wx_GeneralStyle = [wxWANTS_CHARS, wxNO_BORDER]
+  Wx_DialogStyle = [wxCAPTION, wxSYSTEM_MENU, wxCLOSE_BOX]
+  Wx_Border = 0
+  Wx_BorderAlignment = []
+  PixelsPerInch = 96
+  TextHeight = 13
+  object WxPanel_image: TWxPanel
+    Left = 0
+    Top = 0
+    Width = 427
+    Height = 524
+    Align = alClient
+    TabOrder = 0
+    Wx_BKColor = clBlack
+    Wx_Class = 'wxPanel'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXPANEL_IMAGE'
+    Wx_IDValue = 1004
+    object WxButton_annul: TWxButton
+      Left = 0
+      Top = 0
+      Width = 79
+      Height = 1
+      Caption = 'Annuler'
+      TabOrder = 0
+      EVT_BUTTON = 'WxButton_nouv_annulClick'
+      Wx_BKColor = clBlack
+      Wx_ButtonStyle = []
+      Wx_Class = 'wxButton'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_BUTTON:OnClick'
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'wxID_CANCEL'
+      Wx_IDValue = 1005
+      Wx_Height = 1
+      Wx_Width = 1
+      Wx_BorderAlignment = []
+    end
+  end
+end

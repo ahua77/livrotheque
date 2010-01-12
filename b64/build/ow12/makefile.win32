@@ -1,0 +1,236 @@
+################################################################################
+# File:		makefile.win32
+#
+# Purpose:	Makefile for the b64 project, for the Open Watcom C/C++ 1.2
+#           compiler, on Win32
+#
+# Created:	15th Feburary 2005
+# Updated:	15th March 2008
+#
+################################################################################
+
+
+
+################################################################################
+# Symbols
+
+# Identification
+
+COMP_TAG			=	ow12
+PROJ_TAG			=	b64
+PROJ_VER_MAJOR		=	1
+PROJ_TAG_VER		=	$(PROJ_TAG).$(PROJ_VER_MAJOR)
+
+CC					=	wcc386
+AR					=	wlib
+LD					=	wcl386
+RM					=	del /f
+CP					=	copy
+
+# Directories
+
+PROJ_BASE_DIR		=	..\..
+PROJ_BIN_DIR		=	$(PROJ_BASE_DIR)\bin
+PROJ_INCLUDE_DIR	=	$(PROJ_BASE_DIR)\include
+PROJ_LIB_DIR		=	$(PROJ_BASE_DIR)\lib
+PROJ_OBJ_DIR		=	.
+PROJ_SRC_DIR		=	$(PROJ_BASE_DIR)\src
+PROJ_EXAMPLES_DIR	=	$(PROJ_BASE_DIR)\examples
+PROJ_SAMPLES_DIR	=	$(PROJ_BASE_DIR)\samples
+PROJ_TEST_DIR		=	$(PROJ_BASE_DIR)\test
+
+# Includes
+
+INCLUDES_LEADER		=	
+
+PROJ_INCLUDE			=	-I$(PROJ_INCLUDE_DIR)
+
+COMMON_INCLUDES		=	
+
+CC_INCLUDES = \
+ $(INCLUDES_LEADER) \
+ $(PROJ_INCLUDE) \
+ $(COMMON_INCLUDES)
+
+# Lib
+
+LIBS_LEADER			=	
+
+COMMON_LIB			=	
+
+# #defines
+
+COMMON_DEFS			=	-DWIN32
+
+CC_DEFS				=	$(COMMON_DEFS)
+
+# Flags
+
+CC_F_NOLOGO				=	-zq
+CC_F_COMPILE_ONLY		=	
+CC_F_WARNING_MAX		=	-w=9
+CC_F_WARNING_ERR		=	-we
+
+CC_TOOL_FLAGS		=	
+
+CC_FLAGS = \
+ $(CC_TOOL_FLAGS) \
+ $(CC_F_NOLOGO) \
+ $(CC_F_COMPILE_ONLY) \
+ $(CC_F_WARNING_MAX) \
+ $(CC_F_WARNING_ERR)
+
+# Arguments (= flags + defines + includes)
+
+CC_ARGS_ST_DEBUG				=	 $(CC_FLAGS) $(CC_DEFS) $(CC_INCLUDES)
+CC_ARGS_ST_RELEASE				=	 $(CC_FLAGS) $(CC_DEFS) $(CC_INCLUDES)
+
+AR_ARGS				=	-q -c
+
+LD_ARGS_ST_DEBUG				=	-zq $(COMMON_LIB)
+LD_ARGS_ST_RELEASE				=	-zq $(COMMON_LIB)
+
+################################################################################
+# Targets
+
+TARGET_LIB_ST_DEBUG			=	$(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_TAG).debug.lib
+TARGET_LIB_UN_ST_DEBUG		=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).debug.lib
+TARGET_LIB_ST_RELEASE			=	$(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_TAG).lib
+TARGET_LIB_UN_ST_RELEASE		=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).lib
+
+TARGET_TEST_C_1_ST_DEBUG		=	$(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.c.1.$(COMP_TAG).debug.exe
+TARGET_TEST_C_1_ST_RELEASE		=	$(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.c.1.$(COMP_TAG).exe
+
+TARGET_EXAMPLE_C_1_ST_DEBUG		=	$(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.1.$(COMP_TAG).debug.exe
+TARGET_EXAMPLE_C_2_ST_DEBUG		=	$(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.1.$(COMP_TAG).debug.exe
+TARGET_EXAMPLE_C_1_ST_RELEASE		=	$(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.1.$(COMP_TAG).exe
+TARGET_EXAMPLE_C_2_ST_RELEASE		=	$(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.1.$(COMP_TAG).exe
+
+TARGETS = \
+ $(TARGETS_LIB)\
+ $(TARGETS_TEST)\
+ $(TARGETS_EXAMPLES)\
+ $(TARGETS_SAMPLES)\
+ \
+
+TARGETS_LIB =\
+ $(TARGET_LIB_ST_DEBUG)\
+ $(TARGET_LIB_UN_ST_DEBUG)\
+ $(TARGET_LIB_ST_RELEASE)\
+ $(TARGET_LIB_UN_ST_RELEASE)\
+ \
+
+TARGETS_TEST =\
+ $(TARGET_TEST_C_1_ST_DEBUG)\
+ $(TARGET_TEST_C_1_ST_RELEASE)\
+ \
+
+TARGETS_EXAMPLES =\
+ $(TARGET_EXAMPLE_C_1_ST_DEBUG)\
+ $(TARGET_EXAMPLE_C_2_ST_DEBUG)\
+ $(TARGET_EXAMPLE_C_1_ST_RELEASE)\
+ $(TARGET_EXAMPLE_C_2_ST_RELEASE)\
+ \
+
+OBJ_PROJ_ST_DEBUG				=	.\b64.debug.obj
+OBJ_PROJ_ST_RELEASE				=	.\b64.obj
+
+OBJ_TEST_C_1_ST_DEBUG					=	.\C.debug.obj
+OBJ_TEST_C_1_ST_RELEASE					=	.\C.obj
+
+OBJS = \
+ $(OBJ_PROJ_ST_DEBUG) \
+ $(OBJ_PROJ_ST_RELEASE) \
+ $(OBJ_TEST_C_1_ST_DEBUG) \
+ $(OBJ_TEST_C_1_ST_RELEASE) \
+ \
+
+LIB_B64_H			=	$(PROJ_INCLUDE_DIR)\b64\b64.h
+LIB_B64_H_IMPL_LNK	=	$(PROJ_INCLUDE_DIR)\b64\implicit_link.h
+LIB_B64_C			=	$(PROJ_SRC_DIR)\b64.c
+
+SRC_TEST_C_1				=	$(PROJ_TEST_DIR)\c\test.c.1\test.c.1.c
+
+
+all:	target
+
+usage:
+	@echo "make [usage | clean | all | test | target] - default is 'all'"
+
+clean:
+	@-$(RM) $(TARGET_LIB_ST_DEBUG)
+	@-$(RM) $(TARGET_LIB_UN_ST_DEBUG)
+	@-$(RM) $(TARGET_LIB_ST_RELEASE)
+	@-$(RM) $(TARGET_LIB_UN_ST_RELEASE)
+	@-$(RM) $(TARGET_TEST_C_1_ST_DEBUG)
+	@-$(RM) $(TARGET_TEST_C_1_ST_RELEASE)
+	@-$(RM) $(TARGET_EXAMPLE_C_1_ST_DEBUG)
+	@-$(RM) $(TARGET_EXAMPLE_C_2_ST_DEBUG)
+	@-$(RM) $(TARGET_EXAMPLE_C_1_ST_RELEASE)
+	@-$(RM) $(TARGET_EXAMPLE_C_2_ST_RELEASE)
+	@-$(RM) $(OBJ_PROJ_ST_DEBUG)
+	@-$(RM) $(OBJ_PROJ_ST_RELEASE)
+	@-$(RM) $(OBJ_TEST_C_1_ST_DEBUG)
+	@-$(RM) $(OBJ_TEST_C_1_ST_RELEASE)
+
+#	@-if exist *.err del /f *.err
+#	@-if exist *.exe del /f *.exe
+#	@-if exist *.map del /f *.map
+#	@-if exist *.obj del /f *.obj
+#	@-if exist *.tds del /f *.tds
+
+target:		$(TARGETS)
+
+test_:
+	$(TARGET_TEST_C_1_ST_DEBUG) --unittest
+	$(TARGET_TEST_C_1_ST_RELEASE) --unittest
+
+test:	target test_
+
+# build targets
+
+# library
+
+
+$(TARGET_LIB_UN_ST_DEBUG): $(TARGET_LIB_ST_DEBUG)
+	@$(CP) $(TARGET_LIB_ST_DEBUG) $@
+
+$(TARGET_LIB_ST_DEBUG): $(OBJ_PROJ_ST_DEBUG) makefile.win32
+	$(AR) $(AR_ARGS) $@ -+$(OBJ_PROJ_ST_DEBUG)
+
+
+$(OBJ_PROJ_ST_DEBUG):	$(LIB_B64_C) $(LIB_B64_H) makefile.win32
+	$(CC) $(CC_ARGS_ST_DEBUG) -fo=$@ $(LIB_B64_C)
+
+
+$(TARGET_LIB_UN_ST_RELEASE): $(TARGET_LIB_ST_RELEASE)
+	@$(CP) $(TARGET_LIB_ST_RELEASE) $@
+
+$(TARGET_LIB_ST_RELEASE): $(OBJ_PROJ_ST_RELEASE) makefile.win32
+	$(AR) $(AR_ARGS) $@ -+$(OBJ_PROJ_ST_RELEASE)
+
+
+$(OBJ_PROJ_ST_RELEASE):	$(LIB_B64_C) $(LIB_B64_H) makefile.win32
+	$(CC) $(CC_ARGS_ST_RELEASE) -fo=$@ $(LIB_B64_C)
+
+
+	
+# C test client
+
+$(TARGET_TEST_C_1_ST_DEBUG):	$(OBJ_TEST_C_1_ST_DEBUG) makefile.win32
+	$(LD) $(LD_ARGS) -fe=$@ $(OBJ_TEST_C_1_ST_DEBUG) $(TARGET_LIB_ST_DEBUG)
+
+
+$(OBJ_TEST_C_1_ST_DEBUG):	$(SRC_TEST_C_1) $(LIB_B64_H) makefile.win32
+	$(CC) $(CC_ARGS_ST_DEBUG) -fo=$@ $(SRC_TEST_C_1)
+
+$(TARGET_TEST_C_1_ST_RELEASE):	$(OBJ_TEST_C_1_ST_RELEASE) makefile.win32
+	$(LD) $(LD_ARGS) -fe=$@ $(OBJ_TEST_C_1_ST_RELEASE) $(TARGET_LIB_ST_RELEASE)
+
+
+$(OBJ_TEST_C_1_ST_RELEASE):	$(SRC_TEST_C_1) $(LIB_B64_H) makefile.win32
+	$(CC) $(CC_ARGS_ST_RELEASE) -fo=$@ $(SRC_TEST_C_1)
+
+
+
+################################################################################

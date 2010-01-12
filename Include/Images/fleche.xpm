@@ -1,0 +1,33 @@
+/* XPM */
+static char *fleche_xpm[] = {
+/* width height num_colors chars_per_pixel */
+"    35    18        8            1",
+/* colors */
+"` c #000000",
+". c #8f918f",
+"# c #e3e3e3",
+"a c #575557",
+"b c #ffffff",
+"c c #bbbdbb",
+"d c #6c6c6c",
+"e c #312f31",
+/* pixels */
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+"bbbbbbbbbbbbbbbbbbbbc.bbbbbbbbbbbbb",
+"bbbbbbbbbbbbbbbbbbdd`dbbbbbbbbbbbbb",
+"bbbbbbbbbbbbbbbbaa``cbbbbbbbbbbbbbb",
+"bbbbbbbbbbbb##ee```ebbbbbbbbbbbbbbb",
+"bbbbbbbbbbcc```````bbbbbbbbbbbbbbbb",
+"bbbbbbbb..````````.bbbbbbbbbbbbbbbb",
+"bbbbbbaa``````````daaaaaaaaaaaaaabb",
+"bb##ee```````````````````````````eb",
+"bbee``````````````````````````````b",
+"bbbbaa```````````````````````````ab",
+"bbbbbb..``````````...............bb",
+"bbbbbbbbcc````````abbbbbbbbbbbbbbbb",
+"bbbbbbbbbb##ee`````#bbbbbbbbbbbbbbb",
+"bbbbbbbbbbbbbbaa````bbbbbbbbbbbbbbb",
+"bbbbbbbbbbbbbbbbdd``.bbbbbbbbbbbbbb",
+"bbbbbbbbbbbbbbbbbb..`abbbbbbbbbbbbb",
+"bbbbbbbbbbbbbbbbbbbb#cbbbbbbbbbbbbb"
+};

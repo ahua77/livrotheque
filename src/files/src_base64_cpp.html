@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_base64_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">/////////////////////BASE64.CPP/////////////////////
+
+</span><span class="cpp1-preprocessor">#include &quot;base64.hpp&quot;
+
+</span><span class="cpp1-reservedword">using</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">namespace</span><span class="cpp1-space"> std;
+
+string Base64::encode(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> std::string &amp; data)
+{
+</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> size_t trail = data.size()%</span><span class="cpp1-number">3</span><span class="cpp1-symbol">;
+size_t sz = data.size()/</span><span class="cpp1-number">3</span><span class="cpp1-symbol">*</span><span class="cpp1-number">4</span><span class="cpp1-symbol">;
+sz += (trail != </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) ? </span><span class="cpp1-number">4</span><span class="cpp1-space"> : </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+
+un32 b64;
+
+string out;
+out.resize(sz);
+
+size_t i = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, k = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+
+</span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(i &lt; data.size()-trail)
+{
+b64.c[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = data[i++];
+b64.c[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] = data[i++];
+b64.c[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] = data[i++];
+
+out[k++] = b64table[</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt;</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">&gt; ((b64.l &amp; mask1) &gt;&gt; </span><span class="cpp1-number">26</span><span class="cpp1-symbol">)];
+out[k++] = b64table[</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt;</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">&gt; ((b64.l &amp; mask2) &gt;&gt; </span><span class="cpp1-number">20</span><span class="cpp1-symbol">)];
+out[k++] = b64table[</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt;</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">&gt; ((b64.l &amp; mask3) &gt;&gt; </span><span class="cpp1-number">14</span><span class="cpp1-symbol">)];
+out[k++] = b64table[</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt;</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">&gt; ((b64.l &amp; mask4) &gt;&gt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">)];
+}
+
+b64.l = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+
+</span><span class="cpp1-reservedword">switch</span><span class="cpp1-symbol">(trail)
+{
+</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">1</span><span class="cpp1-symbol">:
+b64.c[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = data[i++];
+out[k++] = b64table[</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt;</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">&gt; ((b64.l &amp; mask1) &gt;&gt; </span><span class="cpp1-number">26</span><span class="cpp1-symbol">)];
+out[k++] = b64table[</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt;</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">&gt; ((b64.l &amp; mask2) &gt;&gt; </span><span class="cpp1-number">20</span><span class="cpp1-symbol">)];
+out[k++] = fillchar;
+out[k++] = fillchar;
+</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+
+</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">2</span><span class="cpp1-symbol">:
+b64.c[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">] = data[i++];
+b64.c[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] = data[i++];
+out[k++] = b64table[</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt;</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">&gt; ((b64.l &amp; mask1) &gt;&gt; </span><span class="cpp1-number">26</span><span class="cpp1-symbol">)];
+out[k++] = b64table[</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt;</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">&gt; ((b64.l &amp; mask2) &gt;&gt; </span><span class="cpp1-number">20</span><span class="cpp1-symbol">)];
+out[k++] = b64table[</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt;</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">&gt; ((b64.l &amp; mask3) &gt;&gt; </span><span class="cpp1-number">14</span><span class="cpp1-symbol">)];
+out[k++] = fillchar;
+</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> out;
+}
+
+
+string Base64::decode(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> std::string &amp; data)
+{
+</span><span class="cpp1-comment">// Number of trailing '='
+</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> size_t trail = (data[data.size()-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">] == fillchar) ? ((data[data.size()-</span><span class="cpp1-number">2</span><span class="cpp1-symbol">] == fillchar) ? </span><span class="cpp1-number">2</span><span class="cpp1-space"> : </span><span class="cpp1-number">1</span><span class="cpp1-space"> ) : </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+</span><span class="cpp1-comment">// Number of char to decode
+</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> size_t szin = (trail == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) ? data.size() : data.size()-</span><span class="cpp1-number">4</span><span class="cpp1-symbol">;
+</span><span class="cpp1-comment">// Output string size
+</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> size_t szout = szin/</span><span class="cpp1-number">4</span><span class="cpp1-symbol">*</span><span class="cpp1-number">3</span><span class="cpp1-symbol">+ ((trail == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)? </span><span class="cpp1-number">0</span><span class="cpp1-space"> : ((trail == </span><span class="cpp1-number">1</span><span class="cpp1-symbol">) ? </span><span class="cpp1-number">3</span><span class="cpp1-space"> : </span><span class="cpp1-number">2</span><span class="cpp1-symbol">));
+</span><span class="cpp1-comment">//const size_t szout = szin/4*3+ ((trail == 0)? 0 : ((trail == 1) ? 2 : 1));
+
+</span><span class="cpp1-identifier">un32 b64;
+
+string out;
+out.resize(szout);
+
+size_t i = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, k = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+
+</span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(i &lt; szin)
+{
+b64.l = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+b64.l += (</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt; uint32_t &gt; (b64table.find_first_of(data[i++])) ) &lt;&lt; </span><span class="cpp1-number">26</span><span class="cpp1-symbol">;
+b64.l += (</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt; uint32_t &gt; (b64table.find_first_of(data[i++])) ) &lt;&lt; </span><span class="cpp1-number">20</span><span class="cpp1-symbol">;
+b64.l += (</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt; uint32_t &gt; (b64table.find_first_of(data[i++])) ) &lt;&lt; </span><span class="cpp1-number">14</span><span class="cpp1-symbol">;
+b64.l += (</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt; uint32_t &gt; (b64table.find_first_of(data[i++])) ) &lt;&lt; </span><span class="cpp1-number">8</span><span class="cpp1-symbol">;
+
+out[k++] = b64.c[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+out[k++] = b64.c[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">];
+out[k++] = b64.c[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+}
+
+b64.l = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+
+</span><span class="cpp1-reservedword">switch</span><span class="cpp1-symbol">(trail)
+{
+</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">1</span><span class="cpp1-symbol">:
+b64.l += (</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt; uint32_t &gt; (b64table.find_first_of(data[i++])) ) &lt;&lt; </span><span class="cpp1-number">26</span><span class="cpp1-symbol">;
+b64.l += (</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt; uint32_t &gt; (b64table.find_first_of(data[i++])) ) &lt;&lt; </span><span class="cpp1-number">20</span><span class="cpp1-symbol">;
+b64.l += (</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt; uint32_t &gt; (b64table.find_first_of(data[i++])) ) &lt;&lt; </span><span class="cpp1-number">14</span><span class="cpp1-symbol">;
+
+out[k++] = b64.c[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+out[k++] = b64.c[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">];
+</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+
+</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">2</span><span class="cpp1-symbol">:
+b64.l += (</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt; uint32_t &gt; (b64table.find_first_of(data[i++])) ) &lt;&lt; </span><span class="cpp1-number">26</span><span class="cpp1-symbol">;
+b64.l += (</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-space"> &lt; uint32_t &gt; (b64table.find_first_of(data[i++])) ) &lt;&lt; </span><span class="cpp1-number">20</span><span class="cpp1-symbol">;
+
+out[k++] = b64.c[</span><span class="cpp1-number">3</span><span class="cpp1-symbol">];
+</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> out;
+}
+
+
+
+</span><span class="cpp1-comment">////////////////////////////////////////////////////
+</span></span>
+</code></pre>
+</body>
+</html>

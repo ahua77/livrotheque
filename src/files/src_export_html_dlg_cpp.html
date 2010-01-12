@@ -1,0 +1,1312 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_export_html_dlg_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        export_html_dlg.cpp
+// Author:      epaillard
+// Created:     07/12/2006 11:21:18
+// Description: export_html_dlg class implementation
+//
+//
+//Copyright PE Epaillard, 10/27/2004
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel].
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave;
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement,
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;.
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &quot;export_html_dlg.h&quot;
+#include &quot;divers.h&quot;
+#include &lt;wx/filename.h&gt;
+</span><span class="cpp1-comment">//#include &lt;wx/busyinfo.h&gt;
+</span><span class="cpp1-preprocessor">#include &lt;wx/progdlg.h&gt;
+</span><span class="cpp1-comment">//Do not add custom headers
+//wxDev-C++ designer will remove them
+////Header Include Start
+////Header Include End
+
+// images 
+</span><span class="cpp1-preprocessor">#include &quot;template_book_1024_02.xpm&quot;
+#include &quot;template_book_1024_03.xpm&quot;
+#include &quot;template_book_1024_04.xpm&quot;
+#include &quot;template_book_1024_01611.xpm&quot;
+#include &quot;template_book_1024_051015.xpm&quot;
+
+#include &quot;export_html_images.cpp&quot;
+
+#define MODE_HTML 0 
+#define MODE_HTML_PDA 1
+#define MODE_AJAX 2
+</span><span class="cpp1-comment">//----------------------------------------------------------------------------
+// export_html_dlg
+//----------------------------------------------------------------------------
+//Add Custom Events only in the appropriate block.
+//Code added in other places will be removed by wxDev-C++
+////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(export_html_dlg,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(export_html_dlg::OnClose)
+	EVT_BUTTON(ID_WXBUTTON_CHEMIN_DEST,export_html_dlg::WxButton_chemin_destClick)
+	EVT_BUTTON(ID_WXBUTTON_ANNUL,export_html_dlg::WxButton_annulClick)
+	EVT_BUTTON(ID_WXBUTTON_OK,export_html_dlg::WxButton_okClick)
+END_EVENT_TABLE()
+</span><span class="cpp1-comment">////Event Table End
+
+</span><span class="cpp1-identifier">export_html_dlg::export_html_dlg(wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style)
+: wxDialog(parent, id, title, position, size, style)
+{
+    la_belle=NULL;
+	CreateGUIControls();
+}
+
+export_html_dlg::export_html_dlg( ma_base *pour_lecture, wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style)
+: wxDialog(parent, id, title, position, size, style)
+{
+    la_belle=pour_lecture;
+	CreateGUIControls();
+}
+
+export_html_dlg::~export_html_dlg()
+{
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::CreateGUIControls()
+{
+	</span><span class="cpp1-comment">//Do not add custom code here
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//wxDev-C++ designer will remove them.
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//Add the custom code before or after the blocks
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	SetTitle(wxT(</span><span class="cpp1-string">&quot;Export HTML&quot;</span><span class="cpp1-symbol">));
+	SetIcon(wxNullIcon);
+	SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">320</span><span class="cpp1-symbol">,</span><span class="cpp1-number">430</span><span class="cpp1-symbol">);
+	Center();
+	
+
+	wxArrayString arrayStringFor_WxRadioBox_type;
+	arrayStringFor_WxRadioBox_type.Add(wxT(</span><span class="cpp1-string">&quot;Full HTML&quot;</span><span class="cpp1-symbol">));
+	arrayStringFor_WxRadioBox_type.Add(wxT(</span><span class="cpp1-string">&quot;HTML PDA&quot;</span><span class="cpp1-symbol">));
+	arrayStringFor_WxRadioBox_type.Add(wxT(</span><span class="cpp1-string">&quot;Ajax&quot;</span><span class="cpp1-symbol">));
+	WxRadioBox_type = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxRadioBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXRADIOBOX_TYPE, wxT(</span><span class="cpp1-string">&quot;Type de g&eacute;n&eacute;ration :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">305</span><span class="cpp1-symbol">,</span><span class="cpp1-number">69</span><span class="cpp1-symbol">), arrayStringFor_WxRadioBox_type, </span><span class="cpp1-number">2</span><span class="cpp1-symbol">, wxRA_SPECIFY_COLS, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxRadioBox_type&quot;</span><span class="cpp1-symbol">));
+	WxRadioBox_type-&gt;SetSelection(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+
+	WxEdit_mail = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_MAIL, wxT(</span><span class="cpp1-string">&quot;machin@truc.fr&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">246</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">305</span><span class="cpp1-symbol">,</span><span class="cpp1-number">18</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_mail&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_mail = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_MAIL, wxT(</span><span class="cpp1-string">&quot;Mail &agrave; mettre en bas des pages :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">225</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_mail&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_nom = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_NOM, wxT(</span><span class="cpp1-string">&quot;Machin&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">197</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">305</span><span class="cpp1-symbol">,</span><span class="cpp1-number">18</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_nom&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_nom = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_NOM, wxT(</span><span class="cpp1-string">&quot;Nom utilis&eacute; pour le nom en bas des pages&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">180</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_nom&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_titre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_TITRE, wxT(</span><span class="cpp1-string">&quot;La livroth&egrave;que de ...&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">150</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">305</span><span class="cpp1-symbol">,</span><span class="cpp1-number">18</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_titre&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_titre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_TITRE, wxT(</span><span class="cpp1-string">&quot;Titre utilis&eacute; pour les pages webs :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">129</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_titre&quot;</span><span class="cpp1-symbol">));
+
+	WxMemo_texte_accueil = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXMEMO_TEXTE_ACCUEIL, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">295</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">305</span><span class="cpp1-symbol">,</span><span class="cpp1-number">64</span><span class="cpp1-symbol">), wxTE_MULTILINE, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxMemo_texte_accueil&quot;</span><span class="cpp1-symbol">));
+	WxMemo_texte_accueil-&gt;SetMaxLength(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	WxMemo_texte_accueil-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;Bienvenue sur e-livroth&egrave;que !&quot;</span><span class="cpp1-symbol">));
+	WxMemo_texte_accueil-&gt;SetFocus();
+	WxMemo_texte_accueil-&gt;SetInsertionPointEnd();
+
+	WxStaticText_texte_accueil = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_TEXTE_ACCUEIL, wxT(</span><span class="cpp1-string">&quot;Texte d'accueil :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">9</span><span class="cpp1-symbol">,</span><span class="cpp1-number">273</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_texte_accueil&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_destination = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_DESTINATION, wxT(</span><span class="cpp1-string">&quot;Repertoire de destination :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">83</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_destination&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_chemin_dest = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_CHEMIN_DEST, wxT(</span><span class="cpp1-string">&quot;WxEdit_chemin_dest&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">101</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">272</span><span class="cpp1-symbol">,</span><span class="cpp1-number">18</span><span class="cpp1-symbol">), wxTE_READONLY, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_chemin_dest&quot;</span><span class="cpp1-symbol">));
+
+	WxButton_chemin_dest = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON_CHEMIN_DEST, wxT(</span><span class="cpp1-string">&quot;...&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">278</span><span class="cpp1-symbol">,</span><span class="cpp1-number">101</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">29</span><span class="cpp1-symbol">,</span><span class="cpp1-number">20</span><span class="cpp1-symbol">), wxBU_TOP, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_chemin_dest&quot;</span><span class="cpp1-symbol">));
+
+	WxButton_annul = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON_ANNUL, wxT(</span><span class="cpp1-string">&quot;Sortir&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">178</span><span class="cpp1-symbol">,</span><span class="cpp1-number">369</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">80</span><span class="cpp1-symbol">,</span><span class="cpp1-number">22</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_annul&quot;</span><span class="cpp1-symbol">));
+
+	WxButton_ok = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON_OK, wxT(</span><span class="cpp1-string">&quot;Lancer la g&eacute;n&eacute;ration&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">19</span><span class="cpp1-symbol">,</span><span class="cpp1-number">369</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">114</span><span class="cpp1-symbol">,</span><span class="cpp1-number">22</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_ok&quot;</span><span class="cpp1-symbol">));
+	</span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-space">	wxString chemin=::wxGetCwd();
+	charge_config();
+	
+	    </span><span class="cpp1-comment">//image handler
+</span><span class="cpp1-space">    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBMPHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPNGHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxJPEGHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxGIFHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPCXHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPNMHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTIFFHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxXPMHandler );
+
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::sauve_config() {
+    wxString query, mess;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(la_belle-&gt;existe(</span><span class="cpp1-string">&quot;config_export_html&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-space"> )
+    {
+        query=</span><span class="cpp1-string">&quot;CREATE TABLE config_export_html (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)&quot;</span><span class="cpp1-symbol">;
+        ret=la_belle-&gt;exec_rapide(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }
+    }
+    query=</span><span class="cpp1-string">&quot;DELETE FROM config_export_html WHERE type_param='INIT' AND nom_param='REP_DEST'&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    query=</span><span class="cpp1-string">&quot;INSERT INTO config_export_html(type_param, nom_param, val1) VALUES ('INIT', 'REP_DEST', '&quot;</span><span class="cpp1-symbol">+WxEdit_chemin_dest-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    query=</span><span class="cpp1-string">&quot;DELETE FROM config_export_html WHERE type_param='INIT' AND nom_param='TITRE'&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    query=</span><span class="cpp1-string">&quot;INSERT INTO config_export_html(type_param, nom_param, val1) VALUES ('INIT', 'TITRE', '&quot;</span><span class="cpp1-symbol">+WxEdit_titre-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    query=</span><span class="cpp1-string">&quot;DELETE FROM config_export_html WHERE type_param='INIT' AND nom_param='NOM'&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    query=</span><span class="cpp1-string">&quot;INSERT INTO config_export_html(type_param, nom_param, val1) VALUES ('INIT', 'NOM', '&quot;</span><span class="cpp1-symbol">+WxEdit_nom-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    query=</span><span class="cpp1-string">&quot;DELETE FROM config_export_html WHERE type_param='INIT' AND nom_param='MAIL'&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    query=</span><span class="cpp1-string">&quot;INSERT INTO config_export_html(type_param, nom_param, val1) VALUES ('INIT', 'MAIL', '&quot;</span><span class="cpp1-symbol">+WxEdit_mail-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    query=</span><span class="cpp1-string">&quot;DELETE FROM config_export_html WHERE type_param='INIT' AND nom_param='ACCUEIL'&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    query=</span><span class="cpp1-string">&quot;INSERT INTO config_export_html(type_param, nom_param, val1) VALUES ('INIT', 'ACCUEIL', '&quot;</span><span class="cpp1-symbol">+WxMemo_texte_accueil-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    query=</span><span class="cpp1-string">&quot;DELETE FROM config_export_html WHERE type_param='INIT' AND nom_param='GENERATION'&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,WxRadioBox_type-&gt;GetSelection());
+    query=</span><span class="cpp1-string">&quot;INSERT INTO config_export_html(type_param, nom_param, val1) VALUES ('INIT', 'GENERATION', '&quot;</span><span class="cpp1-symbol">+mess+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::charge_config() {
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(la_belle-&gt;existe(</span><span class="cpp1-string">&quot;config_export_html&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> )
+    {
+        wxString valeur, query, mess;
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille, ret;
+
+        query = </span><span class="cpp1-string">&quot;SELECT val1 FROM config_export_html WHERE type_param='INIT' AND nom_param='REP_DEST'&quot;</span><span class="cpp1-symbol">;
+        ret=la_belle-&gt;transac_prepare(query);
+        ret=la_belle-&gt;transac_step();
+
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+            la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,valeur,taille);
+        }
+            </span><span class="cpp1-comment">//wxMessageBox(valeur,&quot;chemin&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        la_belle-&gt;transac_fin();
+        
+        wxString chemin;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (valeur.Length() &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+            chemin=valeur;
+       	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (chemin[chemin.Length()-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]!=wxFileName::GetPathSeparator()) {
+            chemin=chemin+wxFileName::GetPathSeparator();
+        }
+    	WxEdit_chemin_dest-&gt;SetValue(chemin);
+    	
+        query = </span><span class="cpp1-string">&quot;SELECT val1 FROM config_export_html WHERE type_param='INIT' AND nom_param='TITRE'&quot;</span><span class="cpp1-symbol">;
+        ret=la_belle-&gt;transac_prepare(query);
+        ret=la_belle-&gt;transac_step();
+
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+           la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,valeur,taille);
+    	   WxEdit_titre-&gt;SetValue(valeur);
+        }
+            </span><span class="cpp1-comment">//wxMessageBox(valeur,&quot;chemin&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        la_belle-&gt;transac_fin();
+    	
+        query = </span><span class="cpp1-string">&quot;SELECT val1 FROM config_export_html WHERE type_param='INIT' AND nom_param='NOM'&quot;</span><span class="cpp1-symbol">;
+        ret=la_belle-&gt;transac_prepare(query);
+        ret=la_belle-&gt;transac_step();
+
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+           la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,valeur,taille);
+    	   WxEdit_nom-&gt;SetValue(valeur);
+        }
+            </span><span class="cpp1-comment">//wxMessageBox(valeur,&quot;chemin&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        la_belle-&gt;transac_fin();
+
+        query = </span><span class="cpp1-string">&quot;SELECT val1 FROM config_export_html WHERE type_param='INIT' AND nom_param='MAIL'&quot;</span><span class="cpp1-symbol">;
+        ret=la_belle-&gt;transac_prepare(query);
+        ret=la_belle-&gt;transac_step();
+
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+           la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,valeur,taille);
+    	   WxEdit_mail-&gt;SetValue(valeur);
+        }
+            </span><span class="cpp1-comment">//wxMessageBox(valeur,&quot;chemin&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        la_belle-&gt;transac_fin();
+
+        query = </span><span class="cpp1-string">&quot;SELECT val1 FROM config_export_html WHERE type_param='INIT' AND nom_param='ACCUEIL'&quot;</span><span class="cpp1-symbol">;
+        ret=la_belle-&gt;transac_prepare(query);
+        ret=la_belle-&gt;transac_step();
+
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+           la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,valeur,taille);
+    	   WxMemo_texte_accueil-&gt;SetValue(valeur);
+        }
+        la_belle-&gt;transac_fin();
+        
+            </span><span class="cpp1-comment">//wxMessageBox(valeur,&quot;chemin&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        query = </span><span class="cpp1-string">&quot;SELECT val1 FROM config_export_html WHERE type_param='INIT' AND nom_param='GENERATION'&quot;</span><span class="cpp1-symbol">;
+        ret=la_belle-&gt;transac_prepare(query);
+        ret=la_belle-&gt;transac_step();
+
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+            </span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> type_gen;
+            la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,valeur,taille);
+            valeur.ToDouble(&amp;type_gen);
+            WxRadioBox_type-&gt;SetSelection((</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)type_gen);
+        }
+            </span><span class="cpp1-comment">//wxMessageBox(valeur,&quot;chemin&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        la_belle-&gt;transac_fin();
+
+    }
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::OnClose(wxCloseEvent&amp; </span><span class="cpp1-comment">/*event*/</span><span class="cpp1-symbol">)
+{
+	Destroy();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_okClick
+ *
+ * g&eacute;n&eacute;ration des pages HTML
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::WxButton_okClick(wxCommandEvent&amp; event)
+{   
+    wxWindowDisabler disableAll;
+    export_html_textes contenu_fich(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-comment">//wxBusyInfo occupe(wxT(&quot;G&eacute;n&eacute;ration des pages ...&quot;));
+</span><span class="cpp1-space">    wxProgressDialog information(wxT(</span><span class="cpp1-string">&quot;G&eacute;n&eacute;ration des pages ...&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;Sauvegarde de la configuration ...&quot;</span><span class="cpp1-symbol">), </span><span class="cpp1-number">100</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, wxPD_APP_MODAL|wxPD_AUTO_HIDE|wxPD_SMOOTH|wxPD_ELAPSED_TIME);
+    
+    sauve_config();
+    wxString texte, texte2, nomfich, arbre; 
+    wxFile fichier;
+    wxBitmap *limage;
+    wxFile image_mem;
+
+    </span><span class="cpp1-comment">// cr&eacute;ation de l'abrorescence
+</span><span class="cpp1-space">    wxString chemin_js=WxEdit_chemin_dest-&gt;GetValue()+wxT(</span><span class="cpp1-string">&quot;js&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_js) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_js);
+    }
+    wxString chemin_css=WxEdit_chemin_dest-&gt;GetValue()+wxT(</span><span class="cpp1-string">&quot;css&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_css) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_css);
+    }
+    wxString chemin_images=WxEdit_chemin_dest-&gt;GetValue()+wxT(</span><span class="cpp1-string">&quot;images&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_images) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_images);
+    }
+    wxString chemin_images_menu=chemin_images+wxT(</span><span class="cpp1-string">&quot;menu&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_images_menu) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_images_menu);
+    }
+    wxString chemin_images_ihm=chemin_images+wxT(</span><span class="cpp1-string">&quot;ihm&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_images_ihm) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_images_ihm);
+    }
+    wxString chemin_images_common=chemin_images+wxT(</span><span class="cpp1-string">&quot;common&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_images_common) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_images_common);
+    }
+    wxString chemin_images_covers=chemin_images+wxT(</span><span class="cpp1-string">&quot;covers&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_images_covers) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_images_covers);
+    }
+    wxString chemin_content=WxEdit_chemin_dest-&gt;GetValue()+wxT(</span><span class="cpp1-string">&quot;content&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_content) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_content);
+    }
+    wxString chemin_content_authors=chemin_content+wxT(</span><span class="cpp1-string">&quot;authors&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_content_authors) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_content_authors);
+    }
+    wxString chemin_content_authors_fiches=chemin_content_authors+wxT(</span><span class="cpp1-string">&quot;fiches&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_content_authors_fiches) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_content_authors_fiches);
+    }
+    wxString chemin_content_authors_listes=chemin_content_authors+wxT(</span><span class="cpp1-string">&quot;listes&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_content_authors_listes) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_content_authors_listes);
+    }
+    wxString chemin_content_books=chemin_content+wxT(</span><span class="cpp1-string">&quot;books&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_content_books) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_content_books);
+    }
+    wxString chemin_content_books_fiches=chemin_content_books+wxT(</span><span class="cpp1-string">&quot;fiches&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_content_books_fiches) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_content_books_fiches);
+    }
+    wxString chemin_content_books_listes=chemin_content_books+wxT(</span><span class="cpp1-string">&quot;listes&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_content_books_listes) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_content_books_listes);
+    }
+    wxString chemin_content_series=chemin_content+wxT(</span><span class="cpp1-string">&quot;series&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_content_series) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_content_series);
+    }
+    wxString chemin_content_series_fiches=chemin_content_series+wxT(</span><span class="cpp1-string">&quot;fiches&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_content_series_fiches) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_content_series_fiches);
+    }
+    wxString chemin_content_series_listes=chemin_content_series+wxT(</span><span class="cpp1-string">&quot;listes&quot;</span><span class="cpp1-symbol">)+wxFileName::GetPathSeparator();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (::wxDirExists(chemin_content_series_listes) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        ::wxMkdir(chemin_content_series_listes);
+    }
+    
+    information.Update(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;g&eacute;n&eacute;ration des index&quot;</span><span class="cpp1-symbol">));
+    
+    </span><span class="cpp1-comment">//wxMessageBox(nomfich,&quot;fichier&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//index.html
+</span><span class="cpp1-space">    nomfich=WxEdit_chemin_dest-&gt;GetValue()+wxT(</span><span class="cpp1-string">&quot;index.html&quot;</span><span class="cpp1-symbol">);
+    fichier.Open(nomfich,wxFile::write);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        texte=contenu_fich.WxMemo_index-&gt;GetValue();
+        texte.Replace(</span><span class="cpp1-string">&quot;#N_VERSION#&quot;</span><span class="cpp1-symbol">,wxT(</span><span class="cpp1-string">&quot;v1.0 (AJAX)&quot;</span><span class="cpp1-symbol">));
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML ){
+        texte=contenu_fich.WxMemo_html_index-&gt;GetValue();
+        texte.Replace(</span><span class="cpp1-string">&quot;#N_VERSION#&quot;</span><span class="cpp1-symbol">,wxT(</span><span class="cpp1-string">&quot;v1.0 (HTML)&quot;</span><span class="cpp1-symbol">));
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA ){
+        texte=contenu_fich.WxMemo_pda_index-&gt;GetValue();
+        texte.Replace(</span><span class="cpp1-string">&quot;#N_VERSION#&quot;</span><span class="cpp1-symbol">,wxT(</span><span class="cpp1-string">&quot;v1.0 (PDA)&quot;</span><span class="cpp1-symbol">));
+    }
+    texte.Replace(</span><span class="cpp1-string">&quot;#TEXTE_ACCUEIL#&quot;</span><span class="cpp1-symbol">,WxMemo_texte_accueil-&gt;GetValue());
+    texte.Replace(</span><span class="cpp1-string">&quot;#TITRE#&quot;</span><span class="cpp1-symbol">,WxEdit_titre-&gt;GetValue());
+    texte.Replace(</span><span class="cpp1-string">&quot;#MAIL#&quot;</span><span class="cpp1-symbol">,WxEdit_mail-&gt;GetValue());
+    texte.Replace(</span><span class="cpp1-string">&quot;#NOM_AUTEUR#&quot;</span><span class="cpp1-symbol">,WxEdit_nom-&gt;GetValue());
+    fichier.Write(texte);
+    fichier.Close();
+    
+    </span><span class="cpp1-comment">//accueil.html (inutile en mode ajax)
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA) {
+        nomfich=WxEdit_chemin_dest-&gt;GetValue()+wxT(</span><span class="cpp1-string">&quot;accueil.html&quot;</span><span class="cpp1-symbol">);
+        fichier.Open(nomfich,wxFile::write);
+        texte=contenu_fich.WxMemo_html_accueil-&gt;GetValue();
+        texte.Replace(</span><span class="cpp1-string">&quot;#TEXTE_ACCUEIL#&quot;</span><span class="cpp1-symbol">,WxMemo_texte_accueil-&gt;GetValue());
+        texte.Replace(</span><span class="cpp1-string">&quot;#TITRE#&quot;</span><span class="cpp1-symbol">,WxEdit_titre-&gt;GetValue());
+        texte.Replace(</span><span class="cpp1-string">&quot;#MAIL#&quot;</span><span class="cpp1-symbol">,WxEdit_mail-&gt;GetValue());
+        texte.Replace(</span><span class="cpp1-string">&quot;#NOM_AUTEUR#&quot;</span><span class="cpp1-symbol">,WxEdit_nom-&gt;GetValue());
+        fichier.Write(texte);
+        fichier.Close();
+    }    
+    
+    
+    </span><span class="cpp1-comment">//ua.js
+</span><span class="cpp1-space">    nomfich=chemin_js+wxT(</span><span class="cpp1-string">&quot;ua.js&quot;</span><span class="cpp1-symbol">);
+    fichier.Open(nomfich,wxFile::write);
+    texte=contenu_fich.WxMemo_ua_js-&gt;GetValue();
+    fichier.Write(texte);
+    fichier.Close();
+    
+    </span><span class="cpp1-comment">//ftiens4.js
+</span><span class="cpp1-space">    nomfich=chemin_js+wxT(</span><span class="cpp1-string">&quot;ftiens4.js&quot;</span><span class="cpp1-symbol">);
+    fichier.Open(nomfich,wxFile::write);
+    texte=contenu_fich.WxMemo_ftiens4_js-&gt;GetValue();
+    fichier.Write(texte);
+    fichier.Close();
+    
+    information.Update(</span><span class="cpp1-number">30</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;g&eacute;n&eacute;ration des arbres&quot;</span><span class="cpp1-symbol">));
+    </span><span class="cpp1-comment">//framelessNodes.js
+</span><span class="cpp1-space">    nomfich=chemin_js+wxT(</span><span class="cpp1-string">&quot;framelessNodes.js&quot;</span><span class="cpp1-symbol">);
+    fichier.Open(nomfich,wxFile::write);
+    texte=contenu_fich.WxMemo_framelessNodes_js-&gt;GetValue();
+    arbre=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    creation_tree_auteur(arbre);
+    texte.Replace(wxT(</span><span class="cpp1-string">&quot;#tree_auteur#&quot;</span><span class="cpp1-symbol">),arbre);
+    arbre=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        texte2=contenu_fich.WxMemo_fiche_auteur-&gt;GetValue();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        texte2=contenu_fich.WxMemo_html_fiche_auteur-&gt;GetValue();
+    }
+    creation_tree_titre(arbre,chemin_content_books_listes, texte2);
+    texte.Replace(wxT(</span><span class="cpp1-string">&quot;#tree_titre#&quot;</span><span class="cpp1-symbol">),arbre);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        texte2=contenu_fich.WxMemo_fiche_auteur-&gt;GetValue();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        texte2=contenu_fich.WxMemo_html_fiche_auteur-&gt;GetValue();
+    }
+    creation_tree_serie(arbre,chemin_content_series_listes,chemin_content_series_fiches, texte2);
+    texte.Replace(wxT(</span><span class="cpp1-string">&quot;#tree_serie#&quot;</span><span class="cpp1-symbol">),arbre);
+    fichier.Write(texte);
+    fichier.Close();
+    
+    </span><span class="cpp1-comment">//livrotheque.css
+</span><span class="cpp1-space">    nomfich=chemin_css+wxT(</span><span class="cpp1-string">&quot;livrotheque.css&quot;</span><span class="cpp1-symbol">);
+    fichier.Open(nomfich,wxFile::write);
+    texte=contenu_fich.WxMemo_livrotheque_css-&gt;GetValue();
+    fichier.Write(texte);
+    fichier.Close();
+ 
+    information.Update(</span><span class="cpp1-number">40</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;g&eacute;n&eacute;ration des images du menu&quot;</span><span class="cpp1-symbol">));
+
+    </span><span class="cpp1-comment">// images/menus
+</span><span class="cpp1-space">    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2lastnode.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(ftv2lastnode_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> ftv2lastnode_png);
+    image_mem.Close();
+    
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2mlastnode.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(ftv2mlastnode_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> ftv2mlastnode_png);
+    image_mem.Close();
+
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2mnode.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(ftv2mnode_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> ftv2mnode_png);
+    image_mem.Close();
+
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2node.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(ftv2node_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> ftv2node_png);
+    image_mem.Close();
+
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2plastnode.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(ftv2plastnode_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> ftv2plastnode_png);
+    image_mem.Close();
+
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2pnode.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(ftv2pnode_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> ftv2pnode_png);
+    image_mem.Close();
+ 
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2vertline.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(ftv2vertline_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> ftv2vertline_png);
+    image_mem.Close();
+
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2blank.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(ftv2blank_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> ftv2blank_png);
+    image_mem.Close();
+    
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;transpix.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(transpix_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> transpix_png);
+    image_mem.Close();
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2folderclosed.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(transpix_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> transpix_png);
+    image_mem.Close();
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2doc.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(transpix_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> transpix_png);
+    image_mem.Close();
+    nomfich=chemin_images_menu+wxT(</span><span class="cpp1-string">&quot;ftv2folderopen.png&quot;</span><span class="cpp1-symbol">);
+    image_mem.Open(nomfich, wxFile::write);
+    image_mem.Write(transpix_png, </span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-space"> transpix_png);
+    image_mem.Close();
+    
+    </span><span class="cpp1-comment">// images/ihm
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() != MODE_HTML_PDA) {
+        nomfich=chemin_images_ihm+wxT(</span><span class="cpp1-string">&quot;template_book_1024_02.png&quot;</span><span class="cpp1-symbol">);
+        limage= </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmap(template_book_1024_02_xpm);
+        limage-&gt;SaveFile(nomfich, wxBITMAP_TYPE_PNG);
+        limage-&gt;~wxBitmap();
+    
+        nomfich=chemin_images_ihm+wxT(</span><span class="cpp1-string">&quot;template_book_1024_03.png&quot;</span><span class="cpp1-symbol">);
+        limage= </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmap(template_book_1024_03_xpm);
+        limage-&gt;SaveFile(nomfich, wxBITMAP_TYPE_PNG);
+        limage-&gt;~wxBitmap();
+        
+        nomfich=chemin_images_ihm+wxT(</span><span class="cpp1-string">&quot;template_book_1024_04.png&quot;</span><span class="cpp1-symbol">);
+        limage= </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmap(template_book_1024_04_xpm);
+        limage-&gt;SaveFile(nomfich, wxBITMAP_TYPE_PNG);
+        limage-&gt;~wxBitmap();
+    
+        nomfich=chemin_images_ihm+wxT(</span><span class="cpp1-string">&quot;template_book_1024_01611.png&quot;</span><span class="cpp1-symbol">);
+        limage= </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmap(template_book_1024_01611_xpm);
+        limage-&gt;SaveFile(nomfich, wxBITMAP_TYPE_PNG);
+        limage-&gt;~wxBitmap();
+    
+        nomfich=chemin_images_ihm+wxT(</span><span class="cpp1-string">&quot;template_book_1024_051015.png&quot;</span><span class="cpp1-symbol">);
+        limage= </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmap(template_book_1024_051015_xpm);
+        limage-&gt;SaveFile(nomfich, wxBITMAP_TYPE_PNG);
+        limage-&gt;~wxBitmap();
+    }
+
+    </span><span class="cpp1-comment">// images/common
+</span><span class="cpp1-space">    nomfich=chemin_images_common+wxT(</span><span class="cpp1-string">&quot;transpix.png&quot;</span><span class="cpp1-symbol">);
+
+    information.Update(</span><span class="cpp1-number">60</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;g&eacute;n&eacute;ration des fiches des auteurs&quot;</span><span class="cpp1-symbol">));
+    </span><span class="cpp1-comment">// cr&eacute;ation des fiches des auteurs
+</span><span class="cpp1-space">        
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        texte=contenu_fich.WxMemo_fiche_auteur-&gt;GetValue();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        texte=contenu_fich.WxMemo_html_fiche_auteur-&gt;GetValue();
+    }
+    creation_fiches_auteurs(chemin_content_authors_fiches, chemin_content_authors_listes, texte);
+
+    </span><span class="cpp1-comment">// cr&eacute;ation des listes des titres
+</span><span class="cpp1-space">    
+    information.Update(</span><span class="cpp1-number">70</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;g&eacute;n&eacute;ration des fiches des livres&quot;</span><span class="cpp1-symbol">));
+    </span><span class="cpp1-comment">// cr&eacute;ation des fiches des livres
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        texte=contenu_fich.WxMemo_fiche_livre-&gt;GetValue();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        texte=contenu_fich.WxMemo_html_fiche_livre-&gt;GetValue();
+    }
+    creation_fiches_livres(chemin_content_books_fiches, chemin_images_covers, texte);
+
+    information.Update(</span><span class="cpp1-number">100</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;fini&quot;</span><span class="cpp1-symbol">));
+    
+    ::wxExecute(wxT(</span><span class="cpp1-string">&quot;explorer &quot;</span><span class="cpp1-symbol">)+WxEdit_chemin_dest-&gt;GetValue());
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::creation_fiches_livres(wxString chemin_fiche,wxString chemin_image, wxString &amp;fiche) {
+    wxString query, mess;
+    wxString id_courant,valeur;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret,taille;
+    wxString fiche_courante, nomfich;
+    wxFile fichier;
+    wxString ligne_image;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        ligne_image=wxT(</span><span class="cpp1-string">&quot;&lt;img onClick=\&quot;javascript:open(this.src,'test','menu=no;status=no');\&quot; name=\&quot;#NOM_IMAGE#\&quot; src=\&quot;images/covers/#NOM_IMAGE#\&quot; width=\&quot;100\&quot;&gt; \n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        ligne_image=wxT(</span><span class="cpp1-string">&quot;&lt;img onClick=\&quot;javascript:open(this.src,'test','menu=no;status=no');\&quot; name=\&quot;#NOM_IMAGE#\&quot; src=\&quot;../../../images/covers/#NOM_IMAGE#\&quot; width=\&quot;100\&quot;&gt; \n&quot;</span><span class="cpp1-symbol">);
+    }
+    
+    
+    query=wxT(</span><span class="cpp1-string">&quot;SELECT livre.rowid, auteur.nom, livre.titre, livre.sous_titre, serie.nom, livre.no_serie, &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot;  genre.nom, livre.isbn, editeur.nom, livre.date_publication, livre.prix, livre.date_achat, &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot;  livre.date_lecture, livre.note, livre.particularite, livre.resume, livre.commentaire, &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot;  livre.date_entree, livre.date_maj, livre.image_face, livre.image_dos, livre.image_tranche&quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot;  FROM livre, auteur &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot; LEFT JOIN serie ON livre.id_serie=serie.rowid &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot; LEFT JOIN genre ON livre.id_genre=genre.rowid &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot; LEFT JOIN editeur ON livre.id_editeur=editeur.rowid &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot; WHERE livre.id_auteur=auteur.rowid &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot; ORDER BY livre.rowid &quot;</span><span class="cpp1-symbol">);
+    
+    ret=la_belle-&gt;transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+
+    ret=la_belle-&gt;transac_step();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+        fiche_courante=fiche;
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,id_courant,taille);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#AUTEUR#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TITRE#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#SOUS_TITRE#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#SERIE#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#N_SERIE#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#GENRE#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#ISBN#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#EDITEUR#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">9</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#DATE_PUBLICATION#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#PRIX#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">11</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#DATE_ACHAT#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#DATE_LECTURE#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">13</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#NOTE#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">14</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#PARTICULARITE#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">,valeur,taille);
+        valeur.Replace(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&lt;BR&gt;\n&quot;</span><span class="cpp1-symbol">);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#RESUME#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">16</span><span class="cpp1-symbol">,valeur,taille);
+        valeur.Replace(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&lt;BR&gt;\n&quot;</span><span class="cpp1-symbol">);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#COMMENTAIRE#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">17</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#DATE_ENTREE#&quot;</span><span class="cpp1-symbol">),valeur);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">18</span><span class="cpp1-symbol">,valeur,taille);
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#DATE_MAJ#&quot;</span><span class="cpp1-symbol">),valeur);
+
+        </span><span class="cpp1-comment">// g&eacute;n&eacute;ration des images
+</span><span class="cpp1-space">        wxString l_images=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+        nomfich=wxT(</span><span class="cpp1-string">&quot;cover_&quot;</span><span class="cpp1-symbol">)+id_courant+wxT(</span><span class="cpp1-string">&quot;_recto.jpg&quot;</span><span class="cpp1-symbol">);
+        fichier.Open(chemin_image+nomfich,wxFile::write);
+        ret=la_belle-&gt;get_value_blob(</span><span class="cpp1-number">19</span><span class="cpp1-symbol">,&amp;fichier,taille);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (taille &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            l_images=l_images+ligne_image;
+            l_images.Replace(wxT(</span><span class="cpp1-string">&quot;#NOM_IMAGE#&quot;</span><span class="cpp1-symbol">),nomfich);
+        }
+                
+        nomfich=wxT(</span><span class="cpp1-string">&quot;cover_&quot;</span><span class="cpp1-symbol">)+id_courant+wxT(</span><span class="cpp1-string">&quot;_verso.jpg&quot;</span><span class="cpp1-symbol">);
+        fichier.Open(chemin_image+nomfich,wxFile::write);
+        ret=la_belle-&gt;get_value_blob(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">,&amp;fichier,taille);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (taille &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            l_images=l_images+ligne_image;
+            l_images.Replace(wxT(</span><span class="cpp1-string">&quot;#NOM_IMAGE#&quot;</span><span class="cpp1-symbol">),nomfich);
+        }
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#IMAGES#&quot;</span><span class="cpp1-symbol">),l_images);
+        
+        convert_html(fiche_courante);
+
+        </span><span class="cpp1-comment">// sauvegarde de la fiche
+</span><span class="cpp1-space">        nomfich=chemin_fiche+wxT(</span><span class="cpp1-string">&quot;bk_&quot;</span><span class="cpp1-symbol">)+id_courant+wxT(</span><span class="cpp1-string">&quot;.html&quot;</span><span class="cpp1-symbol">);
+        fichier.Open(nomfich,wxFile::write);
+        fichier.Write(fiche_courante);
+        fichier.Close();
+
+       ret=la_belle-&gt;transac_step();
+    }
+    la_belle-&gt;transac_fin();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::creation_fiches_auteurs(wxString chemin_fiches, wxString chemin_listes, wxString &amp;fiche) {
+    wxString query, mess, caractere;
+    wxString valeur, nomfich, nomfich_liste;
+    wxString fiche_courante, tableau_fiche, cellule;
+    wxString liste_courante, liste_complete, tableau_liste, tableau_liste_complete;
+    wxString id_ancien, id_courant,nom_auteur, nom_auteur_ancien;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, taille;
+    wxFile *fichier=NULL;
+    wxFile *fichier_liste=NULL;
+    wxString couleur=wxT(</span><span class="cpp1-string">&quot;clair&quot;</span><span class="cpp1-symbol">);
+    wxString chaine_tableau;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        chaine_tableau=wxT(</span><span class="cpp1-string">&quot;&lt;tr onClick=\&quot;javascript:goAccueil('book','#ID_LIVRE#')\&quot;&gt; \n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        chaine_tableau=wxT(</span><span class="cpp1-string">&quot;&lt;tr onClick=\&quot;javascript:parent.goAccueil('content/books/fiches/bk_#ID_LIVRE#.html')\&quot;&gt; \n&quot;</span><span class="cpp1-symbol">);
+    }
+    
+    chaine_tableau=chaine_tableau+wxT(</span><span class="cpp1-string">&quot;#CELLULES# &lt;/tr&gt;\n&quot;</span><span class="cpp1-symbol">);
+    wxString template_ligne=wxT(</span><span class="cpp1-string">&quot;&lt;td class=\&quot;#COULEUR#\&quot;&gt;#DONNEE#&lt;/td&gt; \n&quot;</span><span class="cpp1-symbol">);
+
+    query=wxT(</span><span class="cpp1-string">&quot;SELECT livre.id_auteur, livre.rowid, auteur.nom, livre.titre, serie.nom, livre.no_serie &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot; FROM livre, auteur &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot; LEFT JOIN serie ON livre.id_serie=serie.rowid &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot; WHERE livre.id_auteur=auteur.rowid &quot;</span><span class="cpp1-symbol">);
+    query=query+wxT(</span><span class="cpp1-string">&quot; ORDER BY auteur.nom, serie.nom,  livre.no_serie, livre.titre &quot;</span><span class="cpp1-symbol">);
+    
+    ret=la_belle-&gt;transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    
+    ret=la_belle-&gt;transac_step();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    id_ancien=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+    nom_auteur_ancien=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+    tableau_fiche=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+    tableau_liste=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+    tableau_liste_complete=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+    liste_complete=fiche;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,id_courant,taille);
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,nom_auteur,taille);
+        </span><span class="cpp1-comment">// liste par auteur
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id_courant.CompareTo(id_ancien) != </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            nomfich=chemin_fiches+wxT(</span><span class="cpp1-string">&quot;au_&quot;</span><span class="cpp1-symbol">)+id_courant+wxT(</span><span class="cpp1-string">&quot;.html&quot;</span><span class="cpp1-symbol">);
+            nomfich_liste=chemin_listes+wxT(</span><span class="cpp1-string">&quot;list_&quot;</span><span class="cpp1-symbol">)+nom_auteur.Mid(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)+wxT(</span><span class="cpp1-string">&quot;.html&quot;</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fichier == NULL) {
+                fichier = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxFile();
+                fichier-&gt;Open(nomfich,wxFile::write);
+            } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+                fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TABLEAU_LIVRE#&quot;</span><span class="cpp1-symbol">),tableau_fiche);
+                tableau_fiche=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+                convert_html(fiche_courante);
+                fichier-&gt;Write(fiche_courante);
+                fichier-&gt;Close();
+                fichier-&gt;Open(nomfich,wxFile::write);
+            }
+            fiche_courante=fiche;
+            fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TITRE#&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;Liste des livres &eacute;crits par : &quot;</span><span class="cpp1-symbol">)+nom_auteur);
+        }
+        </span><span class="cpp1-comment">//liste par lettre
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_auteur.Mid(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">).CompareTo(nom_auteur_ancien.Mid(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)) != </span><span class="cpp1-number">0</span><span class="cpp1-symbol">){
+            </span><span class="cpp1-comment">//wxMessageBox(&quot;a:&quot;+nom_auteur+&quot; ac:&quot;+nom_auteur_ancien,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fichier_liste == NULL) {
+                fichier_liste = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxFile();
+                fichier_liste-&gt;Open(nomfich_liste,wxFile::write);
+            } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+                liste_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TABLEAU_LIVRE#&quot;</span><span class="cpp1-symbol">),tableau_liste);
+                tableau_liste=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+                convert_html(liste_courante);
+                fichier_liste-&gt;Write(liste_courante);
+                fichier_liste-&gt;Close();
+                fichier_liste-&gt;Open(nomfich_liste,wxFile::write);
+            }
+            liste_courante=fiche;
+            liste_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TITRE#&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;Liste des livres dont le nom de l'auteur commence par la lettre &quot;</span><span class="cpp1-symbol">)+nom_auteur.Mid(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">));
+       }
+        tableau_fiche=tableau_fiche+chaine_tableau;
+        tableau_liste=tableau_liste+chaine_tableau;
+        tableau_liste_complete=tableau_liste_complete+chaine_tableau;
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,valeur,taille);
+        tableau_fiche.Replace(wxT(</span><span class="cpp1-string">&quot;#ID_LIVRE#&quot;</span><span class="cpp1-symbol">),valeur);
+        tableau_liste.Replace(wxT(</span><span class="cpp1-string">&quot;#ID_LIVRE#&quot;</span><span class="cpp1-symbol">),valeur);
+        tableau_liste_complete.Replace(wxT(</span><span class="cpp1-string">&quot;#ID_LIVRE#&quot;</span><span class="cpp1-symbol">),valeur);
+        wxString cellules=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">2</span><span class="cpp1-symbol">;i&lt;</span><span class="cpp1-number">6</span><span class="cpp1-symbol">;i++) {
+            la_belle-&gt;get_value_char(i,valeur,taille);
+            cellule=template_ligne;
+            cellule.Replace(wxT(</span><span class="cpp1-string">&quot;#COULEUR#&quot;</span><span class="cpp1-symbol">), couleur);
+            cellule.Replace(wxT(</span><span class="cpp1-string">&quot;#DONNEE#&quot;</span><span class="cpp1-symbol">), valeur);
+            cellules=cellules+cellule;
+        }
+        tableau_fiche.Replace(wxT(</span><span class="cpp1-string">&quot;#CELLULES#&quot;</span><span class="cpp1-symbol">),cellules);
+        tableau_liste.Replace(wxT(</span><span class="cpp1-string">&quot;#CELLULES#&quot;</span><span class="cpp1-symbol">),cellules);
+        tableau_liste_complete.Replace(wxT(</span><span class="cpp1-string">&quot;#CELLULES#&quot;</span><span class="cpp1-symbol">),cellules);
+        ret=la_belle-&gt;transac_step();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(couleur.CompareTo(wxT(</span><span class="cpp1-string">&quot;clair&quot;</span><span class="cpp1-symbol">)) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            couleur=wxT(</span><span class="cpp1-string">&quot;fonce&quot;</span><span class="cpp1-symbol">);
+        }
+        </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            couleur=wxT(</span><span class="cpp1-string">&quot;clair&quot;</span><span class="cpp1-symbol">);
+        }
+        id_ancien=id_courant;
+        nom_auteur_ancien=nom_auteur;
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fichier != NULL) {
+        fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TABLEAU_LIVRE#&quot;</span><span class="cpp1-symbol">),tableau_fiche);
+        tableau_fiche=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+        convert_html(fiche_courante);
+        fichier-&gt;Write(fiche_courante);
+        fichier-&gt;Close();
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fichier_liste != NULL) {
+        liste_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TABLEAU_LIVRE#&quot;</span><span class="cpp1-symbol">),tableau_liste);
+        tableau_liste=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+        convert_html(liste_courante);
+        fichier_liste-&gt;Write(liste_courante);
+        fichier_liste-&gt;Close();
+        liste_complete.Replace(wxT(</span><span class="cpp1-string">&quot;#TITRE#&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;Liste de tous les livres&quot;</span><span class="cpp1-symbol">));
+        liste_complete.Replace(wxT(</span><span class="cpp1-string">&quot;#TABLEAU_LIVRE#&quot;</span><span class="cpp1-symbol">),tableau_liste_complete);
+        fichier_liste-&gt;Open(chemin_listes+</span><span class="cpp1-string">&quot;liste_complete.html&quot;</span><span class="cpp1-symbol">,wxFile::write);
+        convert_html(liste_complete);
+        fichier_liste-&gt;Write(liste_complete);
+        fichier_liste-&gt;Close();
+    }
+    
+    la_belle-&gt;transac_fin();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fichier != NULL) {
+        fichier-&gt;Close();
+    }
+    
+}
+
+
+</span><span class="cpp1-comment">/*
+ * creation_tree_auteur
+ *    Cr&eacute;ation de l'arbre utilis&eacute; par ajax
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::creation_tree_auteur(wxString &amp;arbre) {
+    wxString modele_lettre, modele_auteur;
+    wxString query, mess, caractere;
+    wxString id_auteur, nom_auteur, chaine;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille, ret;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        arbre=wxT(</span><span class="cpp1-string">&quot;racine_auteur = insFld(foldersTree, gFld(\&quot;Auteurs\&quot;, \&quot;javascript:goAccueil(\\\&quot;authors_root\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        arbre=wxT(</span><span class="cpp1-string">&quot;racine_auteur = insFld(foldersTree, gFld(\&quot;Auteurs\&quot;, \&quot;javascript:goAccueil(\\\&quot;content/authors/listes/liste_complete.html\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    }
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        modele_lettre=wxT(</span><span class="cpp1-string">&quot;rac_#LET# = insFld(racine_auteur, gFld(\&quot;#LET#\&quot;, \&quot;javascript:goAccueil(\\\&quot;authors\\\&quot;,\\\&quot;#LET#\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        modele_lettre=wxT(</span><span class="cpp1-string">&quot;rac_#LET# = insFld(racine_auteur, gFld(\&quot;#LET#\&quot;, \&quot;javascript:goAccueil(\\\&quot;content/authors/listes/list_#LET#.html\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    }
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        modele_auteur=wxT(</span><span class="cpp1-string">&quot;insDoc(rac_#LET#, gLnk(\&quot;S\&quot;, \&quot;#nom_auteur#\&quot;, \&quot;javascript:goAccueil('author','#id_auteur#')\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        modele_auteur=wxT(</span><span class="cpp1-string">&quot;insDoc(rac_#LET#, gLnk(\&quot;S\&quot;, \&quot;#nom_auteur#\&quot;, \&quot;javascript:goAccueil('content/authors/fiches/au_#id_auteur#.html')\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    }
+
+    
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> i='A';i&lt;='Z';i++) {
+        query=wxT(</span><span class="cpp1-string">&quot;SELECT livre.id_auteur, auteur.nom FROM livre, auteur WHERE livre.id_auteur = auteur.rowid AND (auteur.nom LIKE '#L_MINUS#\%' OR auteur.nom LIKE '#L_MAJUS#\%') GROUP BY auteur.rowid ORDER BY auteur.nom&quot;</span><span class="cpp1-symbol">);
+        caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i);
+        query.Replace(wxT(</span><span class="cpp1-string">&quot;#L_MAJUS#&quot;</span><span class="cpp1-symbol">),caractere);
+        caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i+</span><span class="cpp1-number">32</span><span class="cpp1-symbol">);
+        query.Replace(wxT(</span><span class="cpp1-string">&quot;#L_MINUS#&quot;</span><span class="cpp1-symbol">),caractere);
+        ret=la_belle-&gt;transac_prepare(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }
+        ret=la_belle-&gt;transac_step();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret==SQLITE_ROW) {
+            chaine=modele_lettre;
+            caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i);
+            chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#LET#&quot;</span><span class="cpp1-symbol">),caractere);
+            arbre=arbre+chaine;
+        }
+        </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+            la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,id_auteur,taille);
+            la_belle-&gt;get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,nom_auteur,taille);
+            convert_quote(nom_auteur);
+            chaine=modele_auteur;
+            chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#LET#&quot;</span><span class="cpp1-symbol">),caractere);
+            chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#nom_auteur#&quot;</span><span class="cpp1-symbol">),nom_auteur);
+            chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#id_auteur#&quot;</span><span class="cpp1-symbol">),id_auteur);
+            arbre=arbre+chaine;
+            </span><span class="cpp1-comment">//wxMessageBox(nom_auteur,id_auteur, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">            ret=la_belle-&gt;transac_step();
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                la_belle-&gt;get_erreur(mess);
+                wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            }
+        }
+        la_belle-&gt;transac_fin();
+    }
+        </span><span class="cpp1-comment">//wxMessageBox(arbre,&quot;arbre&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    
+}
+
+
+</span><span class="cpp1-comment">/*
+ * creation_tree_titre
+ *    Cr&eacute;ation de l'arbre utilis&eacute; par ajax
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::creation_tree_titre(wxString &amp;arbre, wxString chemin_listes, wxString &amp;fiche) {
+    wxString modele_lettre, modele_titre;
+    wxString query, mess, caractere, valeur;
+    wxString nomfich_liste;
+    wxString id_livre , titre_livre, chaine;
+    wxString liste_courante, tableau_liste, cellule;
+    wxString couleur=wxT(</span><span class="cpp1-string">&quot;clair&quot;</span><span class="cpp1-symbol">);
+    wxString chaine_tableau;
+    wxFile *fichier_liste=NULL;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille, ret;
+
+    </span><span class="cpp1-comment">// pour l'arbre
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        arbre=wxT(</span><span class="cpp1-string">&quot;racine_titre = insFld(foldersTree, gFld(\&quot;Titres\&quot;, \&quot;javascript:goAccueil(\\\&quot;authors_root\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        arbre=wxT(</span><span class="cpp1-string">&quot;racine_titre = insFld(foldersTree, gFld(\&quot;Titres\&quot;, \&quot;javascript:goAccueil(\\\&quot;content/authors/listes/liste_complete.html\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    }
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        modele_lettre=wxT(</span><span class="cpp1-string">&quot;rac_#LET# = insFld(racine_titre, gFld(\&quot;#LET#\&quot;, \&quot;javascript:goAccueil(\\\&quot;books\\\&quot;,\\\&quot;#LET#\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        modele_lettre=wxT(</span><span class="cpp1-string">&quot;rac_#LET# = insFld(racine_titre, gFld(\&quot;#LET#\&quot;, \&quot;javascript:goAccueil(\\\&quot;content/books/listes/list_#LET#.html\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        modele_titre=wxT(</span><span class="cpp1-string">&quot;insDoc(rac_#LET#, gLnk(\&quot;S\&quot;, \&quot;#TITRE_LIVRE#\&quot;, \&quot;javascript:goAccueil('book','#ID_LIVRE#')\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        modele_titre=wxT(</span><span class="cpp1-string">&quot;insDoc(rac_#LET#, gLnk(\&quot;S\&quot;, \&quot;#TITRE_LIVRE#\&quot;, \&quot;javascript:goAccueil('content/books/fiches/bk_#ID_LIVRE#.html')\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    }
+    
+    </span><span class="cpp1-comment">// pour les listes
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        chaine_tableau=wxT(</span><span class="cpp1-string">&quot;&lt;tr onClick=\&quot;javascript:goAccueil('book','#ID_LIVRE#')\&quot;&gt; \n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        chaine_tableau=wxT(</span><span class="cpp1-string">&quot;&lt;tr onClick=\&quot;javascript:parent.goAccueil('content/books/fiches/bk_#ID_LIVRE#.html')\&quot;&gt; \n&quot;</span><span class="cpp1-symbol">);
+    }
+    chaine_tableau=chaine_tableau+wxT(</span><span class="cpp1-string">&quot;#CELLULES# &lt;/tr&gt;\n&quot;</span><span class="cpp1-symbol">);
+    wxString template_ligne=wxT(</span><span class="cpp1-string">&quot;&lt;td class=\&quot;#COULEUR#\&quot;&gt;#DONNEE#&lt;/td&gt; \n&quot;</span><span class="cpp1-symbol">);
+
+
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> i='0';i&lt;='Z';i++) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (i&gt;'9' &amp;&amp; i&lt; 'A')
+            </span><span class="cpp1-reservedword">continue</span><span class="cpp1-symbol">;
+        query=wxT(</span><span class="cpp1-string">&quot;SELECT livre.rowid, auteur.nom, livre.titre, serie.nom, livre.no_serie  &quot;</span><span class="cpp1-symbol">);
+        query=query+wxT(</span><span class="cpp1-string">&quot;FROM livre, auteur &quot;</span><span class="cpp1-symbol">);
+        query=query+wxT(</span><span class="cpp1-string">&quot; LEFT JOIN serie ON livre.id_serie=serie.rowid &quot;</span><span class="cpp1-symbol">);
+        query=query+wxT(</span><span class="cpp1-string">&quot;WHERE (livre.titre LIKE '#L_MINUS#\%' OR livre.titre LIKE '#L_MAJUS#\%') &quot;</span><span class="cpp1-symbol">);
+        query=query+wxT(</span><span class="cpp1-string">&quot;AND livre.id_auteur=auteur.rowid  &quot;</span><span class="cpp1-symbol">);
+        query=query+wxT(</span><span class="cpp1-string">&quot;ORDER BY livre.titre&quot;</span><span class="cpp1-symbol">);
+        caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i);
+        query.Replace(wxT(</span><span class="cpp1-string">&quot;#L_MAJUS#&quot;</span><span class="cpp1-symbol">),caractere);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (i&gt;='A' &amp;&amp; i&lt;='Z')
+            caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i+</span><span class="cpp1-number">32</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">            caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i);
+        query.Replace(wxT(</span><span class="cpp1-string">&quot;#L_MINUS#&quot;</span><span class="cpp1-symbol">),caractere);
+        ret=la_belle-&gt;transac_prepare(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }
+        ret=la_belle-&gt;transac_step();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret==SQLITE_ROW) {
+            chaine=modele_lettre;
+            caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i);
+            chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#LET#&quot;</span><span class="cpp1-symbol">),caractere);
+            arbre=arbre+chaine;
+        }
+        tableau_liste=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+        liste_courante=fiche;
+        liste_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TITRE#&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;Liste des livres dont le nom de titre commence par la lettre &quot;</span><span class="cpp1-symbol">)+caractere);
+        </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+            </span><span class="cpp1-comment">// arbre
+</span><span class="cpp1-space">            la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,id_livre,taille);
+            la_belle-&gt;get_value_char(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,titre_livre,taille);
+            chaine=modele_titre;
+            chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#LET#&quot;</span><span class="cpp1-symbol">),caractere);
+            convert_quote(titre_livre);
+            chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#TITRE_LIVRE#&quot;</span><span class="cpp1-symbol">),titre_livre);
+            chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#ID_LIVRE#&quot;</span><span class="cpp1-symbol">),id_livre);
+            arbre=arbre+chaine;
+            
+            </span><span class="cpp1-comment">// liste
+</span><span class="cpp1-space">            tableau_liste=tableau_liste+chaine_tableau;
+            la_belle-&gt;get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,valeur,taille);
+            tableau_liste.Replace(wxT(</span><span class="cpp1-string">&quot;#ID_LIVRE#&quot;</span><span class="cpp1-symbol">),id_livre);
+            wxString cellules=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;i&lt;</span><span class="cpp1-number">5</span><span class="cpp1-symbol">;i++) {
+                la_belle-&gt;get_value_char(i,valeur,taille);
+                cellule=template_ligne;
+                cellule.Replace(wxT(</span><span class="cpp1-string">&quot;#COULEUR#&quot;</span><span class="cpp1-symbol">), couleur);
+                cellule.Replace(wxT(</span><span class="cpp1-string">&quot;#DONNEE#&quot;</span><span class="cpp1-symbol">), valeur);
+                cellules=cellules+cellule;
+            }
+            tableau_liste.Replace(wxT(</span><span class="cpp1-string">&quot;#CELLULES#&quot;</span><span class="cpp1-symbol">),cellules);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(couleur.CompareTo(wxT(</span><span class="cpp1-string">&quot;clair&quot;</span><span class="cpp1-symbol">)) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                couleur=wxT(</span><span class="cpp1-string">&quot;fonce&quot;</span><span class="cpp1-symbol">);
+            }
+            </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+                couleur=wxT(</span><span class="cpp1-string">&quot;clair&quot;</span><span class="cpp1-symbol">);
+            }
+            
+            ret=la_belle-&gt;transac_step();
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                la_belle-&gt;get_erreur(mess);
+                wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            }
+        }
+        liste_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TABLEAU_LIVRE#&quot;</span><span class="cpp1-symbol">),tableau_liste);
+        convert_html(liste_courante);
+        </span><span class="cpp1-comment">//wxMessageBox(liste_courante,&quot;pouet&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        nomfich_liste=chemin_listes+wxT(</span><span class="cpp1-string">&quot;list_&quot;</span><span class="cpp1-symbol">)+caractere+wxT(</span><span class="cpp1-string">&quot;.html&quot;</span><span class="cpp1-symbol">);
+        fichier_liste = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxFile();
+        fichier_liste-&gt;Open(nomfich_liste,wxFile::write);
+        fichier_liste-&gt;Write(liste_courante);
+        fichier_liste-&gt;Close();
+        
+        la_belle-&gt;transac_fin();
+    }
+
+}
+
+</span><span class="cpp1-comment">/*
+ * creation_tree_titre
+ *    Cr&eacute;ation de l'arbre utilis&eacute; par ajax
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::creation_tree_serie(wxString &amp;arbre, wxString chemin_listes, wxString chemin_fiches, wxString &amp;fiche) {
+    wxString modele_lettre, modele_serie;
+    wxString query, mess, caractere, valeur;
+    wxString nomfich_liste, nomfich;
+    wxString id_livre, id_serie, id_serie_ancien , serie_livre, serie_livre_ancien, chaine;
+    wxString liste_courante, fiche_courante, tableau_liste, tableau_fiche, cellule;
+    wxString couleur=wxT(</span><span class="cpp1-string">&quot;clair&quot;</span><span class="cpp1-symbol">);
+    wxString chaine_tableau;
+    wxFile *fichier_liste=NULL,*fichier_fiche=NULL;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille, ret, nb_trouve;
+
+    </span><span class="cpp1-comment">// pour l'arbre
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        arbre=wxT(</span><span class="cpp1-string">&quot;racine_serie = insFld(foldersTree, gFld(\&quot;S&eacute;ries\&quot;, \&quot;javascript:goAccueil(\\\&quot;authors_root\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        arbre=wxT(</span><span class="cpp1-string">&quot;racine_serie = insFld(foldersTree, gFld(\&quot;S&eacute;ries\&quot;, \&quot;javascript:goAccueil(\\\&quot;content/authors/listes/liste_complete.html\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    }
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        modele_lettre=wxT(</span><span class="cpp1-string">&quot;rac_#LET# = insFld(racine_serie, gFld(\&quot;#LET#\&quot;, \&quot;javascript:goAccueil(\\\&quot;series\\\&quot;,\\\&quot;#LET#\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        modele_lettre=wxT(</span><span class="cpp1-string">&quot;rac_#LET# = insFld(racine_serie, gFld(\&quot;#LET#\&quot;, \&quot;javascript:goAccueil(\\\&quot;content/series/listes/list_#LET#.html\\\&quot;)\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        modele_serie=wxT(</span><span class="cpp1-string">&quot;insDoc(rac_#LET#, gLnk(\&quot;S\&quot;, \&quot;#NOM_SERIE#\&quot;, \&quot;javascript:goAccueil('serie','#ID_SERIE#')\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        modele_serie=wxT(</span><span class="cpp1-string">&quot;insDoc(rac_#LET#, gLnk(\&quot;S\&quot;, \&quot;#NOM_SERIE#\&quot;, \&quot;javascript:goAccueil('content/series/fiches/se_#ID_SERIE#.html')\&quot;))\n&quot;</span><span class="cpp1-symbol">);
+    }
+
+    </span><span class="cpp1-comment">// pour les listes
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioBox_type-&gt;GetSelection() == MODE_AJAX) {
+        chaine_tableau=wxT(</span><span class="cpp1-string">&quot;&lt;tr onClick=\&quot;javascript:goAccueil('book','#ID_LIVRE#')\&quot;&gt; \n&quot;</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(WxRadioBox_type-&gt;GetSelection() == MODE_HTML || WxRadioBox_type-&gt;GetSelection() == MODE_HTML_PDA){
+        chaine_tableau=wxT(</span><span class="cpp1-string">&quot;&lt;tr onClick=\&quot;javascript:parent.goAccueil('content/books/fiches/bk_#ID_LIVRE#.html')\&quot;&gt; \n&quot;</span><span class="cpp1-symbol">);
+    }
+    chaine_tableau=chaine_tableau+wxT(</span><span class="cpp1-string">&quot;#CELLULES# &lt;/tr&gt;\n&quot;</span><span class="cpp1-symbol">);
+    wxString template_ligne=wxT(</span><span class="cpp1-string">&quot;&lt;td class=\&quot;#COULEUR#\&quot;&gt;#DONNEE#&lt;/td&gt; \n&quot;</span><span class="cpp1-symbol">);
+
+    fichier_fiche = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxFile();
+
+    serie_livre_ancien=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> i='0';i&lt;='Z';i++) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (i&gt;'9' &amp;&amp; i&lt; 'A')
+            </span><span class="cpp1-reservedword">continue</span><span class="cpp1-symbol">;
+        query=wxT(</span><span class="cpp1-string">&quot;SELECT livre.rowid, livre.id_serie, auteur.nom, livre.titre, serie.nom, livre.no_serie  &quot;</span><span class="cpp1-symbol">);
+        query=query+wxT(</span><span class="cpp1-string">&quot;FROM livre, auteur &quot;</span><span class="cpp1-symbol">);
+        query=query+wxT(</span><span class="cpp1-string">&quot; LEFT JOIN serie ON livre.id_serie=serie.rowid &quot;</span><span class="cpp1-symbol">);
+        query=query+wxT(</span><span class="cpp1-string">&quot;WHERE (serie.nom LIKE '#L_MINUS#\%' OR serie.nom LIKE '#L_MAJUS#\%') &quot;</span><span class="cpp1-symbol">);
+        query=query+wxT(</span><span class="cpp1-string">&quot;AND livre.id_auteur=auteur.rowid  &quot;</span><span class="cpp1-symbol">);
+        query=query+wxT(</span><span class="cpp1-string">&quot;ORDER BY serie.nom, livre.no_serie&quot;</span><span class="cpp1-symbol">);
+        caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i);
+        query.Replace(wxT(</span><span class="cpp1-string">&quot;#L_MAJUS#&quot;</span><span class="cpp1-symbol">),caractere);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (i&gt;='A' &amp;&amp; i&lt;='Z')
+            caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i+</span><span class="cpp1-number">32</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">            caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i);
+        query.Replace(wxT(</span><span class="cpp1-string">&quot;#L_MINUS#&quot;</span><span class="cpp1-symbol">),caractere);
+        ret=la_belle-&gt;transac_prepare(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }
+        ret=la_belle-&gt;transac_step();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret==SQLITE_ROW) {
+            chaine=modele_lettre;
+            caractere.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,i);
+            chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#LET#&quot;</span><span class="cpp1-symbol">),caractere);
+            arbre=arbre+chaine;
+        }
+        tableau_liste=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+        liste_courante=fiche;
+        liste_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TITRE#&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;Liste des livres dont la serie commence par la lettre &quot;</span><span class="cpp1-symbol">)+caractere);
+        fiche_courante=fiche;
+        nb_trouve=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        id_serie_ancien=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+            nb_trouve++;
+            </span><span class="cpp1-comment">// arbre
+</span><span class="cpp1-space">            la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,id_livre,taille);
+            la_belle-&gt;get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,id_serie,taille);
+            la_belle-&gt;get_value_char(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,serie_livre,taille);
+            convert_quote(serie_livre);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (serie_livre.CompareTo(serie_livre_ancien) != </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                chaine=modele_serie;
+                chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#LET#&quot;</span><span class="cpp1-symbol">),caractere);
+                chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#NOM_SERIE#&quot;</span><span class="cpp1-symbol">),serie_livre);
+                chaine.Replace(wxT(</span><span class="cpp1-string">&quot;#ID_SERIE#&quot;</span><span class="cpp1-symbol">),id_serie);
+                arbre=arbre+chaine;
+            }
+            </span><span class="cpp1-comment">// fiche
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (id_serie.CompareTo(id_serie_ancien) != </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                nomfich=chemin_fiches+wxT(</span><span class="cpp1-string">&quot;se_&quot;</span><span class="cpp1-symbol">)+id_serie+wxT(</span><span class="cpp1-string">&quot;.html&quot;</span><span class="cpp1-symbol">);
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fichier_fiche-&gt;IsOpened() == FALSE) {
+                    fichier_fiche-&gt;Open(nomfich,wxFile::write);
+                    tableau_fiche=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+                } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+                    fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TABLEAU_LIVRE#&quot;</span><span class="cpp1-symbol">),tableau_fiche);
+                    tableau_fiche=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+                    convert_html(fiche_courante);
+                    fichier_fiche-&gt;Write(fiche_courante);
+                    fichier_fiche-&gt;Close();
+                    fichier_fiche-&gt;Open(nomfich,wxFile::write);
+                }
+                fiche_courante=fiche;
+                fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TITRE#&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;Liste des livres de la serie : &quot;</span><span class="cpp1-symbol">)+serie_livre);
+            }
+            </span><span class="cpp1-comment">// liste
+</span><span class="cpp1-space">            tableau_liste=tableau_liste+chaine_tableau;
+            tableau_fiche=tableau_fiche+chaine_tableau;
+            la_belle-&gt;get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,valeur,taille);
+            tableau_liste.Replace(wxT(</span><span class="cpp1-string">&quot;#ID_LIVRE#&quot;</span><span class="cpp1-symbol">),id_livre);
+            tableau_fiche.Replace(wxT(</span><span class="cpp1-string">&quot;#ID_LIVRE#&quot;</span><span class="cpp1-symbol">),id_livre);
+            wxString cellules=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">2</span><span class="cpp1-symbol">;i&lt;</span><span class="cpp1-number">6</span><span class="cpp1-symbol">;i++) {
+                la_belle-&gt;get_value_char(i,valeur,taille);
+                cellule=template_ligne;
+                cellule.Replace(wxT(</span><span class="cpp1-string">&quot;#COULEUR#&quot;</span><span class="cpp1-symbol">), couleur);
+                cellule.Replace(wxT(</span><span class="cpp1-string">&quot;#DONNEE#&quot;</span><span class="cpp1-symbol">), valeur);
+                cellules=cellules+cellule;
+            }
+            tableau_liste.Replace(wxT(</span><span class="cpp1-string">&quot;#CELLULES#&quot;</span><span class="cpp1-symbol">),cellules);
+            tableau_fiche.Replace(wxT(</span><span class="cpp1-string">&quot;#CELLULES#&quot;</span><span class="cpp1-symbol">),cellules);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(couleur.CompareTo(wxT(</span><span class="cpp1-string">&quot;clair&quot;</span><span class="cpp1-symbol">)) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                couleur=wxT(</span><span class="cpp1-string">&quot;fonce&quot;</span><span class="cpp1-symbol">);
+            }
+            </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+                couleur=wxT(</span><span class="cpp1-string">&quot;clair&quot;</span><span class="cpp1-symbol">);
+            }
+
+            ret=la_belle-&gt;transac_step();
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                la_belle-&gt;get_erreur(mess);
+                wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            }
+            id_serie_ancien=id_serie;
+            serie_livre_ancien=serie_livre;
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nb_trouve &gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            </span><span class="cpp1-comment">//liste
+</span><span class="cpp1-space">            liste_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TABLEAU_LIVRE#&quot;</span><span class="cpp1-symbol">),tableau_liste);
+            convert_html(liste_courante);
+            </span><span class="cpp1-comment">//wxMessageBox(liste_courante,&quot;pouet&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">            nomfich_liste=chemin_listes+wxT(</span><span class="cpp1-string">&quot;list_&quot;</span><span class="cpp1-symbol">)+caractere+wxT(</span><span class="cpp1-string">&quot;.html&quot;</span><span class="cpp1-symbol">);
+            fichier_liste = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxFile();
+            fichier_liste-&gt;Open(nomfich_liste,wxFile::write);
+            fichier_liste-&gt;Write(liste_courante);
+            fichier_liste-&gt;Close();
+            </span><span class="cpp1-comment">//fiche
+</span><span class="cpp1-space">            fiche_courante.Replace(wxT(</span><span class="cpp1-string">&quot;#TABLEAU_LIVRE#&quot;</span><span class="cpp1-symbol">),tableau_fiche);
+            tableau_fiche=wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+            convert_html(fiche_courante);
+            fichier_fiche-&gt;Write(fiche_courante);
+            fichier_fiche-&gt;Close();
+        }
+
+        la_belle-&gt;transac_fin();
+    }
+
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_annulClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::WxButton_annulClick(wxCommandEvent&amp; event)
+{
+	Destroy();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_chemin_destClick
+ *  changement du r&eacute;pertoire de destination
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> export_html_dlg::WxButton_chemin_destClick(wxCommandEvent&amp; event)
+{
+    wxString query, mess;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    wxDirDialog choix_dest(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;r&eacute;pertoire de destination&quot;</span><span class="cpp1-symbol">), WxEdit_chemin_dest-&gt;GetValue());
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (choix_dest.ShowModal() == wxID_OK) {
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;tyest&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        wxString chemin=choix_dest.GetPath();
+    	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (chemin[chemin.Length()-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]!=wxFileName::GetPathSeparator()) {
+            chemin=chemin+wxFileName::GetPathSeparator();
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(la_belle-&gt;existe(</span><span class="cpp1-string">&quot;config_export_html&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-space"> )
+        {
+            query=</span><span class="cpp1-string">&quot;CREATE TABLE config_export_html (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)&quot;</span><span class="cpp1-symbol">;
+            ret=la_belle-&gt;exec_rapide(query);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                la_belle-&gt;get_erreur(mess);
+                wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            }
+        }
+        query=</span><span class="cpp1-string">&quot;DELETE FROM config_export_html WHERE type_param='INIT' AND nom_param='REP_DEST'&quot;</span><span class="cpp1-symbol">;
+        ret=la_belle-&gt;exec_rapide(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }
+        query=</span><span class="cpp1-string">&quot;INSERT INTO config_export_html(type_param, nom_param, val1) VALUES ('INIT', 'REP_DEST', '&quot;</span><span class="cpp1-symbol">+chemin+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+        ret=la_belle-&gt;exec_rapide(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }
+        WxEdit_chemin_dest-&gt;SetValue(chemin);
+    }
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-symbol">}
+</span></span>
+</code></pre>
+</body>
+</html>

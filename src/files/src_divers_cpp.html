@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_divers_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">// Name:        divers.cpp
+// Author:      PE EPAILLARD
+// Created:     10/27/2004 12:22:10 AM
+//
+//Copyright PE Epaillard, 10/27/2004 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &quot;divers.h&quot;
+#include &quot;affiche_image.h&quot;
+
+</span><span class="cpp1-comment">//IMPLEMENT_DYNAMIC_CLASS(ImageCanvas, wxScrolledWindow)
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(ImageCanvas, wxScrolledWindow)
+  EVT_PAINT(ImageCanvas::OnPaint)
+  EVT_LEFT_UP(ImageCanvas::OnLeftUp) 
+END_EVENT_TABLE()
+
+
+</span><span class="cpp1-comment">//#define TABLE_SUP 1
+</span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> nom_token_livre[][TAILLE_TOKEN]={
+            </span><span class="cpp1-string">&quot;titre&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;id_auteur&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;sous_titre&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;id_serie&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;no_serie&quot;</span><span class="cpp1-symbol">, 
+            </span><span class="cpp1-string">&quot;id_genre&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;isbn&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;id_editeur&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;date_publication&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;id_format&quot;</span><span class="cpp1-symbol">, 
+            </span><span class="cpp1-string">&quot;id_artiste&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;prix&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;recompense&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;date_achat&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;valeur&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;reference&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;nb_pages&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;id_etat&quot;</span><span class="cpp1-symbol">, 
+            </span><span class="cpp1-string">&quot;id_localisation&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;date_lecture&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;note&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;particularite&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;titre_original&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;sous_titre_o&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;id_serie_o&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;id_pays&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;id_langue&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;id_traducteur&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;commentaire&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;resume&quot;</span><span class="cpp1-symbol">, 
+            </span><span class="cpp1-string">&quot;date_entree&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;date_maj&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;image_face&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;image_dos&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;image_tranche&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">};
+
+</span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> type_token_livre[][TAILLE_TOKEN]={
+            </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER_P&quot;</span><span class="cpp1-space"> , </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, 
+            </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;DATE&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, 
+            </span><span class="cpp1-string">&quot;INTEGER_P&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;REAL&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;DATE&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, 
+            </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;DATE&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;INTEGER&quot;</span><span class="cpp1-symbol">, 
+            </span><span class="cpp1-string">&quot;INTEGER_P&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, 
+            </span><span class="cpp1-string">&quot;DATE&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;DATE&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;BLOB&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;BLOB&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;BLOB&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">};
+</span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> wxString tables_sup[]={
+            </span><span class="cpp1-string">&quot;CREATE INDEX ind_titre ON livre (titre)&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;CREATE INDEX ind_auteur ON livre (id_auteur)&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;INSERT INTO version (nover) VALUES ('0.5')&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;CREATE TABLE version (nover TEXT)&quot;
+</span><span class="cpp1-space">        };    
+
+</span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> wxString particularite_texte[]={
+            </span><span class="cpp1-string">&quot;Achet&eacute;&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;A acheter d'urgence&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;A acheter peut &ecirc;tre&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Emprunt&eacute;&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Offert&quot;</span><span class="cpp1-symbol">};
+
+</span><span class="cpp1-comment">/*static int taille_token[]={1, 500, 20, 20, 1,
+            500, 1, 1, 50, 1,
+            1, 1, 500, 1, 1, 
+            20
+        };  */
+
+</span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> nom_token_personne[][TAILLE_TOKEN]={
+            </span><span class="cpp1-string">&quot;nom&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;date_naissance&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;date_mort&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;commentaire&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;image_auteur&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">};
+
+</span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> type_token_personne[][TAILLE_TOKEN]={
+            </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;DATE&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;DATE&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TEXT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;BLOB&quot;</span><span class="cpp1-symbol">,
+            </span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">};
+livre::livre(){ 
+    
+    </span><span class="cpp1-comment">//ch_create=NULL;
+</span><span class="cpp1-space">    
+    nom_table=</span><span class="cpp1-string">&quot;livre&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-comment">// compte le nombre de token
+</span><span class="cpp1-space">    nb_token=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    nb_gen_encourt=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (strlen(nom_token_livre[nb_token])&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        nb_token++;    
+}    
+
+livre::~livre(){
+    </span><span class="cpp1-comment">/*if (ch_create!=NULL) {
+        free(ch_create);
+    }    */
+</span><span class="cpp1-symbol">}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space">  livre::gen_create_livre(wxString &amp;ch_create) {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i; 
+    wxString tempo;
+</span><span class="cpp1-comment">//    char tempo[100];
+</span><span class="cpp1-space">    
+
+    ch_create=(</span><span class="cpp1-string">&quot;CREATE TABLE &quot;</span><span class="cpp1-symbol">);
+    ch_create+=nom_table;
+    ch_create+=</span><span class="cpp1-string">&quot; ( &quot;</span><span class="cpp1-symbol">;
+    i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">do</span><span class="cpp1-space"> { 
+         </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (i==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">){
+</span><span class="cpp1-comment">//             tempo.Printf(&quot;%s %s PRIMARY KEY, &quot;, nom_token_livre[i],type_token_livre[i]);
+</span><span class="cpp1-space">             tempo.Printf(</span><span class="cpp1-string">&quot;%s %s, &quot;</span><span class="cpp1-symbol">, nom_token_livre[i],type_token_livre[i]);
+         }</span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (strlen(nom_token_livre[i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">])==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">){
+             tempo.Printf(</span><span class="cpp1-string">&quot;%s %s) &quot;</span><span class="cpp1-symbol">, nom_token_livre[i],type_token_livre[i]);
+         }</span><span class="cpp1-reservedword">else</span><span class="cpp1-symbol">{
+             tempo.Printf(</span><span class="cpp1-string">&quot;%s %s, &quot;</span><span class="cpp1-symbol">, nom_token_livre[i],type_token_livre[i]);
+         }    
+         ch_create+=tempo;
+        i++;
+    }</span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (strlen(nom_token_livre[i])&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);    
+}    
+
+</span><span class="cpp1-comment">/* generation de la cr&eacute;ation des tables de la base
+  la chaine sql de cr&eacute;ation est retourn&eacute;e dans ch_create
+  nb contient le nombre de tables restant &agrave; generer,
+    pour lancer la cr&eacute;ation nb doit &ecirc;tre n&eacute;gatif
+    si a l'appel nb est n&eacute;gatif la cr&eacute;ation reprend au d&eacute;but
+    */
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> livre::gen_create_tout(wxString &amp;ch_create, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> &amp;nb) {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    wxString tempo;
+    wxString mess;
+    </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *c_tempo;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb_tables_sup;
+    
+   nb_tables_sup= WXSIZEOF(tables_sup);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nb == -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-comment">// on compte le nombre de table &agrave; g&eacute;n&eacute;rer
+</span><span class="cpp1-space">        nb_gen_encourt=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">do</span><span class="cpp1-space"> {
+            </span><span class="cpp1-comment">// toutes les tables &agrave; g&eacute;n&eacute;rer correspondent &agrave; un id dans la table livre
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (strncmp(nom_token_livre[i],</span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                nb_gen_encourt++;
+            }
+            i++;
+        } </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (strlen(nom_token_livre[i])&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);    
+        nb_gen_encourt+= nb_tables_sup;
+        nb=nb_gen_encourt;
+        </span><span class="cpp1-comment">// on cr&eacute;e d'abord la table livre (qui n'est pas compt&eacute;e au dessus)
+</span><span class="cpp1-space">        gen_create_livre(ch_create);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> nb;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nb_gen_encourt == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        nb=nb_gen_encourt;
+    }    
+    
+   </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(nb&gt;nb_tables_sup)
+   {
+    i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (i!=(nb-nb_tables_sup)) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (strncmp(nom_token_livre[j],</span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+            i++;
+            
+        j++;
+   }    
+   j--;
+    c_tempo=type_token_livre[j]+(strlen(type_token_livre[j])-</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (strcmp(c_tempo,</span><span class="cpp1-string">&quot;_P&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) { </span><span class="cpp1-comment">// une table contenant des donn&eacute;es sur des gens
+</span><span class="cpp1-space">        ch_create.Printf(</span><span class="cpp1-string">&quot;CREATE TABLE %s ( &quot;</span><span class="cpp1-symbol">,nom_token_livre[j]+</span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+        i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">do</span><span class="cpp1-space"> { 
+             </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (i==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">){
+                 tempo.Printf(</span><span class="cpp1-string">&quot;%s %s PRIMARY KEY, &quot;</span><span class="cpp1-symbol">, nom_token_personne[i],type_token_personne[i]);
+             }</span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (strlen(nom_token_personne[i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">])==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">){
+                 tempo.Printf(</span><span class="cpp1-string">&quot;%s %s) &quot;</span><span class="cpp1-symbol">, nom_token_personne[i],type_token_personne[i]);
+             }</span><span class="cpp1-reservedword">else</span><span class="cpp1-symbol">{
+                 tempo.Printf(</span><span class="cpp1-string">&quot;%s %s, &quot;</span><span class="cpp1-symbol">, nom_token_personne[i],type_token_personne[i]);
+             }    
+             ch_create+=tempo;
+            i++;
+        }</span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (strlen(nom_token_personne[i])&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);    
+        
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        ch_create.Printf(</span><span class="cpp1-string">&quot;CREATE TABLE %s (nom TEXT PRIMARY KEY, commentaire TEXT)&quot;</span><span class="cpp1-symbol">,nom_token_livre[j]+</span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+    }   
+}    
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nb&lt;=nb_tables_sup &amp;&amp; nb_gen_encourt&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            ch_create=tables_sup[nb_gen_encourt-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+        }    
+        nb_gen_encourt--;
+        nb--;
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> nb;    
+}   
+ 
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> livre::select_image(wxString id, wxString &amp;query, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> &amp;nb_img)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    
+    query=</span><span class="cpp1-string">&quot;SELECT &quot;</span><span class="cpp1-symbol">;
+    nb_img=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;nb_token;i++) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (strncmp(nom_token_livre[i],</span><span class="cpp1-string">&quot;image_&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-number">6</span><span class="cpp1-symbol">) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+           query+=nom_token_livre[i] ;
+           query+=</span><span class="cpp1-string">&quot;, &quot;</span><span class="cpp1-symbol">;
+           nb_img++;
+       }    
+    }    
+    query.Truncate(query.Length()-</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+    query+=</span><span class="cpp1-string">&quot; FROM livre WHERE rowid=&quot;</span><span class="cpp1-symbol">;
+    query+=id;
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> livre::select_tout(</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *query){
+</span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> livre::n_token(){
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> nb_token;
+}    
+
+wxString livre::get_nom_token(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> n_token) {
+    wxString texte;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (n_token &lt; nb_token) 
+        texte.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,nom_token_livre[n_token]);
+    </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        texte=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+        
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> texte;
+}    
+
+wxString livre::get_label_particularite(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> n_token) {
+    wxString texte;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (n_token &lt; PARTICULARITE_NB) 
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> particularite_texte[n_token];
+    </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        texte=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+        
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> texte;
+}    
+
+wxString livre::Get_token_type(wxString nom_t) {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    wxString texte;
+    
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;nb_token;i++) {
+        texte.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,nom_token_livre[i]);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte==nom_t) {
+            texte.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,type_token_livre[i]);
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> texte;
+        }    
+    }
+    texte=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> texte;    
+}    
+wxString gettempdir(){
+    wxString tempdir;
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> tt;
+    
+    tt=wxGetEnv(</span><span class="cpp1-string">&quot;TEMP&quot;</span><span class="cpp1-symbol">, &amp;tempdir);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (tt=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;Pas de r&eacute;pertoire temporaire d&eacute;fini, j'utilise le repertoire courant (bien fait pour vous)&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        tempdir=</span><span class="cpp1-string">&quot;.&quot;</span><span class="cpp1-symbol">;
+    }    
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> tempdir;
+}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> gestion_quote(wxString &amp;chaine) {
+    
+    chaine.Replace(</span><span class="cpp1-string">&quot;'&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;''&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);    
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> resize_image(wxString nom_fichier,</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> larg,</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> haut,wxString nom_fichier_arrivee) {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeur_img,hauteur_img;
+    </span><span class="cpp1-reservedword">float</span><span class="cpp1-space"> multi; 
+    wxImage tempo;
+    </span><span class="cpp1-comment">//wxImage tempo2;
+</span><span class="cpp1-space">    
+    tempo.LoadFile(nom_fichier);
+    multi=</span><span class="cpp1-float">0.0</span><span class="cpp1-symbol">;
+    largeur_img=tempo.GetWidth();
+    hauteur_img=tempo.GetHeight();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (larg&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        larg=largeur_img+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (haut&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        haut=hauteur_img+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeur_img&gt;larg) {
+        multi=(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)larg/(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)largeur_img;
+        largeur_img=(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)(multi*(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)largeur_img);
+        hauteur_img=(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)(multi*(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)hauteur_img);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (hauteur_img&gt;haut) {
+        multi=(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)haut/(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)hauteur_img;
+        largeur_img=(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)(multi*(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)largeur_img);
+        hauteur_img=(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)(multi*(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)hauteur_img);
+    }
+    tempo.Rescale(largeur_img, hauteur_img);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_fichier_arrivee == </span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">)
+        nom_fichier_arrivee=nom_fichier;
+    tempo.SaveFile(nom_fichier_arrivee);
+}    
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ImageCanvas::OnLeftUp( wxMouseEvent &amp;event ) {
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(charge==</span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> &amp;&amp; cliquable == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+        affiche_image *mon_image;
+    
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;test&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        mon_image=</span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> affiche_image(image_s,</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        mon_image-&gt;ShowModal();
+    }
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ImageCanvas::rempli_canvas() {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeur_obj,hauteur_obj;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeur_img,hauteur_img;
+    </span><span class="cpp1-reservedword">float</span><span class="cpp1-space"> multi; 
+    wxBitmap *affiche;
+    wxImage tempo;
+
+    </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;GetSize(&amp;largeur_obj,&amp;hauteur_obj);
+    multi=</span><span class="cpp1-float">0.0</span><span class="cpp1-symbol">;
+    largeur_img=image_s.GetWidth();
+    hauteur_img=image_s.GetHeight();
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeur_img==largeur_obj &amp;&amp; hauteur_img == hauteur_obj) {
+        m_bmp = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmap(image_s, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeur_img&gt;largeur_obj) {
+            multi=(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)largeur_obj/(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)largeur_img;
+            largeur_img=(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)(multi*(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)largeur_img);
+            hauteur_img=(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)(multi*(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)hauteur_img);
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (hauteur_img&gt;hauteur_obj) {
+            multi=(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)hauteur_obj/(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)hauteur_img;
+            largeur_img=(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)(multi*(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)largeur_img);
+            hauteur_img=(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)(multi*(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)hauteur_img);
+        }
+        tempo=image_s.Scale(largeur_img, hauteur_img);
+        affiche=</span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmap(tempo, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        m_bmp = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmap (*affiche);
+    }
+    charge=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-comment">//init(*affiche);        
+</span><span class="cpp1-space">    Refresh();
+}
+
+</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> DnDFile::OnDropFiles(wxCoord x, wxCoord y, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxArrayString&amp; filenames)
+{
+    chemin=filenames[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">];
+    wxMessageBox(chemin,</span><span class="cpp1-string">&quot;ondropFile&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, NULL);
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+}
+
+wxDragResult DnDFile::OnData(wxCoord x, wxCoord y, wxDragResult def) {
+    wxBitmap clourd;
+    </span><span class="cpp1-comment">//wxString mess;
+</span><span class="cpp1-space">    
+</span><span class="cpp1-comment">//    wxMessageBox(chemin,&quot;repouet&quot;, wxOK | wxICON_EXCLAMATION, NULL);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( !GetData() ) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;pas march&eacute;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;rerepouet&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, NULL);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> wxDragNone;
+    }
+    </span><span class="cpp1-comment">//mess.Printf(&quot;width:%d heigth:%d&quot;,clourd.GetWidth(),clourd.GetHeight());
+</span><span class="cpp1-space">    clourd=((wxBitmapDataObject *)m_dataObject)-&gt;GetBitmap();
+    moncanvas-&gt;init(clourd.ConvertToImage());
+    </span><span class="cpp1-comment">//wxMessageBox(mess,&quot;rererepouet&quot;, wxOK | wxICON_EXCLAMATION, NULL);
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">//OnDropURL(x, y, ((wxTextDataObject *)m_dataObject)-&gt;GetURL());
+
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> def;
+}
+
+</span><span class="cpp1-comment">// Vire les blancs en d&eacute;but et fin de cha&icirc;ne (vu que wxWidget merdouille des qu'il y a des accents)
+// et en plus je vire tous les espaces en double dans la chaine
+</span><span class="cpp1-identifier">wxString string_nettoie(wxString lachaine) {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (lachaine[i] == ' ')
+        i++;
+    lachaine=lachaine.Mid(i);
+    i=lachaine.Len()-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (lachaine[i] == ' ')
+        i--;
+    lachaine=lachaine.Left(i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (lachaine.Replace(</span><span class="cpp1-string">&quot;  &quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">) &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> lachaine;
+}
+
+</span><span class="cpp1-comment">/* fonction de conversion des quotes uniquement pour les arbres de la g&eacute;n&eacute;ration HTML
+par le format HTML */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> convert_quote(wxString &amp;texte) {
+    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&acute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;acute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// accent aigu
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;\&quot;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;quot;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// guillemet double
+</span><span class="cpp1-symbol">}
+</span><span class="cpp1-comment">/* fonction de conversion des caracteres sp&eacute;ciaux en machins g&eacute;r&eacute;s
+par le format HTML */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> convert_html(wxString &amp;texte) {
+    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Aacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Aacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&aacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;aacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Acirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Acirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent circonflexe majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&acirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;acirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent circonflexe minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Agrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Agrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent grave majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&agrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;agrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent grave minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Aring;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Aring;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a anneau majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&aring;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;aring;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a rond minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Atilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Atilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a tilde majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&atilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;atilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a tilde minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Auml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Auml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a tr&eacute;ma majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&auml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;auml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a tr&eacute;ma minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&acute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;acute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// accent aigu
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&AElig;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;AElig;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// ae majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&aelig;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;aelig;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// ae minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&brvbar;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;brvbar;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// barre verticale interrompue
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ccedil;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ccedil;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// c c&eacute;dille majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ccedil;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ccedil;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// c c&eacute;dille minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&cedil;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;cedil;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// c&eacute;dille
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&raquo;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;raquo;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// chevron droit ou guillemet droit
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&laquo;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;laquo;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// chevron gauche ou guillemet gauche
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&copy;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;copy;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// copyright
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&sup2;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;sup2;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// deux exposant
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Eacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Eacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&eacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;eacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ecirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ecirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent circonflexe majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ecirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ecirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent circonflexe minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Egrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Egrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent grave majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&egrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;egrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent grave minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Euml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Euml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e tr&eacute;ma majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&euml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;euml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e tr&eacute;ma minuscule
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//texte.Replace(wxT(&quot;&quot;),wxT(&quot;nbsp; e&quot;)); //space ins&eacute;cable
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//texte.Replace(wxT(&quot;&amp;&quot;),wxT(&quot;&amp;amp;&quot;)); // et commercial
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ETH;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ETH;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// eth islandais majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&eth;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;eth;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// eth islandais minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&iexcl;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;iexcl;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// exclamation invers&eacute;e
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&frac34;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;frac34;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// fraction trois quarts
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&frac12;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;frac12;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// fraction un demi
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&frac14;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;frac14;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// fraction un quart
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//texte.Replace(wxT(&quot;\&quot;&quot;),wxT(&quot;&amp;quot;&quot;)); // guillemet double
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Iacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Iacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&iacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;iacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Icirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Icirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent circonflexe majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&icirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;icirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent circonflexe minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Igrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Igrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent grave majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&igrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;igrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent grave minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Iuml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Iuml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i tr&eacute;ma majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&iuml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;iuml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i tr&eacute;ma minuscule
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//texte.Replace(wxT(&quot;&lt;&quot;),wxT(&quot;&amp;lt;&quot;)); // inf&eacute;rieur &agrave;
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&macr;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;macr;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// macron
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&reg;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;reg;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// marque d&eacute;pos&eacute;e
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ntilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ntilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// n tilde majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ntilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ntilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// n tilde minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Oacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Oacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&oacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;oacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ocirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ocirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent circonflexe majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ocirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ocirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent circonflexe minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ograve;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ograve;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent grave majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ograve;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ograve;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent grave minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Oslash;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Oslash;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o barr&eacute; majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&oslash;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;oslash;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o barr&eacute; minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Otilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Otilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o tilde majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&otilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;otilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o tilde minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ouml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ouml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o tr&eacute;ma majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ouml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ouml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o tr&eacute;ma minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ordf;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ordf;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// ordinal f&eacute;minin
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ordm;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ordm;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// ordinal masculin
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&plusmn;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;plusmn;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// plus ou moins
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&iquest;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;iquest;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// point d'interrogation invers&eacute;
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&middot;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;middot;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// point milieu
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&szlig;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;szlig;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// s allemand
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&deg;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;deg;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe degr&eacute;s
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&divide&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;divide;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe division
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&micro;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;micro;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe micro
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&times;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;times;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe multiplication
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&shy;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;not;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe non
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;¶&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;para;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe paragraphe
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&sect;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;sect;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe section
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&yen;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;yen;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe yen
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//texte.Replace(wxT(&quot;&gt;&quot;),wxT(&quot;&amp;gt;&quot;)); // sup&eacute;rieur &agrave;
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&cent;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;cent;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// symbole centime
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&pound;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;pound;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// symbole livre
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&curren;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;curren;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// symbole mon&eacute;taire
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&THORN;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;THORN;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// thorn islandais majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&thorn;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;thorn;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// thorn islandais minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&uml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;uml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// tr&eacute;ma
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&sup3;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;sup3;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// trois exposant
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Uacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Uacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&uacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;uacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ucirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ucirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent circonflexe majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ucirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ucirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent circonflexe minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ugrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ugrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent grave majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ugrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ugrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent grave minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Uuml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Uuml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u tr&eacute;ma majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&uuml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;uuml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u tr&eacute;ma minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&sup1;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;sup1;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// un exposant
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Yacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Yacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// y accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&yacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;yacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// y accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&yuml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;yuml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// y tr&eacute;ma minuscule     
+</span><span class="cpp1-symbol">}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> convert_html_total(wxString &amp;texte) {
+    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Aacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Aacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&aacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;aacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Acirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Acirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent circonflexe majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&acirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;acirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent circonflexe minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Agrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Agrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent grave majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&agrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;agrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a accent grave minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Aring;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Aring;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a anneau majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&aring;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;aring;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a rond minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Atilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Atilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a tilde majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&atilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;atilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a tilde minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Auml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Auml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a tr&eacute;ma majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&auml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;auml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// a tr&eacute;ma minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&acute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;acute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// accent aigu
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&AElig;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;AElig;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// ae majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&aelig;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;aelig;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// ae minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&brvbar;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;brvbar;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// barre verticale interrompue
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ccedil;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ccedil;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// c c&eacute;dille majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ccedil;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ccedil;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// c c&eacute;dille minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&cedil;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;cedil;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// c&eacute;dille
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&raquo;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;raquo;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// chevron droit ou guillemet droit
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&laquo;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;laquo;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// chevron gauche ou guillemet gauche
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&copy;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;copy;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// copyright
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&sup2;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;sup2;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// deux exposant
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Eacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Eacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&eacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;eacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ecirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ecirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent circonflexe majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ecirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ecirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent circonflexe minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Egrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Egrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent grave majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&egrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;egrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e accent grave minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Euml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Euml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e tr&eacute;ma majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&euml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;euml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// e tr&eacute;ma minuscule
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//texte.Replace(wxT(&quot;&quot;),wxT(&quot;nbsp; e&quot;)); //space ins&eacute;cable
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&amp;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;amp;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// et commercial
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ETH;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ETH;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// eth islandais majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&eth;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;eth;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// eth islandais minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&iexcl;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;iexcl;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// exclamation invers&eacute;e
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&frac34;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;frac34;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// fraction trois quarts
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&frac12;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;frac12;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// fraction un demi
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&frac14;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;frac14;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// fraction un quart
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;\&quot;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;quot;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// guillemet double
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Iacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Iacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&iacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;iacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Icirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Icirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent circonflexe majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&icirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;icirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent circonflexe minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Igrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Igrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent grave majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&igrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;igrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i accent grave minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Iuml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Iuml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i tr&eacute;ma majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&iuml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;iuml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// i tr&eacute;ma minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&lt;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;lt;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// inf&eacute;rieur &agrave;
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&macr;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;macr;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// macron
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&reg;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;reg;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// marque d&eacute;pos&eacute;e
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ntilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ntilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// n tilde majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ntilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ntilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// n tilde minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Oacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Oacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&oacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;oacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ocirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ocirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent circonflexe majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ocirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ocirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent circonflexe minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ograve;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ograve;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent grave majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ograve;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ograve;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o accent grave minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Oslash;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Oslash;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o barr&eacute; majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&oslash;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;oslash;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o barr&eacute; minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Otilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Otilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o tilde majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&otilde;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;otilde;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o tilde minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ouml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ouml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o tr&eacute;ma majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ouml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ouml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// o tr&eacute;ma minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ordf;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ordf;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// ordinal f&eacute;minin
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ordm;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ordm;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// ordinal masculin
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&plusmn;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;plusmn;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// plus ou moins
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&iquest;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;iquest;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// point d'interrogation invers&eacute;
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&middot;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;middot;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// point milieu
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&szlig;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;szlig;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// s allemand
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&deg;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;deg;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe degr&eacute;s
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&divide&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;divide;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe division
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&micro;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;micro;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe micro
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&times;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;times;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe multiplication
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&shy;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;not;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe non
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;¶&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;para;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe paragraphe
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&sect;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;sect;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe section
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&yen;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;yen;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// signe yen
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&gt;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;gt;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// sup&eacute;rieur &agrave;
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&cent;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;cent;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// symbole centime
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&pound;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;pound;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// symbole livre
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&curren;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;curren;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// symbole mon&eacute;taire
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&THORN;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;THORN;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// thorn islandais majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&thorn;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;thorn;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// thorn islandais minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&uml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;uml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// tr&eacute;ma
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&sup3;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;sup3;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// trois exposant
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Uacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Uacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&uacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;uacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ucirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ucirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent circonflexe majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ucirc;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ucirc;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent circonflexe minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Ugrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Ugrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent grave majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&ugrave;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;ugrave;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u accent grave minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Uuml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Uuml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u tr&eacute;ma majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&uuml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;uuml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// u tr&eacute;ma minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&sup1;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;sup1;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// un exposant
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&Yacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;Yacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// y accent aigu majuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&yacute;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;yacute;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// y accent aigu minuscule
+</span><span class="cpp1-space">    texte.Replace(wxT(</span><span class="cpp1-string">&quot;&yuml;&quot;</span><span class="cpp1-symbol">),wxT(</span><span class="cpp1-string">&quot;&amp;yuml;&quot;</span><span class="cpp1-symbol">)); </span><span class="cpp1-comment">// y tr&eacute;ma minuscule
+</span><span class="cpp1-symbol">}
+</span></span>
+</code></pre>
+</body>
+</html>

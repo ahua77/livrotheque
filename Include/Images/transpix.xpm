@@ -1,0 +1,16 @@
+/* XPM */
+static char *transpix_xpm[] = {
+/* width height num_colors chars_per_pixel */
+"     1     1        8            1",
+/* colors */
+"` c #ffffff",
+". c #000000",
+"# c #000000",
+"a c #000000",
+"b c #000000",
+"c c #000000",
+"d c #000000",
+"e c #000000",
+/* pixels */
+"`"
+};

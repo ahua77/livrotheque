@@ -1,0 +1,436 @@
+object frmNewForm: TfrmNewForm
+  Left = 8
+  Top = 8
+  AutoScroll = False
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Recherche Internet g'#233'n'#233'rale'
+  ClientHeight = 481
+  ClientWidth = 688
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = True
+  PopupMenu = MainForm.DesignerPopup
+  Visible = True
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnResize = NewFormResize
+  EVT_CLOSE = 'rech_internet_genClose'
+  Wx_ICON.Data = {07544269746D617000000000}
+  Wx_Name = 'rech_internet_gen'
+  Wx_IDName = 'ID_DIALOG1'
+  Wx_IDValue = 1000
+  Wx_Class = 'wxDialog'
+  Wx_Center = True
+  Wx_Hidden = False
+  Wx_SizeToContents = True
+  Wx_GeneralStyle = []
+  Wx_DialogStyle = [wxCAPTION, wxDIALOG_NO_PARENT]
+  Wx_Border = 0
+  Wx_BorderAlignment = []
+  PixelsPerInch = 96
+  TextHeight = 13
+  object WxStaticBox_proxy: TWxStaticBox
+    Left = 226
+    Top = 24
+    Width = 417
+    Height = 81
+    Caption = 'Param'#234'tre du Proxy'
+    TabOrder = 1
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticBox'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_IDName = 'ID_WXSTATICBOX_PROXY'
+    Wx_IDValue = 1038
+  end
+  object WxButton_ok: TWxButton
+    Left = 262
+    Top = 447
+    Width = 92
+    Height = 28
+    Caption = 'Annuler'
+    TabOrder = 0
+    EVT_BUTTON = 'WxButton_okClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'wxID_CANCEL'
+    Wx_IDValue = 1001
+    Wx_Height = 28
+    Wx_Width = 92
+  end
+  object WxStaticText_proxy_adr: TWxStaticText
+    Left = 233
+    Top = 44
+    Width = 51
+    Height = 17
+    Caption = 'Adresse : '
+    TabOrder = 2
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_PROXY_ADR'
+    Wx_IDValue = 1039
+    Wx_LabelStyle = []
+  end
+  object WxEdit_proxy_adr: TWxEdit
+    Left = 285
+    Top = 42
+    Width = 142
+    Height = 21
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = 3
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_Enabled = False
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_PROXY_ADR'
+    Wx_IDValue = 1040
+    Wx_MaxLength = 0
+  end
+  object WxStaticText_proxy_port: TWxStaticText
+    Left = 247
+    Top = 74
+    Width = 32
+    Height = 17
+    Caption = 'Port : '
+    TabOrder = 4
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_PROXY_PORT'
+    Wx_IDValue = 1041
+    Wx_LabelStyle = []
+  end
+  object WxEdit_proxy_port: TWxEdit
+    Left = 284
+    Top = 73
+    Width = 143
+    Height = 21
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = 5
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_Enabled = False
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_PROXY_PORT'
+    Wx_IDValue = 1042
+    Wx_MaxLength = 0
+  end
+  object WxStaticText_proxy_util: TWxStaticText
+    Left = 437
+    Top = 44
+    Width = 59
+    Height = 17
+    Caption = 'Utilisateur : '
+    TabOrder = 6
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_PROXY_UTIL'
+    Wx_IDValue = 1043
+    Wx_LabelStyle = []
+  end
+  object WxEdit_proxy_util: TWxEdit
+    Left = 498
+    Top = 43
+    Width = 136
+    Height = 21
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = 7
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_Enabled = False
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_PROXY_UTIL'
+    Wx_IDValue = 1044
+    Wx_MaxLength = 0
+  end
+  object WxStaticText_proxy_pass: TWxStaticText
+    Left = 435
+    Top = 77
+    Width = 59
+    Height = 17
+    Caption = 'Password : '
+    TabOrder = 8
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_PROXY_PASS'
+    Wx_IDValue = 1045
+    Wx_LabelStyle = []
+  end
+  object WxEdit_proxy_pass: TWxEdit
+    Left = 498
+    Top = 74
+    Width = 138
+    Height = 21
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    PasswordChar = '*'
+    Modified = False
+    AutoSize = False
+    TabOrder = 9
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = [wxTE_PASSWORD]
+    Wx_Enabled = False
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_PROXY_PASS'
+    Wx_IDValue = 1046
+    Wx_MaxLength = 0
+  end
+  object WxCheckBox_proxy: TWxCheckBox
+    Left = 235
+    Top = 2
+    Width = 114
+    Height = 21
+    Caption = 'Utiliser un proxy'
+    TabOrder = 10
+    EVT_CHECKBOX = 'WxCheckBox_proxyClick'
+    Wx_BGColor = clBlack
+    Wx_CheckBoxStyle = []
+    Wx_Class = 'wxCheckBox'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_HelpText = 'Cocher la case si vous voulez utiliser un proxy'
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXCHECKBOX_PROXY'
+    Wx_IDValue = 1047
+    Wx_ToolTip = 'Coc'
+  end
+  object WxEdit_recherche: TWxEdit
+    Left = 112
+    Top = 115
+    Width = 481
+    Height = 21
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = 11
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_RECHERCHE'
+    Wx_IDValue = 1048
+    Wx_MaxLength = 0
+  end
+  object WxStaticText_recherche: TWxStaticText
+    Left = 7
+    Top = 118
+    Width = 100
+    Height = 17
+    Caption = 'Texte '#224' rechercher :'
+    TabOrder = 12
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_RECHERCHE'
+    Wx_IDValue = 1049
+    Wx_LabelStyle = []
+  end
+  object WxGrid_precis: TWxGrid
+    Left = 14
+    Top = 169
+    Width = 663
+    Height = 270
+    ColCount = 6
+    DefaultColWidth = 50
+    DefaultRowHeight = 15
+    RowCount = 2
+    TabOrder = 13
+    EVT_GRID_CELL_LEFT_DCLICK = 'WxGrid_precisCellLeftDoubleClick'
+    Wx_RowCount = 1
+    Wx_LabelColSize = 15
+    Wx_LabelRowSize = 0
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxGrid'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXGRID_PRECIS'
+    Wx_IDValue = 1050
+    Wx_GridSelection = wxGridSelectRows
+    ColWidths = (
+      15
+      50
+      50
+      50
+      50
+      50)
+    RowHeights = (
+      0
+      15)
+  end
+  object WxGrid_general: TWxGrid
+    Left = 13
+    Top = 454
+    Width = 175
+    Height = 18
+    ColCount = 6
+    DefaultColWidth = 51
+    DefaultRowHeight = 15
+    RowCount = 2
+    TabOrder = 14
+    EVT_GRID_CELL_LEFT_DCLICK = 'WxGrid_precisCellLeftDoubleClick'
+    Wx_RowCount = 1
+    Wx_LabelColSize = 15
+    Wx_LabelRowSize = 0
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxGrid'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = True
+    Wx_IDName = 'ID_WXGRID_GENERAL'
+    Wx_IDValue = 1051
+    Wx_GridSelection = wxGridSelectRows
+    ColWidths = (
+      15
+      51
+      51
+      51
+      51
+      51)
+    RowHeights = (
+      0
+      15)
+  end
+  object WxStaticText1: TWxStaticText
+    Left = 109
+    Top = 139
+    Width = 389
+    Height = 24
+    Caption = 'Double cliquez sur le livre dont vous voulez voir le d'#233'tail'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 15
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT1'
+    Wx_IDValue = 1052
+    Wx_LabelStyle = []
+  end
+  object WxButton_recherche: TWxButton
+    Left = 594
+    Top = 115
+    Width = 69
+    Height = 22
+    Caption = 'Rechercher'
+    TabOrder = 16
+    EVT_BUTTON = 'WxButton_rechercheClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_RECHERCHE'
+    Wx_IDValue = 1053
+    Wx_Height = 22
+    Wx_Width = 69
+  end
+  object WxRadioBox_choix_recherche: TWxRadioBox
+    Left = 41
+    Top = 4
+    Width = 122
+    Height = 95
+    Caption = 'Moteur de recherche'
+    Orientation = wxdVertical
+    Items.Strings = (
+      'Amazon (fr)'
+      'Alapage (fr)'
+      'Amazon (us)'
+      'Amazon (uk)')
+    TabOrder = 17
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxRadioBox'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EventList.Strings = (
+      'EVT_RADIOBOX:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_IDName = 'ID_WXRADIOBOX1'
+    Wx_IDValue = 1054
+    Wx_RadioBoxStyle = wxRA_SPECIFY_COLS
+    Wx_ToolTip = 'Choix du moteur de recherche'
+    Wx_Selection = 0
+  end
+end

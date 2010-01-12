@@ -1,0 +1,33 @@
+/* XPM */
+static char *ftv2mnode_xpm[] = {
+/* width height num_colors chars_per_pixel */
+"    16    22        4            1",
+/* colors */
+"` c #808080",
+". c #ffffff",
+"# c #000000",
+"a c None",
+/* pixels */
+"aaaaaaaaaaaaaaaa",
+"aaaaaaa`aaaaaaaa",
+"aaaaaaaaaaaaaaaa",
+"aaaaaaa`aaaaaaaa",
+"aaaaaaaaaaaaaaaa",
+"aaa`````````aaaa",
+"aaa`.......`aaaa",
+"aaa`.......`aaaa",
+"aaa`.......`aaaa",
+"aaa`.#####.`a`a`",
+"aaa`.......`aaaa",
+"aaa`.......`aaaa",
+"aaa`.......`aaaa",
+"aaa`````````aaaa",
+"aaaaaaaaaaaaaaaa",
+"aaaaaaa`aaaaaaaa",
+"aaaaaaaaaaaaaaaa",
+"aaaaaaa`aaaaaaaa",
+"aaaaaaaaaaaaaaaa",
+"aaaaaaa`aaaaaaaa",
+"aaaaaaaaaaaaaaaa",
+"aaaaaaa`aaaaaaaa"
+};

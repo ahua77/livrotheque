@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_FusionDlg_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">///-----------------------------------------------------------------
+///
+/// @file      FusionDlg.cpp
+/// @author    stephane
+/// Created:   10/12/2009 00:38:40
+/// @section   DESCRIPTION
+///            FusionDlg class implementation
+///
+///------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &quot;FusionDlg.h&quot;
+
+</span><span class="cpp1-comment">//Do not add custom headers
+//wxDev-C++ designer will remove them
+////Header Include Start
+////Header Include End
+
+//----------------------------------------------------------------------------
+// FusionDlg
+//----------------------------------------------------------------------------
+//Add Custom Events only in the appropriate block.
+//Code added in other places will be removed by wxDev-C++
+////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(FusionDlg,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(FusionDlg::OnClose)
+	EVT_INIT_DIALOG(FusionDlg::FusionDlgInitDialog)
+	EVT_COMBOBOX(ID_CB_TYPE_GROUPE,FusionDlg::CB_typeGroupeSelected)
+	EVT_COMBOBOX(ID_CB_TYPE_TRI,FusionDlg::CB_typeTriSelected)
+	EVT_COMBOBOX(ID_WXCOMBOBOX1,FusionDlg::CB_listeGroupes1Selected)
+	EVT_COMBOBOX(ID_WXCOMBOBOX2,FusionDlg::CB_listeGroupes2Selected)
+	EVT_BUTTON(ID_WXBUTTON1,FusionDlg::BN_FusionnerClick)
+	EVT_BUTTON(ID_WXBUTTON2,FusionDlg::BN_AnnulerClick)
+END_EVENT_TABLE()
+</span><span class="cpp1-comment">////Event Table End
+
+</span><span class="cpp1-identifier">FusionDlg::FusionDlg(wxWindow *parent, ma_base&amp; p_baseLivre, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style)
+: wxDialog(parent, id, title, position, size, style), baseLivre(p_baseLivre)
+{
+	CreateGUIControls();
+}
+
+FusionDlg::~FusionDlg()
+{
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::CreateGUIControls()
+{
+	</span><span class="cpp1-comment">//Do not add custom code between
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//GUI Items Creation Start and GUI Items Creation End.
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//wxDev-C++ designer will remove them.
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//Add the custom code before or after the blocks
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	wxArrayString arrayStringFor_CB_typeGroupe;
+	CB_typeGroupe = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxComboBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_CB_TYPE_GROUPE, wxT(</span><span class="cpp1-string">&quot;CB_typeGroupe&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">136</span><span class="cpp1-symbol">, </span><span class="cpp1-number">6</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">145</span><span class="cpp1-symbol">, </span><span class="cpp1-number">23</span><span class="cpp1-symbol">), arrayStringFor_CB_typeGroupe, wxCB_READONLY, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;CB_typeGroupe&quot;</span><span class="cpp1-symbol">));
+
+	wxArrayString arrayStringFor_CB_typeTri;
+	CB_typeTri = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxComboBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_CB_TYPE_TRI, wxT(</span><span class="cpp1-string">&quot;CB_typeTri&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">368</span><span class="cpp1-symbol">, </span><span class="cpp1-number">6</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">241</span><span class="cpp1-symbol">, </span><span class="cpp1-number">23</span><span class="cpp1-symbol">), arrayStringFor_CB_typeTri, wxCB_READONLY, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;CB_typeTri&quot;</span><span class="cpp1-symbol">));
+
+	wxArrayString arrayStringFor_CB_listeGroupes1;
+	CB_listeGroupes1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxComboBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCOMBOBOX1, wxT(</span><span class="cpp1-string">&quot;Choisir un groupe&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">77</span><span class="cpp1-symbol">, </span><span class="cpp1-number">57</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">466</span><span class="cpp1-symbol">, </span><span class="cpp1-number">23</span><span class="cpp1-symbol">), arrayStringFor_CB_listeGroupes1, wxCB_READONLY, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;CB_listeGroupes1&quot;</span><span class="cpp1-symbol">));
+
+	wxArrayString arrayStringFor_LB_listeLivres1;
+	LB_listeLivres1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxListBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXLISTBOX1, wxPoint(</span><span class="cpp1-number">18</span><span class="cpp1-symbol">, </span><span class="cpp1-number">86</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">527</span><span class="cpp1-symbol">, </span><span class="cpp1-number">235</span><span class="cpp1-symbol">), arrayStringFor_LB_listeLivres1, wxLB_SINGLE);
+
+	wxArrayString arrayStringFor_CB_listeGroupes2;
+	CB_listeGroupes2 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxComboBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCOMBOBOX2, wxT(</span><span class="cpp1-string">&quot;Choisir un groupe&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">636</span><span class="cpp1-symbol">, </span><span class="cpp1-number">57</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">466</span><span class="cpp1-symbol">, </span><span class="cpp1-number">23</span><span class="cpp1-symbol">), arrayStringFor_CB_listeGroupes2, wxCB_READONLY, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;CB_listeGroupes2&quot;</span><span class="cpp1-symbol">));
+
+	wxArrayString arrayStringFor_LB_listeLivres2;
+	LB_listeLivres2 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxListBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXLISTBOX2, wxPoint(</span><span class="cpp1-number">575</span><span class="cpp1-symbol">, </span><span class="cpp1-number">86</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">527</span><span class="cpp1-symbol">, </span><span class="cpp1-number">235</span><span class="cpp1-symbol">), arrayStringFor_LB_listeLivres2, wxLB_SINGLE);
+
+	BN_Fusionner = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON1, wxT(</span><span class="cpp1-string">&quot;Fusionner &gt;&gt;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">455</span><span class="cpp1-symbol">, </span><span class="cpp1-number">329</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">91</span><span class="cpp1-symbol">, </span><span class="cpp1-number">25</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;BN_Fusionner&quot;</span><span class="cpp1-symbol">));
+
+	BN_Annuler = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON2, wxT(</span><span class="cpp1-string">&quot;Fermer&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">577</span><span class="cpp1-symbol">, </span><span class="cpp1-number">329</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">75</span><span class="cpp1-symbol">, </span><span class="cpp1-number">25</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;BN_Annuler&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText3 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT3, wxT(</span><span class="cpp1-string">&quot;Type de groupe :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">24</span><span class="cpp1-symbol">, </span><span class="cpp1-number">8</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText3&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticLine1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticLine(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICLINE1, wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, </span><span class="cpp1-number">40</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">1118</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">), wxLI_HORIZONTAL);
+
+	WxStaticText2 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT2, wxT(</span><span class="cpp1-string">&quot;dans :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">577</span><span class="cpp1-symbol">, </span><span class="cpp1-number">59</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText2&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT1, wxT(</span><span class="cpp1-string">&quot;Fusionner :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">14</span><span class="cpp1-symbol">, </span><span class="cpp1-number">59</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText1&quot;</span><span class="cpp1-symbol">));
+
+	SetTitle(wxT(</span><span class="cpp1-string">&quot;Fusion&quot;</span><span class="cpp1-symbol">));
+	SetIcon(wxNullIcon);
+	SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1135</span><span class="cpp1-symbol">,</span><span class="cpp1-number">402</span><span class="cpp1-symbol">);
+	Center();
+	
+	</span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::OnClose(wxCloseEvent&amp; </span><span class="cpp1-comment">/*event*/</span><span class="cpp1-symbol">)
+{
+	Destroy();
+}
+
+</span><span class="cpp1-comment">/*
+ * FusionDlgInitDialog
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::FusionDlgInitDialog(wxInitDialogEvent&amp; event)
+{
+    CB_typeGroupe-&gt;AppendString(</span><span class="cpp1-string">&quot;auteur&quot;</span><span class="cpp1-symbol">);
+    CB_typeGroupe-&gt;AppendString(</span><span class="cpp1-string">&quot;editeur&quot;</span><span class="cpp1-symbol">);
+    CB_typeGroupe-&gt;AppendString(</span><span class="cpp1-string">&quot;format&quot;</span><span class="cpp1-symbol">);
+    CB_typeGroupe-&gt;AppendString(</span><span class="cpp1-string">&quot;genre&quot;</span><span class="cpp1-symbol">);
+    CB_typeGroupe-&gt;AppendString(</span><span class="cpp1-string">&quot;pays&quot;</span><span class="cpp1-symbol">);
+    CB_typeGroupe-&gt;Select(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);  </span><span class="cpp1-comment">// selection editeur par d&eacute;faut
+</span><span class="cpp1-space">    
+    CB_typeTri-&gt;AppendString(</span><span class="cpp1-string">&quot;trier par nombre de titres&quot;</span><span class="cpp1-symbol">);
+    CB_typeTri-&gt;AppendString(</span><span class="cpp1-string">&quot;trier par ordre alphab&eacute;tique&quot;</span><span class="cpp1-symbol">);
+    CB_typeTri-&gt;Select(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);      </span><span class="cpp1-comment">// s&eacute;lection par nombre de titres par d&eacute;faut
+</span><span class="cpp1-space">    
+    InitListeGroupes();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::InitListeGroupes()
+{
+</span><span class="cpp1-comment">//    wxMessageBox(&quot;InitListeGroupes&quot;);
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-comment">// vider les deux listes
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (!CB_listeGroupes1-&gt;IsEmpty())
+        CB_listeGroupes1-&gt;Delete(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (!CB_listeGroupes2-&gt;IsEmpty())
+        CB_listeGroupes2-&gt;Delete(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        
+    </span><span class="cpp1-comment">// remplir les listes &agrave; partir de la base
+</span><span class="cpp1-space">    wxString nom_table = CB_typeGroupe-&gt;GetStringSelection();
+    wxString orderBy = </span><span class="cpp1-string">&quot;nn DESC&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (CB_typeTri-&gt;GetSelection() == </span><span class="cpp1-number">1</span><span class="cpp1-symbol">) {
+        orderBy = </span><span class="cpp1-string">&quot;a.nom ASC&quot;</span><span class="cpp1-symbol">; 
+    }   
+	wxString query = </span><span class="cpp1-string">&quot;SELECT a.rowid, a.nom, count(l.rowid) nn from &quot;</span><span class="cpp1-symbol">+nom_table
+          +</span><span class="cpp1-string">&quot; a, livre l where l.id_&quot;</span><span class="cpp1-symbol">+nom_table
+          +</span><span class="cpp1-string">&quot; = a.rowid group by a.rowid order by &quot;</span><span class="cpp1-space"> + orderBy;
+	wxString mess;
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret = baseLivre.transac_prepare(query);
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        baseLivre.get_erreur(mess);
+        mess=query+</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">+mess;
+        wxMessageBox(</span><span class="cpp1-string">&quot;InitListeGroupes &quot;</span><span class="cpp1-symbol">+mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-comment">// baseLivre.fermer();
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    ret=SQLITE_ROW;
+    ret=baseLivre.transac_step();
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ii = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> id;
+        wxString nom;
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille;
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nbLivres;
+        baseLivre.get_value_int(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,id);
+        baseLivre.get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,nom,taille);
+        baseLivre.get_value_int(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">, nbLivres);
+        wxString pourListe;
+        pourListe = nom + wxString::Format(_T(</span><span class="cpp1-string">&quot; (%d titres)&quot;</span><span class="cpp1-symbol">), nbLivres);
+        CB_listeGroupes1-&gt;AppendString(pourListe);
+        CB_listeGroupes1-&gt;SetClientData(ii, (</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">*)id);
+        CB_listeGroupes2-&gt;AppendString(pourListe);
+        CB_listeGroupes2-&gt;SetClientData(ii, (</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">*)id);
+        
+        ii ++;
+        ret=baseLivre.transac_step();
+    }  
+    baseLivre.transac_fin();
+    
+    </span><span class="cpp1-comment">// vider les listes de livres car aucun groupe n'est s&eacute;lectionn&eacute;
+</span><span class="cpp1-space">    remplirListeLivres(LB_listeLivres1, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    remplirListeLivres(LB_listeLivres2, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-comment">/*
+ * CB_listeGroupes1Selected
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::CB_listeGroupes1Selected(wxCommandEvent&amp; event )
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> idGroupe = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)CB_listeGroupes1-&gt;GetClientData(CB_listeGroupes1-&gt;GetSelection());
+    remplirListeLivres(LB_listeLivres1, idGroupe);
+}
+
+</span><span class="cpp1-comment">/*
+ * CB_listeGroupes2Selected
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::CB_listeGroupes2Selected(wxCommandEvent&amp; event )
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> idGroupe = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)CB_listeGroupes2-&gt;GetClientData(CB_listeGroupes2-&gt;GetSelection());
+    remplirListeLivres(LB_listeLivres2, idGroupe);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::remplirListeLivres(wxListBox* listeLivres, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> idGroupe)
+{
+	</span><span class="cpp1-comment">// vider la liste et ins&eacute;rer &agrave; la place la liste des livres du groupe s&eacute;lectionn&eacute;
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (!listeLivres-&gt;IsEmpty())
+    	listeLivres-&gt;Delete(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	
+	</span><span class="cpp1-comment">// idGroupe = -1 : aucun groupe s&eacute;lectionn&eacute;, laisser la liste vide
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (idGroupe != -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">) {	
+        wxString nom_table = CB_typeGroupe-&gt;GetStringSelection();
+
+    	wxString query = </span><span class="cpp1-string">&quot;select l.titre, a.nom from livre l, auteur a &quot;
+</span><span class="cpp1-space">                         </span><span class="cpp1-string">&quot;where id_&quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot; = &quot;</span><span class="cpp1-space"> + wxString::Format(_T(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">), idGroupe) + 
+                         </span><span class="cpp1-string">&quot; and l.id_auteur=a.rowid order by a.nom, l.titre&quot;</span><span class="cpp1-symbol">;
+    	wxString mess;
+    	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret = baseLivre.transac_prepare(query);
+    	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            baseLivre.get_erreur(mess);
+            mess=query+</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">+mess;
+            wxMessageBox(</span><span class="cpp1-string">&quot;FusionDlgInitDialog &quot;</span><span class="cpp1-symbol">+mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }
+        ret=SQLITE_ROW;
+        ret=baseLivre.transac_step();
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ii = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+            wxString titre;
+            wxString auteur;
+            </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille;
+            baseLivre.get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, titre, taille);
+            baseLivre.get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, auteur, taille);
+            wxString pourListe;
+            pourListe = titre + </span><span class="cpp1-string">&quot; (&quot;</span><span class="cpp1-space"> + auteur + </span><span class="cpp1-string">&quot;)&quot;</span><span class="cpp1-symbol">;
+            listeLivres-&gt;Append(pourListe);
+            
+            ii ++;
+            ret=baseLivre.transac_step();
+        }  
+        baseLivre.transac_fin();
+    }
+}
+
+
+</span><span class="cpp1-comment">/*
+ * BN_AnnulerClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::BN_AnnulerClick(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;EndDialog(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-comment">/*
+ * BN_FusionnerClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::BN_FusionnerClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> idGroupeFrom = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)CB_listeGroupes1-&gt;GetClientData(CB_listeGroupes1-&gt;GetSelection());
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> idGroupeTo = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)CB_listeGroupes2-&gt;GetClientData(CB_listeGroupes2-&gt;GetSelection());
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (idGroupeTo == </span><span class="cpp1-number">0</span><span class="cpp1-space"> || idGroupeFrom == </span><span class="cpp1-number">0</span><span class="cpp1-space"> || idGroupeTo == idGroupeFrom)
+    {
+        wxMessageBox(</span><span class="cpp1-string">&quot;S&eacute;lectionnez deux groupes diff&eacute;rents &agrave; fusionner&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+
+    wxString nom_table = CB_typeGroupe-&gt;GetStringSelection();
+    wxString query = </span><span class="cpp1-string">&quot;update livre set id_&quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot; = &quot;</span><span class="cpp1-space"> + wxString::Format(_T(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">), idGroupeTo)
+                   + </span><span class="cpp1-string">&quot; where id_&quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot; = &quot;</span><span class="cpp1-space"> + wxString::Format(_T(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">), idGroupeFrom);
+</span><span class="cpp1-comment">//    wxMessageBox(query);
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret = baseLivre.exec_rapide(query);    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        wxString texte;
+        baseLivre.get_erreur(texte);
+        wxMessageBox(</span><span class="cpp1-string">&quot;probl&egrave;me &agrave; l'ex&eacute;cution de &quot;</span><span class="cpp1-space"> + query + </span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-space"> + texte);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &gt;= </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        query = </span><span class="cpp1-string">&quot;delete from &quot;</span><span class="cpp1-space"> + nom_table + </span><span class="cpp1-string">&quot; where rowid=&quot;</span><span class="cpp1-space"> + wxString::Format(_T(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">), idGroupeFrom);
+        ret = baseLivre.exec_rapide(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            wxString texte;
+            baseLivre.get_erreur(texte);
+            wxMessageBox(</span><span class="cpp1-string">&quot;probl&egrave;me &agrave; l'ex&eacute;cution de &quot;</span><span class="cpp1-space"> + query + </span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-space"> + texte);
+        }
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &gt;= </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+    {
+        InitListeGroupes();
+    }
+}
+
+</span><span class="cpp1-comment">/*
+ * CB_typeGroupeSelected
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::CB_typeGroupeSelected(wxCommandEvent&amp; event )
+{
+	InitListeGroupes();
+}
+
+</span><span class="cpp1-comment">/*
+ * CB_typeTriSelected
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlg::CB_typeTriSelected(wxCommandEvent&amp; event )
+{
+	InitListeGroupes();
+}
+</span></span>
+</code></pre>
+</body>
+</html>

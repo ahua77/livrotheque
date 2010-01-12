@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_export_html_dlg_wxform.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-identifier">object frmNewForm_1: TfrmNewForm
+  Left = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">  Top = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">  AutoScroll = False
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Export HTML'
+  ClientHeight = </span><span class="cpp1-number">396
+</span><span class="cpp1-space">  ClientWidth = </span><span class="cpp1-number">312
+</span><span class="cpp1-space">  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -</span><span class="cpp1-number">11
+</span><span class="cpp1-space">  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = True
+  PopupMenu = MainForm.DesignerPopup
+  Visible = True
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnResize = FormResize
+  EVT_CLOSE = 'OnClose'
+  Wx_ICON.Data = {07544269746D617000000000}
+  Wx_Name = 'export_html_dlg'
+  Wx_IDName = 'ID_DIALOG1'
+  Wx_IDValue = </span><span class="cpp1-number">1000
+</span><span class="cpp1-space">  Wx_Class = 'wxDialog'
+  Wx_Center = True
+  Wx_Hidden = False
+  Wx_SizeToContents = True
+  Wx_GeneralStyle = []
+  Wx_DialogStyle = [wxCAPTION, wxSYSTEM_MENU, wxDIALOG_NO_PARENT, wxCLOSE_BOX]
+  Wx_Border = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  Wx_BorderAlignment = []
+  PixelsPerInch = </span><span class="cpp1-number">96
+</span><span class="cpp1-space">  TextHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">  object WxButton_ok: TWxButton
+    Left = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">369
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">114
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">    Caption = 'Lancer la g'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'n'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'ration'
+    TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    EVT_BUTTON = 'WxButton_okClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_OK'
+    Wx_IDValue = </span><span class="cpp1-number">1001
+</span><span class="cpp1-space">    Wx_Height = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">    Wx_Width = </span><span class="cpp1-number">114
+</span><span class="cpp1-space">  end
+  object WxButton_annul: TWxButton
+    Left = </span><span class="cpp1-number">178
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">369
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">    Caption = 'Sortir'
+    TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">    EVT_BUTTON = 'WxButton_annulClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_ANNUL'
+    Wx_IDValue = </span><span class="cpp1-number">1002
+</span><span class="cpp1-space">    Wx_Height = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">    Wx_Width = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">  end
+  object WxButton_chemin_dest: TWxButton
+    Left = </span><span class="cpp1-number">278
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">101
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">29
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">    Caption = '...'
+    TabOrder = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    VerticalAlign = valTop
+    EVT_BUTTON = 'WxButton_chemin_destClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = [wxBU_TOP]
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_CHEMIN_DEST'
+    Wx_IDValue = </span><span class="cpp1-number">1004
+</span><span class="cpp1-space">    Wx_Height = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">    Wx_Width = </span><span class="cpp1-number">29
+</span><span class="cpp1-space">  end
+  object WxEdit_chemin_dest: TWxEdit
+    Left = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">101
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">272
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">18
+</span><span class="cpp1-space">    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">    Text = 'WxEdit_chemin_dest'
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = [wxTE_READONLY]
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_CHEMIN_DEST'
+    Wx_IDValue = </span><span class="cpp1-number">1005
+</span><span class="cpp1-space">    Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  end
+  object WxStaticText_destination: TWxStaticText
+    Left = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">83
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">128
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">    Caption = 'Repertoire de destination :'
+    TabOrder = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_DESTINATION'
+    Wx_IDValue = </span><span class="cpp1-number">1006
+</span><span class="cpp1-space">    Wx_LabelStyle = []
+  end
+  object WxStaticText_texte_accueil: TWxStaticText
+    Left = </span><span class="cpp1-number">9
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">273
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">82
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">    Caption = 'Texte d'#</span><span class="cpp1-number">39</span><span class="cpp1-character">'accueil :'
+    TabOrder = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_TEXTE_ACCUEIL'
+    Wx_IDValue = </span><span class="cpp1-number">1007
+</span><span class="cpp1-space">    Wx_LabelStyle = []
+  end
+  object WxMemo_texte_accueil: TWxMemo
+    Left = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">295
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">305
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">64
+</span><span class="cpp1-space">    BevelInner = bvNone
+    BevelOuter = bvNone
+    Lines.Strings = (
+      'Bienvenue sur e-livroth'#</span><span class="cpp1-number">232</span><span class="cpp1-character">'que !')
+    TabOrder = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = [wxTE_MULTILINE]
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_IDName = 'ID_WXMEMO_TEXTE_ACCUEIL'
+    Wx_IDValue = </span><span class="cpp1-number">1008
+</span><span class="cpp1-space">    Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  end
+  object WxStaticText_titre: TWxStaticText
+    Left = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">129
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">160
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">    Caption = 'Titre utilis'#</span><span class="cpp1-number">233</span><span class="cpp1-character">' pour les pages webs :'
+    TabOrder = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_TITRE'
+    Wx_IDValue = </span><span class="cpp1-number">1009
+</span><span class="cpp1-space">    Wx_LabelStyle = []
+  end
+  object WxEdit_titre: TWxEdit
+    Left = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">150
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">305
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">18
+</span><span class="cpp1-space">    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">    Text = 'La livroth'#</span><span class="cpp1-number">232</span><span class="cpp1-character">'que de ...'
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_TITRE'
+    Wx_IDValue = </span><span class="cpp1-number">1010
+</span><span class="cpp1-space">    Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  end
+  object WxStaticText_nom: TWxStaticText
+    Left = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">180
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">200
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">    Caption = 'Nom utilis'#</span><span class="cpp1-number">233</span><span class="cpp1-character">' pour le nom en bas des pages'
+    TabOrder = </span><span class="cpp1-number">9
+</span><span class="cpp1-space">    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_NOM'
+    Wx_IDValue = </span><span class="cpp1-number">1011
+</span><span class="cpp1-space">    Wx_LabelStyle = []
+  end
+  object WxEdit_nom: TWxEdit
+    Left = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">197
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">305
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">18
+</span><span class="cpp1-space">    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = </span><span class="cpp1-number">10
+</span><span class="cpp1-space">    Text = 'Machin'
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_NOM'
+    Wx_IDValue = </span><span class="cpp1-number">1012
+</span><span class="cpp1-space">    Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  end
+  object WxStaticText_mail: TWxStaticText
+    Left = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">225
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">157
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">    Caption = 'Mail '#</span><span class="cpp1-number">224</span><span class="cpp1-character">' mettre en bas des pages :'
+    TabOrder = </span><span class="cpp1-number">11
+</span><span class="cpp1-space">    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_MAIL'
+    Wx_IDValue = </span><span class="cpp1-number">1013
+</span><span class="cpp1-space">    Wx_LabelStyle = []
+  end
+  object WxEdit_mail: TWxEdit
+    Left = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">246
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">305
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">18
+</span><span class="cpp1-space">    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = </span><span class="cpp1-number">12
+</span><span class="cpp1-space">    Text = 'machin@truc.fr'
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_MAIL'
+    Wx_IDValue = </span><span class="cpp1-number">1014
+</span><span class="cpp1-space">    Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  end
+  object WxRadioBox_type: TWxRadioBox
+    Left = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">305
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">69
+</span><span class="cpp1-space">    Caption = 'Type de g'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'n'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'ration :'
+    MajorDimension = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    Orientation = wxdVertical
+    Items.Strings = (
+      'Full HTML'
+      'HTML PDA'
+      'Ajax')
+    TabOrder = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">    Wx_BGColor = clBlack
+    Wx_Class = 'wxRadioBox'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EventList.Strings = (
+      'EVT_RADIOBOX:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_IDName = 'ID_WXRADIOBOX_TYPE'
+    Wx_IDValue = </span><span class="cpp1-number">1018
+</span><span class="cpp1-space">    Wx_RadioBoxStyle = wxRA_SPECIFY_COLS
+    Wx_Selection = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  end
+end
+</span></span>
+</code></pre>
+</body>
+</html>

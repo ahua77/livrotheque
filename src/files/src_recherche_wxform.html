@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_recherche_wxform.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-identifier">object frmNewForm_1: TfrmNewForm
+  Left = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">  Top = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">  Width = </span><span class="cpp1-number">368
+</span><span class="cpp1-space">  Height = </span><span class="cpp1-number">292
+</span><span class="cpp1-space">  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'recherche'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -</span><span class="cpp1-number">11
+</span><span class="cpp1-space">  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = True
+  PopupMenu = MainForm.DesignerPopup
+  Visible = True
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnResize = NewFormResize
+  Wx_ICON.Data = {07544269746D617000000000}
+  Wx_Name = 'recherche'
+  Wx_IDName = 'ID_DIALOG1'
+  Wx_IDValue = </span><span class="cpp1-number">1000
+</span><span class="cpp1-space">  Wx_Class = 'wxDialog'
+  Wx_Center = True
+  Wx_Hidden = False
+  Wx_GeneralStyle = []
+  Wx_DialogStyle = [wxCAPTION, wxRESIZE_BORDER, wxSYSTEM_MENU, wxTHICK_FRAME, wxMINIMIZE_BOX, wxMAXIMIZE_BOX, wxCLOSE_BOX]
+  EVT_CLOSE = 'rechercheClose'
+  PixelsPerInch = </span><span class="cpp1-number">96
+</span><span class="cpp1-space">  TextHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">  object WxBoxSizer_fond: TWxBoxSizer
+    Left = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">360
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">258
+</span><span class="cpp1-space">    Align = alClient
+    TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Orientation = wxVertical
+    Wx_Class = 'wxBoxSizer'
+    Wx_IDName = 'ID_WXBOXSIZER_FOND'
+    Wx_IDValue = </span><span class="cpp1-number">1001
+</span><span class="cpp1-space">    Wx_StretchFactor = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    object WxScrolledWindow1: TWxScrolledWindow
+      Left = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">      Top = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">      Width = </span><span class="cpp1-number">350
+</span><span class="cpp1-space">      Height = </span><span class="cpp1-number">200
+</span><span class="cpp1-space">      TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      Wx_BKColor = clBlack
+      Wx_Class = 'wxScrolledWindow'
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = [wxVSCROLL, wxHSCROLL]
+      Wx_ScrollWinStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_WXSCROLLEDWINDOW1'
+      Wx_IDValue = </span><span class="cpp1-number">1002
+</span><span class="cpp1-space">      Wx_StretchFactor = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">      object WxComboBox_champ: TWxComboBox
+        Left = </span><span class="cpp1-number">16
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">24
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">260
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = [wxCB_READONLY]
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_CHAMP'
+        Wx_IDValue = </span><span class="cpp1-number">1009
+</span><span class="cpp1-space">      end
+      object WxEdit_texte: TWxEdit
+        Left = </span><span class="cpp1-number">16
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">75
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">260
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        BorderStyle = bsNone
+        TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_TEXTE'
+        Wx_IDValue = </span><span class="cpp1-number">1010
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_champ: TWxStaticText
+        Left = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">203
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Champs sur lequel effectuer la recherche :'
+        TabOrder = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_CHAMP'
+        Wx_IDValue = </span><span class="cpp1-number">1011
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+      end
+      object WxStaticText_texte: TWxStaticText
+        Left = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">54
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">100
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Texte '#</span><span class="cpp1-number">224</span><span class="cpp1-character">' rechercher :'
+        TabOrder = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_TEXTE'
+        Wx_IDValue = </span><span class="cpp1-number">1012
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+      end
+      object WxRadioButton_type_et: TWxRadioButton
+        Left = </span><span class="cpp1-number">16
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">122
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">117
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">32
+</span><span class="cpp1-space">        Caption = 'Type ET'
+        Checked = True
+        TabOrder = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">        TabStop = True
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxRadioButton'
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_IDName = 'ID_WXRADIOBUTTON_TYPE_ET'
+        Wx_IDValue = </span><span class="cpp1-number">1013
+</span><span class="cpp1-space">        Wx_RadioButtonStyle = []
+        Wx_ToolTip = 'Tous Les mots doivent '#</span><span class="cpp1-number">234</span><span class="cpp1-character">'tre pr'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'sent Dans le champ'
+      end
+      object WxRadioButton_type_ou: TWxRadioButton
+        Left = </span><span class="cpp1-number">16
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">145
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">118
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">25
+</span><span class="cpp1-space">        Caption = 'Type OU'
+        TabOrder = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxRadioButton'
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_IDName = 'ID_WXRADIOBUTTON_TYPE_OU'
+        Wx_IDValue = </span><span class="cpp1-number">1015
+</span><span class="cpp1-space">        Wx_RadioButtonStyle = []
+        Wx_ToolTip = 'Un des mots doit '#</span><span class="cpp1-number">234</span><span class="cpp1-character">'tre pr'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'sent dans le champ'
+      end
+      object WxStaticText_type: TWxStaticText
+        Left = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">106
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">141
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Type de recherche '#</span><span class="cpp1-number">224</span><span class="cpp1-character">' utiliser :'
+        TabOrder = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_TYPE'
+        Wx_IDValue = </span><span class="cpp1-number">1016
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+      end
+    end
+    object WxBoxSizer1: TWxBoxSizer
+      Left = </span><span class="cpp1-number">90
+</span><span class="cpp1-space">      Top = </span><span class="cpp1-number">215
+</span><span class="cpp1-space">      Width = </span><span class="cpp1-number">180
+</span><span class="cpp1-space">      Height = </span><span class="cpp1-number">38
+</span><span class="cpp1-space">      TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">      Wx_Class = 'wxBoxSizer'
+      Wx_IDName = 'ID_WXBOXSIZER1'
+      Wx_IDValue = </span><span class="cpp1-number">1006
+</span><span class="cpp1-space">      Wx_StretchFactor = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      object WxButton_rech_ok: TWxButton
+        Left = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Caption = 'OK'
+        TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        EVT_BUTTON = 'OnOk'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'wxID_OK'
+        Wx_IDValue = </span><span class="cpp1-number">1007
+</span><span class="cpp1-space">      end
+      object WxButton_rech_annul: TWxButton
+        Left = </span><span class="cpp1-number">95
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Caption = 'Annuler'
+        TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_rech_annulClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'wxID_CANCEL'
+        Wx_IDValue = </span><span class="cpp1-number">1008
+</span><span class="cpp1-space">      end
+    end
+  end
+end
+</span></span>
+</code></pre>
+</body>
+</html>

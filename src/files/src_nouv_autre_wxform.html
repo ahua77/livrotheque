@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_nouv_autre_wxform.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-identifier">object frmNewForm_2: TfrmNewForm
+  Left = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">  Top = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">  Width = </span><span class="cpp1-number">519
+</span><span class="cpp1-space">  Height = </span><span class="cpp1-number">510
+</span><span class="cpp1-space">  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'modif'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -</span><span class="cpp1-number">11
+</span><span class="cpp1-space">  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = True
+  PopupMenu = MainForm.DesignerPopup
+  Visible = True
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+OnResize = FormResize
+  Wx_ICON.Data = {07544269746D617000000000}
+  Wx_Name = 'nouv_autre'
+  Wx_IDName = 'ID_DIALOG1'
+  Wx_IDValue = </span><span class="cpp1-number">1000
+</span><span class="cpp1-space">  Wx_Class = 'wxDialog'
+  Wx_Center = True
+  Wx_Hidden = False
+  Wx_GeneralStyle = []
+  Wx_DialogStyle = [wxCAPTION, wxRESIZE_BORDER, wxSYSTEM_MENU, wxTHICK_FRAME, wxCLOSE_BOX]
+  EVT_CLOSE = 'nouv_autreClose'
+  PixelsPerInch = </span><span class="cpp1-number">96
+</span><span class="cpp1-space">  TextHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">  object WxBoxSizer1: TWxBoxSizer
+    Left = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">511
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">476
+</span><span class="cpp1-space">    Align = alClient
+    TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Orientation = wxVertical
+    Wx_Class = 'wxBoxSizer'
+    Wx_IDName = 'ID_WXBOXSIZER1'
+    Wx_IDValue = </span><span class="cpp1-number">1001
+</span><span class="cpp1-space">    Wx_StretchFactor = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    object WxScrolledWindow1: TWxScrolledWindow
+      Left = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">      Top = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">      Width = </span><span class="cpp1-number">500
+</span><span class="cpp1-space">      Height = </span><span class="cpp1-number">167
+</span><span class="cpp1-space">      TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      Wx_BKColor = clBlack
+      Wx_Border = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      Wx_Class = 'wxScrolledWindow'
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_ScrollWinStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_WXSCROLLEDWINDOW1'
+      Wx_IDValue = </span><span class="cpp1-number">1003
+</span><span class="cpp1-space">      object WxStaticText_nom: TWxStaticText
+        Left = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">32
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Nom :'
+        TabOrder = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_NOM'
+        Wx_IDValue = </span><span class="cpp1-number">1009
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+      end
+      object WxEdit_nom: TWxEdit
+        Left = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">24
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">229
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        Modified = False
+        BorderStyle = bsNone
+        TabOrder = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_NOM'
+        Wx_IDValue = </span><span class="cpp1-number">1010
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_date_naissance: TWxStaticText
+        Left = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">51
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">99
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Date de naissance :'
+        TabOrder = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_NAISSANCE'
+        Wx_IDValue = </span><span class="cpp1-number">1015
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+      end
+      object WxStaticText_date_mort: TWxStaticText
+        Left = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">99
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">74
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Date du d'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'c'#</span><span class="cpp1-number">232</span><span class="cpp1-character">'s'
+        TabOrder = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_MORT'
+        Wx_IDValue = </span><span class="cpp1-number">1017
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+      end
+      object WxStaticText_commentaire: TWxStaticText
+        Left = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">146
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">71
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Commentaire :'
+        TabOrder = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_COMMENTAIRE'
+        Wx_IDValue = </span><span class="cpp1-number">1011
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+      end
+      object WxStaticText_image: TWxStaticText
+        Left = </span><span class="cpp1-number">226
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">39
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Image :'
+        TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_IMAGE'
+        Wx_IDValue = </span><span class="cpp1-number">1006
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+      end
+      object WxBitmapButton1_ouvrir: TWxBitmapButton
+        Left = </span><span class="cpp1-number">242
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">25
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          </span><span class="cpp1-number">2000000000000004000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          0000000000000000000000000000000000000000000000000000A7B1B6004B8E
+          AF004B8EAF004B8EAF004B8EAF004B8EAF004B8EAF004B8EAF004B8EAF004B8E
+          AF004B8EAF004B8EAF0000000000000000000000000000000000A7B1B600A7B1
+          B60065BBDD004FB0DA004FB0DA004FB0DA004FB0DA004FB0DA004FB0DA004FB0
+          DA004FB0DA004B8EAF0000000000000000000000000000000000A7B1B600A7B1
+          B6009ED0DD008EE3F70089DFF60085DCF40080D8F2007AD5F10075D2F00071CF
+          EF006CCCED004FB0DA004B8EAF00000000000000000000000000A7B1B60090E3
+          F800A7B1B60097DEF00090E3F7008BE0F60086DCF40080DAF3007BD6F10077D3
+          F00071D0EF0067C9EC004B8EAF00000000000000000000000000A7B1B600A1EC
+          F800A7B1B6009BD2DF0092E5F80091E4F8008BE0F60086DCF40081DAF3007BD6
+          F10077D3F00071D0EF004FB0DA004B8EAF000000000000000000A7B1B600A8F0
+          F80090E3F800A7B1B60098DEF00092E5F80090E3F8008BE0F60086DCF40080DA
+          F3007BD6F10077D3F0006CCAEB004B8EAF000000000000000000A7B1B600AFF5
+          F800A8F0F800A7B1B6009BD3E10092E4F80092E5F80091E4F8008CE0F60086DD
+          F50081DAF3007CD7F10073D1EF004FB0DA004B8EAF0000000000A7B1B600B2F5
+          F800AFF5F80090E3F800A7B1B600A7B1B600A7B1B600A7B1B600A7B1B600A7B1
+          B600A7B1B600A7B1B600A7B1B600A7B1B600A7B1B60000000000A7B1B600B2F5
+          F800B2F5F800AFF5F80090E3F80090E3F80090E3F80090E3F80090E3F80090E3
+          F80090E3F80090E3F800A7B1B600000000000000000000000000A7B1B600B2F5
+          F800B2F5F800B2F5F800AFF5F80090E3F800A7B1B600A7B1B600A7B1B600A7B1
+          B600A7B1B600A7B1B600B46C4B00B46C4B00B46C4B00B46C4B00A7B1B600B2F5
+          F800B2F5F800B2F5F800B2F5F800A7B1B6000000000000000000000000000000
+          0000000000000000000000000000B46C4B00E9BEA600B46C4B0000000000A7B1
+          B600A7B1B600A7B1B600A7B1B600000000000000000000000000000000000000
+          0000000000000000000000000000CF9A7500B46C4B00B46C4B00000000000000
+          000000000000000000000000000000000000000000000000000000000000B46C
+          4B00CF9A750000000000CF9A7500B46C4B0000000000B46C4B00000000000000
+          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          0000B46C4B00B46C4B00B46C4B00000000000000000000000000000000000000
+          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000</span><span class="cpp1-symbol">}
+        EVT_BUTTON = 'WxBitmapButton1_ouvrirClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxBitmapButton'
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBITMAPBUTTON1_OUVRIR'
+        Wx_IDValue = </span><span class="cpp1-number">1007
+</span><span class="cpp1-space">        Wx_BITMAP.Data = {
+          07544269746D617036040000424D360400000000000036000000280000001000
+          </span><span class="cpp1-octal">0000100000000100200000000000000400000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          0000A7B1B6004B8EAF004B8EAF004B8EAF004B8EAF004B8EAF004B8EAF004B8E
+          AF004B8EAF004B8EAF004B8EAF004B8EAF000000000000000000000000000000
+          0000A7B1B600A7B1B60065BBDD004FB0DA004FB0DA004FB0DA004FB0DA004FB0
+          DA004FB0DA004FB0DA004FB0DA004B8EAF000000000000000000000000000000
+          0000A7B1B600A7B1B6009ED0DD008EE3F70089DFF60085DCF40080D8F2007AD5
+          F10075D2F00071CFEF006CCCED004FB0DA004B8EAF0000000000000000000000
+          0000A7B1B60090E3F800A7B1B60097DEF00090E3F7008BE0F60086DCF40080DA
+          F3007BD6F10077D3F00071D0EF0067C9EC004B8EAF0000000000000000000000
+          0000A7B1B600A1ECF800A7B1B6009BD2DF0092E5F80091E4F8008BE0F60086DC
+          F40081DAF3007BD6F10077D3F00071D0EF004FB0DA004B8EAF00000000000000
+          0000A7B1B600A8F0F80090E3F800A7B1B60098DEF00092E5F80090E3F8008BE0
+          F60086DCF40080DAF3007BD6F10077D3F0006CCAEB004B8EAF00000000000000
+          0000A7B1B600AFF5F800A8F0F800A7B1B6009BD3E10092E4F80092E5F80091E4
+          F8008CE0F60086DDF50081DAF3007CD7F10073D1EF004FB0DA004B8EAF000000
+          0000A7B1B600B2F5F800AFF5F80090E3F800A7B1B600A7B1B600A7B1B600A7B1
+          B600A7B1B600A7B1B600A7B1B600A7B1B600A7B1B600A7B1B600A7B1B6000000
+          0000A7B1B600B2F5F800B2F5F800AFF5F80090E3F80090E3F80090E3F80090E3
+          F80090E3F80090E3F80090E3F80090E3F800A7B1B60000000000000000000000
+          0000A7B1B600B2F5F800B2F5F800B2F5F800AFF5F80090E3F800A7B1B600A7B1
+          B600A7B1B600A7B1B600A7B1B600A7B1B600B46C4B00B46C4B00B46C4B00B46C
+          4B00A7B1B600B2F5F800B2F5F800B2F5F800B2F5F800A7B1B600000000000000
+          00000000000000000000000000000000000000000000B46C4B00E9BEA600B46C
+          4B0000000000A7B1B600A7B1B600A7B1B600A7B1B60000000000000000000000
+          00000000000000000000000000000000000000000000CF9A7500B46C4B00B46C
+          4B00000000000000000000000000000000000000000000000000000000000000
+          000000000000B46C4B00CF9A750000000000CF9A7500B46C4B0000000000B46C
+          4B00000000000000000000000000000000000000000000000000000000000000
+          00000000000000000000B46C4B00B46C4B00B46C4B0000000000000000000000
+          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000</span><span class="cpp1-symbol">}
+      end
+      object WxBitmapButton_supprime: TWxBitmapButton
+        Left = </span><span class="cpp1-number">241
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">50
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          </span><span class="cpp1-number">2000000000000004000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          000000000000000000000000A500000000000000000000000000000000000000
+          0000000000000000A50000000000000000000000000000000000000000000000
+          0000000000000000FF000000D6000000A5000000000000000000000000000000
+          00000000D6000000D6000000A500000000000000000000000000000000000000
+          00007B7BFF006B6BFF000000FF000000D6000000A50000000000000000000000
+          D6000000FF000000FF000000D6000000A5000000000000000000000000000000
+          0000000000007B7BFF006B6BFF000000FF000000D6000000FF000000FF000000
+          FF000000FF000000FF000000D600000000000000000000000000000000000000
+          000000000000000000007B7BFF006B6BFF000000FF000000FF000000FF000000
+          FF000000FF000000D60000000000000000000000000000000000000000000000
+          00000000000000000000000000000000FF000000FF000000FF000000FF000000
+          FF000000FF000000000000000000000000000000000000000000000000000000
+          00000000000000000000000000000000FF000000FF000000FF000000FF000000
+          FF000000FF000000000000000000000000000000000000000000000000000000
+          000000000000000000006B6BFF000000FF000000FF000000FF000000FF000000
+          FF000000D6000000A50000000000000000000000000000000000000000000000
+          0000000000006B6BFF000000FF000000FF000000FF000000FF000000FF006B6B
+          FF000000FF000000D6000000A500000000000000000000000000000000000000
+          00007B7BFF006B6BFF000000FF000000FF006B6BFF0000000000000000007B7B
+          FF006B6BFF000000FF000000D6000000A5000000000000000000000000000000
+          0000000000007B7BFF006B6BFF006B6BFF000000000000000000000000000000
+          00007B7BFF006B6BFF000000FF00000000000000000000000000000000000000
+          000000000000000000007B7BFF00000000000000000000000000000000000000
+          0000000000007B7BFF0000000000000000000000000000000000000000000000
+          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000</span><span class="cpp1-symbol">}
+        EVT_BUTTON = 'WxBitmapButton_supprimeClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxBitmapButton'
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBITMAPBUTTON_SUPPRIME'
+        Wx_IDValue = </span><span class="cpp1-number">1008
+</span><span class="cpp1-space">        Wx_BITMAP.Data = {
+          07544269746D617036040000424D360400000000000036000000280000001000
+          </span><span class="cpp1-octal">0000100000000100200000000000000400000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          0000000000000000000000000000000000000000A50000000000000000000000
+          00000000000000000000000000000000A5000000000000000000000000000000
+          00000000000000000000000000000000FF000000D6000000A500000000000000
+          000000000000000000000000D6000000D6000000A50000000000000000000000
+          000000000000000000007B7BFF006B6BFF000000FF000000D6000000A5000000
+          0000000000000000D6000000FF000000FF000000D6000000A500000000000000
+          00000000000000000000000000007B7BFF006B6BFF000000FF000000D6000000
+          FF000000FF000000FF000000FF000000FF000000D60000000000000000000000
+          0000000000000000000000000000000000007B7BFF006B6BFF000000FF000000
+          FF000000FF000000FF000000FF000000D6000000000000000000000000000000
+          000000000000000000000000000000000000000000000000FF000000FF000000
+          FF000000FF000000FF000000FF00000000000000000000000000000000000000
+          000000000000000000000000000000000000000000000000FF000000FF000000
+          FF000000FF000000FF000000FF00000000000000000000000000000000000000
+          0000000000000000000000000000000000006B6BFF000000FF000000FF000000
+          FF000000FF000000FF000000D6000000A5000000000000000000000000000000
+          00000000000000000000000000006B6BFF000000FF000000FF000000FF000000
+          FF000000FF006B6BFF000000FF000000D6000000A50000000000000000000000
+          000000000000000000007B7BFF006B6BFF000000FF000000FF006B6BFF000000
+          0000000000007B7BFF006B6BFF000000FF000000D6000000A500000000000000
+          00000000000000000000000000007B7BFF006B6BFF006B6BFF00000000000000
+          000000000000000000007B7BFF006B6BFF000000FF0000000000000000000000
+          0000000000000000000000000000000000007B7BFF0000000000000000000000
+          00000000000000000000000000007B7BFF000000000000000000000000000000
+          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000000000000000000000000000000000000000000000000000000000000000
+</span><span class="cpp1-space">          </span><span class="cpp1-octal">0000</span><span class="cpp1-symbol">}
+      end
+      object WxPanel_image: TWxPanel
+        Left = </span><span class="cpp1-number">269
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">226
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">162
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">        Wx_BKColor = clBlack
+        Wx_Class = 'wxPanel'
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXPANEL_IMAGE'
+        Wx_IDValue = </span><span class="cpp1-number">1020
+</span><span class="cpp1-space">      end
+      object WxDatePickerCtrl_naissance: TWxDatePickerCtrl
+        Left = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">72
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">140
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">9
+</span><span class="cpp1-space">        Text = '3/3/2006'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxDatePickerCtrl'
+        Wx_Date = </span><span class="cpp1-float">38779.4202580324
+</span><span class="cpp1-space">        Wx_PickCalStyle = [wxDP_DROPDOWN, wxDP_ALLOWNONE]
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXDATEPICKERCTRL_NAISSANCE'
+        Wx_IDValue = </span><span class="cpp1-number">1023
+</span><span class="cpp1-space">      end
+      object WxDatePickerCtrl_mort: TWxDatePickerCtrl
+        Left = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">116
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">140
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">10
+</span><span class="cpp1-space">        Text = '3/3/2006'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxDatePickerCtrl'
+        Wx_Date = </span><span class="cpp1-float">38779.4210567824
+</span><span class="cpp1-space">        Wx_PickCalStyle = [wxDP_DROPDOWN, wxDP_ALLOWNONE]
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXDATEPICKERCTRL_MORT'
+        Wx_IDValue = </span><span class="cpp1-number">1024
+</span><span class="cpp1-space">      end
+    end
+    object WxMemo_commentaire: TWxMemo
+      Left = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">      Top = </span><span class="cpp1-number">182
+</span><span class="cpp1-space">      Width = </span><span class="cpp1-number">500
+</span><span class="cpp1-space">      Height = </span><span class="cpp1-number">138
+</span><span class="cpp1-space">      BevelInner = bvNone
+      BevelOuter = bvNone
+      TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">      Wx_BGColor = clBlack
+      Wx_Border = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      Wx_Class = 'wxTextCtrl'
+      Wx_EditStyle = [wxTE_MULTILINE]
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_IDName = 'ID_WXMEMO_COMMENTAIRE'
+      Wx_IDValue = </span><span class="cpp1-number">1004
+</span><span class="cpp1-space">      Wx_StretchFactor = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">      Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    end
+    object WxGrid_liste: TWxGrid
+      Left = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">      Top = </span><span class="cpp1-number">330
+</span><span class="cpp1-space">      Width = </span><span class="cpp1-number">501
+</span><span class="cpp1-space">      Height = </span><span class="cpp1-number">100
+</span><span class="cpp1-space">      ColCount = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">      DefaultColWidth = </span><span class="cpp1-number">50
+</span><span class="cpp1-space">      DefaultRowHeight = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">      RowCount = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">      TabOrder = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">      EVT_GRID_CELL_LEFT_DCLICK = 'WxGrid_listeCellLeftDoubleClick'
+      Wx_ColCount = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">      Wx_LabelColSize = </span><span class="cpp1-number">25
+</span><span class="cpp1-space">      Wx_LabelRowSize = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">      Wx_BGColor = clBlack
+      Wx_Class = 'wxGrid'
+      Wx_EditStyle = []
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_WXGRID_LISTE'
+      Wx_IDValue = </span><span class="cpp1-number">1022
+</span><span class="cpp1-space">      Wx_GridSelection = wxGridSelectRows
+      Wx_StretchFactor = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">      ColWidths = (
+        </span><span class="cpp1-number">25
+</span><span class="cpp1-space">        </span><span class="cpp1-number">50
+</span><span class="cpp1-space">        </span><span class="cpp1-number">50
+</span><span class="cpp1-space">        </span><span class="cpp1-number">50</span><span class="cpp1-symbol">)
+      RowHeights = (
+        </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        </span><span class="cpp1-number">20</span><span class="cpp1-symbol">)
+    end
+    object WxBoxSizer2: TWxBoxSizer
+      Left = </span><span class="cpp1-number">165
+</span><span class="cpp1-space">      Top = </span><span class="cpp1-number">440
+</span><span class="cpp1-space">      Width = </span><span class="cpp1-number">180
+</span><span class="cpp1-space">      Height = </span><span class="cpp1-number">38
+</span><span class="cpp1-space">      TabOrder = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">      Wx_Class = 'wxBoxSizer'
+      Wx_IDName = 'ID_WXBOXSIZER2'
+      Wx_IDValue = </span><span class="cpp1-number">1012
+</span><span class="cpp1-space">      Wx_StretchFactor = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      object WxButton_ok: TWxButton
+        Left = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Caption = 'OK'
+        TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_okClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_OK'
+        Wx_IDValue = </span><span class="cpp1-number">1013
+</span><span class="cpp1-space">      end
+      object WxButton_annul: TWxButton
+        Left = </span><span class="cpp1-number">95
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Caption = 'Annuler'
+        TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_annulClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'wxID_CANCEL'
+        Wx_IDValue = </span><span class="cpp1-number">1014
+</span><span class="cpp1-space">      end
+    end
+  end
+end
+</span></span>
+</code></pre>
+</body>
+</html>

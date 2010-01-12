@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_ParamManager_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">///-----------------------------------------------------------------
+///
+/// @file      ParamManager.cpp
+/// @author    stephane
+/// Created:   12/12/2009 18:10:19
+/// @section   DESCRIPTION
+///            ParamManager class implementation
+///
+///------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &quot;ParamManager.h&quot;
+
+</span><span class="cpp1-identifier">ParamManager* ParamManager::instance = NULL;
+
+
+ParamManager::ParamManager (ma_base&amp; pBaseConfig) : baseConfig(pBaseConfig)
+{
+</span><span class="cpp1-comment">//    wxMessageBox(&quot;ParamManager::ParamManager&quot;);
+</span><span class="cpp1-space">    instance = </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">;
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!baseConfig.ouverte()) {
+        wxString fichier_conf;    
+        fichier_conf=::wxGetCwd();
+        fichier_conf+=</span><span class="cpp1-string">&quot;\\config&quot;</span><span class="cpp1-symbol">;
+        baseConfig.ouvrir(fichier_conf);
+        </span><span class="cpp1-comment">// wxMessageBox(&quot;ouverture de la base config&quot;);
+</span><span class="cpp1-space">    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!baseConfig.ouverte()) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;la base config n'est toujours pas ouverte&quot;</span><span class="cpp1-symbol">);
+    }
+}
+
+ParamManager::~ParamManager()
+{
+    instance = NULL;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParamManager::GetOrSet(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; typeParam, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; nomParam, 
+                            wxString&amp; val1)
+{
+    wxString dummyVal2;
+    GetOrSet(typeParam, nomParam, val1, dummyVal2);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParamManager::GetOrSet(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; typeParam, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; nomParam, 
+                            </span><span class="cpp1-reservedword">long</span><span class="cpp1-symbol">&amp; val1, </span><span class="cpp1-reservedword">long</span><span class="cpp1-symbol">&amp; val2)
+{
+    wxString str1, str2;
+    str1.Printf(</span><span class="cpp1-string">&quot;%ld&quot;</span><span class="cpp1-symbol">, val1);
+    str2.Printf(</span><span class="cpp1-string">&quot;%ld&quot;</span><span class="cpp1-symbol">, val2);
+    GetOrSet(typeParam, nomParam, str1, str2);
+    str1.ToLong(&amp;val1);
+    str2.ToLong(&amp;val2);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParamManager::GetOrSet(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; typeParam, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; nomParam, 
+                            BOOL&amp; val1, </span><span class="cpp1-reservedword">long</span><span class="cpp1-symbol">&amp; val2)
+{
+    wxString str1 = </span><span class="cpp1-string">&quot;T&quot;</span><span class="cpp1-symbol">, str2;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!val1) str1 = </span><span class="cpp1-string">&quot;F&quot;</span><span class="cpp1-symbol">;
+    str2.Printf(</span><span class="cpp1-string">&quot;%ld&quot;</span><span class="cpp1-symbol">, val2);
+    GetOrSet(typeParam, nomParam, str1, str2);
+    val1 = (str1 == </span><span class="cpp1-string">&quot;T&quot;</span><span class="cpp1-symbol">);
+    str2.ToLong(&amp;val2);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParamManager::GetOrSet(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; typeParam, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; nomParam, 
+                            BOOL&amp; val1)
+{
+    </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> dummyVal2=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    GetOrSet(typeParam, nomParam, val1, dummyVal2);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParamManager::GetOrSet(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; typeParam, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; nomParam, 
+                            </span><span class="cpp1-reservedword">long</span><span class="cpp1-symbol">&amp; val1)
+{
+    </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> dummyVal2 = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    GetOrSet(typeParam, nomParam, val1, dummyVal2);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParamManager::GetOrSet(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; typeParam, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; nomParam, 
+                            wxString&amp; val1, wxString&amp; val2)
+</span><span class="cpp1-comment">// pour le parametre (typeParam, nomParam) : 
+//    - s'il est pr&eacute;sent en base : retourne les valeurs lues dans val1, val2
+//    - s'il est absent en base : le cr&eacute;e avec les valeurs val1 et val2
+</span><span class="cpp1-symbol">{
+    wxString query = </span><span class="cpp1-string">&quot;select val1, val2 from config where type_param='&quot;</span><span class="cpp1-space"> + typeParam + </span><span class="cpp1-string">&quot;' and nom_param='&quot;</span><span class="cpp1-space"> + nomParam + </span><span class="cpp1-string">&quot;'&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret=baseConfig.transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        wxString mess;
+        baseConfig.get_erreur(mess);
+        wxMessageBox(</span><span class="cpp1-string">&quot;probleme avec la requete &quot;</span><span class="cpp1-space"> + query + </span><span class="cpp1-string">&quot;\nmessage : &quot;</span><span class="cpp1-space"> + mess);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &gt;= </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        ret = baseConfig.transac_step();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret == SQLITE_ROW) {
+            </span><span class="cpp1-comment">// il ne doit y avoir qu'une ligne avec typeParam / nomParam --&gt; on ne prend que la premiere trouv&eacute;e
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille;
+            baseConfig.get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, val1, taille);
+            baseConfig.get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, val2, taille);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            </span><span class="cpp1-comment">// la ligne typeParam / nomParam n'existe pas : on en profite pour l'ins&eacute;rer
+</span><span class="cpp1-space">            query = </span><span class="cpp1-string">&quot;insert into config (type_param, nom_param, val1, val2) &quot;
+</span><span class="cpp1-space">                    </span><span class="cpp1-string">&quot;values ('&quot;</span><span class="cpp1-space"> + typeParam + </span><span class="cpp1-string">&quot;', '&quot;</span><span class="cpp1-space"> + nomParam + </span><span class="cpp1-string">&quot;', '&quot;</span><span class="cpp1-space"> + val1 + </span><span class="cpp1-string">&quot;', '&quot;</span><span class="cpp1-space"> + val2 + </span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+            ret = baseConfig.exec_rapide(query);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                wxMessageBox(</span><span class="cpp1-string">&quot;probleme avec la requete &quot;</span><span class="cpp1-space"> + query);
+            }
+        }
+        baseConfig.transac_fin();
+    }
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParamManager::Set(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; typeParam, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; nomParam, 
+                            BOOL val1)
+{
+    wxString str1 = </span><span class="cpp1-string">&quot;T&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!val1) str1 = </span><span class="cpp1-string">&quot;F&quot;</span><span class="cpp1-symbol">;
+    Set (typeParam, nomParam, str1);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParamManager::Set(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; typeParam, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; nomParam, 
+                       </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> val1, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> val2)
+{
+    wxString str1, str2;
+    str1.Printf(</span><span class="cpp1-string">&quot;%ld&quot;</span><span class="cpp1-symbol">, val1);
+    str2.Printf(</span><span class="cpp1-string">&quot;%ld&quot;</span><span class="cpp1-symbol">, val2);
+    Set(typeParam, nomParam, str1, str2);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParamManager::Set(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; typeParam, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; nomParam, 
+                            wxString val1, wxString val2)
+</span><span class="cpp1-comment">// pour le parametre (typeParam, nomParam) : 
+//    - s'il est pr&eacute;sent en base : met &agrave; jour avec val1 et val2 (update)
+//    - s'il est absent en base : le cr&eacute;e avec les valeurs val1 et val2 (insert)
+</span><span class="cpp1-symbol">{
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!baseConfig.ouverte()) {
+        wxString fichier_conf;    
+        fichier_conf=::wxGetCwd();
+        fichier_conf+=</span><span class="cpp1-string">&quot;\\config&quot;</span><span class="cpp1-symbol">;
+        baseConfig.ouvrir(fichier_conf);
+        wxMessageBox(</span><span class="cpp1-string">&quot;ouverture de la base config&quot;</span><span class="cpp1-symbol">);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!baseConfig.ouverte()) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;la base config n'est toujours pas ouverte&quot;</span><span class="cpp1-symbol">);
+    }
+    
+    wxString query = </span><span class="cpp1-string">&quot;select val1, val2 from config where type_param='&quot;</span><span class="cpp1-space"> + typeParam + </span><span class="cpp1-string">&quot;' and nom_param='&quot;</span><span class="cpp1-space"> + nomParam + </span><span class="cpp1-string">&quot;'&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret=baseConfig.transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        wxString mess;
+        baseConfig.get_erreur(mess);
+        wxMessageBox(</span><span class="cpp1-string">&quot;probleme avec la requete &quot;</span><span class="cpp1-space"> + query + </span><span class="cpp1-string">&quot;\nmessage : &quot;</span><span class="cpp1-space"> + mess);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &gt;= </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        ret = baseConfig.transac_step();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret == SQLITE_ROW) {
+            </span><span class="cpp1-comment">// il ne doit y avoir qu'une ligne avec typeParam / nomParam --&gt; on ne prend que la premiere trouv&eacute;e
+</span><span class="cpp1-space">            query = </span><span class="cpp1-string">&quot;update config set val1 = '&quot;</span><span class="cpp1-space"> + val1 + </span><span class="cpp1-string">&quot;', val2 = '&quot;</span><span class="cpp1-space"> + val2 + </span><span class="cpp1-string">&quot;'&quot;
+</span><span class="cpp1-space">                    </span><span class="cpp1-string">&quot; where type_param='&quot;</span><span class="cpp1-space"> + typeParam + </span><span class="cpp1-string">&quot;' and nom_param='&quot;</span><span class="cpp1-space"> + nomParam + </span><span class="cpp1-string">&quot;'&quot;</span><span class="cpp1-symbol">;
+            ret = baseConfig.exec_rapide(query);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                wxMessageBox(</span><span class="cpp1-string">&quot;probleme avec la requete &quot;</span><span class="cpp1-space"> + query);
+            }
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            </span><span class="cpp1-comment">// la ligne typeParam / nomParam n'existe pas : on en profite pour l'ins&eacute;rer
+</span><span class="cpp1-space">            query = </span><span class="cpp1-string">&quot;insert into config (type_param, nom_param, val1, val2) &quot;
+</span><span class="cpp1-space">                    </span><span class="cpp1-string">&quot;values ('&quot;</span><span class="cpp1-space"> + typeParam + </span><span class="cpp1-string">&quot;', '&quot;</span><span class="cpp1-space"> + nomParam + </span><span class="cpp1-string">&quot;', '&quot;</span><span class="cpp1-space"> + val1 + </span><span class="cpp1-string">&quot;', '&quot;</span><span class="cpp1-space"> + val2 + </span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+            ret = baseConfig.exec_rapide(query);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                wxMessageBox(</span><span class="cpp1-string">&quot;probleme avec la requete &quot;</span><span class="cpp1-space"> + query);
+            }
+        }
+        baseConfig.transac_fin();
+    }
+}
+</span></span>
+</code></pre>
+</body>
+</html>

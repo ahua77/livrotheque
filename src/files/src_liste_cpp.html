@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_liste_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        liste.cpp
+// Author:      Fougny
+// Created:     22/12/04 10:40:02
+//
+//Copyright  PE Epaillard, 22/12/04 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#ifdef __GNUG__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma implementation &quot;liste.cpp&quot;
+#endif
+
+</span><span class="cpp1-comment">/* for compilers that support precompilation
+   includes &quot;wx/wx.h&quot; */
+
+</span><span class="cpp1-preprocessor">#include &quot;wx/wxprec.h&quot;
+
+#ifdef __BORLANDC__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma hdrstop
+#endif
+
+
+#include &quot;liste.h&quot;
+
+</span><span class="cpp1-comment">////Header Include Start
+////Header Include End
+
+
+
+//----------------------------------------------------------------------------
+// liste
+//----------------------------------------------------------------------------
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(liste,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(liste::listeClose)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+
+
+
+</span><span class="cpp1-identifier">liste::liste( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    CreateGUIControls();
+}
+
+liste::~liste()
+{
+    
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	wxBoxSizer* WxBoxSizer_l = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBoxSizer(wxVERTICAL);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetSizer(WxBoxSizer_l);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetAutoLayout(TRUE);
+
+	wxArrayString arrayStringFor_liste_combo;
+	liste_combo =  </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxComboBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_LISTE_COMBO ,_(</span><span class="cpp1-string">&quot;liste_combo&quot;</span><span class="cpp1-symbol">) ,wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">),wxSize(</span><span class="cpp1-number">90</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), arrayStringFor_liste_combo   );
+	WxBoxSizer_l-&gt;Add(liste_combo,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_HORIZONTAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	liste_arbre =  </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTreeCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_LISTE_ARBRE, wxPoint(</span><span class="cpp1-number">13</span><span class="cpp1-symbol">,</span><span class="cpp1-number">36</span><span class="cpp1-symbol">),wxSize(</span><span class="cpp1-number">73</span><span class="cpp1-symbol">,</span><span class="cpp1-number">200</span><span class="cpp1-symbol">)  , wxTR_HAS_BUTTONS);
+	WxBoxSizer_l-&gt;Add(liste_arbre,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_HORIZONTAL | wxALL,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+
+	GetSizer()-&gt;Fit(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+	GetSizer()-&gt;SetSizeHints(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetTitle(_(</span><span class="cpp1-string">&quot;liste&quot;</span><span class="cpp1-symbol">));
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;Center();
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetIcon(wxNullIcon);
+	
+    </span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste::listeClose(wxCloseEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a wxDialog,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    Destroy();
+}
+ 
+</span></span>
+</code></pre>
+</body>
+</html>

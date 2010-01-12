@@ -1,0 +1,359 @@
+b64 - Changes
+=============
+
+Updated:    24th August 2008
+
+
+    ************************************
+    * Change key:                      *
+    *                                  *
+    *  ~  means something has changed  *
+    *  +  means a new addition         *
+    *  -  means removal of something   *
+    *  *  means a general bullet-point *
+    *                                  *
+    ************************************
+
+
+24th August 2008 - 1.3.4
+========================
+
+Summary:
+--------
+
+ * fix for GCC 4.x's defective resolution of function template names for
+   std::string overloads of string access shim
+ * fixed printf format-specifier warning in example.2.c
+
+Details:
+--------
+
+General:
+
+Core:
+
+C API:
+
+C++ API:
+
+ ~ fix for GCC 4.x's defective resolution of function template names for
+   std::string overloads of string access shim
+
+Distribution:
+
+Makefiles / Project-files:
+
+Examples:
+
+ ~ fixed printf format-specifier warning in example.2.c
+
+Test:
+
+Depends on:
+
+ * STLSoft 1.9.48 or later, for C++ API only
+   (http://stlsoft.org/)
+
+
+
+3rd August 2008 - 1.3.3
+=======================
+
+Summary:
+--------
+
+ * fixed warning in GCC 4.x makefile
+ * added makefiles for GCC 4.1, 4.2, 4.3
+ * added makefiles for VC++ 9
+ * fixed printf format-specifier warning in example.2.c
+
+Details:
+--------
+
+General:
+
+Core:
+
+C API:
+
+C++ API:
+
+Distribution:
+
+Makefiles / Project-files:
+
+ ~ fixed warning in GCC 4.x makefile
+ + added makefiles for GCC 4.1, 4.2, 4.3
+ + added makefiles for VC++ 9
+
+Examples:
+
+ ~ fixed printf format-specifier warning in example.2.c
+
+Test:
+
+Depends on:
+
+ * STLSoft 1.9.45 or later, for C++ API only
+   (http://stlsoft.org/)
+
+
+
+13th May 2008 - 1.3.2
+=======================
+
+Summary:
+--------
+
+ * Win64 compatibility
+
+Details:
+--------
+
+General:
+
+Core:
+
+ ~ one minor fix for Win64 compatibility (changing a variable from unsigned
+   to size_t)
+
+ + implicit link compatibility with bc582, vc8 and vc9
+
+C API:
+
+C++ API:
+
+Distribution:
+
+Makefiles / Project-files:
+
+ + vc8_x64 makefile
+
+Examples:
+
+Test:
+
+Depends on:
+
+ * STLSoft 1.9.41 or later, for C++ API only
+   (http://stlsoft.org/)
+
+
+
+15th March 2008 - 1.3.1
+=======================
+
+Summary:
+--------
+
+ * added ability to customise namespace name
+ * renamed test/example/sample directories and filenames to fit in with the
+   prevailing standard in all Synesis-related libraries
+
+Details:
+--------
+
+General:
+
+Core:
+
+C API:
+
+C++ API:
+
+ + added ability to customise the namespace from b64, using the 
+   B64_CUSTOM_NAMESPACE pre-processor symbol
+
+Distribution:
+
+Makefiles / Project-files:
+
+Examples:
+
+ ~ renamed all examples from example_(c|cpp)_X to example.(c|cpp).X
+
+Test:
+
+ ~ renamed all tests from test_(c|cpp)_X to test.(c|cpp).X
+
+Depends on:
+
+ * STLSoft 1.9.26 or later, for C++ API only
+   (http://stlsoft.org/)
+
+
+
+9th February 2008 - 1.2.6
+=========================
+
+Summary:
+--------
+
+ * workaround for weird GCC bug on 64-bit Linux
+
+Details:
+--------
+
+General:
+
+Core:
+
+ ~ workaround for weird GCC bug on 64-bit Linux
+
+
+C API:
+
+C++ API:
+
+ + added ability to customise the namespace from b64, using the 
+   B64_CUSTOM_NAMESPACE pre-processor symbol
+
+Distribution:
+
+Makefiles / Project-files:
+
+Examples:
+
+ ~ renamed all examples from example_(c|cpp)_X to example.(c|cpp).X
+
+Test:
+
+ ~ renamed all tests from test_(c|cpp)_X to test.(c|cpp).X
+
+Depends on:
+
+ * STLSoft 1.9.23 or later, for C++ API only
+   (http://stlsoft.org/)
+
+
+
+8th February 2008 - 1.2.5
+=========================
+
+Summary:
+--------
+
+ * workaround for weird GCC bug on 64-bit Linux
+
+Details:
+--------
+
+General:
+
+Core:
+
+ ~ workaround for weird GCC bug on 64-bit Linux
+
+
+C API:
+
+C++ API:
+
+ ~ compatibility with STLSoft 1.9.22
+
+Distribution:
+
+Makefiles / Project-files:
+
+Examples:
+
+ ~ compatibility with Visual C++ 8+ "Safe String" library
+
+Test:
+
+ ~ compatibility with Visual C++ 8+ "Safe String" library
+
+Depends on:
+
+ * STLSoft 1.9.22 or later, for C++ API only
+   (http://stlsoft.org/)
+
+
+
+Version 1.2.4 (30th April 2007)
+---------------------------------
+
+    Distribution:
+        * version released on Extended STL, volume 1: CD
+
+    b64/C++
+        ~ compatibility with STLSoft 1.9.1
+
+
+Version 1.2.3 (26th January 2007)
+---------------------------------
+
+    Distribution:
+        ~ trimming of unused/unwanted makefiles
+        ~ fix of omission (in 1.2.2) of compiled HTML help (.CHM)
+          file
+
+    b64 C-API:
+        ~ minor changes to help
+
+    b64/C++:
+        ~ minor changes to help
+
+Version 1.2.2 (22nd January 2007)
+---------------------------------
+
+    Distribution:
+        + now roots the distribution under b64-X.Y, e.g. b64-1.2.2
+        ~ minor fixes to makefiles
+
+    b64 C-API:
+        ~ minor changes to help
+
+Version 1.2.1 (7th December 2006)
+---------------------------------
+
+    b64 core:
+        + b64_getErrorString() and b64_getErrorStringLength()
+
+    b64/C++:
+        - deprecated b64/cpp/b64.hpp
+        + b64/b64.hpp
+        ~ all public C++ names moved from b64::cpp namespace
+          into b64 namespace; old namespace retained for
+          backwards compatibility
+        ~ fix to b64::decode() to avoiding invoking subscript
+          operator for empty blob_t instances
+
+Version 1.1.3 (2nd August 2006)
+------------------------------
+
+    b64 core:
+        ~ moved the Null Object dummy variables out of
+          b64_encode_() and b64_decode_() into callers, and
+          added precondition enforcements into
+          b64_encode_() and b64_decode_().
+
+    b64/C++:
+        - removed obsolete inclusions and definitions from
+          b64/cpp/b64.hpp
+        + now assumes contiguous string type for Dinkumware
+          C++ libraries for VC++ up to version 7.1
+        + added B64_NO_CONTIGUOUS_STRING_TYPE that, if defined,
+          suppresses contiguous assumption
+        ~ fixed a bug in encode(), whereby the coding_exception
+          would have had the wrong return code.
+
+Version 1.1.2 (26th July 2006)
+------------------------------
+
+    Minor changes to the header file for the C++ mapping, to be
+    compatible with latest STLSoft (1.9.1 beta 16 - download from
+    http://stlsoft.org/downloads.html)
+
+    Minor fixes/changes to makefiles
+
+    Minor fixes to the documentation
+
+
+Version 1.1.1 (28th April 2006)
+-------------------------------
+
+    This will be kept up to date from v1.1 (28th April 2006) onwards.
+
+
+=============================== End of file ================================

@@ -1,0 +1,1999 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_biblioFrame_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        newProgramFrame.cpp
+// Author:      
+// Created:     10/27/2004 12:22:10 AM04-FEV-2005 00:00:00
+//
+// Copyright: PE Epaillard, 10/27/2004 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#ifdef __GNUG__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma implementation &quot;biblioFrame.cpp&quot;
+#endif
+
+</span><span class="cpp1-comment">/* for compilers that support precompilation
+   includes &quot;wx/wx.h&quot; */
+
+</span><span class="cpp1-preprocessor">#include &quot;wx/wxprec.h&quot;
+
+#ifdef __BORLANDC__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma hdrstop
+#endif
+
+</span><span class="cpp1-space"> </span><span class="cpp1-preprocessor">#include &quot;biblioFrame.h&quot;
+
+
+
+#include &quot;star1.xpm&quot; 
+#include &quot;star2.xpm&quot;
+#include &quot;splash.xpm&quot;
+</span><span class="cpp1-comment">////Header Include Start
+</span><span class="cpp1-preprocessor">#include &quot;Images/Self_biblioFrame_XPM.xpm&quot;
+#include &quot;Images/biblioFrame_WxToolButton_about_XPM.xpm&quot;
+#include &quot;Images/biblioFrame_WxToolButton_stat_XPM.xpm&quot;
+#include &quot;Images/biblioFrame_WxToolButton_tri_XPM.xpm&quot;
+#include &quot;Images/biblioFrame_WxToolButton_colonne_XPM.xpm&quot;
+#include &quot;Images/biblioFrame_toolb_inserer_XPM.xpm&quot;
+#include &quot;Images/biblioFrame_toolb_ouvrir_XPM.xpm&quot;
+#include &quot;Images/biblioFrame_toolb_Nouv_XPM.xpm&quot;
+#include &quot;Images/biblioFrame_toolb_quit_XPM.xpm&quot;
+</span><span class="cpp1-comment">////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &quot;ParametreDlg.h&quot;
+#include &quot;ParamManager.h&quot;
+
+
+
+#define style_dialog_choix wxSYSTEM_MENU|wxCAPTION
+
+</span><span class="cpp1-comment">//----------------------------------------------------------------------------
+// newProgramFrame
+//----------------------------------------------------------------------------
+</span><span class="cpp1-identifier">DEFINE_EVENT_TYPE(wxEVENT_SUPPRESSION)
+
+    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//EVT_KEY_DOWN(biblioFrame::OnKeyDown)
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//EVT_SPLITTER_SASH_POS_CHANGED( ID_SPLITTERWINDOW, biblioFrame::OnSplitterwindowSashPosChanged )
+</span><span class="cpp1-space">	EVT_SPLITTER_SASH_POS_CHANGED( ID_SPLITTERWINDOW1, biblioFrame::OnSplitterwindowSashPosChanged )
+	</span><span class="cpp1-comment">//EVT_SPLITTER_SASH_POS_CHANGED( ID_SPLITTERWINDOW2, biblioFrame::OnSplitterwindowSashPosChanged )
+</span><span class="cpp1-space">	EVT_SPLITTER_DCLICK( ID_SPLITTERWINDOW1, biblioFrame::OnSplitterwindowDclick )
+	EVT_SPLITTER_DCLICK( ID_SPLITTERWINDOW2, biblioFrame::OnSplitterwindowDclick )
+	EVT_SPLITTER_DCLICK( ID_SPLITTERWINDOW, biblioFrame::OnSplitterwindowDclick )
+	EVT_GRID_CMD_CELL_LEFT_DCLICK(ID_WXGRID_GRILLE, biblioFrame::OnSelectLivre)
+	EVT_GRID_CMD_CELL_RIGHT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnGrilleClickDroit)
+	EVT_TREE_SEL_CHANGED(ID_TREE_ARBRE, biblioFrame::OnArbreSel)
+	</span><span class="cpp1-comment">//EVT_GRID_CMD_CELL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
+</span><span class="cpp1-space">	EVT_GRID_CMD_SELECT_CELL(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
+	EVT_MENU(ID_EFFACELIVRE , biblioFrame::popup_effacelivre)
+	EVT_COMMAND  (ID_WXGRID_GRILLE, wxEVENT_SUPPRESSION, biblioFrame::OnSuppression)
+	EVT_HTML_LINK_CLICKED(ID_HTMLWINDOW,biblioFrame::image_click)
+	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(biblioFrame::biblioFrameClose)
+	EVT_MENU(ID_MNU_OUVRIR_1022, biblioFrame::OuvrirClick)
+	EVT_MENU(ID_MNU_CREERUNEBASE_1023, biblioFrame::toolb_NouvClick)
+	EVT_MENU(ID_MNU_MENUITEM30_1058, biblioFrame::Mnuitem_imprimerlivre)
+	EVT_MENU(ID_MNU_IMPRIMERLALISTE_1059, biblioFrame::Mnumenuitem_imprimeliste)
+	EVT_MENU(ID_MNU_EXPORTHTML_1060, biblioFrame::Mnuexporthtml1060Click)
+	EVT_MENU(ID_MNU_EXPORTCSV_1062, biblioFrame::Mnuexportcsv1062Click)
+	EVT_MENU(ID_MNU_IMPORTERCVS_1026, biblioFrame::MnuimportercvsClick)
+	EVT_MENU(ID_MNU_QUITTER_1011, biblioFrame::toolb_quitClick)
+	EVT_MENU(ID_MNU_ORDREDETRI, biblioFrame::MnuordredetriClick)
+	EVT_MENU(ID_MNU_CHOIXCOLONNES_1024, biblioFrame::popup_MnuouvrirClick)
+	EVT_MENU(ID_MNU_LISTE_AUTEUR, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_SERIE, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_GENRE, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_EDITEUR, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_FORMAT, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_ARTISTE, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_ETAT, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_LOCALISATION, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_PAYS, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_LANGUE, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_TRADUCTEUR, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_LISTE_SERIE_O, biblioFrame::Mnulistes)
+	EVT_MENU(ID_MNU_RECHERCHER_1045, biblioFrame::MnurechercherClick)
+	EVT_MENU(ID_MNU_STATISTIQUE_1048, biblioFrame::Mnustatistique1048Click)
+	EVT_MENU(ID_MNU__APROPOS_1047, biblioFrame::Mnuapropos1047Click)
+	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
+	EVT_MENU(ID_WXTOOLBUTTON_ABOUT,biblioFrame::Mnuapropos1047Click)
+	EVT_MENU(ID_WXTOOLBUTTON_STAT,biblioFrame::Mnustatistique1048Click)
+	EVT_MENU(ID_WXTOOLBUTTON_TRI,biblioFrame::MnuordredetriClick)
+	EVT_MENU(ID_WXTOOLBUTTON_COLONNE,biblioFrame::popup_MnuouvrirClick)
+	EVT_MENU(ID_WXTOOLB_INSERER,biblioFrame::insererClick)
+	</span><span class="cpp1-comment">// debut stephane 2009-12-02
+</span><span class="cpp1-space">	EVT_MENU(ID_WXTOOLB_INSERER_ISBN,biblioFrame::insererClickIsbn)
+	EVT_MENU(ID_WXTOOLB_FUSION_GENRE,biblioFrame::fusionGenre)
+	EVT_MENU(ID_WXTOOLB_PARAM,biblioFrame::parametrer)
+  	</span><span class="cpp1-comment">// fin stephane 2009-12-02
+</span><span class="cpp1-space">	EVT_MENU(ID_TOOLB_OUVRIR,biblioFrame::OuvrirClick)
+	EVT_MENU(ID_TOOLB_NOUV,biblioFrame::toolb_NouvClick)
+	EVT_MENU(ID_TOOLB_QUIT,biblioFrame::toolb_quitClick)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+
+
+
+</span><span class="cpp1-identifier">biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxFrame( parent, id, title, position, size, style)
+{
+    </span><span class="cpp1-comment">// creation d'un param manager qui reste actif pendant toute la duree de vie du programme
+</span><span class="cpp1-space">    ParamManager* param = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> ParamManager(config);
+
+    BOOL useSplash = </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    param-&gt;GetOrSet(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;USE_SPLASH&quot;</span><span class="cpp1-symbol">, useSplash);
+    
+    wxSplashScreen* splash = NULL;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (useSplash) {
+        wxBitmap WxStaticBitmap_splash(splash_xpm);
+        splash = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxSplashScreen(WxStaticBitmap_splash,
+           wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_TIMEOUT,
+           </span><span class="cpp1-number">6000</span><span class="cpp1-symbol">, NULL, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, wxDefaultPosition, wxDefaultSize,
+           wxSIMPLE_BORDER|wxSTAY_ON_TOP);
+    }
+    CreateGUIControls();
+
+    load_config();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (useSplash &amp;&amp; splash != NULL) {
+       splash-&gt;~wxSplashScreen();
+    }
+}
+
+biblioFrame::~biblioFrame()
+{ 
+    </span><span class="cpp1-reservedword">delete</span><span class="cpp1-space"> mastat;
+    amoi.fermer();
+} 
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::init_arbre() {
+    wxTreeItemId root;
+    wxTreeItemId branche;
+    wxString query;
+    wxString texte, mess;
+    </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> c;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, taille;
+    
+    arbre-&gt;DeleteAllItems();
+    
+    root=arbre-&gt;AddRoot(</span><span class="cpp1-string">&quot;tous&quot;</span><span class="cpp1-symbol">);
+   
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (c='A';c&lt;='Z';c++) {
+        query.Printf(</span><span class="cpp1-string">&quot;select nom from auteur where nom LIKE '%c%%' ORDER by nom&quot;</span><span class="cpp1-symbol">, c);
+
+        ret=amoi.transac_prepare(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            amoi.get_erreur(mess);
+            wxMessageBox(</span><span class="cpp1-string">&quot;init_arbre &quot;</span><span class="cpp1-symbol">+mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            amoi.fermer();
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }    
+        ret=amoi.transac_step();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret == SQLITE_ROW) {
+            texte.Printf(</span><span class="cpp1-string">&quot;%c&quot;</span><span class="cpp1-symbol">,c);
+            branche=arbre-&gt;AppendItem(root, texte);
+        }    
+        </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                amoi.get_erreur(mess);
+                wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            }</span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+                amoi.get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,texte,taille);
+                arbre-&gt;AppendItem(branche, texte);
+            }     
+            ret=amoi.transac_step();
+        }    
+        amoi.transac_fin();
+    }  
+    arbre-&gt;SelectItem(root);
+    arbre-&gt;Expand(root);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::init_colonnes() {
+    wxString texte;
+    wxString query;
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> defaut = </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret,taille;
+    
+    liste_choisis.Clear();
+    liste_choisis_nom.Clear();
+    liste_tri.Clear();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-comment">// r&eacute;cup&eacute;ration des colonnes affich&eacute;es
+</span><span class="cpp1-space">        query = </span><span class="cpp1-string">&quot;SELECT val1, val2 FROM config WHERE type_param='INIT' AND nom_param='COLONNE'&quot;</span><span class="cpp1-symbol">;
+        ret=amoi.transac_prepare(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&gt;=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            ret=amoi.transac_step();
+        }    
+        </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+            amoi.get_value_int(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,ret);
+            liste_choisis.Add(ret);
+            amoi.get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,texte,taille);
+            </span><span class="cpp1-comment">//wxMessageBox(texte,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">            liste_choisis_nom.Add(texte);
+            defaut=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+            ret=amoi.transac_step();
+        }    
+        amoi.transac_fin();
+        </span><span class="cpp1-comment">// r&eacute;cup&eacute;ration du tri
+</span><span class="cpp1-space">        query = </span><span class="cpp1-string">&quot;SELECT val1 FROM config WHERE type_param='INIT' AND nom_param='TRI'&quot;</span><span class="cpp1-symbol">;
+        ret=amoi.transac_prepare(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&gt;=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            ret=amoi.transac_step();
+        }    
+        </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+            amoi.get_value_int(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,ret);
+            liste_tri.Add(ret);
+            </span><span class="cpp1-comment">//wxMessageBox(texte,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">            ret=amoi.transac_step();
+        }    
+        amoi.transac_fin();
+    }    
+    </span><span class="cpp1-comment">// choix par d&eacute;faut
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (defaut == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+        liste_choisis.Add(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        liste_choisis.Add(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+        liste_choisis.Add(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        liste_choisis.Add(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">);
+        liste_choisis_nom.Add(</span><span class="cpp1-string">&quot;id&quot;</span><span class="cpp1-symbol">);
+        liste_choisis_nom.Add(</span><span class="cpp1-string">&quot;auteur&quot;</span><span class="cpp1-symbol">);
+        liste_choisis_nom.Add(</span><span class="cpp1-string">&quot;titre&quot;</span><span class="cpp1-symbol">);
+        liste_choisis_nom.Add(</span><span class="cpp1-string">&quot;serie&quot;</span><span class="cpp1-symbol">);
+        liste_tri.Add(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+        liste_tri.Add(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">);
+        liste_tri.Add(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+    }    
+    
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    liste_a_choisir.Clear();
+    liste_a_choisir.Add(</span><span class="cpp1-string">&quot;rowid&quot;</span><span class="cpp1-symbol">);
+</span><span class="cpp1-comment">//    while(strlen(nom_token_livre[i]) &gt; 0) {
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(monlivre.get_nom_token(i).Length() &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        texte=monlivre.get_nom_token(i);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(texte.Left(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">) != </span><span class="cpp1-string">&quot;image_&quot;</span><span class="cpp1-symbol">) {
+            liste_a_choisir.Add(texte);
+        }    
+        i++;
+    }    
+
+}    
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+	</span><span class="cpp1-comment">//wxMenu *ID_MNU_LISTES_1027_Mnu_Obj = new wxMenu(0);
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	toolb_princ = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxToolBar(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_TOOLB_PRINC, wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">691</span><span class="cpp1-symbol">,</span><span class="cpp1-number">26</span><span class="cpp1-symbol">), wxTB_DOCKABLE);
+
+	wxBitmap toolb_quit_BITMAP (biblioFrame_toolb_quit_XPM);
+	wxBitmap toolb_quit_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_TOOLB_QUIT, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), toolb_quit_BITMAP, toolb_quit_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;Quitter&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Ce bouton sert &agrave; sortir de l'application&quot;</span><span class="cpp1-symbol">));
+
+	toolb_princ-&gt;AddSeparator();
+
+	wxBitmap toolb_Nouv_BITMAP (biblioFrame_toolb_Nouv_XPM);
+	wxBitmap toolb_Nouv_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_TOOLB_NOUV, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), toolb_Nouv_BITMAP, toolb_Nouv_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;nouvelle base&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Cr&eacute;er une nouvelle base&quot;</span><span class="cpp1-symbol">));
+
+	wxBitmap toolb_ouvrir_BITMAP (biblioFrame_toolb_ouvrir_XPM);
+	wxBitmap toolb_ouvrir_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_TOOLB_OUVRIR, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), toolb_ouvrir_BITMAP, toolb_ouvrir_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;ouvrir&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;ouvrir une base existante&quot;</span><span class="cpp1-symbol">));
+
+	toolb_princ-&gt;AddSeparator();
+
+	wxBitmap toolb_inserer_BITMAP (biblioFrame_toolb_inserer_XPM);
+	wxBitmap toolb_inserer_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_WXTOOLB_INSERER, wxT(</span><span class="cpp1-string">&quot;Inserer un livre dans la base&quot;</span><span class="cpp1-symbol">), toolb_inserer_BITMAP, toolb_inserer_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;inserer&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Ins&eacute;rer un livre dans la base&quot;</span><span class="cpp1-symbol">));
+
+</span><span class="cpp1-comment">// debut modif stephane - 2009-12-02
+</span><span class="cpp1-space">	wxBitmap toolb_inserer_isbn_BITMAP (biblioFrame_toolb_inserer_XPM);
+	wxBitmap toolb_inserer_isbn_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_WXTOOLB_INSERER_ISBN, wxT(</span><span class="cpp1-string">&quot;Inserer un livre dans la base par l'ISBN&quot;</span><span class="cpp1-symbol">), toolb_inserer_isbn_BITMAP, toolb_inserer_isbn_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;inserer par l'isbn&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Ins&eacute;rer un livre dans la base par l'isbn&quot;</span><span class="cpp1-symbol">));
+
+</span><span class="cpp1-comment">/* TODO : creer image pour fusion des genres + deplacer */
+</span><span class="cpp1-space">	wxBitmap toolb_fusion_genre_BITMAP (biblioFrame_toolb_inserer_XPM);
+	wxBitmap toolb_fusion_genre_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_WXTOOLB_FUSION_GENRE, wxT(</span><span class="cpp1-string">&quot;Fusionner deux groupes&quot;</span><span class="cpp1-symbol">), toolb_fusion_genre_BITMAP, toolb_fusion_genre_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;fusionner deux genres&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Fusionner deux genres&quot;</span><span class="cpp1-symbol">));
+
+</span><span class="cpp1-comment">/* TODO : creer image pour parametres + deplacer */
+</span><span class="cpp1-space">	wxBitmap toolb_parametres_BITMAP (biblioFrame_toolb_inserer_XPM);
+	wxBitmap toolb_parametres_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_WXTOOLB_PARAM, wxT(</span><span class="cpp1-string">&quot;Param&eacute;trer l'application&quot;</span><span class="cpp1-symbol">), toolb_parametres_BITMAP, toolb_parametres_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;param&eacute;trer l'application&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;param&eacute;trer l'application&quot;</span><span class="cpp1-symbol">));
+
+
+</span><span class="cpp1-comment">// fin modif stephane - 2009-12-02
+
+
+</span><span class="cpp1-space">	toolb_princ-&gt;AddSeparator();
+
+	wxBitmap WxToolButton_colonne_BITMAP (biblioFrame_WxToolButton_colonne_XPM);
+	wxBitmap WxToolButton_colonne_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_WXTOOLBUTTON_COLONNE, wxT(</span><span class="cpp1-string">&quot;WxToolButton_colonne&quot;</span><span class="cpp1-symbol">), WxToolButton_colonne_BITMAP, WxToolButton_colonne_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;Choix des colonnes&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Choisir les colonnes &agrave; afficher&quot;</span><span class="cpp1-symbol">));
+
+	wxBitmap WxToolButton_tri_BITMAP (biblioFrame_WxToolButton_tri_XPM);
+	wxBitmap WxToolButton_tri_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_WXTOOLBUTTON_TRI, wxT(</span><span class="cpp1-string">&quot;WxToolButton_tri&quot;</span><span class="cpp1-symbol">), WxToolButton_tri_BITMAP, WxToolButton_tri_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;Tri&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Choix des colonnes utilis&eacute;es pour le tri&quot;</span><span class="cpp1-symbol">));
+
+	toolb_princ-&gt;AddSeparator();
+
+	wxBitmap WxToolButton_stat_BITMAP (biblioFrame_WxToolButton_stat_XPM);
+	wxBitmap WxToolButton_stat_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_WXTOOLBUTTON_STAT, wxT(</span><span class="cpp1-string">&quot;WxToolButton_stat&quot;</span><span class="cpp1-symbol">), WxToolButton_stat_BITMAP, WxToolButton_stat_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;statistiques &quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Affiche des statistiques sur la base&quot;</span><span class="cpp1-symbol">));
+
+	toolb_princ-&gt;AddSeparator();
+
+	wxBitmap WxToolButton_about_BITMAP (biblioFrame_WxToolButton_about_XPM);
+	wxBitmap WxToolButton_about_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ-&gt;AddTool(ID_WXTOOLBUTTON_ABOUT, wxT(</span><span class="cpp1-string">&quot;WxToolButton_about&quot;</span><span class="cpp1-symbol">), WxToolButton_about_BITMAP, WxToolButton_about_DISABLE_BITMAP, wxITEM_NORMAL, wxT(</span><span class="cpp1-string">&quot;a propos&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;A propos de la livrotheque&quot;</span><span class="cpp1-symbol">));
+
+	barre_statut = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStatusBar(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_BARRE_STATUT);
+
+	WxPopupMenu_grille = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">));WxPopupMenu_grille-&gt;Append(ID_MNU_OUVRIR_1015, wxT(</span><span class="cpp1-string">&quot;Choix des colonnes&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Permet de choisir les colonnes affich&eacute;e pour chaque livre&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+
+	monmenu = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenuBar();
+	wxMenu *ID_MNU_FICHIER_QUIT_Mnu_Obj = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;Append(ID_MNU_OUVRIR_1022, wxT(</span><span class="cpp1-string">&quot;Ouvrir une Base&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;Append(ID_MNU_CREERUNEBASE_1023, wxT(</span><span class="cpp1-string">&quot;Creer une base&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;AppendSeparator();
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;Append(ID_MNU_MENUITEM30_1058, wxT(</span><span class="cpp1-string">&quot;Imprimer le &amp;livre&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;Append(ID_MNU_IMPRIMERLALISTE_1059, wxT(</span><span class="cpp1-string">&quot;&amp;Imprimer la liste&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;AppendSeparator();
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;Append(ID_MNU_EXPORTHTML_1060, wxT(</span><span class="cpp1-string">&quot;Export HTML&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Permet d'exporter la base au format HTML&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;Append(ID_MNU_EXPORTCSV_1062, wxT(</span><span class="cpp1-string">&quot;Export CSV&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;AppendSeparator();
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;Append(ID_MNU_IMPORTERCVS_1026, wxT(</span><span class="cpp1-string">&quot;Import CSV&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Importer des donn&eacute;es &agrave; partir d'un fichier au format CVS&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;AppendSeparator();
+	ID_MNU_FICHIER_QUIT_Mnu_Obj-&gt;Append(ID_MNU_QUITTER_1011, wxT(</span><span class="cpp1-string">&quot;Quitter&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	monmenu-&gt;Append(ID_MNU_FICHIER_QUIT_Mnu_Obj, wxT(</span><span class="cpp1-string">&quot;Fichier&quot;</span><span class="cpp1-symbol">));
+	
+	wxMenu *ID_MNU_OUTIL_1017_Mnu_Obj = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	ID_MNU_OUTIL_1017_Mnu_Obj-&gt;Append(ID_MNU_ORDREDETRI, wxT(</span><span class="cpp1-string">&quot;Ordre de tri&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Permet de Choisir les colonnes utilis&eacute;es pour le tri&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_OUTIL_1017_Mnu_Obj-&gt;Append(ID_MNU_CHOIXCOLONNES_1024, wxT(</span><span class="cpp1-string">&quot;Choix des colonnes affich&eacute;es&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	
+	wxMenu *ID_MNU_LISTES_1027_Mnu_Obj = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_AUTEUR, wxT(</span><span class="cpp1-string">&quot;Auteur&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_SERIE, wxT(</span><span class="cpp1-string">&quot;Serie&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_GENRE, wxT(</span><span class="cpp1-string">&quot;Genre&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_EDITEUR, wxT(</span><span class="cpp1-string">&quot;Editeur&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_FORMAT, wxT(</span><span class="cpp1-string">&quot;Format&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_ARTISTE, wxT(</span><span class="cpp1-string">&quot;Artiste&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_ETAT, wxT(</span><span class="cpp1-string">&quot;Etat&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_LOCALISATION, wxT(</span><span class="cpp1-string">&quot;Localisation&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_PAYS, wxT(</span><span class="cpp1-string">&quot;Pays&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_LANGUE, wxT(</span><span class="cpp1-string">&quot;Langue&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_TRADUCTEUR, wxT(</span><span class="cpp1-string">&quot;Traducteur&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_LISTES_1027_Mnu_Obj-&gt;Append(ID_MNU_LISTE_SERIE_O, wxT(</span><span class="cpp1-string">&quot;serie originale&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_OUTIL_1017_Mnu_Obj-&gt;Append(ID_MNU_LISTES_1027, wxT(</span><span class="cpp1-string">&quot;Listes&quot;</span><span class="cpp1-symbol">), ID_MNU_LISTES_1027_Mnu_Obj);
+	monmenu-&gt;Append(ID_MNU_OUTIL_1017_Mnu_Obj, wxT(</span><span class="cpp1-string">&quot;Option&quot;</span><span class="cpp1-symbol">));
+	
+	wxMenu *ID_MNU_EDITION_1043_Mnu_Obj = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	ID_MNU_EDITION_1043_Mnu_Obj-&gt;Append(ID_MNU_RECHERCHER_1045, wxT(</span><span class="cpp1-string">&quot;Rechercher&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_EDITION_1043_Mnu_Obj-&gt;Append(ID_MNU_STATISTIQUE_1048, wxT(</span><span class="cpp1-string">&quot;Statistique&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	monmenu-&gt;Append(ID_MNU_EDITION_1043_Mnu_Obj, wxT(</span><span class="cpp1-string">&quot;Edition&quot;</span><span class="cpp1-symbol">));
+	
+	wxMenu *ID_MNU_APROPOS_1046_Mnu_Obj = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	ID_MNU_APROPOS_1046_Mnu_Obj-&gt;Append(ID_MNU__APROPOS_1047, wxT(</span><span class="cpp1-string">&quot;&amp;A propos&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	monmenu-&gt;Append(ID_MNU_APROPOS_1046_Mnu_Obj, wxT(</span><span class="cpp1-string">&quot;Aide&quot;</span><span class="cpp1-symbol">));
+	SetMenuBar(monmenu);
+
+	SetStatusBar(barre_statut);
+	toolb_princ-&gt;SetToolBitmapSize(wxSize(</span><span class="cpp1-number">16</span><span class="cpp1-symbol">,</span><span class="cpp1-number">16</span><span class="cpp1-symbol">));
+	toolb_princ-&gt;SetToolSeparation(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">);
+	toolb_princ-&gt;Realize();
+	SetToolBar(toolb_princ);
+	SetTitle(wxT(</span><span class="cpp1-string">&quot;Livrotheque&quot;</span><span class="cpp1-symbol">));
+	SetIcon(Self_biblioFrame_XPM);
+	SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">699</span><span class="cpp1-symbol">,</span><span class="cpp1-number">600</span><span class="cpp1-symbol">);
+	Center();
+	
+    </span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-space">    split_princip = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxSplitterWindow( </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_SPLITTERWINDOW, wxDefaultPosition, wxSize(</span><span class="cpp1-number">100</span><span class="cpp1-symbol">, </span><span class="cpp1-number">100</span><span class="cpp1-symbol">), wxWANTS_CHARS|wxNO_BORDER );
+    split_princip-&gt;SetMinimumPaneSize(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">);
+
+    split_gauche = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxSplitterWindow( split_princip, ID_SPLITTERWINDOW1, wxDefaultPosition, wxSize(</span><span class="cpp1-number">100</span><span class="cpp1-symbol">, </span><span class="cpp1-number">100</span><span class="cpp1-symbol">), wxWANTS_CHARS|wxNO_BORDER );
+
+    wxString* choix_arbreStrings = NULL;
+    choix_arbre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxComboBox( split_gauche, ID_COMBOBOX, _T(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxDefaultPosition, wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, choix_arbreStrings, wxWANTS_CHARS|wxCB_DROPDOWN );
+
+    
+    arbre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTreeCtrl( split_gauche, ID_TREE_ARBRE, wxDefaultPosition, wxSize(</span><span class="cpp1-number">100</span><span class="cpp1-symbol">, </span><span class="cpp1-number">100</span><span class="cpp1-symbol">), wxWANTS_CHARS|wxTR_DEFAULT_STYLE );
+
+    split_gauche-&gt;SplitHorizontally(choix_arbre, arbre, </span><span class="cpp1-number">20</span><span class="cpp1-symbol">);
+    split_gauche-&gt;Unsplit(choix_arbre);
+    
+    split_droit = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxSplitterWindow( split_princip, ID_SPLITTERWINDOW2, wxDefaultPosition, wxSize(</span><span class="cpp1-number">100</span><span class="cpp1-symbol">, </span><span class="cpp1-number">500</span><span class="cpp1-symbol">), wxWANTS_CHARS|wxNO_BORDER );
+    split_droit-&gt;SetMinimumPaneSize(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">);
+    
+    grille = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> bellegrille( split_droit, ID_WXGRID_GRILLE, wxDefaultPosition, wxSize(</span><span class="cpp1-number">200</span><span class="cpp1-symbol">, </span><span class="cpp1-number">150</span><span class="cpp1-symbol">), wxWANTS_CHARS|wxSUNKEN_BORDER|wxHSCROLL|wxVSCROLL );
+ 
+    grille-&gt;CreateGrid(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-comment">//grille-&gt;AppendRows(100);
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//grille-&gt;AppendCols(100);
+
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ir = grille-&gt;GetNumberRows();
+	grille-&gt;DeleteRows(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, ir);
+	</span><span class="cpp1-comment">//   AppendRows(ir);
+</span><span class="cpp1-space">	ir = grille-&gt;GetNumberCols();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ir)
+		grille-&gt;DeleteCols(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, ir);
+    grille-&gt;SetDefaultColSize(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">);
+    grille-&gt;SetDefaultRowSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+    grille-&gt;SetColLabelSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+    grille-&gt;SetRowLabelSize(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	grille-&gt;SetSelectionMode(wxGrid::wxGridSelectRows);
+
+    visuhtml = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxHtmlWindow( split_droit, ID_HTMLWINDOW, wxDefaultPosition, wxSize(</span><span class="cpp1-number">100</span><span class="cpp1-symbol">, </span><span class="cpp1-number">150</span><span class="cpp1-symbol">), wxHW_SCROLLBAR_AUTO|wxSUNKEN_BORDER|wxHSCROLL|wxVSCROLL );
+    visuhtml-&gt;SetBorders(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    split_droit-&gt;SplitHorizontally(grille, visuhtml, </span><span class="cpp1-number">200</span><span class="cpp1-symbol">);
+
+    split_princip-&gt;SplitVertically(split_gauche, split_droit, </span><span class="cpp1-number">120</span><span class="cpp1-symbol">);
+
+    split_droit-&gt; SetSashPosition(</span><span class="cpp1-number">400</span><span class="cpp1-symbol">);
+    
+    </span><span class="cpp1-comment">//image handler
+</span><span class="cpp1-space">    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBMPHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPNGHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxJPEGHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxGIFHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPCXHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPNMHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTIFFHandler );
+    wxImage::AddHandler( </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxXPMHandler ); 	
+    
+    barre_statut-&gt;SetFieldsCount(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+    
+    param_modifie=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+	mastat=</span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> statistique(NULL);
+	grille_ok=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+	
+	
+	</span><span class="cpp1-comment">// stephane 2009-12-02
+</span><span class="cpp1-space">	wxAcceleratorTable* pAccel = GetAcceleratorTable();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (pAccel) {
+        </span><span class="cpp1-comment">// wxMessageBox(&quot;pAccel not null&quot;,&quot;debug&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">        wxAcceleratorEntry entries[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">];
+        entries[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">].Set(wxACCEL_NORMAL, WXK_INSERT, ID_WXTOOLB_INSERER_ISBN);
+        wxAcceleratorTable table (</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, entries);
+        SetAcceleratorTable(table);
+        </span><span class="cpp1-comment">/* TODO : on perd la table existante - comment la completer au lieu de l'&eacute;craser ? */
+</span><span class="cpp1-space">    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        </span><span class="cpp1-comment">// wxMessageBox(&quot;pAccel null&quot;,&quot;debug&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">    }
+	</span><span class="cpp1-comment">// fin stephane 2009-12-02
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::biblioFrameClose(wxCloseEvent&amp; event)
+{
+    sauve_config();
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a Frame,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    Destroy();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::OnSplitterwindowSashPosChanged( wxSplitterEvent&amp; event )
+{
+</span><span class="cpp1-comment">//@begin wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING event handler for ID_SPLITTERWINDOW1 in biblioframe.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// Before editing this code, remove the block markers.
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> pos=event.GetSashPosition();
+    wxString texte;
+    </span><span class="cpp1-comment">//texte.Printf(&quot;pouet:%d&quot;,pos);
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wxMessageBox(texte,&quot;tralala&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (pos&lt;</span><span class="cpp1-number">10</span><span class="cpp1-symbol">) {
+        event.SetSashPosition(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">);
+    }
+    split_gauche-&gt;SetSashPosition(</span><span class="cpp1-number">18</span><span class="cpp1-symbol">,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-comment">//event.Skip();
+//@end wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING event handler for ID_SPLITTERWINDOW1 in biblioframe. 
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::OnSplitterwindowDclick( wxSplitterEvent&amp; event )
+{
+    </span><span class="cpp1-comment">//split_gauche-&gt;SetSashPosition(18,false);
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wxMessageBox(&quot;POUET&quot;,&quot;tralala&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">    event.Veto();
+}
+
+  
+</span><span class="cpp1-comment">/*
+ * toolb_quitClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::toolb_quitClick(wxCommandEvent&amp; event)
+{
+    sauve_config();
+    Destroy();
+    </span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/*
+ * OuvrirClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::OuvrirClick(wxCommandEvent&amp; event)
+{
+    
+    wxString filename = wxFileSelector(</span><span class="cpp1-string">&quot;Choix de la base &agrave; ouvrir&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;base (*.db)|*.db|Tous (*.*)|*.*&quot;</span><span class="cpp1-symbol">,wxOPEN|wxFILE_MUST_EXIST);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( !filename.empty() )
+    {
+        ouvrir_base(filename);
+    }
+  </span><span class="cpp1-comment">//wxMessageBox(&quot;This is a wxWidgets Hello world sample&quot;,&quot;About Hello World&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::ouvrir_base(wxString filename) {
+    wxString mess, mess2;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte()==</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)
+            amoi.fermer();
+            
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret=amoi.ouvrir(filename);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        amoi.get_erreur(mess);
+        mess2.Printf(</span><span class="cpp1-string">&quot;probleme :%s avec la base : &quot;</span><span class="cpp1-symbol">,mess.mb_str());
+        wxMessageBox(mess2+filename,</span><span class="cpp1-string">&quot;probleme lors de l'ouverture&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    
+    init_colonnes();
+    </span><span class="cpp1-comment">/* TODO (#1#): ajout de verification version base */
+</span><span class="cpp1-space">    remplir_grille(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+    init_arbre();
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetTitle(_(</span><span class="cpp1-string">&quot;Livrotheque : &quot;</span><span class="cpp1-symbol">+filename));
+	mastat-&gt;definir_base(&amp;amoi);
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> biblioFrame::creer_base() {
+     wxString creation;
+     wxString mess;
+     wxString mess2;
+     </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;    
+     </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    
+    i=-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    monlivre.gen_create_tout(creation,i);
+</span><span class="cpp1-comment">//    wxMessageBox(creation,&quot;probleme&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">    ret=amoi.exec_rapide(creation);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        amoi.get_erreur(mess);
+        mess2.Printf(</span><span class="cpp1-string">&quot;probleme :%s : vous devez creer un fichier qui n'existe pas d&eacute;ja&quot;</span><span class="cpp1-symbol">,mess.mb_str());
+        wxMessageBox(mess2,</span><span class="cpp1-string">&quot;probleme lors de la creation&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (i&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        monlivre.gen_create_tout(creation,i);
+        ret=amoi.exec_rapide(creation);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            amoi.get_erreur(mess);
+            mess2.Printf(</span><span class="cpp1-string">&quot;probleme :%s : vous devez creer un fichier qui n'existe pas d&eacute;ja&quot;</span><span class="cpp1-symbol">,mess.mb_str());
+            wxMessageBox(mess2,</span><span class="cpp1-string">&quot;probleme lors de la creation&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+        }
+    }    
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}    
+</span><span class="cpp1-comment">/*
+ * toolb_NouvClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::toolb_NouvClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+     </span><span class="cpp1-comment">//ma_base amoi;
+</span><span class="cpp1-space">     wxString mess;
+   	
+    </span><span class="cpp1-comment">//char file[1000];
+</span><span class="cpp1-space">    
+    wxString filename = wxFileSelector(</span><span class="cpp1-string">&quot;Creer une nouvelle base&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;db&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;base (*.db)|*.db|Tous (*.*)|*.*&quot;</span><span class="cpp1-symbol">,wxSAVE);
+
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( !filename.empty() )
+    {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte()==</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)
+                amoi.fermer();
+                
+        amoi.ouvrir(filename);
+        
+        ret=creer_base();
+        init_colonnes();
+        </span><span class="cpp1-comment">//remplir_grille(&quot;&quot;);
+</span><span class="cpp1-space">        init_arbre();
+    }
+    
+	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::fusionGenre(wxCommandEvent&amp; event)
+{
+    FusionDlg dlg(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, amoi);
+    dlg.ShowModal();
+}
+    
+</span><span class="cpp1-comment">// stephane 2009-12-02
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::insererClick(wxCommandEvent&amp; event)
+{
+    insererClick_interne(event, FALSE);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::insererClickIsbn(wxCommandEvent&amp; event)
+{
+    insererClick_interne(event, TRUE);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::parametrer(wxCommandEvent&amp; event)
+{
+</span><span class="cpp1-comment">//    wxMessageBox(&quot;biblioFrame::parametrer&quot;);
+</span><span class="cpp1-space">    ParametreDlg dlg(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, config);
+</span><span class="cpp1-comment">//    wxMessageBox(&quot;biblioFrame::parametrer - apr&egrave;s constructeur de ParametreDlg&quot;);
+</span><span class="cpp1-space">    dlg.ShowModal();
+}
+</span><span class="cpp1-comment">// fin stephane 2009-12-02
+
+/*
+ * insererClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::insererClick_interne(wxCommandEvent&amp; event, BOOL isbnMode)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, numrow;
+    </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> id_ins;
+    wxString mess;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte()==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;Vous devez ouvrir ou cr&eacute;er une base pour inserer un nouveau livre!&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        Nouv_livre insere_livre(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Entr&eacute;e d'un nouveau livre&quot;</span><span class="cpp1-symbol">, wxDefaultPosition, wxDefaultSize);</span><span class="cpp1-comment">//, style_dialog_choix);
+</span><span class="cpp1-space">        
+</span><span class="cpp1-comment">// stephane 2009-12-02
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (isbnMode) {
+        insere_livre.WxEdit_isbn-&gt;SetFocus();
+    }
+</span><span class="cpp1-comment">// fin stephane 2009-12-02
+</span><span class="cpp1-space">                
+        
+        ret=insere_livre.ShowModal();
+        </span><span class="cpp1-comment">//si on a insere un enregistrement un r&eacute;affiche la grille
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(ret&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            init_arbre();
+            </span><span class="cpp1-comment">//remplir_grille(&quot;&quot;);
+</span><span class="cpp1-space">            id_ins=amoi.last_insert();
+            mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">, (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) id_ins);
+            </span><span class="cpp1-comment">//wxMessageBox( mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">            numrow=trouve_ligne(mess);
+            grille-&gt;MakeCellVisible(numrow,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+            grille-&gt;SelectRow(numrow);
+            AfficheLivre(mess);
+         }    
+    }    
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::OnSelectLivre( wxGridEvent &amp;event ) 
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb_ligne, ret, numrow;
+    wxString id;
+    wxString mess;
+    
+    nb_ligne=event.GetRow();
+    id=grille-&gt;GetRowLabelValue(nb_ligne);
+    Nouv_livre insere_livre(&amp;amoi, id,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Modification du livre&quot;</span><span class="cpp1-symbol">, wxDefaultPosition, wxDefaultSize);</span><span class="cpp1-comment">//, style_dialog_choix);
+</span><span class="cpp1-space">    ret=insere_livre.ShowModal();
+    mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">, ret);
+        </span><span class="cpp1-comment">//si on a inserer un enregistrement un r&eacute;affiche la grille
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(ret&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            </span><span class="cpp1-comment">//wxMessageBox(mess+&quot; &quot;+id,&quot;coco&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">            init_arbre();
+            </span><span class="cpp1-comment">//remplir_grille(&quot;&quot;);
+</span><span class="cpp1-space">            numrow=trouve_ligne(id);
+            grille-&gt;MakeCellVisible(numrow,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+            grille-&gt;SelectRow(numrow);
+            AfficheLivre(id);
+        }    
+
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> biblioFrame::trouve_ligne(wxString Label){
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;grille-&gt;GetNumberRows();i++) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (grille-&gt;GetLabelValue(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,i) == Label) {
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> i;
+        }
+    }
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;        
+}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::remplir_grille(wxString where)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i,j;
+     </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+     wxString mess;
+     wxString query;
+     wxString texte;
+     </span><span class="cpp1-comment">//int id;
+</span><span class="cpp1-space">     </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille;
+     </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nbcol, champ;
+
+    grille_ok=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ir = grille-&gt;GetNumberRows();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ir)
+		grille-&gt;DeleteRows(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, ir);
+	ir = grille-&gt;GetNumberCols();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ir)
+		grille-&gt;DeleteCols(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, ir);
+
+    creation_select_livre(query,where, </span><span class="cpp1-string">&quot;order by id_auteur&quot;</span><span class="cpp1-symbol">);
+    ret=amoi.transac_prepare(query);
+        </span><span class="cpp1-comment">//wxMessageBox(query,&quot;test&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        amoi.get_erreur(mess);
+        mess=query+</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">+mess;
+        wxMessageBox(</span><span class="cpp1-string">&quot;remplir_grille &quot;</span><span class="cpp1-symbol">+mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        amoi.fermer();
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    ret=SQLITE_ROW;
+    ret=amoi.transac_step();
+    i=j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    nbcol=amoi.transac_nbcol(); 
+    grille-&gt;InsertCols(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,(nbcol-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">));
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+
+        grille-&gt;AppendRows();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            amoi.get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }</span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (champ=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">; champ&lt;nbcol;champ++) {
+                amoi.get_value_char(champ,texte,taille);
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (champ == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                    grille-&gt;SetRowLabelValue(i,texte);
+                } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {    
+                    </span><span class="cpp1-comment">//texte.Printf(&quot;%d&quot;,id);
+</span><span class="cpp1-space">                    grille-&gt;SetCellValue(i,champ-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,texte);
+                    grille-&gt;SetReadOnly( i, champ-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> );
+                }   
+            }     
+        }    
+        i++;
+        </span><span class="cpp1-comment">//j=0;
+</span><span class="cpp1-space">          ret=amoi.transac_step();
+    }  
+    mess.Printf(</span><span class="cpp1-string">&quot;%d livres&quot;</span><span class="cpp1-symbol">, i);
+    SetStatusText(mess,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)liste_choisis_nom.GetCount();i++) {
+        </span><span class="cpp1-comment">//amoi.get_nom_col(i,texte);
+</span><span class="cpp1-space">        grille-&gt;SetColLabelValue(i,liste_choisis_nom[i]);
+    }    
+    grille-&gt;SetColLabelSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+    grille-&gt;SetRowLabelSize(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+</span><span class="cpp1-comment">//    grille-&gt;EnableEditing(false);
+</span><span class="cpp1-space">    grille-&gt;AutoSizeColumns(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+    grille-&gt;AutoSizeRows(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+    amoi.transac_fin();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (grille-&gt;GetNumberRows()&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        grille-&gt;SelectRow(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        AfficheLivre(grille-&gt;GetLabelValue(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">));
+        grille_ok=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    }    
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::creation_select_livre(wxString &amp;select, wxString where, wxString order_by) {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i,present;
+</span><span class="cpp1-comment">//    wxArrayInt join_list;
+</span><span class="cpp1-space">    wxArrayString join_list;
+    wxString texte;
+    wxString from;
+    wxString sansid;
+    wxString join=</span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-comment">/* TODO (#1#): select livre.rowid,livre.titre, serie.nom from livre LEFT 
+                   JOIN serie ON livre.id_serie=serie.rowid  */
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_tri.GetCount() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        order_by=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        order_by=</span><span class="cpp1-string">&quot;ORDER BY &quot;</span><span class="cpp1-symbol">;
+    
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)liste_tri.GetCount();i++) {
+        texte=liste_a_choisir[liste_tri[i]];
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte.Left(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">) {
+            </span><span class="cpp1-comment">//join_list.Add(liste_tri[i]);
+</span><span class="cpp1-space">            join_list.Add(texte);
+            sansid=texte.Mid(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+            order_by+=sansid+</span><span class="cpp1-string">&quot;.nom&quot;</span><span class="cpp1-symbol">+</span><span class="cpp1-string">&quot;, &quot;</span><span class="cpp1-symbol">;
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte == </span><span class="cpp1-string">&quot;rowid&quot;</span><span class="cpp1-symbol">)
+                texte=</span><span class="cpp1-string">&quot;livre.rowid&quot;</span><span class="cpp1-symbol">;
+            order_by+=texte+</span><span class="cpp1-string">&quot;, &quot;</span><span class="cpp1-symbol">;
+        }        
+    }    
+    order_by.Truncate(order_by.Length()-</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+    select=</span><span class="cpp1-string">&quot;SELECT livre.rowid, &quot;</span><span class="cpp1-symbol">;
+    from=</span><span class="cpp1-string">&quot; FROM livre &quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-comment">// cr&eacute;ation de join_list &agrave; partir de la liste des champs selectionn&eacute;s &agrave; l'affichage
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)liste_choisis.GetCount();i++) {
+        texte=liste_a_choisir[liste_choisis[i]];
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte.Left(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">) {
+            sansid=texte.Mid(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+            select+=</span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">+sansid+</span><span class="cpp1-string">&quot;.nom, &quot;</span><span class="cpp1-symbol">;
+            </span><span class="cpp1-comment">//present=join_list.Index(liste_choisis[i]);
+</span><span class="cpp1-space">            present=join_list.Index(liste_a_choisir[liste_choisis[i]]);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (present == wxNOT_FOUND ) {
+                </span><span class="cpp1-comment">//texte.Printf(&quot;num:%d chois:%d&quot;,present,liste_choisis[i]);
+</span><span class="cpp1-space">                </span><span class="cpp1-comment">//wxMessageBox(texte,&quot;coco&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">                </span><span class="cpp1-comment">//join_list.Add(liste_choisis[i]);
+</span><span class="cpp1-space">                join_list.Add(liste_a_choisir[liste_choisis[i]]);
+            }
+            </span><span class="cpp1-comment">//from +=&quot;, &quot;+sansid;
+</span><span class="cpp1-space">            </span><span class="cpp1-comment">//join+=&quot;LEFT JOIN &quot;+sansid+&quot; ON livre.&quot;+texte+&quot;=&quot;+sansid+&quot;.rowid &quot;;
+</span><span class="cpp1-space">         </span><span class="cpp1-comment">/*   if (where.Length() == 0) 
+                where += &quot; WHERE livre.&quot;+texte+&quot; = &quot;+sansid + &quot;.rowid &quot;;
+            else
+                where += &quot; AND livre.&quot;+texte+&quot; = &quot;+sansid+&quot;.rowid &quot;;*/
+</span><span class="cpp1-space">            
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {    
+            select+=</span><span class="cpp1-string">&quot;livre.&quot;</span><span class="cpp1-symbol">+texte;
+            select += </span><span class="cpp1-string">&quot;, &quot;</span><span class="cpp1-symbol">;
+        }    
+    }    
+    </span><span class="cpp1-comment">// Ajout dans join list de la list_from si il y a quelque chose dedans
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)list_from.GetCount();i++) {
+        present=join_list.Index(list_from[i],</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (present == wxNOT_FOUND ) {
+            join_list.Add(list_from[i]);
+        }
+    }
+
+    </span><span class="cpp1-comment">// creation du join
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)join_list.GetCount();i++) {
+        </span><span class="cpp1-comment">//texte=liste_a_choisir[join_list[i]];
+</span><span class="cpp1-space">        texte=join_list[i];
+        </span><span class="cpp1-comment">//wxMessageBox(texte,&quot;coco&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte.Left(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">) {
+            sansid=texte.Mid(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+            join+=</span><span class="cpp1-string">&quot;LEFT JOIN &quot;</span><span class="cpp1-symbol">+sansid+</span><span class="cpp1-string">&quot; ON livre.&quot;</span><span class="cpp1-symbol">+texte+</span><span class="cpp1-string">&quot;=&quot;</span><span class="cpp1-symbol">+sansid+</span><span class="cpp1-string">&quot;.rowid &quot;</span><span class="cpp1-symbol">;
+        }
+    }    
+    
+    select.Truncate(select.Length()-</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+    select += </span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">+from+</span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">+join+</span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">+where+</span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">+order_by;
+    </span><span class="cpp1-comment">//wxMessageBox(select,&quot;coco&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-symbol">}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::OnGrilleClickDroit( wxGridEvent&amp; event ) {
+    wxMenuItem *menu_efface;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nrow;
+    wxString id_l;
+    
+    nrow=event.GetRow();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte() == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">)
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    id_l=grille-&gt;GetLabelValue(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,nrow);
+    AfficheLivre(id_l);
+    grille-&gt;SelectRow(nrow);
+	menu_efface=WxPopupMenu_grille-&gt;Insert(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, ID_EFFACELIVRE,</span><span class="cpp1-string">&quot;effacer le livre s&eacute;lectionn&eacute;&quot;</span><span class="cpp1-symbol">,_(</span><span class="cpp1-string">&quot;Permet d'effacer les livres selectionn&eacute;s&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+    PopupMenu(WxPopupMenu_grille);
+    WxPopupMenu_grille-&gt;Delete(ID_EFFACELIVRE);
+}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::OnSelectlignegrille(wxGridEvent &amp;event)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nrow;
+    wxString id_l;
+    wxString mess;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (grille_ok == </span><span class="cpp1-reservedword">false</span><span class="cpp1-space"> || grille-&gt;GetNumberRows() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    mess.Printf(</span><span class="cpp1-string">&quot;numb:%d &quot;</span><span class="cpp1-symbol">, grille-&gt;GetNumberRows());
+    nrow=event.GetRow();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte() == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">)
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    id_l=grille-&gt;GetLabelValue(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,nrow);
+    </span><span class="cpp1-comment">/*if (grille_ok == true) 
+        wxMessageBox(&quot;OK&quot;+mess+id_l,&quot;coco&quot;, wxOK | wxICON_INFORMATION, this);
+    else
+        wxMessageBox(&quot;PAS OK&quot;+mess+id_l,&quot;coco&quot;, wxOK | wxICON_INFORMATION, this);*/
+</span><span class="cpp1-space">    AfficheLivre(id_l);
+    
+    grille-&gt;SelectRow(nrow);
+    
+    </span><span class="cpp1-comment">//event.Skip();    
+</span><span class="cpp1-symbol">}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::popup_effacelivre(wxCommandEvent&amp; event){
+    wxArrayInt cell_select;
+    wxString query, mess, id;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+
+    cell_select=grille-&gt;GetSelectedRows();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (cell_select.GetCount()&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        ret=wxMessageBox(</span><span class="cpp1-string">&quot;Etes vous sur de vouloir effacer le livre avec l'id n&deg;&quot;</span><span class="cpp1-symbol">+grille-&gt;GetRowLabelValue(cell_select[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">])+</span><span class="cpp1-string">&quot;?? \n(Attention cet effacement est DEFINITIF!)&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Question&quot;</span><span class="cpp1-symbol">, wxYES_NO|wxNO_DEFAULT | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret == wxYES) {
+            id=grille-&gt;GetRowLabelValue(cell_select[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);
+            query=</span><span class="cpp1-string">&quot;DELETE FROM livre WHERE rowid=&quot;</span><span class="cpp1-symbol">+id;
+            ret=amoi.exec_rapide(query);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                amoi.get_erreur(mess);
+                wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            }    
+            init_arbre();
+            </span><span class="cpp1-comment">//remplir_grille(&quot;&quot;);
+</span><span class="cpp1-space">            </span><span class="cpp1-comment">//ret=wxMessageBox(&quot;effacement de &quot;+id,&quot;Question&quot;, wxYES_NO|wxNO_DEFAULT |wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        }    
+    }    
+}    
+
+</span><span class="cpp1-comment">/*
+ * popup_MnuouvrirClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::popup_MnuouvrirClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    wxArrayInt liste_choisis_p;
+    wxArrayString liste_choisis_nom_p;
+    </span><span class="cpp1-comment">//wxString mess;
+
+</span><span class="cpp1-space">    liste_choisis_p=liste_choisis;
+    liste_choisis_nom_p=liste_choisis_nom;
+    </span><span class="cpp1-comment">//choix_colonnes choisir(liste_a_choisir, &amp;liste_choisis, &amp;liste_choisis_nom, this, -1, &quot;choix du tri&quot;, wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION);
+</span><span class="cpp1-space">    choix_colonnes choisir(liste_a_choisir, &amp;liste_choisis_p, &amp;liste_choisis_nom_p, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;choix des colonnes &agrave; afficher&quot;</span><span class="cpp1-symbol">, wxDefaultPosition, wxDefaultSize, style_dialog_choix);
+    ret=choisir.ShowModal();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-comment">//mess.Printf(&quot;ret:%d&quot;,ret);
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">//wxMessageBox(mess,&quot;coco&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">        liste_choisis=liste_choisis_p;
+        liste_choisis_nom=liste_choisis_nom_p;
+        init_arbre();
+        </span><span class="cpp1-comment">//remplir_grille(&quot;&quot;);
+</span><span class="cpp1-space">        param_modifie=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+     }    
+   
+    </span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::OnArbreSel(wxTreeEvent &amp;event) {
+    wxString val, ancienne_val;
+    wxTreeItemId branche, ancienne_branche;
+    wxTreeItemId root;
+    wxString where;
+    
+    ancienne_branche=event.GetOldItem();
+    branche=event.GetItem();
+    root=arbre-&gt;GetRootItem();
+    val=arbre-&gt;GetItemText(branche);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ancienne_branche != branche ) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (branche == root) {
+            remplir_grille(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+        }
+        </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (val.Length() == </span><span class="cpp1-number">1</span><span class="cpp1-symbol">) {
+                where=</span><span class="cpp1-string">&quot;WHERE auteur.nom LIKE '&quot;</span><span class="cpp1-symbol">+val+</span><span class="cpp1-string">&quot;%%' &quot;</span><span class="cpp1-symbol">;
+                remplir_grille(where);
+            } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+                where=</span><span class="cpp1-string">&quot;WHERE auteur.nom='&quot;</span><span class="cpp1-symbol">+val+</span><span class="cpp1-string">&quot;' &quot;</span><span class="cpp1-symbol">;
+                remplir_grille(where);
+            }                    
+        }    
+    }
+}    
+
+</span><span class="cpp1-comment">/*
+ * MnuordredetriClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::MnuordredetriClick(wxCommandEvent&amp; event)
+{
+     wxArrayInt liste_tri_p;
+     </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+     wxArrayString liste_tri_nom_p;
+
+	liste_tri_p=liste_tri;
+    choix_colonnes choisir(liste_a_choisir, &amp;liste_tri_p, NULL, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;choix des champs utilis&eacute;s pour le tri&quot;</span><span class="cpp1-symbol">, wxDefaultPosition, wxDefaultSize, style_dialog_choix);
+    ret=choisir.ShowModal();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        liste_tri=liste_tri_p;
+        </span><span class="cpp1-comment">//liste_choisis_nom=liste_choisis_nom_p;
+</span><span class="cpp1-space">        init_arbre();
+        </span><span class="cpp1-comment">//remplir_grille(&quot;&quot;);
+</span><span class="cpp1-space">        param_modifie=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+     }    
+   
+    </span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::AfficheLivre(wxString id_l){
+    wxString html_deb, html_fin;
+    wxString html_tout;
+    wxString query, mess, texte;
+    wxString nom_fichier,nom_fichier_gros;
+    wxString nom_col, val_col;
+    wxFile fichier;
+	</span><span class="cpp1-comment">//wxBitmap toolb_quit_BITMAP (toolb_quit_XPM);
+</span><span class="cpp1-space">    wxBitmap btmp_star1(star1_XPM);
+    wxBitmap btmp_star2(star2_XPM);
+    wxImage img;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb_image, ret, taille;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i,j,k;
+    </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> note;
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> ya_img;
+
+    </span><span class="cpp1-comment">// creation des images pour les notes
+</span><span class="cpp1-space">   </span><span class="cpp1-comment">/* btmp_smiley1.CopyFromIcon(WxBitmapButton_smiley_1_XPM);*/
+</span><span class="cpp1-space">    img=btmp_star1.ConvertToImage();
+    img.SaveFile(gettempdir()+</span><span class="cpp1-string">&quot;\\star1.png&quot;</span><span class="cpp1-symbol">);
+    img=btmp_star2.ConvertToImage();
+    img.SaveFile(gettempdir()+</span><span class="cpp1-string">&quot;\\star2.png&quot;</span><span class="cpp1-symbol">);
+    
+    get_colonne(</span><span class="cpp1-string">&quot;titre&quot;</span><span class="cpp1-symbol">, id_l, nom_col, val_col);
+    html_deb=</span><span class="cpp1-string">&quot;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body bgcolor=\&quot;#EEEEDD\&quot;&gt;&lt;CENTER&gt; &lt;B&gt;&quot;</span><span class="cpp1-symbol">+val_col+</span><span class="cpp1-string">&quot; &lt;/B&gt;&lt;/CENTER&gt;&quot;</span><span class="cpp1-symbol">;
+    html_fin=</span><span class="cpp1-string">&quot;&lt;/body&gt;&lt;/html&gt;&quot;</span><span class="cpp1-symbol">;
+    
+    </span><span class="cpp1-comment">// r&eacute;cup&eacute;ration des images
+</span><span class="cpp1-space">    monlivre.select_image(id_l, query,nb_image);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nb_image &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        html_deb+=</span><span class="cpp1-string">&quot;&lt;TABLE CELLPADDING=\&quot;0\&quot;  CELLSPACING=\&quot;0\&quot; WIDTH=\&quot;100%\&quot; &gt; &lt;TR&gt;&quot;</span><span class="cpp1-symbol">;
+        html_fin=</span><span class="cpp1-string">&quot;&lt;/TR&gt;&lt;/TABLE&gt;&quot;</span><span class="cpp1-symbol">+html_fin;
+        ret=amoi.transac_prepare(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            amoi.get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }    
+        ret=amoi.transac_step();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret == SQLITE_ROW) {
+            ya_img=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+            </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;nb_image;i++) {
+                nom_fichier=gettempdir()+</span><span class="cpp1-string">&quot;\\&quot;</span><span class="cpp1-symbol">+id_l+</span><span class="cpp1-string">&quot;_&quot;</span><span class="cpp1-symbol">;
+                mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,i);
+                nom_fichier_gros=nom_fichier+mess+</span><span class="cpp1-string">&quot;_gros.jpg&quot;</span><span class="cpp1-symbol">;
+                nom_fichier+=mess+</span><span class="cpp1-string">&quot;.jpg&quot;</span><span class="cpp1-symbol">;
+                fichier.Open(nom_fichier_gros,wxFile::write);
+                ret=amoi.get_value_blob(i,&amp;fichier,taille);
+                fichier.Close();
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (taille&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ya_img==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+                        html_deb+=</span><span class="cpp1-string">&quot;&lt;TD VALIGN=\&quot;TOP\&quot; WIDTH=\&quot;101\&quot;&gt;&quot;</span><span class="cpp1-symbol">;
+                        ya_img=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+                    }    
+                    resize_image(nom_fichier_gros,</span><span class="cpp1-number">100</span><span class="cpp1-symbol">,-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,nom_fichier);
+                    </span><span class="cpp1-comment">//html_deb+=&quot;&lt;IMG BORDER=\&quot;0\&quot; WIDTH=\&quot;100\&quot; SRC=\&quot;file:///c:/temp/0.jpg\&quot;/&gt;&quot;;
+</span><span class="cpp1-space">                    html_deb+=</span><span class="cpp1-string">&quot;&lt;a href=\&quot;&quot;</span><span class="cpp1-symbol">+nom_fichier_gros+</span><span class="cpp1-string">&quot;\&quot;&gt;&quot;</span><span class="cpp1-symbol">;
+                    html_deb+=</span><span class="cpp1-string">&quot;&lt;IMG BORDER=\&quot;0\&quot;  SRC=\&quot;&quot;</span><span class="cpp1-symbol">;
+                    html_deb+=nom_fichier+</span><span class="cpp1-string">&quot;\&quot;/&gt;&quot;</span><span class="cpp1-symbol">;
+                    html_deb+=</span><span class="cpp1-string">&quot;&lt;/a&gt;\n&quot;</span><span class="cpp1-symbol">;
+                }    
+            }    
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ya_img==</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+                html_deb+=</span><span class="cpp1-string">&quot;&lt;TD WIDTH=\&quot;5\&quot;&gt;&lt;/TD&gt;&lt;/TD&gt; &lt;TD VALIGN=\&quot;TOP\&quot; WITDH=\&quot;100%\&quot;&gt;&quot;</span><span class="cpp1-symbol">;
+                html_fin=</span><span class="cpp1-string">&quot;&lt;/TD&gt;&quot;</span><span class="cpp1-symbol">+html_fin;
+
+            }    
+            amoi.transac_fin();
+            
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            amoi.get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }     
+
+    }    
+
+    </span><span class="cpp1-comment">// cr&eacute;ation du tableau des infos
+</span><span class="cpp1-space">    html_deb+=</span><span class="cpp1-string">&quot;&lt;TABLE CELLPADDING=\&quot;2\&quot; BORDER=\&quot;5\&quot; CELLSPACING=\&quot;1\&quot; WIDTH=\&quot;100%\&quot;&gt;\n &quot;</span><span class="cpp1-symbol">;
+    html_fin=</span><span class="cpp1-string">&quot;&lt;/TABLE&gt;&quot;</span><span class="cpp1-symbol">+html_fin;
+    j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;monlivre.n_token();i++) {
+        texte=monlivre.get_nom_token(i);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte.Left(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;image_&quot;</span><span class="cpp1-symbol">)
+            </span><span class="cpp1-reservedword">continue</span><span class="cpp1-symbol">;
+        get_colonne(texte, id_l, nom_col, val_col);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (val_col == </span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-space"> || nom_col == </span><span class="cpp1-string">&quot;titre&quot;</span><span class="cpp1-symbol">)
+            </span><span class="cpp1-reservedword">continue</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte == </span><span class="cpp1-string">&quot;commentaire&quot;</span><span class="cpp1-space"> || texte == </span><span class="cpp1-string">&quot;resume&quot;</span><span class="cpp1-symbol">) {
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (j==</span><span class="cpp1-number">1</span><span class="cpp1-symbol">) 
+                html_deb+=</span><span class="cpp1-string">&quot;&lt;TD&gt;&lt;/TD&gt;&lt;TD&gt;&lt;/TD&gt;&lt;/TR&gt;&quot;</span><span class="cpp1-symbol">;
+            val_col.Replace(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&lt;BR&gt;\n&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+            html_deb+=</span><span class="cpp1-string">&quot;&lt;/TABLE&gt;&lt;TABLE CELLPADDING=\&quot;2\&quot; BORDER=\&quot;5\&quot; CELLSPACING=\&quot;1\&quot; WIDTH=\&quot;100%\&quot;&gt;\n &quot;</span><span class="cpp1-symbol">;
+            html_deb+=</span><span class="cpp1-string">&quot;&lt;TR&gt;&lt;TD bgcolor=\&quot;#CCFFCC\&quot; WIDTH=\&quot;100%\&quot;&gt;&quot;</span><span class="cpp1-symbol">+nom_col+</span><span class="cpp1-string">&quot;&lt;/TD&gt;&lt;/TR&gt;&quot;</span><span class="cpp1-symbol">;
+            html_deb+=</span><span class="cpp1-string">&quot;&lt;TR&gt;&lt;TD WIDTH=\&quot;100%\&quot;&gt;&quot;</span><span class="cpp1-symbol">+val_col+</span><span class="cpp1-string">&quot;&lt;/TD&gt;&lt;/TR&gt;\n&quot;</span><span class="cpp1-symbol">;
+            html_deb+=</span><span class="cpp1-string">&quot;&lt;/TABLE&gt;\n&lt;TABLE CELLPADDING=\&quot;2\&quot; BORDER=\&quot;5\&quot; CELLSPACING=\&quot;1\&quot; WIDTH=\&quot;100%\&quot;&gt;\n&quot;</span><span class="cpp1-symbol">;
+            j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+            </span><span class="cpp1-reservedword">continue</span><span class="cpp1-symbol">;
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( (j == </span><span class="cpp1-number">1</span><span class="cpp1-symbol">) &amp;&amp; (nom_col == </span><span class="cpp1-string">&quot;serie&quot;</span><span class="cpp1-space"> || nom_col == </span><span class="cpp1-string">&quot;date_entree&quot;</span><span class="cpp1-symbol">)) {
+            html_deb+=</span><span class="cpp1-string">&quot;&lt;TD&gt;&lt;/TD&gt;&lt;TD&gt;&lt;/TD&gt;&lt;/TR&gt;&quot;</span><span class="cpp1-symbol">;
+            j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_col == </span><span class="cpp1-string">&quot;particularite&quot;</span><span class="cpp1-symbol">) {
+            val_col.ToLong(&amp;note);
+            mess.Printf(</span><span class="cpp1-string">&quot;note:%d&quot;</span><span class="cpp1-symbol">, (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)note);
+            val_col=monlivre.get_label_particularite((</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)note);
+        }    
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (j==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            html_deb+=</span><span class="cpp1-string">&quot;&lt;TR&gt;&quot;</span><span class="cpp1-symbol">;
+        }    
+        html_deb+=</span><span class="cpp1-string">&quot;&lt;TD bgcolor=\&quot;#CCFFCC\&quot; WIDTH=\&quot;25%\&quot;&gt;&quot;</span><span class="cpp1-symbol">+nom_col+</span><span class="cpp1-string">&quot; : &lt;/TD&gt;&quot;</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_col == </span><span class="cpp1-string">&quot;note&quot;</span><span class="cpp1-symbol">) {
+            val_col.ToLong(&amp;note);
+                html_deb+=</span><span class="cpp1-string">&quot;&lt;TD WIDTH=\&quot;25%\&quot;&gt;&quot;</span><span class="cpp1-symbol">;
+            </span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(k=note;k&gt;</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;k-=</span><span class="cpp1-number">2</span><span class="cpp1-symbol">) {
+                html_deb+=</span><span class="cpp1-string">&quot;&lt;IMG BORDER=\&quot;0\&quot; SRC=\&quot;&quot;</span><span class="cpp1-symbol">+gettempdir()+</span><span class="cpp1-string">&quot;\\star2.png\&quot;/&gt;&quot;</span><span class="cpp1-symbol">;
+            }    
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (k == </span><span class="cpp1-number">1</span><span class="cpp1-symbol">) 
+                html_deb+=</span><span class="cpp1-string">&quot;&lt;IMG BORDER=\&quot;0\&quot; SRC=\&quot;&quot;</span><span class="cpp1-symbol">+gettempdir()+</span><span class="cpp1-string">&quot;\\star1.png\&quot;/&gt;&quot;</span><span class="cpp1-symbol">;
+            html_deb+=</span><span class="cpp1-string">&quot;&lt;/TD&gt;\n&quot;</span><span class="cpp1-symbol">;
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space">    
+            html_deb+=</span><span class="cpp1-string">&quot;&lt;TD WIDTH=\&quot;25%\&quot;&gt;&quot;</span><span class="cpp1-symbol">+val_col+</span><span class="cpp1-string">&quot;&lt;/TD&gt;\n&quot;</span><span class="cpp1-symbol">;
+        
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (j==</span><span class="cpp1-number">1</span><span class="cpp1-symbol">) {
+            html_deb+=</span><span class="cpp1-string">&quot;&lt;/TR&gt;&quot;</span><span class="cpp1-symbol">;
+            j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+            </span><span class="cpp1-reservedword">continue</span><span class="cpp1-symbol">;
+        }
+        j++;    
+   }    
+    html_tout=html_deb+html_fin;
+    </span><span class="cpp1-comment">//visuhtml-&gt;SetPage(html_tout);
+</span><span class="cpp1-space">    fichier.Open(gettempdir()+</span><span class="cpp1-string">&quot;\\&quot;</span><span class="cpp1-symbol">+id_l+</span><span class="cpp1-string">&quot;.htm&quot;</span><span class="cpp1-symbol">,wxFile::write);
+    fichier.Write(html_tout);
+    fichier.Close();
+    visuhtml-&gt;LoadPage(gettempdir()+</span><span class="cpp1-string">&quot;\\&quot;</span><span class="cpp1-symbol">+id_l+</span><span class="cpp1-string">&quot;.htm&quot;</span><span class="cpp1-symbol">);
+
+    </span><span class="cpp1-comment">//wxMessageBox(html_tout,&quot;coco&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">    
+}    
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::get_colonne(wxString nomchamp, wxString idlivre, wxString &amp;nomaffich, wxString &amp;valeur) {
+    wxString sansid;
+    wxString query;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, taille;
+    wxString mess;
+    
+    nomaffich=valeur=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nomchamp.Left(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">) {
+        sansid=nomchamp.Mid(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+        nomaffich=sansid;
+        query=</span><span class="cpp1-string">&quot;SELECT &quot;</span><span class="cpp1-symbol">+sansid+</span><span class="cpp1-string">&quot;.nom FROM livre,&quot;</span><span class="cpp1-symbol">+sansid+</span><span class="cpp1-string">&quot; WHERE livre.rowid=&quot;</span><span class="cpp1-symbol">+idlivre+</span><span class="cpp1-string">&quot; AND &quot;</span><span class="cpp1-symbol">+</span><span class="cpp1-string">&quot;livre.&quot;</span><span class="cpp1-symbol">+nomchamp+</span><span class="cpp1-string">&quot;=&quot;</span><span class="cpp1-symbol">+sansid+</span><span class="cpp1-string">&quot;.rowid&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        nomaffich=nomchamp;
+        query=</span><span class="cpp1-string">&quot;SELECT &quot;</span><span class="cpp1-symbol">+nomchamp+</span><span class="cpp1-string">&quot; FROM livre WHERE livre.rowid=&quot;</span><span class="cpp1-symbol">+idlivre;
+    }    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nomaffich == </span><span class="cpp1-string">&quot;rowid&quot;</span><span class="cpp1-symbol">)
+        nomaffich=</span><span class="cpp1-string">&quot;id&quot;</span><span class="cpp1-symbol">;
+    ret=amoi.transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        amoi.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+
+    ret=amoi.transac_step();
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+        amoi.get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,valeur,taille);
+    }  
+    amoi.transac_fin();
+
+}    
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::sauve_config() {
+
+	</span><span class="cpp1-comment">// sauvegarder les param&egrave;tres g&eacute;n&eacute;raux dans la base config
+</span><span class="cpp1-space">	ParamManager* param = ParamManager::GetInstance();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!param) {
+        wxMessageBox (</span><span class="cpp1-string">&quot;biblioFrame::load_config() : instance de ParamManager non cr&eacute;&eacute;e&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    
+    </span><span class="cpp1-comment">// sauvegarde de la base en cours de lecture (pour la r&eacute;ouvrir lors du prochain lancement
+</span><span class="cpp1-space">    param-&gt;Set(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;BASE&quot;</span><span class="cpp1-symbol">, amoi.get_nombase());
+
+    </span><span class="cpp1-comment">// sauvegarde de la position/taille...
+</span><span class="cpp1-space">    param-&gt;Set(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;MAXIMISED&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;IsMaximized());
+    </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;Maximize(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);  </span><span class="cpp1-comment">// pour pouvoir r&eacute;cup&eacute;rer taille et position
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!IsIconized())
+    {
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> x, y;
+        </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;GetSize(&amp;x,&amp;y);
+        param-&gt;Set(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TAILLE&quot;</span><span class="cpp1-symbol">, x, y);
+        </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;GetPosition(&amp;x,&amp;y);
+        param-&gt;Set(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;POSITION&quot;</span><span class="cpp1-symbol">, x, y);
+        param-&gt;Set(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;SPLIT_P&quot;</span><span class="cpp1-symbol">, (</span><span class="cpp1-reservedword">long</span><span class="cpp1-symbol">)(split_princip-&gt;GetSashPosition()));
+        param-&gt;Set(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;SPLIT_D&quot;</span><span class="cpp1-symbol">, (</span><span class="cpp1-reservedword">long</span><span class="cpp1-symbol">)(split_droit-&gt;GetSashPosition()));
+    }
+
+</span><span class="cpp1-comment">/*
+    wxString fichier_conf;
+    wxString query, mess;
+    int i, ret;
+    
+    fichier_conf=::wxGetCwd();
+    fichier_conf+=&quot;\\config&quot;;
+    config.ouvrir(fichier_conf);
+    if (config.existe(&quot;config&quot;) == true) {
+        query = &quot;DROP TABLE config&quot;;
+        config.exec_rapide(query);
+    }
+    query=&quot;CREATE TABLE config (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)&quot;;
+    config.exec_rapide(query);
+    // sauvegarde de la base en cours de lecture (pour la r&eacute;ouvrir lors du prochain lancement
+    query=&quot;INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'BASE', '&quot;+amoi.get_nombase()+&quot;')&quot;;
+    //wxMessageBox(query,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    config.exec_rapide(query);
+    // sauvegarde de la position/taille...
+    int x,y;
+    wxString str_x,str_y;
+    if (this-&gt;IsMaximized() == true) {
+        query=&quot;INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'MAXIMISED', 'T')&quot;;
+        this-&gt;Maximize(false);
+    } else {
+        query=&quot;INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'MAXIMISED', 'F')&quot;;
+    }
+    //wxMessageBox(query,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    config.exec_rapide(query);
+
+    if (this-&gt;IsIconized() == false) {
+        this-&gt;GetSize(&amp;x,&amp;y);
+        str_x.Printf(&quot;%d&quot;,x);
+        str_y.Printf(&quot;%d&quot;,y);
+        query=&quot;INSERT INTO config (type_param, nom_param, val1, val2) VALUES ('INIT', 'TAILLE', '&quot;+str_x+&quot;','&quot;+str_y+&quot;')&quot;;
+        //wxMessageBox(query,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+        config.exec_rapide(query);
+        this-&gt;GetPosition(&amp;x,&amp;y);
+        str_x.Printf(&quot;%d&quot;,x);
+        str_y.Printf(&quot;%d&quot;,y);
+        query=&quot;INSERT INTO config (type_param, nom_param, val1, val2) VALUES ('INIT', 'POSITION', '&quot;+str_x+&quot;','&quot;+str_y+&quot;')&quot;;
+        config.exec_rapide(query);
+        //wxMessageBox(query,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+        str_x.Printf(&quot;%d&quot;,split_princip-&gt;GetSashPosition());
+        query=&quot;INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'SPLIT_P', '&quot;+str_x+&quot;')&quot;;
+        config.exec_rapide(query);
+        str_x.Printf(&quot;%d&quot;,split_droit-&gt;GetSashPosition());
+        query=&quot;INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'SPLIT_D', '&quot;+str_x+&quot;')&quot;;
+        config.exec_rapide(query);
+        config.fermer();
+    }
+*/
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-comment">//sauvegarde des parametres de la base en cours (tri, colonnes affich&eacute;es)
+</span><span class="cpp1-space">    wxString query, mess;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i, ret;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte()==</span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> &amp;&amp; param_modifie == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.existe(</span><span class="cpp1-string">&quot;config&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+            query = </span><span class="cpp1-string">&quot;DROP TABLE config&quot;</span><span class="cpp1-symbol">;
+            amoi.exec_rapide(query);
+        }
+        query=</span><span class="cpp1-string">&quot;CREATE TABLE config (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)&quot;</span><span class="cpp1-symbol">;
+        ret=amoi.exec_rapide(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            amoi.get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }
+        query=</span><span class="cpp1-string">&quot;CREATE INDEX ind_prim ON config (type_param , nom_param)&quot;</span><span class="cpp1-symbol">;
+        ret=amoi.exec_rapide(query);
+
+       </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)liste_choisis.GetCount();i++) {
+            mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,liste_choisis.Item(i));
+            query=</span><span class="cpp1-string">&quot;INSERT INTO config (type_param, nom_param, val1, val2) VALUES ('INIT', 'COLONNE', '&quot;</span><span class="cpp1-symbol">+mess+</span><span class="cpp1-string">&quot;','&quot;</span><span class="cpp1-symbol">+liste_choisis_nom.Item(i)+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+            ret=amoi.exec_rapide(query);
+       }    
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)liste_tri.GetCount();i++) {
+            mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,liste_tri.Item(i));
+            query=</span><span class="cpp1-string">&quot;INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'TRI', '&quot;</span><span class="cpp1-symbol">+mess+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+            amoi.exec_rapide(query);
+       }    
+    }    
+
+}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::load_config() {
+    
+	</span><span class="cpp1-comment">// initialiser en fonction des valeurs pr&eacute;sentes en base
+</span><span class="cpp1-space">	ParamManager* param = ParamManager::GetInstance();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!param) {
+        wxMessageBox (</span><span class="cpp1-string">&quot;biblioFrame::load_config() : instance de ParamManager non cr&eacute;&eacute;e&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    
+    </span><span class="cpp1-comment">// r&eacute;cup&eacute;ration du nom de la base &agrave; ouvrir
+</span><span class="cpp1-space">    wxString valeur;
+    param-&gt;GetOrSet(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;BASE&quot;</span><span class="cpp1-symbol">, valeur);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (valeur !=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">) {
+        wxFileName fich_conf(valeur);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fich_conf.FileExists())
+            ouvrir_base(valeur);
+        </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> 
+            wxMessageBox(</span><span class="cpp1-string">&quot;le fichier &quot;</span><span class="cpp1-symbol">+valeur+ </span><span class="cpp1-string">&quot; n'existe pas&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+
+    </span><span class="cpp1-comment">// r&eacute;cup&eacute;ration de la taille de la fen&ecirc;tre
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> x = </span><span class="cpp1-number">800</span><span class="cpp1-symbol">, y = </span><span class="cpp1-number">600</span><span class="cpp1-symbol">;
+    param-&gt;GetOrSet(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;TAILLE&quot;</span><span class="cpp1-symbol">, x, y);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (x&gt;</span><span class="cpp1-number">0</span><span class="cpp1-space"> &amp;&amp; y&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+       </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetSize(x,y);
+    }
+
+    </span><span class="cpp1-comment">//r&eacute;cup&eacute;ration de la position de la fen&ecirc;tre
+</span><span class="cpp1-space">    x = </span><span class="cpp1-number">50</span><span class="cpp1-symbol">;
+    y = </span><span class="cpp1-number">50</span><span class="cpp1-symbol">;    
+    param-&gt;GetOrSet(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;POSITION&quot;</span><span class="cpp1-symbol">, x, y);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (x&gt;</span><span class="cpp1-number">0</span><span class="cpp1-space"> &amp;&amp; y&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;Move(x,y);
+    }
+    
+    </span><span class="cpp1-comment">//r&eacute;cup&eacute;ration pour savoir si la fen&ecirc;tre est maximis&eacute;e
+</span><span class="cpp1-space">    valeur = </span><span class="cpp1-string">&quot;F&quot;</span><span class="cpp1-symbol">;
+    param-&gt;GetOrSet(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;MAXIMISED&quot;</span><span class="cpp1-symbol">, valeur);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (valeur.CmpNoCase(</span><span class="cpp1-string">&quot;T&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">){
+       </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;Maximize(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+    }
+
+    </span><span class="cpp1-comment">// r&eacute;cup&eacute;ration de la position du spliter principal
+</span><span class="cpp1-space">    x = </span><span class="cpp1-number">100</span><span class="cpp1-symbol">;
+    param-&gt;GetOrSet(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;SPLIT_P&quot;</span><span class="cpp1-symbol">, x);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (x&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        split_princip-&gt;SetSashPosition(x);
+    }
+    
+    </span><span class="cpp1-comment">// r&eacute;cup&eacute;ration de la position du spliter xxx
+</span><span class="cpp1-space">    x = </span><span class="cpp1-number">300</span><span class="cpp1-symbol">;
+    param-&gt;GetOrSet(</span><span class="cpp1-string">&quot;INIT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;SPLIT_D&quot;</span><span class="cpp1-symbol">, x);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (x&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        split_droit-&gt;SetSashPosition(x);
+    }  
+
+</span><span class="cpp1-comment">/*    
+    wxString fichier_conf, mess;
+    wxString query, valeur=&quot;&quot;;
+    int ret, taille; 
+    
+    fichier_conf=::wxGetCwd();
+    fichier_conf+=&quot;\\config&quot;;
+    //wxMessageBox(fichier_conf,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    ret=config.ouvrir(fichier_conf);
+    if(ret==-1) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    }
+    // r&eacute;cup&eacute;ration du nom de la base &agrave; ouvrir
+    query = &quot;SELECT val1 FROM config WHERE type_param='INIT' AND nom_param='BASE'&quot;;
+    ret=config.transac_prepare(query);
+    ret=config.transac_step();
+
+    if(ret==SQLITE_ROW ) {
+        config.get_value_char(0,valeur,taille);
+    }  
+    config.transac_fin();
+    //wxMessageBox(valeur,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    if (valeur !=&quot;&quot;) {
+        wxFileName fich_conf(valeur);
+        if (fich_conf.FileExists())
+            ouvrir_base(valeur);
+        else 
+            wxMessageBox(&quot;le fichier &quot;+valeur+ &quot; n'existe pas&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    }
+    
+    // r&eacute;cup&eacute;ration de la taille de la fen&ecirc;tre
+    int x,y;
+    query = &quot;SELECT val1,val2 FROM config WHERE type_param='INIT' AND nom_param='TAILLE'&quot;;
+    ret=config.transac_prepare(query);
+    ret=config.transac_step();
+    if(ret==SQLITE_ROW ) {
+        config.get_value_int(0,x);
+        config.get_value_int(1,y);
+        //mess.Printf(&quot;%d %d&quot;,x,y);
+        //wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+        if (x&gt;0 &amp;&amp; y&gt;0)
+            this-&gt;SetSize(x,y);
+    }  
+    config.transac_fin();
+    //r&eacute;cup&eacute;ration de la position de la fen&ecirc;tre
+    query = &quot;SELECT val1,val2 FROM config WHERE type_param='INIT' AND nom_param='POSITION'&quot;;
+    ret=config.transac_prepare(query);
+    ret=config.transac_step();
+    if(ret==SQLITE_ROW ) {
+        config.get_value_int(0,x);
+        config.get_value_int(1,y);
+        //mess.Printf(&quot;%d %d&quot;,x,y);
+        //wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+        if(x&gt;0 &amp;&amp; y&gt;0)
+            this-&gt;Move(x,y);
+    }  
+    config.transac_fin();
+    
+    //wxMessageBox(query,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    
+    //r&eacute;cup&eacute;ration pour savoir si la fen&ecirc;tre est maximis&eacute;e
+    query = &quot;SELECT val1 FROM config WHERE type_param='INIT' AND nom_param='MAXIMISED'&quot;;
+    ret=config.transac_prepare(query);
+    ret=config.transac_step();
+    if(ret==SQLITE_ROW ) {
+        config.get_value_char(0,valeur,taille);
+        if(valeur.CmpNoCase(&quot;T&quot;) == 0){
+            this-&gt;Maximize(true);
+        }
+    }  
+    config.transac_fin();
+   
+    // r&eacute;cup&eacute;ration de la position du spliter principal
+    query = &quot;SELECT val1 FROM config WHERE type_param='INIT' AND nom_param='SPLIT_P'&quot;;
+    ret=config.transac_prepare(query);
+    ret=config.transac_step();
+    if(ret==SQLITE_ROW ) {
+        config.get_value_int(0,x);
+        if(x&gt;0)
+            split_princip-&gt;SetSashPosition(x);
+    }  
+    config.transac_fin();
+   
+    // r&eacute;cuop&eacute;ration de la position du spliter principal
+    query = &quot;SELECT val1 FROM config WHERE type_param='INIT' AND nom_param='SPLIT_D'&quot;;
+    ret=config.transac_prepare(query);
+    ret=config.transac_step();
+    if(ret==SQLITE_ROW ) {
+        config.get_value_int(0,x);
+        if(x&gt;0)
+            split_droit-&gt;SetSashPosition(x);
+    }  
+    config.transac_fin();
+
+    config.fermer();
+*/
+</span><span class="cpp1-symbol">}    
+
+</span><span class="cpp1-comment">/*
+ * Mnulistes
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::Mnulistes(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte() == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">)
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    </span><span class="cpp1-comment">/*wxString mess;
+    mess.Printf(&quot;%d&quot;,event.GetId());
+                wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);*/
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_AUTEUR) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;auteur&quot;</span><span class="cpp1-symbol">);
+        ret=choisir.ShowModal();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (choisir.modifie == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+            init_arbre();
+            </span><span class="cpp1-comment">//remplir_grille(&quot;&quot;);
+</span><span class="cpp1-space">        }
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_SERIE) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;serie&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_GENRE) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;genre&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_EDITEUR) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;editeur&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_FORMAT) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;format&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_ARTISTE) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;artiste&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_ETAT) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;etat&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_LOCALISATION) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;localisation&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_SERIE_O) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;serie_o&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_PAYS) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;pays&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_LANGUE) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;langue&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LISTE_TRADUCTEUR) {
+        liste_champ choisir(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;traducteur&quot;</span><span class="cpp1-symbol">);
+        choisir.ShowModal();
+    }    
+	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+
+</span><span class="cpp1-comment">/*
+ * MnurechercherClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::MnurechercherClick(wxCommandEvent&amp; event)
+{
+    list_from.Clear();
+    recherche ma_recherche(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Recherche&quot;</span><span class="cpp1-symbol">, wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
+    
+    ma_recherche.ShowModal();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ma_recherche.table_liee.Len() &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        list_from.Add(ma_recherche.table_liee);
+    }
+    remplir_grille(ma_recherche.where);
+
+    list_from.Remove(ma_recherche.table_liee);
+
+    </span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+
+
+</span><span class="cpp1-comment">/*
+ * Mnuapropos1047Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::Mnuapropos1047Click(wxCommandEvent&amp; event)
+{
+    apropos mon_apropos(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);</span><span class="cpp1-comment">// ,&quot;Recherche&quot;, wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
+</span><span class="cpp1-space">    
+    mon_apropos.ShowModal();
+	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/*
+ * Mnustatistique1048Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::Mnustatistique1048Click(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (mastat-&gt;IsShown() == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        mastat-&gt;actualiser();
+        mastat-&gt;Show();
+    }
+    </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        mastat-&gt;actualiser();
+        mastat-&gt;Raise();
+    }
+	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::OnSuppression( wxCommandEvent &amp;event ) {
+    wxString mess;
+    mess=event.GetString();
+    popup_effacelivre(event);
+</span><span class="cpp1-comment">//        wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+</span><span class="cpp1-comment">/*
+ * Mnumenuitem_imprimeliste
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::Mnumenuitem_imprimeliste(wxCommandEvent&amp; event)
+{
+    wxString laliste;
+    wxPrintData* config_imp;
+    
+    laliste=grille-&gt;BuildHTML();
+        </span><span class="cpp1-comment">//wxMessageBox(texteht,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//imprimehtml.PreviewText(texteht,gettempdir());
+</span><span class="cpp1-space">	config_imp = imprimehtml.GetPrintData();
+	config_imp-&gt;SetOrientation(wxPORTRAIT);
+	imprimehtml.PreviewText(laliste);
+	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/*
+ * Mnuitem_imprimerlivre
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::Mnuitem_imprimerlivre(wxCommandEvent&amp; event)
+{
+    wxPrintData* config_imp;
+    
+    wxString texteht;
+	texteht=visuhtml-&gt;GetOpenedPage();
+        </span><span class="cpp1-comment">//wxMessageBox(texteht,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//imprimehtml.PreviewText(texteht,gettempdir());
+</span><span class="cpp1-space">	config_imp = imprimehtml.GetPrintData();
+	config_imp-&gt;SetOrientation(wxLANDSCAPE);
+	imprimehtml.PreviewFile(texteht);
+	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/*void biblioFrame::OnKeyDown(wxKeyEvent &amp;event){
+    int key;
+    wxString mess;
+    
+    key=event.GetKeyCode();
+    mess.Printf(&quot;%d&quot;,key);
+    wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    
+    event.Skip();
+}*/
+
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(bellegrille, wxGrid)
+	EVT_KEY_DOWN(bellegrille::OnKeyDown)
+END_EVENT_TABLE()
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> bellegrille::OnKeyDown(wxKeyEvent &amp;event){
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> key;
+    wxString mess;
+    wxArrayInt selection;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> sel;
+    
+    selection=GetSelectedRows();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (selection.GetCount() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) 
+        sel=GetGridCursorRow();
+    </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        sel=selection[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">];
+
+    
+    key=event.GetKeyCode();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (key == WXK_DOWN) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (sel&lt;(GetNumberRows()-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)) {
+            SelectRow(sel+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+            SetGridCursor(sel+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+            MakeCellVisible(sel+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        }
+        event.Skip(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (key == WXK_UP) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (sel &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            SelectRow(sel-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+            SetGridCursor(sel-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+            MakeCellVisible(sel-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        }
+        event.Skip(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (key == WXK_RIGHT) {
+        event.Skip(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (key == WXK_LEFT) {
+        event.Skip(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (key == WXK_DELETE) {
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;plouf&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (GetNumberRows()&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            wxCommandEvent customevent( wxEVENT_SUPPRESSION, GetId() );
+            customevent.SetEventObject( </span><span class="cpp1-reservedword">this</span><span class="cpp1-space"> );
+            mess=GetRowLabelValue(sel);
+            </span><span class="cpp1-comment">// Give it some contents
+</span><span class="cpp1-space">            customevent.SetString( mess );
+            </span><span class="cpp1-comment">// Send it
+</span><span class="cpp1-space">            GetEventHandler()-&gt;ProcessEvent( customevent );
+        }
+        event.Skip(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+</span><span class="cpp1-comment">/*        mess.Printf(&quot;%d&quot;, key);
+        wxMessageBox(&quot;plouf &quot;+mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);*/
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+wxString bellegrille::BuildHTML( )
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nRow, nCol, nMaxRows;
+    wxString strValue;
+    wxString strContent;
+    
+    strContent.Empty();
+
+    strContent += wxT(</span><span class="cpp1-string">&quot;&lt;html&gt;\n&quot;</span><span class="cpp1-symbol">);
+    strContent += wxT(</span><span class="cpp1-string">&quot;&lt;body&gt;\n&quot;</span><span class="cpp1-symbol">);
+
+    strContent += wxT(</span><span class="cpp1-string">&quot;&lt;center&gt;\n&quot;</span><span class="cpp1-symbol">);
+    strContent += wxT(</span><span class="cpp1-string">&quot;&lt;table border=1 width=\&quot;100%\&quot;&gt;\n&quot;</span><span class="cpp1-symbol">);
+    strContent += wxT(</span><span class="cpp1-string">&quot;&lt;tr bgcolor=\&quot;#C0C0C0\&quot;&gt;\n&quot;</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-comment">// column headers
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">( nCol = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; nCol &lt; GetNumberCols(); nCol++ )
+    {
+        strContent += wxT(</span><span class="cpp1-string">&quot;&lt;th align=\&quot;center\&quot; valign=\&quot;bottom\&quot;&gt;&quot;</span><span class="cpp1-symbol">);
+        strValue = GetColLabelValue( nCol );
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">( strValue.IsEmpty() )
+        {
+            strValue = wxT(</span><span class="cpp1-string">&quot;&amp;nbsp&quot;</span><span class="cpp1-symbol">);
+        }
+        strContent += strValue;
+        strContent += wxT(</span><span class="cpp1-string">&quot;&lt;/th&gt;\n&quot;</span><span class="cpp1-symbol">);
+    }
+    strContent += wxT(</span><span class="cpp1-string">&quot;&lt;/tr&gt;\n&quot;</span><span class="cpp1-symbol">);
+
+    </span><span class="cpp1-comment">// data rows
+</span><span class="cpp1-space">    nMaxRows = GetNumberRows();
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">( nRow = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; nRow &lt; nMaxRows; nRow++ )
+    {
+        strContent += wxT(</span><span class="cpp1-string">&quot;&lt;tr&gt;\n&quot;</span><span class="cpp1-symbol">);
+
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">( nCol = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; nCol &lt; GetNumberCols(); nCol++ )
+        {
+            strContent += wxT(</span><span class="cpp1-string">&quot;&lt;td align=\&quot;left\&quot; valign=\&quot;center\&quot;&gt;&quot;</span><span class="cpp1-symbol">);
+            strValue = GetCellValue( nRow, nCol );
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">( strValue.IsEmpty() )
+            {
+                strValue = wxT(</span><span class="cpp1-string">&quot;&amp;nbsp&quot;</span><span class="cpp1-symbol">);
+            }
+            strContent += strValue;
+            strContent += wxT(</span><span class="cpp1-string">&quot;&lt;/td&gt;\n&quot;</span><span class="cpp1-symbol">);
+        }
+        strContent += wxT(</span><span class="cpp1-string">&quot;&lt;/tr&gt;\n&quot;</span><span class="cpp1-symbol">);
+    }
+    strContent += wxT(</span><span class="cpp1-string">&quot;&lt;/table&gt;\n&quot;</span><span class="cpp1-symbol">);
+    strContent += wxT(</span><span class="cpp1-string">&quot;&lt;/center&gt;\n&quot;</span><span class="cpp1-symbol">);
+
+    strContent += wxT(</span><span class="cpp1-string">&quot;&lt;/body&gt;\n&quot;</span><span class="cpp1-symbol">);
+    strContent += wxT(</span><span class="cpp1-string">&quot;&lt;/html&gt;\n&quot;</span><span class="cpp1-symbol">);
+
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> strContent;
+} 
+
+
+</span><span class="cpp1-comment">/*
+ * Mnuexporthtml1060Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::Mnuexporthtml1060Click(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte() == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;Vous n'avez pas ouvert de base -&gt; je ne  peux pas l'exporter&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    export_html_dlg mon_exporthtml(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);</span><span class="cpp1-comment">// ,&quot;Recherche&quot;, wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
+
+</span><span class="cpp1-space">    mon_exporthtml.ShowModal();
+	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/*
+ * MnuimportercvsClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::MnuimportercvsClick(wxCommandEvent&amp; event)
+{
+    wxTextFile monfichier;
+    wxString ligne, reste;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> p_back;
+    wxArrayString donnees;
+    wxString mess, texte;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i, ret, ligne_courante;
+    wxArrayString liste_a_choisir_lim;
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte() == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">)
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+
+    Nouv_livre ins_livre_batch(&amp;amoi, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Entr&eacute;e d'un nouveau livre&quot;</span><span class="cpp1-symbol">, wxDefaultPosition, wxDefaultSize);</span><span class="cpp1-comment">//, style_dialog_choix);
+
+</span><span class="cpp1-space">    wxString filename = wxFileSelector(</span><span class="cpp1-string">&quot;Choix du fichier csv &agrave; ouvrir&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;csv (*.txt)|*.txt|Tous (*.*)|*.*&quot;</span><span class="cpp1-symbol">,wxOPEN|wxFILE_MUST_EXIST);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( !filename.empty() )
+    {
+        monfichier.Open(filename);
+        ligne=monfichier[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">];
+        i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        mess=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> ((p_back=ligne.Find('\t'))&gt;=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            donnees.Add(ligne.Left(p_back));
+            </span><span class="cpp1-comment">//mess+=ligne.Left(p_back)+&quot;|\n&quot;;
+</span><span class="cpp1-space">            mess+=donnees[i]+</span><span class="cpp1-string">&quot;|\n&quot;</span><span class="cpp1-symbol">;
+            ligne=ligne.Mid(p_back+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+            i++;
+        }
+        donnees.Add(ligne);
+        texte.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,donnees.GetCount());
+        liste_a_choisir_lim=liste_a_choisir;
+        liste_a_choisir_lim.RemoveAt(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        mess=</span><span class="cpp1-string">&quot;Liste des colonnes contenues dans le fichier csv (ligne 0):\n\n&quot;</span><span class="cpp1-symbol">+mess+donnees[i]+</span><span class="cpp1-string">&quot;|\n\nnombre de lignes :&quot;</span><span class="cpp1-symbol">+texte;
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-comment">//mess.Printf(&quot;%d&quot;,i);
+</span><span class="cpp1-space">        choix_colonnes choisir(liste_a_choisir_lim, &amp;liste_choisis_import, &amp;liste_choisis_nom_import, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;choix des colonnes &agrave; afficher&quot;</span><span class="cpp1-symbol">, wxDefaultPosition, wxDefaultSize, style_dialog_choix);
+        ret=choisir.ShowModal();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_choisis_import.GetCount()!= donnees.GetCount()) {
+                mess.Printf(</span><span class="cpp1-string">&quot;Le nombre de colonnes selectionn&eacute;e (%d) ne correspond pas au nombre se trouvant dans le fichier (%d)&quot;</span><span class="cpp1-symbol">,liste_choisis_import.GetCount(), donnees.GetCount());
+                wxMessageBox(mess,</span><span class="cpp1-string">&quot;Information&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_INFORMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+                </span><span class="cpp1-comment">// r&eacute;cup&eacute;ration des donn&eacute;es
+</span><span class="cpp1-space">                ligne_courante=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+                </span><span class="cpp1-comment">// faudra mettre un while la
+</span><span class="cpp1-space">                </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (ligne_courante=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;ligne_courante&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)monfichier.GetLineCount();ligne_courante++) {
+                    donnees.Clear();
+                    ligne=monfichier[ligne_courante];
+                    i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+                    mess=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+                    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> ((p_back=ligne.Find('\t'))&gt;=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                        texte=ligne.Left(p_back);
+                        </span><span class="cpp1-comment">// nettoyage du texte : supression des &quot; de d&eacute;but et fin
+</span><span class="cpp1-space">                        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte.GetChar(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) == '\&quot;' &amp;&amp; texte.GetChar(texte.Length()-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">) == '\&quot;') {
+                            texte=texte.Mid(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,texte.Length()-</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+                        }
+                        donnees.Add(texte);
+                        </span><span class="cpp1-comment">//mess+=ligne.Left(p_back)+&quot;|\n&quot;;
+</span><span class="cpp1-space">                        </span><span class="cpp1-comment">//mess+=donnees[i]+&quot;|\n&quot;;
+</span><span class="cpp1-space">                        ligne=ligne.Mid(p_back+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+                        i++;
+                    }
+                    texte=ligne;
+                    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte.GetChar(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) == '\&quot;' &amp;&amp; texte.GetChar(texte.Length()-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">) == '\&quot;') {
+                        texte=texte.Mid(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,texte.Length()-</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+                    }
+                    donnees.Add(texte);
+                    </span><span class="cpp1-comment">/*mess=&quot;coco\n\n&quot;+mess+donnees[i]+&quot;|\n&quot;;
+                    wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);*/
+</span><span class="cpp1-space">                    mess=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+                    </span><span class="cpp1-comment">//ins_livre_batch = new Nouv_livre(&amp;amoi, this, -1, &quot;Entr&eacute;e d'un nouveau livre&quot;, wxDefaultPosition, wxDefaultSize, style_dialog_choix);
+</span><span class="cpp1-space">                    </span><span class="cpp1-comment">//ins_livre_batch.ShowModal();
+</span><span class="cpp1-space">                    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)liste_choisis_nom_import.GetCount();i++) {
+                        ins_livre_batch.init_champ(liste_a_choisir_lim[liste_choisis_import[i]], donnees[i]);
+                        </span><span class="cpp1-comment">/*mess+=liste_a_choisir_lim[liste_choisis_import[i]]+&quot;:&quot;+donnees[i]+&quot;\n&quot;;*/
+</span><span class="cpp1-space">                    }
+                    ins_livre_batch.inserer_livre();
+                }
+                </span><span class="cpp1-comment">//ins_livre_batch.ShowModal();
+</span><span class="cpp1-space">                </span><span class="cpp1-comment">//wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">                </span><span class="cpp1-comment">//delete ins_livre_batch;
+</span><span class="cpp1-space">            }
+        }
+    }
+
+    init_arbre();
+    </span><span class="cpp1-comment">//remplir_grille(&quot;&quot;);
+
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/*
+ * Mnuexportcsv1062Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::Mnuexportcsv1062Click(wxCommandEvent&amp; event)
+{
+    wxFile monfichier;
+    </span><span class="cpp1-comment">//wxArrayString liste_a_choisir_lim;
+</span><span class="cpp1-space">    wxString query, mess, texte;
+    wxString ligne, nom_col, separateur;
+    wxArrayInt liste_choisis_export;
+    wxArrayString liste_choisis_nom_export;
+    wxArrayInt liste_choisis_sauve;
+    wxArrayString liste_choisis_nom_sauve;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, nbcol, taille, nb_lignes;
+    choix_colonnes *choisir;
+    </span><span class="cpp1-comment">//wxArrayString list_from;
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (amoi.ouverte() == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;Vous n'avez pas ouvert de base -&gt; je ne  peux pas l'exporter&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    
+    wxString filename = wxFileSelector(</span><span class="cpp1-string">&quot;Choix du fichier csv &agrave; cr&eacute;er&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;csv (*.csv)|*.csv|Tous (*.*)|*.*&quot;</span><span class="cpp1-symbol">,wxFD_SAVE|wxFD_OVERWRITE_PROMPT );
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( filename.empty() )
+    {
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+
+    </span><span class="cpp1-comment">//liste_a_choisir_lim=liste_a_choisir;
+</span><span class="cpp1-space">    choisir=</span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> choix_colonnes(liste_a_choisir, &amp;liste_choisis_export, &amp;liste_choisis_nom_export, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;choix des colonnes &agrave; exporter&quot;</span><span class="cpp1-symbol">, wxDefaultPosition, wxDefaultSize, style_dialog_choix);
+    ret=choisir-&gt;ShowModal();
+    </span><span class="cpp1-comment">//choisir.Destroy();
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret!=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    wxString liste_separateur[]={</span><span class="cpp1-string">&quot;;&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Tabulation&quot;</span><span class="cpp1-symbol">};
+    
+    separateur=</span><span class="cpp1-string">&quot;;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-comment">//separateur=choix_separateur.GetStringSelection();
+</span><span class="cpp1-space">    separateur=::wxGetSingleChoice(wxT(</span><span class="cpp1-string">&quot;Choix du s&eacute;parateur utilis&eacute; lors de la cr&eacute;ation du fichier CSV&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;Choix du s&eacute;parateur&quot;</span><span class="cpp1-symbol">), </span><span class="cpp1-number">2</span><span class="cpp1-symbol">, liste_separateur);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (separateur.CompareTo(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+
+    </span><span class="cpp1-comment">//choix_separateur.Destroy();
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wxMessageBox(&quot;ouaiii &quot;+separateur,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (separateur.CompareTo(</span><span class="cpp1-string">&quot;Tabulation&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) 
+        separateur=</span><span class="cpp1-string">&quot;\t&quot;</span><span class="cpp1-symbol">;
+    
+    wxBusyCursor wait;
+    
+    monfichier.Open(filename,wxFile::write);
+    
+    </span><span class="cpp1-comment">//wxMessageBox(&quot;ouaiii &quot;+filename,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    liste_choisis_sauve=liste_choisis;
+    liste_choisis_nom_sauve=liste_choisis_nom;
+
+    liste_choisis=liste_choisis_export;
+    liste_choisis_nom=liste_choisis_nom_export;
+    
+    creation_select_livre(query,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+    
+    liste_choisis=liste_choisis_sauve;
+    liste_choisis_nom=liste_choisis_nom_sauve;
+    </span><span class="cpp1-comment">//wxMessageBox(&quot;query &quot;+query,&quot;coucou&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    
+    ret=amoi.transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        amoi.get_erreur(mess);
+        mess=query+</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">+mess;
+        wxMessageBox(</span><span class="cpp1-string">&quot;Export CSV : &quot;</span><span class="cpp1-symbol">+mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    ret=amoi.transac_step();
+    nbcol=liste_choisis_nom_export.Count();
+    ligne=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;nbcol;i++) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (i&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) 
+            ligne=ligne+separateur;
+        nom_col=liste_choisis_nom_export[i];
+        ligne=ligne+</span><span class="cpp1-string">&quot;\&quot;&quot;</span><span class="cpp1-symbol">+nom_col+</span><span class="cpp1-string">&quot;\&quot;&quot;</span><span class="cpp1-symbol">;
+    }
+    ligne=ligne+</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">;
+    monfichier.Write(ligne);
+    </span><span class="cpp1-comment">//wxMessageBox(&quot;ligne &quot;+ligne,&quot;coucou&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    nb_lignes=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+        nb_lignes++;
+        ligne=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i&lt;nbcol;i++) {
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (i&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+                ligne=ligne+separateur;
+                
+            amoi.get_value_char(i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,texte,taille);
+            ligne=ligne+</span><span class="cpp1-string">&quot;\&quot;&quot;</span><span class="cpp1-symbol">+texte+</span><span class="cpp1-string">&quot;\&quot;&quot;</span><span class="cpp1-symbol">;
+        }
+        ligne=ligne+</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;ligne &quot;+ligne,&quot;coucou&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        monfichier.Write(ligne);
+        
+        ret=amoi.transac_step();
+    }
+    monfichier.Close();
+    
+    amoi.transac_fin();
+    mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,nb_lignes);
+    wxMessageBox(wxT(</span><span class="cpp1-string">&quot;Fichier &quot;</span><span class="cpp1-symbol">)+filename+wxT(</span><span class="cpp1-string">&quot; cr&eacute;&eacute;.\nIl contient &quot;</span><span class="cpp1-symbol">)+mess+wxT(</span><span class="cpp1-string">&quot; Enregistrements&quot;</span><span class="cpp1-symbol">),</span><span class="cpp1-string">&quot;Export CSV&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-space">    
+}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrame::image_click(wxHtmlLinkEvent &amp;event)
+{
+    affiche_image *mon_image;
+    
+    wxHtmlLinkInfo monlien=event.GetLinkInfo();
+    </span><span class="cpp1-comment">//wxMessageBox(&quot;lien cliqu&eacute; :&quot;+monlien.GetHref(),&quot;TEST&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    mon_image=</span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> affiche_image(monlien.GetHref(),</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    mon_image-&gt;ShowModal();
+   	event.StopPropagation();
+}
+</span></span>
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_choix_colonnes_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        choix_colonnes.cpp
+// Author:      
+// Created:     12/01/05 12:55:25
+//
+//Copyright  PE Epaillard, 12/01/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#ifdef __GNUG__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma implementation &quot;choix_colonnes.cpp&quot;
+#endif
+
+</span><span class="cpp1-comment">/* for compilers that support precompilation
+   includes &quot;wx/wx.h&quot; */
+
+</span><span class="cpp1-preprocessor">#include &quot;wx/wxprec.h&quot;
+
+#ifdef __BORLANDC__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma hdrstop
+#endif
+
+
+#include &quot;choix_colonnes.h&quot;
+
+</span><span class="cpp1-comment">////Header Include Start
+</span><span class="cpp1-preprocessor">#include &quot;Images/choix_colonnes_WxBitmapButton_bas_XPM.xpm&quot;
+#include &quot;Images/choix_colonnes_WxBitmapButton_haut_XPM.xpm&quot;
+#include &quot;Images/choix_colonnes_WxBitmapButton1_XPM.xpm&quot;
+#include &quot;Images/choix_colonnes_wxButton_enleve_XPM.xpm&quot;
+</span><span class="cpp1-comment">////Header Include End
+
+
+
+//----------------------------------------------------------------------------
+// choix_colonnes
+//----------------------------------------------------------------------------
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(choix_colonnes,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//EVT_BUTTON(ID_BUTTON_ANNULER,choix_colonnes::WxButton_annulClick)
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//EVT_BUTTON(ID_BUTTON_OK,choix_colonnes::WxButton_okClick)
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//EVT_BUTTON(ID_BUTTON_AJOUTE,choix_colonnes::WxButton_ajouteClick)
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//EVT_BUTTON(ID_BUTTON_ENLEVE,choix_colonnes::WxButton_enleveClick)
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//EVT_LISTBOX_DCLICK(ID_LISTBOX_CHOISIS,choix_colonnes::WxButton_enleveClick)
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//	EVT_GRID_CMD_CELL_LEFT_DCLICK(ID_LISTBOX_CHOIX, choix_colonnes::WxGrid_ajouteClick)
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//EVT_LISTBOX_DCLICK(ID_LISTBOX_CHOIX, choix_colonnes::Wxlist_ajouteClick)
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(choix_colonnes::choix_colonnesClose)
+	EVT_BUTTON(ID_WXBITMAPBUTTON_BAS,choix_colonnes::WxBitmapButton_basClick)
+	EVT_BUTTON(ID_WXBITMAPBUTTON_HAUT,choix_colonnes::WxBitmapButton_hautClick)
+	EVT_BUTTON(ID_WXBITMAPBUTTON1,choix_colonnes::WxButton_ajouteClick)
+	EVT_BUTTON(ID_WXBUTTON_ENLEVE,choix_colonnes::WxButton_enleveClick)
+	EVT_BUTTON(ID_WXBUTTON_ANNULER,choix_colonnes::WxButton_annulClick)
+	EVT_BUTTON(ID_WXBUTTON_OK,choix_colonnes::WxButton_okClick)
+	
+	EVT_LISTBOX_DCLICK(ID_ITEMLISTBOX_CHOIX,choix_colonnes::Wxlist_ajouteClick)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+
+
+</span><span class="cpp1-space"> 
+choix_colonnes::choix_colonnes( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    CreateGUIControls();
+}
+
+choix_colonnes::choix_colonnes( wxArrayString &amp;l_choix, wxArrayInt *l_choisis, wxArrayString *l_choisis_nom, wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    liste_choix=l_choix;
+    liste_choisis=l_choisis;
+    liste_choisis_nom=l_choisis_nom;
+    CreateGUIControls();
+    init_listbox();
+}
+
+
+choix_colonnes::~choix_colonnes()
+{
+    
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::init_listbox()
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> n_val;
+    wxString val;
+    
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)liste_choix.GetCount();i++) {
+        val=liste_choix[i];
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (val.Left(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">) {
+            itemListBox_choix-&gt;Append(val.Mid(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">));
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            itemListBox_choix-&gt;Append(val);
+        }   
+    }     
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)liste_choisis-&gt;GetCount();i++) {
+        n_val=liste_choisis-&gt;Item(i);
+        val=liste_choix[n_val];
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (val.Left(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">) {
+            itemListBox_choisis-&gt;Append(val.Mid(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">));
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            itemListBox_choisis-&gt;Append(val);
+        }   
+        itemListBox_choix-&gt;SetString(n_val,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+    }    
+}    
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	itemSplitterWindow_gauche =</span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxSplitterWindow(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_ITEMSPLITTERWINDOW_GAUCHE, wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">200</span><span class="cpp1-symbol">,</span><span class="cpp1-number">507</span><span class="cpp1-symbol">) );
+
+	wxArrayString arrayStringFor_itemListBox_choix;
+	itemListBox_choix = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxListBox(itemSplitterWindow_gauche, ID_ITEMLISTBOX_CHOIX, wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">58</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">100</span><span class="cpp1-symbol">,</span><span class="cpp1-number">390</span><span class="cpp1-symbol">), arrayStringFor_itemListBox_choix, wxLB_SINGLE);
+
+	itemSplitterWindow_droit =</span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxSplitterWindow(itemSplitterWindow_gauche, ID_ITEMSPLITTERWINDOW_DROIT, wxPoint(</span><span class="cpp1-number">115</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">70</span><span class="cpp1-symbol">,</span><span class="cpp1-number">497</span><span class="cpp1-symbol">) );
+
+	itemPanel_bouton = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(itemSplitterWindow_droit, ID_ITEMPANEL_BOUTON, wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">60</span><span class="cpp1-symbol">,</span><span class="cpp1-number">289</span><span class="cpp1-symbol">));
+
+	wxButton_OK = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(itemPanel_bouton, ID_WXBUTTON_OK, wxT(</span><span class="cpp1-string">&quot;OK&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">,</span><span class="cpp1-number">20</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;wxButton_OK&quot;</span><span class="cpp1-symbol">));
+
+	wxButton_annuler = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(itemPanel_bouton, ID_WXBUTTON_ANNULER, wxT(</span><span class="cpp1-string">&quot;Annuler&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">30</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">,</span><span class="cpp1-number">20</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;wxButton_annuler&quot;</span><span class="cpp1-symbol">));
+
+	wxBitmap wxButton_enleve_BITMAP (choix_colonnes_wxButton_enleve_XPM);
+	wxButton_enleve = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmapButton(itemPanel_bouton, ID_WXBUTTON_ENLEVE, wxButton_enleve_BITMAP, wxPoint(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-number">85</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">,</span><span class="cpp1-number">20</span><span class="cpp1-symbol">), wxBU_AUTODRAW, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;wxButton_enleve&quot;</span><span class="cpp1-symbol">));
+
+	wxBitmap WxBitmapButton1_BITMAP (choix_colonnes_WxBitmapButton1_XPM);
+	WxBitmapButton1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmapButton(itemPanel_bouton, ID_WXBITMAPBUTTON1, WxBitmapButton1_BITMAP, wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">110</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">,</span><span class="cpp1-number">20</span><span class="cpp1-symbol">), wxBU_AUTODRAW, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxBitmapButton1&quot;</span><span class="cpp1-symbol">));
+
+	wxBitmap WxBitmapButton_haut_BITMAP (choix_colonnes_WxBitmapButton_haut_XPM);
+	WxBitmapButton_haut = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmapButton(itemPanel_bouton, ID_WXBITMAPBUTTON_HAUT, WxBitmapButton_haut_BITMAP, wxPoint(</span><span class="cpp1-number">30</span><span class="cpp1-symbol">,</span><span class="cpp1-number">140</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">,</span><span class="cpp1-number">50</span><span class="cpp1-symbol">), wxBU_AUTODRAW, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxBitmapButton_haut&quot;</span><span class="cpp1-symbol">));
+
+	wxBitmap WxBitmapButton_bas_BITMAP (choix_colonnes_WxBitmapButton_bas_XPM);
+	WxBitmapButton_bas = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmapButton(itemPanel_bouton, ID_WXBITMAPBUTTON_BAS, WxBitmapButton_bas_BITMAP, wxPoint(</span><span class="cpp1-number">30</span><span class="cpp1-symbol">,</span><span class="cpp1-number">195</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">,</span><span class="cpp1-number">50</span><span class="cpp1-symbol">), wxBU_AUTODRAW, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxBitmapButton_bas&quot;</span><span class="cpp1-symbol">));
+
+	wxArrayString arrayStringFor_itemListBox_choisis;
+	itemListBox_choisis = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxListBox(itemSplitterWindow_droit, ID_ITEMLISTBOX_CHOISIS, wxPoint(</span><span class="cpp1-number">75</span><span class="cpp1-symbol">,</span><span class="cpp1-number">55</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">40</span><span class="cpp1-symbol">,</span><span class="cpp1-number">188</span><span class="cpp1-symbol">), arrayStringFor_itemListBox_choisis, wxLB_SINGLE);
+
+	itemSplitterWindow_droit-&gt;SplitVertically(itemPanel_bouton,itemListBox_choisis,</span><span class="cpp1-number">40</span><span class="cpp1-symbol">);
+	itemSplitterWindow_gauche-&gt;SplitVertically(itemListBox_choix,itemSplitterWindow_droit,</span><span class="cpp1-number">160</span><span class="cpp1-symbol">);
+
+	itemSplitterWindow_droit-&gt;SplitVertically(itemPanel_bouton,itemListBox_choisis,</span><span class="cpp1-number">40</span><span class="cpp1-symbol">);
+
+	SetTitle(wxT(</span><span class="cpp1-string">&quot;choix_colonnes&quot;</span><span class="cpp1-symbol">));
+	SetIcon(wxNullIcon);
+	SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">208</span><span class="cpp1-symbol">,</span><span class="cpp1-number">541</span><span class="cpp1-symbol">);
+	Center();
+	
+    </span><span class="cpp1-comment">////GUI Items Creation End
+
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetSize(-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">400</span><span class="cpp1-symbol">,</span><span class="cpp1-number">500</span><span class="cpp1-symbol">);
+    
+    itemSplitterWindow_gauche-&gt;SetMinimumPaneSize(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">);
+    itemSplitterWindow_droit-&gt;SetMinimumPaneSize(</span><span class="cpp1-number">55</span><span class="cpp1-symbol">);
+
+</span><span class="cpp1-comment">//    itemSplitterWindow_gauche = new wxSplitterWindow( this, ID_SPLITTERWINDOW_GAUCHE, wxDefaultPosition, wxSize(395, 480), wxSP_3DBORDER|wxSP_3DSASH|wxNO_BORDER );
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//itemSplitterWindow_gauche = new wxSplitterWindow( this, ID_SPLITTERWINDOW_GAUCHE, wxDefaultPosition, wxSize(392, 492), wxNO_BORDER );
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wxString* itemListBox3Strings = NULL;
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//itemListBox_choix = new wxListBox( itemSplitterWindow_gauche, ID_LISTBOX_CHOIX, wxDefaultPosition, wxDefaultSize, 0, itemListBox3Strings, wxLB_SINGLE );
+
+//    itemSplitterWindow_droit = new wxSplitterWindow( itemSplitterWindow_gauche, ID_SPLITTERWINDOW_DROIT, wxDefaultPosition, wxSize(100, 100), wxSP_3DBORDER|wxSP_3DSASH|wxNO_BORDER );
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//itemSplitterWindow_droit = new wxSplitterWindow( itemSplitterWindow_gauche, ID_SPLITTERWINDOW_DROIT, wxDefaultPosition, wxSize(100, 100), wxNO_BORDER );
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//itemPanel_bouton = new wxPanel( itemSplitterWindow_droit, ID_PANEL_BOUTON, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-comment">//wxButton_OK = new wxButton( itemPanel_bouton, ID_BUTTON_OK, _(&quot;OK&quot;), wxDefaultPosition, wxSize(50, 20), 0 );
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wxButton_annuler = new wxButton( itemPanel_bouton, wxID_CANCEL, _(&quot;Annuler&quot;), wxPoint(0, 25), wxSize(50, 20), 0 );
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wxButton_ajoute = new wxButton( itemPanel_bouton, ID_BUTTON_AJOUTE, _(&quot;----&gt;&quot;), wxPoint(0, 150), wxSize(50, 20), 0 );
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wxButton_enleve = new wxButton( itemPanel_bouton, ID_BUTTON_ENLEVE, _(&quot;&lt;----&quot;), wxPoint(0, 175), wxSize(50, 20), 0 );
+
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wxString* itemListBox6Strings = NULL;
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//itemListBox_choisis = new wxListBox( itemSplitterWindow_droit, ID_LISTBOX_CHOISIS, wxDefaultPosition, wxDefaultSize, 0, itemListBox6Strings, wxLB_SINGLE );
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//itemSplitterWindow_gauche-&gt;SplitVertically(itemListBox_choix, itemSplitterWindow_droit, 50);
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//itemSplitterWindow_droit-&gt;SplitVertically(itemPanel_bouton, itemListBox_choisis, 1);
+
+
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::choix_colonnesClose(wxCloseEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a wxDialog,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    Destroy();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_ajouteClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::WxButton_ajouteClick(wxCommandEvent&amp; event)
+{
+    ajouteClick();
+    event.Skip();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::Wxlist_ajouteClick( wxCommandEvent &amp;event ) 
+{
+    ajouteClick();
+    event.Skip();
+}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::ajouteClick() {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> num_choix;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> num_choisi;
+    wxString texte;
+    wxString val;
+    wxString val_insere;
+    
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	num_choix=itemListBox_choix-&gt;GetSelection();
+	num_choisi=itemListBox_choisis-&gt;GetSelection();
+	texte.Printf(</span><span class="cpp1-string">&quot;g:%d d:%d&quot;</span><span class="cpp1-symbol">,num_choix, num_choisi);
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (num_choix &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;Vous devez selectionner un champ dans la liste de gauche&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Oups&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_INFORMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }    
+    val=itemListBox_choix-&gt;GetString(num_choix);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (val.Length() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;Ce Champ &agrave; d&eacute;ja &eacute;t&eacute; selectionn&eacute;&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Oups&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_INFORMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }    
+        
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (val.Left(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">) 
+        val_insere=val.Mid(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        val_insere=val;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (num_choisi&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        itemListBox_choisis-&gt;Append(val_insere);
+        liste_choisis-&gt;Add(num_choix);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_choisis_nom != NULL)
+            liste_choisis_nom-&gt;Add(val_insere);
+    }    
+    </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        itemListBox_choisis-&gt;Insert(val_insere,num_choisi);
+        liste_choisis-&gt;Insert(num_choix, num_choisi);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_choisis_nom != NULL)
+            liste_choisis_nom-&gt;Insert(val_insere, num_choisi);
+    }    
+    itemListBox_choix-&gt;SetString(num_choix,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+}    
+
+</span><span class="cpp1-comment">/*
+ * WxButton_enleveClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::WxButton_enleveClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> num_choix;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> num_choisi;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    wxString texte;
+    wxString val;
+    wxString val_insere;
+    
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//num_choix=itemListBox_choix-&gt;GetSelection();
+</span><span class="cpp1-space">	num_choisi=itemListBox_choisis-&gt;GetSelection();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (num_choisi &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;Vous devez selectionner un champ dans la liste de droite&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Oups&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_INFORMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        event.Skip();
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }    
+    val=itemListBox_choisis-&gt;GetString(num_choisi);
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)liste_choix.GetCount();i++) {
+        texte=</span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">+val;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_choix.Item(i) == val || liste_choix.Item(i) == texte) {
+            num_choix=i;
+            </span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+        }    
+    }    
+    
+    itemListBox_choisis-&gt;Delete(num_choisi);
+    liste_choisis-&gt;RemoveAt(num_choisi);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_choisis_nom != NULL)
+        liste_choisis_nom-&gt;RemoveAt(num_choisi);
+    itemListBox_choix-&gt;SetString(num_choix,val);
+
+    event.Skip();
+}
+</span><span class="cpp1-comment">/*
+ * WxButton_annulClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::WxButton_annulClick(wxCommandEvent&amp; event)
+{
+    SetReturnCode(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    EndModal(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    Destroy();
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::WxButton_okClick(wxCommandEvent&amp; event)
+{
+    EndModal(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    Destroy();
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/* deplace le texte selectionn&eacute; dans listbox_choisi
+ si haut = true -&gt; vers le haut
+ si haut = false -&gt; vers le bas
+*/
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::deplace_choisi(</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> haut) {
+    wxString val, val_insere;
+    wxString texte;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i,num_choix;
+
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> num_choisi=itemListBox_choisis-&gt;GetSelection();
+
+    val=itemListBox_choisis-&gt;GetString(num_choisi);
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)liste_choix.GetCount();i++) {
+        texte=</span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">+val;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_choix.Item(i) == val || liste_choix.Item(i) == texte) {
+            num_choix=i;
+            </span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+        }
+    }
+
+    itemListBox_choisis-&gt;Delete(num_choisi);
+    liste_choisis-&gt;RemoveAt(num_choisi);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_choisis_nom != NULL)
+        liste_choisis_nom-&gt;RemoveAt(num_choisi);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (haut == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)
+        num_choisi--;
+    </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        num_choisi++;
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (val.Left(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">)
+        val_insere=val.Mid(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        val_insere=val;
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (num_choisi&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        itemListBox_choisis-&gt;Append(val_insere);
+        liste_choisis-&gt;Add(num_choix);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_choisis_nom != NULL)
+            liste_choisis_nom-&gt;Add(val_insere);
+    }
+    </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        itemListBox_choisis-&gt;Insert(val_insere,num_choisi);
+        liste_choisis-&gt;Insert(num_choix, num_choisi);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_choisis_nom != NULL)
+            liste_choisis_nom-&gt;Insert(val_insere, num_choisi);
+    }
+    itemListBox_choisis-&gt;SetSelection(num_choisi);
+
+}
+</span><span class="cpp1-comment">/*
+ * WxBitmapButton_hautClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::WxBitmapButton_hautClick(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> num_choisi=itemListBox_choisis-&gt;GetSelection();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (num_choisi &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;Vous devez selectionner un champ dans la liste de droite&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Oups&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_INFORMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        event.Skip();
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (num_choisi == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;d&eacute;ja tout en haut&quot;,&quot;Oups&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">        event.Skip();
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    deplace_choisi(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-comment">/*
+ * WxBitmapButton_basClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> choix_colonnes::WxBitmapButton_basClick(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> num_choisi=itemListBox_choisis-&gt;GetSelection();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (num_choisi &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;Vous devez selectionner un champ dans la liste de droite&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Oups&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_INFORMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        event.Skip();
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (num_choisi &gt;= (itemListBox_choisis-&gt;GetCount()-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)) {
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;d&eacute;ja tout en bas&quot;,&quot;Oups&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">        event.Skip();
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    deplace_choisi(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+}
+</span></span>
+</code></pre>
+</body>
+</html>

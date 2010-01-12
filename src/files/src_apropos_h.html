@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_apropos_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        apropos.h
+// Author:      Epaillard
+// Created:     29/06/05 17:50:05
+//Copyright ou &copy; ou Copr. PE Epaillard, 29/06/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//---------------------------------------------------------------------------
+</span><span class="cpp1-preprocessor">#ifndef __APROPOS_HPP_
+#define __APROPOS_HPP_
+
+
+</span><span class="cpp1-comment">// For compilers that support precompilation, includes &quot;wx.h&quot;.
+</span><span class="cpp1-preprocessor">#include &lt;wx/wxprec.h&gt;
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+</span><span class="cpp1-comment">// Include your minimal set of headers here, or wx.h
+</span><span class="cpp1-preprocessor">#include &lt;wx/wx.h&gt;
+#endif
+
+
+#include &quot;mabase.h&quot;
+#include &lt;curl/curl.h&gt;
+</span><span class="cpp1-comment">//Do not add custom headers.
+//wx-dvcpp designer will remove them
+////Header Include Start
+</span><span class="cpp1-preprocessor">#include &lt;wx/button.h&gt;
+#include &lt;wx/textctrl.h&gt;
+#include &lt;wx/panel.h&gt;
+#include &lt;wx/notebook.h&gt;
+#include &lt;wx/stattext.h&gt;
+#include &lt;wx/hyperlink.h&gt;
+</span><span class="cpp1-comment">////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &quot;mabase.h&quot;
+#include &lt;wx/dialog.h&gt;
+#include &lt;wx/filename.h&gt;
+#include &lt;wx/file.h&gt;
+
+</span><span class="cpp1-comment">//Compatibility for 2.4.x code
+</span><span class="cpp1-preprocessor">#ifndef wxCLOSE_BOX
+#define wxCLOSE_BOX 0x1000
+#endif
+#ifndef wxFIXED_MINSIZE
+#define wxFIXED_MINSIZE 0
+#endif
+#ifdef THIS_DIALOG_STYLE
+#undef THIS_DIALOG_STYLE
+#endif
+
+</span><span class="cpp1-comment">////Dialog Style Start
+</span><span class="cpp1-preprocessor">#undef THIS_DIALOG_STYLE
+#define THIS_DIALOG_STYLE wxCAPTION | wxSYSTEM_MENU | wxDIALOG_NO_PARENT
+</span><span class="cpp1-comment">////Dialog Style End
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> apropos : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxDialog
+{
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    apropos( wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;a propos&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = THIS_DIALOG_STYLE);
+    </span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> ~apropos();
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+
+  </span><span class="cpp1-comment">//Do not add custom Control Declarations here.
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wx-devcpp will remove them. Try adding the custom code 
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//after the block.
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">////GUI Control Declaration Start
+</span><span class="cpp1-space">		wxButton *WxButton2;
+		wxStaticText *WxStaticText_nver;
+		wxTextCtrl *WxMemo_license;
+		wxPanel *WxNoteBookPage_license;
+		wxStaticText *WxStaticText1;
+		wxStaticText *WxStaticText5;
+		wxStaticText *WxStaticText4;
+		wxStaticText *WxStaticText3;
+		wxStaticText *WxStaticText2;
+		wxPanel *WxNoteBookPage_auteurs;
+		wxStaticText *WxStaticText_curl_version;
+		wxStaticText *WxStaticText_tcurl;
+		wxStaticText *WxStaticText_sqlite_version;
+		wxStaticText *WxStaticText_sqlite_tversion;
+		wxStaticText *WxStaticText_titre2;
+		wxStaticText *WxStaticText_wx_version;
+		wxStaticText *WxStaticText_wx_tversion;
+		wxPanel *WxNoteBookPage_tech;
+		wxStaticText *WxStaticText_taille_base;
+		wxStaticText *WxStaticText_ttaille_base;
+		wxStaticText *WxStaticText_nb_livre;
+		wxStaticText *WxStaticText_tnb_livre;
+		wxStaticText *WxStaticText_nom_base;
+		wxStaticText *WxStaticText_tnom_base;
+		wxPanel *WxNoteBookPage_base;
+		wxNotebook *WxNotebook1;
+		wxStaticText *WxStaticText_titre;
+		wxHyperlinkCtrl *WxHyperLinkCtrl_URL;
+  </span><span class="cpp1-comment">////GUI Control Declaration End
+</span><span class="cpp1-space">		wxStaticBitmap *WxStaticBitmap_titre;
+
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    DECLARE_EVENT_TABLE()
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-comment">//Note: if you receive any error with these enums, then you need to
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//change your old form code that are based on the #define control ids.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//#defines may replace a numeric value for the enums names.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Try copy pasting the below block in your old Form header Files.
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">enum</span><span class="cpp1-space"> {
+			ID_WXSTATICBITMAP_TITRE = </span><span class="cpp1-number">1541</span><span class="cpp1-symbol">,
+</span><span class="cpp1-comment">////GUI Enum Control ID Start
+</span><span class="cpp1-space">			ID_WXSTATICTEXT_NVER = </span><span class="cpp1-number">1025</span><span class="cpp1-symbol">,
+			ID_WXMEMO_LICENSE = </span><span class="cpp1-number">1040</span><span class="cpp1-symbol">,
+			ID_WXNOTEBOOKPAGE_LICENSE = </span><span class="cpp1-number">1039</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT1 = </span><span class="cpp1-number">1055</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT5 = </span><span class="cpp1-number">1051</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT4 = </span><span class="cpp1-number">1050</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT3 = </span><span class="cpp1-number">1049</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT2 = </span><span class="cpp1-number">1048</span><span class="cpp1-symbol">,
+			ID_WXNOTEBOOKPAGE_AUTEURS = </span><span class="cpp1-number">1041</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_CURL_VERSION = </span><span class="cpp1-number">1020</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TCURL = </span><span class="cpp1-number">1019</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_SQLITE_VERSION = </span><span class="cpp1-number">1018</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_SQLITE_TVERSION = </span><span class="cpp1-number">1017</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TITRE2 = </span><span class="cpp1-number">1016</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_WX_VERSION = </span><span class="cpp1-number">1015</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_WX_TVERSION = </span><span class="cpp1-number">1014</span><span class="cpp1-symbol">,
+			ID_WXNOTEBOOKPAGE_tech = </span><span class="cpp1-number">1013</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TAILLE_BASE = </span><span class="cpp1-number">1033</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TTAILLE_BASE = </span><span class="cpp1-number">1032</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_NB_LIVRE = </span><span class="cpp1-number">1031</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TNB_LIVRE = </span><span class="cpp1-number">1030</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_NOM_BASE = </span><span class="cpp1-number">1029</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TNOM_BASE = </span><span class="cpp1-number">1027</span><span class="cpp1-symbol">,
+			ID_WXNOTEBOOKPAGE_BASE = </span><span class="cpp1-number">1026</span><span class="cpp1-symbol">,
+			ID_WXNOTEBOOK1 = </span><span class="cpp1-number">1010</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TITRE = </span><span class="cpp1-number">1002</span><span class="cpp1-symbol">,
+			ID_WXHYPERLINKCTRL_URL = </span><span class="cpp1-number">1054</span><span class="cpp1-symbol">,
+</span><span class="cpp1-comment">////GUI Enum Control ID End
+</span><span class="cpp1-space">   ID_DUMMY_VALUE_ </span><span class="cpp1-comment">//Dont Delete this DummyValue
+</span><span class="cpp1-space">   }; </span><span class="cpp1-comment">//End of Enum
+
+</span><span class="cpp1-space">    ma_base *la_belle;
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    apropos( ma_base *pour_insere, wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;a propos&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = THIS_DIALOG_STYLE);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> aproposClose(wxCloseEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton1Click(wxCommandEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_donnee_base();
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxMemo1ClickUrl(wxTextUrlEvent&amp; event);
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_siteClick(wxCommandEvent&amp; event);
+
+};
+
+
+</span><span class="cpp1-preprocessor">#endif
+</span><span class="cpp1-space"> 
+ 
+ 
+ 
+</span></span>
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_statistique_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        statistique.h
+// Author:      Epaillard
+// Created:     20/07/05 15:48:04
+//
+//Copyright  PE Epaillard, 20/07/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+</span><span class="cpp1-preprocessor">#ifndef __STATISTIQUE_HPP_
+#define __STATISTIQUE_HPP_
+
+</span><span class="cpp1-comment">// For compilers that support precompilation, includes &quot;wx.h&quot;.
+</span><span class="cpp1-preprocessor">#include &lt;wx/wxprec.h&gt;
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+</span><span class="cpp1-comment">// Include your minimal set of headers here, or wx.h
+</span><span class="cpp1-preprocessor">#include &lt;wx/wx.h&gt;
+#endif
+
+</span><span class="cpp1-comment">//Do not add custom headers.
+//wx-dvcpp designer will remove them
+////Header Include Start
+</span><span class="cpp1-preprocessor">#include &lt;wx/menu.h&gt;
+</span><span class="cpp1-comment">////Header Include End
+</span><span class="cpp1-preprocessor">#include &lt;wx/frame.h&gt;
+#include &lt;wx/numdlg.h&gt;
+#include &lt;wx/datetime.h&gt;
+
+#include &quot;mabase.h&quot;
+#include &quot;moncamembert.h&quot;
+#include &quot;myprintout.h&quot;
+
+</span><span class="cpp1-comment">////Dialog Style Start
+</span><span class="cpp1-preprocessor">#undef THIS_DIALOG_STYLE
+#define THIS_DIALOG_STYLE wxCAPTION | wxRESIZE_BORDER | wxSYSTEM_MENU | wxMAXIMIZE_BOX | wxCLOSE_BOX | wxFRAME_NO_TASKBAR
+</span><span class="cpp1-comment">////Dialog Style End
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> statistique : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxFrame
+{
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    DECLARE_EVENT_TABLE()
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    statistique( wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;Statistiques&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = THIS_DIALOG_STYLE);
+    </span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> ~statistique();
+    MonCamembert *BeauFrometon;
+    ma_base *la_belle;
+    wxString type_stat;
+    MonCamembert::myTypeGraph graph_encour;
+    wxString titre;
+    
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+
+  </span><span class="cpp1-comment">//Do not add custom Control Declarations here.
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wx-devcpp will remove them. Try adding the custom code 
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//after the block.
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">////GUI Control Declaration Start
+</span><span class="cpp1-space">		wxMenuBar *WxMenuBar_stat;
+  </span><span class="cpp1-comment">////GUI Control Declaration End
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-comment">//Note: if you receive any error with these enums, then you need to
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//change your old form code that are based on the #define control ids.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//#defines may replace a numeric value for the enums names.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Try copy pasting the below block in your old Form header Files.
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">enum</span><span class="cpp1-space"> {
+</span><span class="cpp1-comment">////GUI Enum Control ID Start
+</span><span class="cpp1-space">			ID_MNU_FICHIER_1001 = </span><span class="cpp1-number">1001</span><span class="cpp1-symbol">,
+			ID_MNU__IMPRIMER_1006 = </span><span class="cpp1-number">1006</span><span class="cpp1-symbol">,
+			ID_MNU_QUITTER_1002 = </span><span class="cpp1-number">1002</span><span class="cpp1-symbol">,
+			ID_MNU_APER_UA_VANTIMPRESSION_1007 = </span><span class="cpp1-number">1007</span><span class="cpp1-symbol">,
+			ID_MNU__GRAPHIQUE_1011 = </span><span class="cpp1-number">1011</span><span class="cpp1-symbol">,
+			ID_MNU_GENRE_1012 = </span><span class="cpp1-number">1012</span><span class="cpp1-symbol">,
+			ID_MNU_AUTEUR_1013 = </span><span class="cpp1-number">1013</span><span class="cpp1-symbol">,
+			ID_MNU_EDITEUR_1014 = </span><span class="cpp1-number">1014</span><span class="cpp1-symbol">,
+			ID_MNU_FORMAT_1015 = </span><span class="cpp1-number">1015</span><span class="cpp1-symbol">,
+			ID_MNU_ETAT_1016 = </span><span class="cpp1-number">1016</span><span class="cpp1-symbol">,
+			ID_MNU_LOCALISATION_1017 = </span><span class="cpp1-number">1017</span><span class="cpp1-symbol">,
+			ID_MNU_PAYS_1018 = </span><span class="cpp1-number">1018</span><span class="cpp1-symbol">,
+			ID_MNU_LANGUE_1019 = </span><span class="cpp1-number">1019</span><span class="cpp1-symbol">,
+			ID_MNU_TRADUCTEUR_1020 = </span><span class="cpp1-number">1020</span><span class="cpp1-symbol">,
+			ID_MNU_ARTISTE_1021 = </span><span class="cpp1-number">1021</span><span class="cpp1-symbol">,
+			ID_MNU_NOTES_1027 = </span><span class="cpp1-number">1027</span><span class="cpp1-symbol">,
+			ID_MNU_ANNEEDELECTURE_1024 = </span><span class="cpp1-number">1024</span><span class="cpp1-symbol">,
+			ID_MNU_MOIS_ANNEEDELECTURE_1025 = </span><span class="cpp1-number">1025</span><span class="cpp1-symbol">,
+			ID_MNU_ANNEEDACHAT_1022 = </span><span class="cpp1-number">1022</span><span class="cpp1-symbol">,
+			ID_MNU_MOISDACHAT_1023 = </span><span class="cpp1-number">1023</span><span class="cpp1-symbol">,
+			ID_MNU__AFFICHAGE_1008 = </span><span class="cpp1-number">1008</span><span class="cpp1-symbol">,
+			ID_MNU_BARRES_1009 = </span><span class="cpp1-number">1009</span><span class="cpp1-symbol">,
+			ID_MNU_CAMEMBERT_1010 = </span><span class="cpp1-number">1010</span><span class="cpp1-symbol">,
+			ID_MNU_BARRESCOMMENTEES_1026 = </span><span class="cpp1-number">1026</span><span class="cpp1-symbol">,
+			ID_MNU__OPTION_1004 = </span><span class="cpp1-number">1004</span><span class="cpp1-symbol">,
+			ID_MNU_GESTIONDESCOULEURS_1005 = </span><span class="cpp1-number">1005</span><span class="cpp1-symbol">,
+			
+</span><span class="cpp1-comment">////GUI Enum Control ID End
+</span><span class="cpp1-identifier">ID_WXCAMEMBERT = </span><span class="cpp1-number">2500</span><span class="cpp1-symbol">,
+   ID_DUMMY_VALUE_ </span><span class="cpp1-comment">//Dont Delete this DummyValue
+</span><span class="cpp1-space">   }; </span><span class="cpp1-comment">//End of Enum
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_tableaux(wxString nom_table);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> gestion_date(wxString nom_table);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> gestion_note(wxString type_note);
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> dessiner();
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> actualiser();
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistiqueClose(wxCloseEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnuquitter1002Click(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistiqueSize(wxSizeEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> definir_base(ma_base *babase);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sauve_typegraph();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> load_typegraph();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnugestiondescouleurs1005Click(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnuimprimer1006Click(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnuaperuavantimpression1007Click(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MnuAffSwitch1009Click(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MnuGraph1013Click(wxCommandEvent&amp; event);
+</span><span class="cpp1-comment">//int comparemois(const wxString&amp; first, const wxString&amp; second);
+
+</span><span class="cpp1-symbol">};
+
+
+</span><span class="cpp1-preprocessor">#endif
+</span><span class="cpp1-space"> 
+ 
+ 
+ 
+</span></span>
+</code></pre>
+</body>
+</html>

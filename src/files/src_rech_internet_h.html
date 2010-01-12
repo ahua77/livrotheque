@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_rech_internet_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        rech_internet.h
+// Author:      Epaillard
+// Created:     06/06/05 17:52:38
+//
+//Copyright  PE Epaillard, 06/06/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+</span><span class="cpp1-preprocessor">#ifndef __RECH_INTERNET_HPP_
+#define __RECH_INTERNET_HPP_
+
+
+</span><span class="cpp1-comment">// For compilers that support precompilation, includes &quot;wx.h&quot;.
+</span><span class="cpp1-preprocessor">#include &lt;wx/wxprec.h&gt;
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+</span><span class="cpp1-comment">// Include your minimal set of headers here, or wx.h
+</span><span class="cpp1-preprocessor">#include &lt;wx/wx.h&gt;
+#endif
+
+
+</span><span class="cpp1-comment">//Do not add custom headers.
+//wx-dvcpp designer will remove them
+////Header Include Start
+</span><span class="cpp1-preprocessor">#include &lt;wx/radiobox.h&gt;
+#include &lt;wx/panel.h&gt;
+#include &lt;wx/checkbox.h&gt;
+#include &lt;wx/statbox.h&gt;
+#include &lt;wx/button.h&gt;
+#include &lt;wx/textctrl.h&gt;
+#include &lt;wx/stattext.h&gt;
+</span><span class="cpp1-comment">////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &lt;wx/textdlg.h&gt;
+#include &lt;wx/dialog.h&gt;
+#include &lt;curl/curl.h&gt;
+#include &lt;curl/types.h&gt;
+#include &lt;curl/easy.h&gt;
+#include &lt;wx/ffile.h&gt;
+#include &lt;wx/file.h&gt;
+
+#include &quot;mabase.h&quot;
+#include &quot;divers.h&quot;
+#include &quot;livre_html.h&quot;
+
+</span><span class="cpp1-comment">//Compatibility for 2.4.x code
+</span><span class="cpp1-preprocessor">#ifndef wxCLOSE_BOX
+#define wxCLOSE_BOX 0x1000
+#endif
+#ifndef wxFIXED_MINSIZE
+#define wxFIXED_MINSIZE 0
+#endif
+
+#ifdef THIS_DIALOG_STYLE
+#undef THIS_DIALOG_STYLE
+#endif
+</span><span class="cpp1-comment">////Dialog Style Start
+</span><span class="cpp1-preprocessor">#undef THIS_DIALOG_STYLE
+#define THIS_DIALOG_STYLE wxCAPTION | wxDIALOG_NO_PARENT
+</span><span class="cpp1-comment">////Dialog Style End
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> rech_internet : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxDialog
+{
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    rech_internet( wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;recherche sur internet&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = THIS_DIALOG_STYLE);
+    </span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> ~rech_internet();
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> recherche_auto;
+  </span><span class="cpp1-comment">//Do not add custom Control Declarations here.
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//wx-devcpp will remove them. Try adding the custom code 
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">//after the block.
+</span><span class="cpp1-space">  </span><span class="cpp1-comment">////GUI Control Declaration Start
+</span><span class="cpp1-space">		wxRadioBox *WxRadioBox_choix_recherche;
+		wxCheckBox *WxCheckBox_format;
+		wxTextCtrl *WxEdit_format;
+		wxStaticText *WxStaticText_format;
+		wxCheckBox *WxCheckBox_nb_pages;
+		wxTextCtrl *WxEdit_nb_pages;
+		wxStaticText *WxStaticText_nb_pages;
+		wxButton *wxID_CANCEL;
+		wxButton *WxButton_OK;
+		wxStaticText *WxStaticText_image_verso;
+		wxCheckBox *WxCheckBox_image_dos;
+		wxPanel *WxPanel_image_dos;
+		wxCheckBox *WxCheckBox_image_face;
+		wxPanel *WxPanel_image_face;
+		wxStaticText *WxStaticText_image_face;
+		wxCheckBox *WxCheckBox_commentaire;
+		wxStaticText *WxStaticText_commentaire;
+		wxTextCtrl *WxMemo_commentaire;
+		wxCheckBox *WxCheckBox_prix;
+		wxTextCtrl *WxEdit_prix;
+		wxStaticText *WxStaticText_prix;
+		wxCheckBox *WxCheckBox_traducteur;
+		wxTextCtrl *WxEdit_traducteur;
+		wxStaticText *WxStaticText_traducteur;
+		wxCheckBox *WxCheckBox_langue;
+		wxTextCtrl *WxEdit_langue;
+		wxStaticText *WxStaticText_langue;
+		wxCheckBox *WxCheckBox_date_pub;
+		wxTextCtrl *WxEdit_date_pub;
+		wxStaticText *WxStaticText_date_pub;
+		wxCheckBox *WxCheckBox_genre;
+		wxTextCtrl *WxEdit_genre;
+		wxStaticText *WxStaticText_genre;
+		wxCheckBox *WxCheckBox_editeur;
+		wxTextCtrl *WxEdit_editeur;
+		wxStaticText *WxStaticText_editeur;
+		wxCheckBox *WxCheckBox_titre;
+		wxTextCtrl *WxEdit_titre;
+		wxStaticText *WxStaticText_titre;
+		wxCheckBox *WxCheckBox_auteur;
+		wxTextCtrl *WxEdit_auteur;
+		wxStaticText *WxStaticText_auteur;
+		wxCheckBox *WxCheckBox_minuscule;
+		wxCheckBox *WxCheckBox_auteur_inverse;
+		wxTextCtrl *WxEdit_proxy_pass;
+		wxTextCtrl *WxMemo_URL;
+		wxStaticText *WxStaticText_url;
+		wxStaticText *WxStaticText_aide;
+		wxStaticText *WxStaticText_proxy_pass;
+		wxTextCtrl *WxEdit_proxy_port;
+		wxStaticText *WxStaticText_proxy_port;
+		wxTextCtrl *WxEdit_proxy_util;
+		wxStaticText *WxStaticText_proxy_util;
+		wxTextCtrl *WxEdit_proxy_adr;
+		wxStaticText *WxStaticText_proxy_adr;
+		wxCheckBox *WxCheckBox_proxy;
+		wxStaticBox *WxStaticBox_proxy;
+		wxButton *WxButton_lancer;
+		wxTextCtrl *WxEdit_isbn;
+		wxStaticText *WxStaticText_isbn;
+  </span><span class="cpp1-comment">////GUI Control Declaration End
+</span><span class="cpp1-space">  
+    wxString img_recto;
+    wxString img_verso;
+    </span><span class="cpp1-comment">/*wxString Titre;
+    wxString Auteur;
+    wxString Editeur;
+    wxString Collection;
+    wxString Genre;
+    wxString Date_parution;
+    wxString Langue;
+    wxString Traducteur;
+    wxString Presentation;
+    wxString Ean;
+    wxString Prix;
+    wxString Commentaires;
+*/
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    DECLARE_EVENT_TABLE()
+    wxString isbn;
+    ma_base config;
+    wxString auteur;
+    wxString traducteur;
+    wxString titre;
+    wxString genre;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> type_recherche;
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-comment">//Note: if you receive any error with these enums, then you need to
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//change your old form code that are based on the #define control ids.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//#defines may replace a numeric value for the enums names.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Try copy pasting the below block in your old Form header Files.
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">enum</span><span class="cpp1-space"> {
+</span><span class="cpp1-comment">////GUI Enum Control ID Start
+</span><span class="cpp1-space">			ID_WXRADIOBOX_CHOIX_RECHERCHE = </span><span class="cpp1-number">1072</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_FORMAT = </span><span class="cpp1-number">1071</span><span class="cpp1-symbol">,
+			ID_WXEDIT_FORMAT = </span><span class="cpp1-number">1070</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_FORMAT = </span><span class="cpp1-number">1069</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_NB_PAGES = </span><span class="cpp1-number">1067</span><span class="cpp1-symbol">,
+			ID_WXEDIT_NB_PAGES = </span><span class="cpp1-number">1065</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_NB_PAGES = </span><span class="cpp1-number">1064</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_ANNULER = </span><span class="cpp1-number">1041</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_OK = </span><span class="cpp1-number">1001</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_IMAGE_VERSO = </span><span class="cpp1-number">1047</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_IMAGE_DOS = </span><span class="cpp1-number">1054</span><span class="cpp1-symbol">,
+			ID_WXPANEL_IMAGE_DOS = </span><span class="cpp1-number">1040</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_IMAGE_FACE = </span><span class="cpp1-number">1053</span><span class="cpp1-symbol">,
+			ID_WXPANEL_IMAGE_FACE = </span><span class="cpp1-number">1039</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_IMAGE_FACE = </span><span class="cpp1-number">1046</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_COMMENTAIRE = </span><span class="cpp1-number">1052</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_COMMENTAIRE = </span><span class="cpp1-number">1038</span><span class="cpp1-symbol">,
+			ID_WXMEMO_COMMENTAIRE = </span><span class="cpp1-number">1037</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_PRIX = </span><span class="cpp1-number">1051</span><span class="cpp1-symbol">,
+			ID_WXEDIT_PRIX = </span><span class="cpp1-number">1036</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PRIX = </span><span class="cpp1-number">1035</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_TRADUCTEUR = </span><span class="cpp1-number">1045</span><span class="cpp1-symbol">,
+			ID_WXEDIT_TRADUCTEUR = </span><span class="cpp1-number">1034</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TRADUCTEUR = </span><span class="cpp1-number">1033</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_LANGUE = </span><span class="cpp1-number">1050</span><span class="cpp1-symbol">,
+			ID_WXEDIT_LANGUE = </span><span class="cpp1-number">1032</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_LANGUE = </span><span class="cpp1-number">1031</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_DATE_PUB = </span><span class="cpp1-number">1044</span><span class="cpp1-symbol">,
+			ID_WXEDIT_DATE_PUB = </span><span class="cpp1-number">1030</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_DATE_PUB = </span><span class="cpp1-number">1029</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_GENRE = </span><span class="cpp1-number">1049</span><span class="cpp1-symbol">,
+			ID_WXEDIT_GENRE = </span><span class="cpp1-number">1028</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_GENRE = </span><span class="cpp1-number">1027</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_EDITEUR = </span><span class="cpp1-number">1043</span><span class="cpp1-symbol">,
+			ID_WXEDIT_EDITEUR = </span><span class="cpp1-number">1025</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_EDITEUR = </span><span class="cpp1-number">1023</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_TITRE = </span><span class="cpp1-number">1048</span><span class="cpp1-symbol">,
+			ID_WXEDIT_TITRE = </span><span class="cpp1-number">1022</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_TITRE = </span><span class="cpp1-number">1021</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_AUTEUR = </span><span class="cpp1-number">1042</span><span class="cpp1-symbol">,
+			ID_WXEDIT_AUTEUR = </span><span class="cpp1-number">1005</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_AUTEUR = </span><span class="cpp1-number">1006</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_MINUSCULE = </span><span class="cpp1-number">1059</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_AUTEUR_INVERSE = </span><span class="cpp1-number">1058</span><span class="cpp1-symbol">,
+			ID_WXEDIT_PROXY_PASS = </span><span class="cpp1-number">1019</span><span class="cpp1-symbol">,
+			ID_WXMEMO_URL = </span><span class="cpp1-number">1057</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_URL = </span><span class="cpp1-number">1055</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_AIDE = </span><span class="cpp1-number">1026</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PROXY_PASS = </span><span class="cpp1-number">1018</span><span class="cpp1-symbol">,
+			ID_WXEDIT_PROXY_PORT = </span><span class="cpp1-number">1020</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PROXY_PORT = </span><span class="cpp1-number">1014</span><span class="cpp1-symbol">,
+			ID_WXEDIT_PROXY_UTIL = </span><span class="cpp1-number">1017</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PROXY_UTIL = </span><span class="cpp1-number">1016</span><span class="cpp1-symbol">,
+			ID_WXEDIT_PROXY_ADR = </span><span class="cpp1-number">1013</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_PROXY_ADR = </span><span class="cpp1-number">1012</span><span class="cpp1-symbol">,
+			ID_WXCHECKBOX_PROXY = </span><span class="cpp1-number">1011</span><span class="cpp1-symbol">,
+			ID_WXSTATICBOX_PROXY = </span><span class="cpp1-number">1010</span><span class="cpp1-symbol">,
+			ID_WXBUTTON_LANCER = </span><span class="cpp1-number">1004</span><span class="cpp1-symbol">,
+			ID_WXEDIT_ISBN = </span><span class="cpp1-number">1003</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT_ISBN = </span><span class="cpp1-number">1002</span><span class="cpp1-symbol">,
+</span><span class="cpp1-comment">////GUI Enum Control ID End
+</span><span class="cpp1-identifier">ID_IMAGE_FACE = </span><span class="cpp1-number">1500</span><span class="cpp1-space"> ,
+ID_IMAGE_DOS = </span><span class="cpp1-number">1501</span><span class="cpp1-space"> ,
+   ID_DUMMY_VALUE_ </span><span class="cpp1-comment">//Dont Delete this DummyValue
+</span><span class="cpp1-space">   }; </span><span class="cpp1-comment">//End of Enum
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    rech_internet(wxString p_isbn, wxWindow *parent, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> moteur_recherche=-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;recherche sur internet&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = THIS_DIALOG_STYLE);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internetClose(wxCloseEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_OKClick(wxCommandEvent&amp; event);
+</span><span class="cpp1-comment">/*    int traiter_isbn();
+    int recupData(wxString url,wxString nom_fichier);
+    int chercher_TD(wxString texte,wxString texte_a_chercher,wxString&amp; texte_retour,int decalage);
+    bool trancher(wxString&amp; partie_droite,wxString&amp; partie_gauche,wxString centre);
+    size_t write_d(void *ptr,size_t size, size_t nmemb, void *stream);*/
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_lancerClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxCheckBox_proxyClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sauve_config();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> load_config();
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> change_etat_proxy();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxButton_annulerClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxCheckBox_Click(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> WxMemo_URLClickUrl(wxTextUrlEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> lancer_recherche();
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> inverse_auteur();
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> minusculisation();
+};
+
+
+</span><span class="cpp1-preprocessor">#endif
+</span><span class="cpp1-space"> 
+ 
+ 
+ 
+</span></span>
+</code></pre>
+</body>
+</html>

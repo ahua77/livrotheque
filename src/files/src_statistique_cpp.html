@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_statistique_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        statistique.cpp
+// Author:      Epaillard
+// Created:     20/07/05 15:48:04
+//
+//Copyright  PE Epaillard, 20/07/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &quot;statistique.h&quot;
+
+</span><span class="cpp1-comment">//Do not add custom headers.
+//wx-dvcpp designer will remove them
+////Header Include Start
+////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &quot;ParamManager.h&quot;
+
+</span><span class="cpp1-comment">//----------------------------------------------------------------------------
+// statistique
+//----------------------------------------------------------------------------
+</span><span class="cpp1-space">     </span><span class="cpp1-comment">//Add Custom Events only in the appropriate Block.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// Code added in  other places will be removed by wx-dvcpp 
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(statistique,wxFrame)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(statistique::statistiqueClose)
+	EVT_SIZE(statistique::statistiqueSize)
+	EVT_MENU(ID_MNU__IMPRIMER_1006, statistique::Mnuimprimer1006Click)
+	EVT_MENU(ID_MNU_QUITTER_1002, statistique::Mnuquitter1002Click)
+	EVT_MENU(ID_MNU_APER_UA_VANTIMPRESSION_1007, statistique::Mnuaperuavantimpression1007Click)
+	EVT_MENU(ID_MNU_GENRE_1012, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_AUTEUR_1013, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_EDITEUR_1014, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_FORMAT_1015, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_ETAT_1016, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_LOCALISATION_1017, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_PAYS_1018, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_LANGUE_1019, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_TRADUCTEUR_1020, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_ARTISTE_1021, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_NOTES_1027, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_ANNEEDELECTURE_1024, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_MOIS_ANNEEDELECTURE_1025, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_ANNEEDACHAT_1022, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_MOISDACHAT_1023, statistique::MnuGraph1013Click)
+	EVT_MENU(ID_MNU_BARRES_1009, statistique::MnuAffSwitch1009Click)
+	EVT_MENU(ID_MNU_CAMEMBERT_1010, statistique::MnuAffSwitch1009Click)
+	EVT_MENU(ID_MNU_BARRESCOMMENTEES_1026, statistique::MnuAffSwitch1009Click)
+	EVT_MENU(ID_MNU_GESTIONDESCOULEURS_1005, statistique::Mnugestiondescouleurs1005Click)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+
+
+
+</span><span class="cpp1-identifier">statistique::statistique( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxFrame( parent, id, title, position, size, style)
+{
+    CreateGUIControls();
+}
+
+statistique::~statistique()
+{
+    
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+    la_belle=NULL;
+    BeauFrometon = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> MonCamembert(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">,ID_WXCAMEMBERT,</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;GetClientAreaOrigin(),</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;GetClientSize());
+    </span><span class="cpp1-comment">//Do not add custom Code here
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wx-devcpp designer will remove them.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Add the custom code before or after the Blocks
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	SetTitle(wxT(</span><span class="cpp1-string">&quot;Statistiques&quot;</span><span class="cpp1-symbol">));
+	SetIcon(wxNullIcon);
+	SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">362</span><span class="cpp1-symbol">,</span><span class="cpp1-number">296</span><span class="cpp1-symbol">);
+	Center();
+	
+
+	WxMenuBar_stat = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenuBar();
+	wxMenu *ID_MNU_FICHIER_1001_Mnu_Obj = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	ID_MNU_FICHIER_1001_Mnu_Obj-&gt;Append(ID_MNU__IMPRIMER_1006, wxT(</span><span class="cpp1-string">&quot;&amp;Imprimer&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_FICHIER_1001_Mnu_Obj-&gt;Append(ID_MNU_QUITTER_1002, wxT(</span><span class="cpp1-string">&quot;&amp;Quitter&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	ID_MNU_FICHIER_1001_Mnu_Obj-&gt;Append(ID_MNU_APER_UA_VANTIMPRESSION_1007, wxT(</span><span class="cpp1-string">&quot;Aper&ccedil;u  a&amp;vant Impression&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	WxMenuBar_stat-&gt;Append(ID_MNU_FICHIER_1001_Mnu_Obj, wxT(</span><span class="cpp1-string">&quot;&amp;Fichier&quot;</span><span class="cpp1-symbol">));
+	
+	wxMenu *ID_MNU__GRAPHIQUE_1011_Mnu_Obj = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_GENRE_1012, wxT(</span><span class="cpp1-string">&quot;Genre&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_GENRE_1012,</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_AUTEUR_1013, wxT(</span><span class="cpp1-string">&quot;Auteur&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_AUTEUR_1013,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_EDITEUR_1014, wxT(</span><span class="cpp1-string">&quot;Editeur&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_EDITEUR_1014,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_FORMAT_1015, wxT(</span><span class="cpp1-string">&quot;Format&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_FORMAT_1015,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_ETAT_1016, wxT(</span><span class="cpp1-string">&quot;Etat&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_ETAT_1016,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_LOCALISATION_1017, wxT(</span><span class="cpp1-string">&quot;Localisation&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_LOCALISATION_1017,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_PAYS_1018, wxT(</span><span class="cpp1-string">&quot;Pays&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_PAYS_1018,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_LANGUE_1019, wxT(</span><span class="cpp1-string">&quot;Langue&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_LANGUE_1019,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_TRADUCTEUR_1020, wxT(</span><span class="cpp1-string">&quot;Traducteur&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_TRADUCTEUR_1020,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_ARTISTE_1021, wxT(</span><span class="cpp1-string">&quot;Artiste&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_ARTISTE_1021,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_NOTES_1027, wxT(</span><span class="cpp1-string">&quot;Notes&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_NOTES_1027,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_ANNEEDELECTURE_1024, wxT(</span><span class="cpp1-string">&quot;Ann&eacute;e de lecture&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_ANNEEDELECTURE_1024,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_MOIS_ANNEEDELECTURE_1025, wxT(</span><span class="cpp1-string">&quot;Mois/ann&eacute;e de lecture&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_MOIS_ANNEEDELECTURE_1025,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_ANNEEDACHAT_1022, wxT(</span><span class="cpp1-string">&quot;Ann&eacute;e D'achat&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_ANNEEDACHAT_1022,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Append(ID_MNU_MOISDACHAT_1023, wxT(</span><span class="cpp1-string">&quot;Mois/ann&eacute;e d'achat&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__GRAPHIQUE_1011_Mnu_Obj-&gt;Check(ID_MNU_MOISDACHAT_1023,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	WxMenuBar_stat-&gt;Append(ID_MNU__GRAPHIQUE_1011_Mnu_Obj, wxT(</span><span class="cpp1-string">&quot;&amp;Graphique&quot;</span><span class="cpp1-symbol">));
+	
+	wxMenu *ID_MNU__AFFICHAGE_1008_Mnu_Obj = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	ID_MNU__AFFICHAGE_1008_Mnu_Obj-&gt;Append(ID_MNU_BARRES_1009, wxT(</span><span class="cpp1-string">&quot;&amp;Barres&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__AFFICHAGE_1008_Mnu_Obj-&gt;Check(ID_MNU_BARRES_1009,</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+	ID_MNU__AFFICHAGE_1008_Mnu_Obj-&gt;Append(ID_MNU_CAMEMBERT_1010, wxT(</span><span class="cpp1-string">&quot;&amp;Camembert&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__AFFICHAGE_1008_Mnu_Obj-&gt;Check(ID_MNU_CAMEMBERT_1010,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	ID_MNU__AFFICHAGE_1008_Mnu_Obj-&gt;Append(ID_MNU_BARRESCOMMENTEES_1026, wxT(</span><span class="cpp1-string">&quot;barres &amp;comment&eacute;es&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_RADIO);
+	ID_MNU__AFFICHAGE_1008_Mnu_Obj-&gt;Check(ID_MNU_BARRESCOMMENTEES_1026,</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	WxMenuBar_stat-&gt;Append(ID_MNU__AFFICHAGE_1008_Mnu_Obj, wxT(</span><span class="cpp1-string">&quot;&amp;Affichage&quot;</span><span class="cpp1-symbol">));
+	
+	wxMenu *ID_MNU__OPTION_1004_Mnu_Obj = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	ID_MNU__OPTION_1004_Mnu_Obj-&gt;Append(ID_MNU_GESTIONDESCOULEURS_1005, wxT(</span><span class="cpp1-string">&quot;Gestion des &amp;couleurs&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	WxMenuBar_stat-&gt;Append(ID_MNU__OPTION_1004_Mnu_Obj, wxT(</span><span class="cpp1-string">&quot;&amp;Option&quot;</span><span class="cpp1-symbol">));
+	SetMenuBar(WxMenuBar_stat);
+    </span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetSize(</span><span class="cpp1-number">30</span><span class="cpp1-symbol">,</span><span class="cpp1-number">30</span><span class="cpp1-symbol">,</span><span class="cpp1-number">800</span><span class="cpp1-symbol">,</span><span class="cpp1-number">600</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-comment">//WxBoxSizer_top-&gt;Add(BeauFrometon,0,wxALIGN_CENTER_HORIZONTAL | wxALL,5);
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (la_belle!=NULL)
+        BeauFrometon-&gt;Dessiner();
+    actualiser();
+    </span><span class="cpp1-comment">//this-&gt;Refresh();
+
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::statistiqueClose(wxCloseEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a Frame,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Destroy();
+</span><span class="cpp1-space">    Hide();
+}
+ 
+
+</span><span class="cpp1-comment">/*
+ * Mnuquitter1002Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::Mnuquitter1002Click(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">    Hide();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::init_tableaux(wxString nom_table) {
+</span><span class="cpp1-comment">//    int i,j;
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    wxString mess;
+    wxString query;
+    wxString texte;
+    wxArrayString liste_id;
+    </span><span class="cpp1-comment">//int id;
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> val;
+
+    BeauFrometon-&gt;Titre=titre;
+    </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetTitle(wxT(</span><span class="cpp1-string">&quot;Statistique : &quot;</span><span class="cpp1-symbol">)+titre);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (la_belle == NULL)
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(nom_table.StartsWith(</span><span class="cpp1-string">&quot;date&quot;</span><span class="cpp1-symbol">)) {
+        gestion_date(nom_table);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }</span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(nom_table.StartsWith(</span><span class="cpp1-string">&quot;note&quot;</span><span class="cpp1-symbol">)) {
+        gestion_note(nom_table);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    BeauFrometon-&gt;aiNbre.Clear();
+    BeauFrometon-&gt;asCommentaire.Clear();
+    liste_id.Clear();
+    
+    </span><span class="cpp1-comment">/* TODO : regrouper les 2 requetes en une seule :
+        . performance
+        . possibilit&eacute; de tri par nb de r&eacute;sultat
+        . possibilit&eacute; de faire un top 10
+        SELECT a.rowid, a.nom, count(l.rowid) nn from auteur a, livre l where l.id_auteur = a.rowid group by a.rowid order by nn desc ; */
+
+/* debut modif stephane 2009-12-08 : utilisation d'une seule requete, tri par nb r&eacute;sultats, top 20    
+    
+    query= &quot;SELECT rowid, nom FROM &quot;+nom_table+&quot; ORDER BY nom&quot;;
+    ret=la_belle-&gt;transac_prepare(query);
+    if (ret&lt;0) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    }
+    ret=la_belle-&gt;transac_step();
+    i=j=0;
+    while(ret==SQLITE_ROW) {
+
+        if (ret&lt;0) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+        }else {
+                la_belle-&gt;get_value_char(0,texte,taille);
+                liste_id.Add(texte);
+                la_belle-&gt;get_value_char(1,texte,taille);
+                BeauFrometon-&gt;asCommentaire.Add(texte);
+        }    
+        i++;
+        //j=0;
+          ret=la_belle-&gt;transac_step();
+    }  
+    la_belle-&gt;transac_fin();
+    
+    for (i=0; i&lt;(int)BeauFrometon-&gt;asCommentaire.GetCount() ; i++) {
+        query=&quot;SELECT count(*) FROM livre where id_&quot;+nom_table+&quot;=&quot;+liste_id[i];
+        ret=la_belle-&gt;transac_prepare(query);
+        if (ret&lt;0) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+        }    
+        ret=la_belle-&gt;transac_step();
+        la_belle-&gt;get_value_int(0,val);
+        BeauFrometon-&gt;aiNbre.Add(val);
+        la_belle-&gt;transac_fin();
+    }
+********/</span><span class="cpp1-space">    
+
+</span><span class="cpp1-comment">/* TODO : parametrer l'utilisation de top20. Si top20 : tri par nn desc ; sinon : tri par a.nom (ou configurable) */
+</span><span class="cpp1-space">    ParamManager* param = ParamManager::GetInstance();
+    BOOL useTopN = </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> seuil = </span><span class="cpp1-number">20</span><span class="cpp1-symbol">;
+    param-&gt;GetOrSet(</span><span class="cpp1-string">&quot;STAT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;USE_TOP_N&quot;</span><span class="cpp1-symbol">, useTopN, seuil);
+    query= </span><span class="cpp1-string">&quot;SELECT a.nom, count(l.rowid) nn from &quot;</span><span class="cpp1-symbol">+nom_table
+          +</span><span class="cpp1-string">&quot; a, livre l where l.id_&quot;</span><span class="cpp1-symbol">+nom_table
+          +</span><span class="cpp1-string">&quot; = a.rowid group by a.rowid order by nn desc&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    ret=la_belle-&gt;transac_step();
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nbVal = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> totalHorsTop = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW)
+    {
+       </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+       {
+          la_belle-&gt;get_erreur(mess);
+          wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+       }
+       </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">       {
+          nbVal++;
+          </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!useTopN || nbVal &lt;= seuil)  </span><span class="cpp1-comment">/* TODO : rendre configurable l'utilisation du top x et le nombre c */
+</span><span class="cpp1-space">          {
+              la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,texte,taille);
+              BeauFrometon-&gt;asCommentaire.Add(texte);
+              la_belle-&gt;get_value_int(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,val);
+              BeauFrometon-&gt;aiNbre.Add(val);
+          }
+          </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">          {
+              la_belle-&gt;get_value_int(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,val);
+              totalHorsTop += val;                
+          }
+          
+       }    
+       ret=la_belle-&gt;transac_step();
+    }  
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (totalHorsTop &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+    {
+        BeauFrometon-&gt;asCommentaire.Add(</span><span class="cpp1-string">&quot;[Autres]&quot;</span><span class="cpp1-symbol">);
+        BeauFrometon-&gt;aiNbre.Add(totalHorsTop);
+    }
+    la_belle-&gt;transac_fin();
+
+</span><span class="cpp1-comment">// fin modif stephane 2009-12-08
+</span><span class="cpp1-symbol">}    
+
+</span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> comparemois(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; first, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; second)
+{
+    wxString firsti,secondi;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (first == second)
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    
+    firsti=first.AfterFirst('/')+first.BeforeFirst('/');
+    secondi=second.AfterFirst('/')+second.BeforeFirst('/');
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(firsti&gt;secondi) 
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(firsti&lt;secondi) 
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-comment">// pour enlever un warning
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::gestion_note(wxString type_note) {
+    wxString query, texte, mess;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, val, i;
+
+    BeauFrometon-&gt;aiNbre.Clear();
+    BeauFrometon-&gt;asCommentaire.Clear();
+
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;=</span><span class="cpp1-number">10</span><span class="cpp1-symbol">;i++) {
+        query.Printf(</span><span class="cpp1-string">&quot;Select count(*) from livre where note='%d'&quot;</span><span class="cpp1-symbol">,i);
+        ret=la_belle-&gt;transac_prepare(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }    
+        ret=la_belle-&gt;transac_step();
+        la_belle-&gt;get_value_int(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,val);
+        mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,i);
+                </span><span class="cpp1-comment">//wxMessageBox(mess,&quot;test&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        BeauFrometon-&gt;asCommentaire.Add(mess);
+        BeauFrometon-&gt;aiNbre.Add(val);
+        la_belle-&gt;transac_fin();
+    }
+    
+}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::gestion_date(wxString type_date) {
+    wxString nom_champ, type_tri=</span><span class="cpp1-string">&quot;Annee&quot;</span><span class="cpp1-symbol">;
+    wxString query, texte, mess;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, val, taille;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i, annee_cour=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    wxArrayString donnees;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_date == </span><span class="cpp1-string">&quot;date_achat_annee&quot;</span><span class="cpp1-symbol">) {
+        nom_champ=</span><span class="cpp1-string">&quot;date_achat&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_date == </span><span class="cpp1-string">&quot;date_achat_mois&quot;</span><span class="cpp1-symbol">) {
+        nom_champ=</span><span class="cpp1-string">&quot;date_achat&quot;</span><span class="cpp1-symbol">;
+        type_tri=</span><span class="cpp1-string">&quot;mois&quot;</span><span class="cpp1-symbol">;
+    }</span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_date == </span><span class="cpp1-string">&quot;date_lecture_annee&quot;</span><span class="cpp1-symbol">) {
+        nom_champ=</span><span class="cpp1-string">&quot;date_lecture&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_date == </span><span class="cpp1-string">&quot;date_lecture_mois&quot;</span><span class="cpp1-symbol">) {
+        nom_champ=</span><span class="cpp1-string">&quot;date_lecture&quot;</span><span class="cpp1-symbol">;
+        type_tri=</span><span class="cpp1-string">&quot;mois&quot;</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_tri == </span><span class="cpp1-string">&quot;mois&quot;</span><span class="cpp1-symbol">) {
+        wxDateTime madate;
+        madate.SetToCurrent();
+        annee_cour=(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)wxGetNumberFromUser( </span><span class="cpp1-string">&quot;Entrez l'ann&eacute;e d&eacute;sir&eacute;e\n Cancel pour les 12 derniers mois.\n 0 pour avoir toutes les donn&eacute;es&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Ann&eacute;e &agrave; afficher : &quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Choix de l'ann&eacute;e&quot;</span><span class="cpp1-symbol">,madate.GetYear(), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, </span><span class="cpp1-number">3000</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+
+    BeauFrometon-&gt;aiNbre.Clear();
+    BeauFrometon-&gt;asCommentaire.Clear();
+
+    query=</span><span class="cpp1-string">&quot;Select &quot;</span><span class="cpp1-symbol">+nom_champ+</span><span class="cpp1-string">&quot; from livre&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    ret=la_belle-&gt;transac_step();
+    </span><span class="cpp1-comment">/* on r&eacute;cup&egrave;re toutes les dates */
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }</span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,texte,taille);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_tri == </span><span class="cpp1-string">&quot;mois&quot;</span><span class="cpp1-symbol">)
+                texte=texte.AfterFirst('/');
+            </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> 
+                texte=texte.AfterLast('/');
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte.Len()&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,annee_cour);
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_tri != </span><span class="cpp1-string">&quot;mois&quot;</span><span class="cpp1-space"> || annee_cour&lt;=</span><span class="cpp1-number">0</span><span class="cpp1-space"> || mess==texte.AfterLast('/')) {
+                    donnees.Add(texte);
+                }
+            }
+        }    
+          ret=la_belle-&gt;transac_step();
+    }  
+    la_belle-&gt;transac_fin();
+    
+    </span><span class="cpp1-comment">// on a r&eacute;cup&eacute;r&eacute; les donn&eacute;es maintenant on tri et on compte
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (type_tri == </span><span class="cpp1-string">&quot;mois&quot;</span><span class="cpp1-symbol">) {
+        donnees.Sort(comparemois);
+    } </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        donnees.Sort();
+    i=-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    texte=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (donnees.GetCount() !=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte!=donnees[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]) {
+            BeauFrometon-&gt;asCommentaire.Add(donnees[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);
+            BeauFrometon-&gt;aiNbre.Add(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+            i++;
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            val=(BeauFrometon-&gt;aiNbre.Item(i)+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+            BeauFrometon-&gt;aiNbre.RemoveAt(i);
+            BeauFrometon-&gt;aiNbre.Add(val);
+        }
+        </span><span class="cpp1-comment">//mess.Printf(&quot;nbre comm:%d, nbre nbre :%d&quot;, BeauFrometon-&gt;asCommentaire.GetCount(), BeauFrometon-&gt;aiNbre.GetCount());
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">//wxMessageBox(mess,&quot;test&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        
+        texte=donnees[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">];
+        donnees.RemoveAt(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (annee_cour ==-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">) { </span><span class="cpp1-comment">//on ne garde que les 12 derniers
+</span><span class="cpp1-space">        i=BeauFrometon-&gt;asCommentaire.GetCount();
+        BeauFrometon-&gt;asCommentaire.RemoveAt(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,i-</span><span class="cpp1-number">12</span><span class="cpp1-symbol">);
+        BeauFrometon-&gt;aiNbre.RemoveAt(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,i-</span><span class="cpp1-number">12</span><span class="cpp1-symbol">);
+    }
+}
+</span><span class="cpp1-comment">/*
+ * statistiqueSize
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::statistiqueSize(wxSizeEvent&amp; event)
+{
+    dessiner();
+}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::dessiner() {
+    wxString mess;
+    wxSize lataille;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (BeauFrometon-&gt;aiNbre.GetCount() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        BeauFrometon-&gt;aiNbre.Add(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        BeauFrometon-&gt;asCommentaire.Add(</span><span class="cpp1-string">&quot;aucune donn&eacute;e&quot;</span><span class="cpp1-symbol">);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (BeauFrometon-&gt;aiNbre.GetCount() &gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+       
+        </span><span class="cpp1-comment">//BeauFrometon-&gt;Refresh();
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">/*BeauFrometon-&gt;tailleDessin=this-&gt;GetClientSize();
+        BeauFrometon-&gt;SetSize(this-&gt;GetClientSize());
+        BeauFrometon-&gt;Dessiner();
+        BeauFrometon-&gt;SetScrollbars(0,0,0,0);
+        if (this-&gt;GetClientSize().GetHeight()&lt;BeauFrometon-&gt;calc_hauteur_min()) {
+            BeauFrometon-&gt;SetVirtualSize(lataille);
+            BeauFrometon-&gt;SetScrollbars(0,10,0,(BeauFrometon-&gt;calc_hauteur_min()+9)/10);
+            lataille=::wxSize(this-&gt;GetClientSize().GetWidth()-10,BeauFrometon-&gt;calc_hauteur_min()+1);
+            BeauFrometon-&gt;tailleDessin=lataille;
+        //mess.Printf(&quot;h min:%d&quot;, BeauFrometon-&gt;calc_hauteur_min());
+        //wxMessageBox(mess,&quot;test&quot;, wxOK | wxICON_EXCLAMATION, this)
+        }*/
+</span><span class="cpp1-space">        BeauFrometon-&gt;tailleDessin=</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;GetClientSize();
+        BeauFrometon-&gt;Dessiner();
+
+    }
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::definir_base(ma_base *babase) {
+    la_belle=babase;
+    type_stat=</span><span class="cpp1-string">&quot;genre&quot;</span><span class="cpp1-symbol">;
+    titre=</span><span class="cpp1-string">&quot;Genre&quot;</span><span class="cpp1-symbol">;
+    load_typegraph();
+    actualiser();
+}
+
+</span><span class="cpp1-comment">/*
+ * Mnugestiondescouleurs1005Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::Mnugestiondescouleurs1005Click(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+//	GestionListeCouleur magest(this,BeauFrometon-&gt;listeCouleur, BeauFrometon-&gt;asCommentaire, BeauFrometon-&gt;LaFont, BeauFrometon-&gt;couleurTexte);
+</span><span class="cpp1-space">	GestionCoul magest(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">,BeauFrometon);
+	magest.ShowModal();
+	dessiner();
+}
+
+</span><span class="cpp1-comment">/*
+ * Mnuimprimer1006Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::Mnuimprimer1006Click(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">    wxPrintData *g_printData = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPrintData();
+    wxPrintDialogData printDialogData(* g_printData);
+
+    g_printData-&gt;SetOrientation(wxLANDSCAPE);
+    wxPrinter printer(&amp; printDialogData);
+    MyPrintout printout(_T(</span><span class="cpp1-string">&quot;Impression des statistiques&quot;</span><span class="cpp1-symbol">),BeauFrometon);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!printer.Print(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, &amp;printout, </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> </span><span class="cpp1-comment">/*prompt*/</span><span class="cpp1-symbol">))
+    {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (wxPrinter::GetLastError() == wxPRINTER_ERROR)
+            wxMessageBox(_T(</span><span class="cpp1-string">&quot;Probl&ecirc;me lors de l'impression.\nVotre imprimante est peut-&ecirc;tre mal configur&eacute;e.&quot;</span><span class="cpp1-symbol">), _T(</span><span class="cpp1-string">&quot;Impression&quot;</span><span class="cpp1-symbol">), wxOK);
+        </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">            wxMessageBox(_T(</span><span class="cpp1-string">&quot;Impression interrompue&quot;</span><span class="cpp1-symbol">), _T(</span><span class="cpp1-string">&quot;Impression&quot;</span><span class="cpp1-symbol">), wxOK);
+    }
+    </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">    {
+        (*g_printData) = printer.GetPrintDialogData().GetPrintData();
+    }
+}
+
+</span><span class="cpp1-comment">/*
+ * Mnuaperuavantimpression1007Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::Mnuaperuavantimpression1007Click(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">    wxPrintData *g_printData;
+    g_printData = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPrintData;
+    wxSize taille=wxSize(</span><span class="cpp1-number">700</span><span class="cpp1-symbol">,</span><span class="cpp1-number">600</span><span class="cpp1-symbol">);
+    wxSize taille_tmp;
+    
+     </span><span class="cpp1-comment">// Pass two printout objects: for preview, and possible printing.
+</span><span class="cpp1-space">     g_printData-&gt;SetOrientation(wxLANDSCAPE);
+    wxPrintDialogData printDialogData(* g_printData);
+    wxPrintPreview *preview = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPrintPreview(</span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> MyPrintout(</span><span class="cpp1-string">&quot;Pr&eacute;visualiastion&quot;</span><span class="cpp1-symbol">,BeauFrometon), </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> MyPrintout(</span><span class="cpp1-string">&quot;Pr&eacute;visualiastion&quot;</span><span class="cpp1-symbol">,BeauFrometon), &amp; printDialogData);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!preview-&gt;Ok())
+    {
+        </span><span class="cpp1-reservedword">delete</span><span class="cpp1-space"> preview;
+        wxMessageBox(_T(</span><span class="cpp1-string">&quot;Probleme lors de la pr&eacute;visualisation.\nVotre imprimante est peut-&ecirc;tre mal configur&eacute;e.&quot;</span><span class="cpp1-symbol">), _T(</span><span class="cpp1-string">&quot;Pr&eacute;visualisation&quot;</span><span class="cpp1-symbol">), wxOK);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+
+    wxPreviewFrame *frame = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPreviewFrame(preview, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, _T(</span><span class="cpp1-string">&quot;Aper&ccedil;u avant impression&quot;</span><span class="cpp1-symbol">), wxDefaultPosition, taille);
+    frame-&gt;Centre(wxBOTH);
+    frame-&gt;Initialize();
+    frame-&gt;Show();
+    actualiser();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::actualiser() {
+    init_tableaux(type_stat);
+    </span><span class="cpp1-comment">//BeauFrometon-&gt;Dessiner();
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//this-&gt;Refresh();
+</span><span class="cpp1-space">    dessiner();
+
+}
+
+</span><span class="cpp1-comment">/*
+ * MnuAffSwitch1009Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::MnuAffSwitch1009Click(wxCommandEvent&amp; event)
+{
+    wxString message;
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(event.GetId() == ID_MNU_BARRES_1009) {
+        graph_encour=MonCamembert::Rectangle;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_CAMEMBERT_1010) {
+        graph_encour = MonCamembert::Cercle;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_BARRESCOMMENTEES_1026) {
+        graph_encour = MonCamembert::RectangleBas;
+    }
+    BeauFrometon-&gt;typeGraph = graph_encour;
+    sauve_typegraph();
+    </span><span class="cpp1-comment">//BeauFrometon-&gt;Dessiner();
+</span><span class="cpp1-space">    dessiner();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::sauve_typegraph() {
+    wxString query;
+    wxString mess;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (la_belle-&gt;existe(</span><span class="cpp1-string">&quot;config_stat&quot;</span><span class="cpp1-symbol">) != </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> ) {
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;existe pas&quot;, _T(&quot;test&quot;), wxOK);
+</span><span class="cpp1-space">        query=</span><span class="cpp1-string">&quot;CREATE TABLE config_stat (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)&quot;</span><span class="cpp1-symbol">;
+        la_belle-&gt;exec_rapide(query);
+    }
+    query=</span><span class="cpp1-string">&quot;DELETE FROM config_stat where type_param='type_graph' AND nom_param='&quot;</span><span class="cpp1-symbol">+type_stat+</span><span class="cpp1-string">&quot;'&quot;</span><span class="cpp1-symbol">;
+    la_belle-&gt;exec_rapide(query);
+    mess.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,graph_encour);
+    query=</span><span class="cpp1-string">&quot;INSERT INTO config_stat (type_param, nom_param, val1) VALUES ('type_graph', '&quot;</span><span class="cpp1-symbol">+type_stat+</span><span class="cpp1-string">&quot;', '&quot;</span><span class="cpp1-symbol">+mess+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    la_belle-&gt;exec_rapide(query);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::load_typegraph() {
+    wxString query;
+    wxString mess;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, taille;
+    </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> graphique;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (la_belle-&gt;existe(</span><span class="cpp1-string">&quot;config_stat&quot;</span><span class="cpp1-symbol">) != TRUE ) {
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;SELECT val1 FROM config_stat where type_param='type_graph' AND nom_param='&quot;</span><span class="cpp1-symbol">+type_stat+</span><span class="cpp1-string">&quot;'&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+
+    ret=la_belle-&gt;transac_step();
+
+    </span><span class="cpp1-comment">//BeauFrometon-&gt;typeGraph = MonCamembert::Rectangle;
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret==SQLITE_ROW) {
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,mess,taille);
+        mess.ToLong(&amp;graphique);
+        BeauFrometon-&gt;typeGraph = (MonCamembert::myTypeGraph) graphique;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (BeauFrometon-&gt;typeGraph == MonCamembert::Rectangle)
+            WxMenuBar_stat-&gt;Check(ID_MNU_BARRES_1009, </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (BeauFrometon-&gt;typeGraph == MonCamembert::Cercle)
+            WxMenuBar_stat-&gt;Check(ID_MNU_CAMEMBERT_1010, </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (BeauFrometon-&gt;typeGraph == MonCamembert::RectangleBas)
+            WxMenuBar_stat-&gt;Check(ID_MNU_BARRESCOMMENTEES_1026, </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+    }  
+    la_belle-&gt;transac_fin();
+}
+
+</span><span class="cpp1-comment">/*
+ * MnuGraph1013Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> statistique::MnuGraph1013Click(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-comment">//wxMessageBox(&quot;toto&quot;, _T(&quot;Impression&quot;), wxOK);
+
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(event.GetId() == ID_MNU_GENRE_1012) {
+        titre=</span><span class="cpp1-string">&quot;Genre&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;genre&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_AUTEUR_1013) {
+        titre=</span><span class="cpp1-string">&quot;Auteur&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;auteur&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_EDITEUR_1014) {
+        titre=</span><span class="cpp1-string">&quot;Editeur&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;editeur&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_FORMAT_1015) {
+        titre=</span><span class="cpp1-string">&quot;Format&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;format&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_ETAT_1016) {
+        titre=</span><span class="cpp1-string">&quot;Etat&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;etat&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LOCALISATION_1017) {
+        titre=</span><span class="cpp1-string">&quot;Localisation&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;localisation&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_PAYS_1018) {
+        titre=</span><span class="cpp1-string">&quot;Pays&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;pays&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_LANGUE_1019) {
+        titre=</span><span class="cpp1-string">&quot;Langue&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;langue&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_TRADUCTEUR_1020) {
+        titre=</span><span class="cpp1-string">&quot;Traducteur&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;traducteur&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_ARTISTE_1021) {
+        titre=</span><span class="cpp1-string">&quot;Artiste&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;artiste&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_ANNEEDACHAT_1022) {
+        titre=</span><span class="cpp1-string">&quot;Ann&eacute;e d'achat&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;date_achat_annee&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_NOTES_1027) {
+        titre=</span><span class="cpp1-string">&quot;Notes&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;note&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_MOISDACHAT_1023) {
+        titre=</span><span class="cpp1-string">&quot;Mois/annee d'achat&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;date_achat_mois&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_ANNEEDELECTURE_1024) {
+        titre=</span><span class="cpp1-string">&quot;Ann&eacute;e de lecture&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;date_lecture_annee&quot;</span><span class="cpp1-symbol">;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (event.GetId() == ID_MNU_MOIS_ANNEEDELECTURE_1025) {
+        titre=</span><span class="cpp1-string">&quot;Mois/Ann&eacute;e de lecture&quot;</span><span class="cpp1-symbol">;
+        type_stat=</span><span class="cpp1-string">&quot;date_lecture_mois&quot;</span><span class="cpp1-symbol">;
+    }
+    load_typegraph();
+    </span><span class="cpp1-comment">//BeauFrometon-&gt;Dessiner();
+</span><span class="cpp1-space">    actualiser();
+}
+</span></span>
+</code></pre>
+</body>
+</html>

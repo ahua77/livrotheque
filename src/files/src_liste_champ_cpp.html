@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_liste_champ_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        liste_champ.cpp
+// Author:      fougny
+// Created:     31/01/05 11:04:00
+//
+//Copyright  PE Epaillard, 31/01/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#ifdef __GNUG__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma implementation &quot;liste_champ.cpp&quot;
+#endif
+
+</span><span class="cpp1-comment">/* for compilers that support precompilation
+   includes &quot;wx/wx.h&quot; */
+
+</span><span class="cpp1-preprocessor">#include &quot;wx/wxprec.h&quot;
+
+#ifdef __BORLANDC__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma hdrstop
+#endif
+
+
+#include &quot;liste_champ.h&quot;
+
+</span><span class="cpp1-comment">////Header Include Start
+////Header Include End
+
+
+
+//----------------------------------------------------------------------------
+// liste_champ
+//----------------------------------------------------------------------------
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(liste_champ,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	EVT_GRID_CMD_CELL_RIGHT_CLICK(ID_GRILLE_LISTE, liste_champ::OnGrilleClickDroit)
+	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(liste_champ::liste_champClose)
+	EVT_MENU(ID_MNU_SUPPRIME_1008 , liste_champ::Mnusupprime1008Click)
+	EVT_BUTTON(ID_WXBUTTON_INSERER,liste_champ::WxButton_insererClick)
+	EVT_BUTTON(wxID_CANCEL,liste_champ::WxButton_okClick)
+	EVT_GRID_CELL_LEFT_CLICK(liste_champ::grilleCellLeftClick)
+	EVT_GRID_CELL_LEFT_DCLICK(liste_champ::grilleCellLeftDoubleClick)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+
+
+
+</span><span class="cpp1-identifier">liste_champ::liste_champ( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    modifie=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+    nom_table=title;
+    CreateGUIControls();
+}
+
+liste_champ::liste_champ( ma_base *pour_modif, wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    modifie=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+    la_belle=pour_modif;
+    nom_table=title;
+    CreateGUIControls();
+}
+
+liste_champ::~liste_champ()
+{
+    SetReturnCode(modifie);
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste_champ::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	wxBoxSizer* WxBoxSizer_top = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBoxSizer(wxVERTICAL);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetSizer(WxBoxSizer_top);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetAutoLayout(TRUE);
+
+	grille = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxGrid(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_GRILLE_LISTE, wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">400</span><span class="cpp1-symbol">,</span><span class="cpp1-number">300</span><span class="cpp1-symbol">));
+	grille-&gt;SetDefaultColSize(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">);
+	grille-&gt;SetDefaultRowSize(</span><span class="cpp1-number">25</span><span class="cpp1-symbol">);
+	grille-&gt;SetRowLabelSize(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">);
+	grille-&gt;SetColLabelSize(</span><span class="cpp1-number">25</span><span class="cpp1-symbol">);
+	grille-&gt;CreateGrid(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,wxGrid::wxGridSelectCells);
+	WxBoxSizer_top-&gt;Add(grille,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,wxGROW | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	wxBoxSizer* WxBoxSizer_button = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer_top-&gt;Add(WxBoxSizer_button,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_HORIZONTAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	WxButton_ok = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, wxID_CANCEL, wxT(</span><span class="cpp1-string">&quot;OK&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">80</span><span class="cpp1-symbol">,</span><span class="cpp1-number">28</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_ok&quot;</span><span class="cpp1-symbol">));
+	WxBoxSizer_button-&gt;Add(WxButton_ok,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_VERTICAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	WxButton_inserer = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON_INSERER, wxT(</span><span class="cpp1-string">&quot;Inserer&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">95</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">80</span><span class="cpp1-symbol">,</span><span class="cpp1-number">28</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_inserer&quot;</span><span class="cpp1-symbol">));
+	WxBoxSizer_button-&gt;Add(WxButton_inserer,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_VERTICAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	WxPopupMenu_grille = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxMenu(wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">)  );
+	WxPopupMenu_grille-&gt;Append(ID_MNU_SUPPRIME_1008, wxT(</span><span class="cpp1-string">&quot;Supprimer la ligne courante&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxITEM_NORMAL);
+	
+	
+
+	GetSizer()-&gt;Fit(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+	GetSizer()-&gt;SetSizeHints(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetTitle(wxT(</span><span class="cpp1-string">&quot;liste&quot;</span><span class="cpp1-symbol">));
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;Center();
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetIcon(wxNullIcon);
+	
+    </span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-space">	grille-&gt;SetSelectionMode(wxGrid::wxGridSelectRows);
+    init_grille();
+    </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetTitle(nom_table);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste_champ::init_grille() {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i,j;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    wxString mess;
+    wxString query;
+    wxString texte;
+    </span><span class="cpp1-comment">//int id;
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> taille;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nbcol, champ;
+
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ir = grille-&gt;GetNumberRows();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ir)
+        grille-&gt;DeleteRows(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, ir);
+    ir = grille-&gt;GetNumberCols();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ir)
+        grille-&gt;DeleteCols(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, ir);
+        
+    query= </span><span class="cpp1-string">&quot;SELECT rowid, nom FROM &quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot; ORDER BY nom&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        la_belle-&gt;get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    ret=la_belle-&gt;transac_step();
+    i=j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    nbcol=la_belle-&gt;transac_nbcol(); 
+    grille-&gt;InsertCols(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,(nbcol+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">));
+    grille-&gt;SetColLabelValue(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;id&quot;</span><span class="cpp1-symbol">);
+    grille-&gt;SetColLabelValue(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;nom&quot;</span><span class="cpp1-symbol">);
+    grille-&gt;SetColLabelValue(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;nb&quot;</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+
+        grille-&gt;AppendRows();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }</span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (champ=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">; champ&lt;nbcol;champ++) {
+                la_belle-&gt;get_value_char(champ,texte,taille);
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (champ == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) 
+                    grille-&gt;SetRowLabelValue(i,texte);
+                grille-&gt;SetCellValue(i,champ,texte);
+                grille-&gt;SetReadOnly( i, champ, </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> );
+            }     
+        }    
+        i++;
+        </span><span class="cpp1-comment">//j=0;
+</span><span class="cpp1-space">          ret=la_belle-&gt;transac_step();
+    }  
+    la_belle-&gt;transac_fin();
+    
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i&lt;grille-&gt;GetNumberRows() ; i++) {
+        query=</span><span class="cpp1-string">&quot;SELECT count(*) FROM livre where id_&quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot;=&quot;</span><span class="cpp1-symbol">+grille-&gt;GetRowLabelValue(i);
+        ret=la_belle-&gt;transac_prepare(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        }    
+        ret=la_belle-&gt;transac_step();
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,texte,taille);
+        grille-&gt;SetCellValue(i,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,texte);
+        grille-&gt;SetReadOnly( i, </span><span class="cpp1-number">2</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> );
+        la_belle-&gt;transac_fin();
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_table.CmpNoCase(</span><span class="cpp1-string">&quot;auteur&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-number">0</span><span class="cpp1-space"> || nom_table.CmpNoCase(</span><span class="cpp1-string">&quot;artiste&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        grille-&gt;AppendCols(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        grille-&gt;SetColLabelValue(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;inverser&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i&lt;grille-&gt;GetNumberRows() ; i++) {
+            grille-&gt;SetCellValue(i, </span><span class="cpp1-number">3</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;Cliquez ici&quot;</span><span class="cpp1-symbol">);
+            grille-&gt;SetReadOnly( i, </span><span class="cpp1-number">3</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">true</span><span class="cpp1-space"> );
+        }
+    }
+
+    grille-&gt;SetColLabelSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+    grille-&gt;SetRowLabelSize(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+</span><span class="cpp1-comment">//    grille-&gt;EnableEditing(false);
+</span><span class="cpp1-space">    grille-&gt;AutoSizeColumns(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+    grille-&gt;AutoSizeRows(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (grille-&gt;GetNumberRows()&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        grille-&gt;SelectRow(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    }    
+
+}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste_champ::liste_champClose(wxCloseEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a wxDialog,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    Destroy();
+}
+ 
+</span><span class="cpp1-comment">/*
+ * WxButton_okClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste_champ::WxButton_okClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">    Destroy();
+    event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * grilleCellLeftDoubleClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste_champ::grilleCellLeftDoubleClick(wxGridEvent&amp; event)
+{
+    wxString id;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb_ligne;
+    
+    nb_ligne=event.GetRow();
+    id=grille-&gt;GetRowLabelValue(nb_ligne);
+    nouv_autre nouv(la_belle, id, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, nom_table);
+    nouv.ShowModal();
+    init_grille();
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_insererClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste_champ::WxButton_insererClick(wxCommandEvent&amp; event)
+{
+    nouv_autre nouv(la_belle, </span><span class="cpp1-string">&quot;-1&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, nom_table);
+    nouv.ShowModal();
+    init_grille();
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste_champ::OnGrilleClickDroit( wxGridEvent&amp; event ) {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nrow;
+    
+    nrow=event.GetRow();
+    grille-&gt;SelectRow(nrow);
+
+    PopupMenu(WxPopupMenu_grille);
+}
+
+</span><span class="cpp1-comment">/*
+ * Mnusupprime1008Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste_champ::Mnusupprime1008Click(wxCommandEvent&amp; event)
+{
+    wxString nb_enr, id, mess;
+    wxString query;
+    wxArrayInt cell_select;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    
+    cell_select=grille-&gt;GetSelectedRows(); 
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (cell_select.GetCount()&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        nb_enr=grille-&gt;GetCellValue(cell_select[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">],</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+        id=grille-&gt;GetCellValue(cell_select[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">],</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nb_enr != </span><span class="cpp1-string">&quot;0&quot;</span><span class="cpp1-symbol">) {
+            mess=</span><span class="cpp1-string">&quot;Vous ne pouvez pas supprimer cette ligne :\n il y a &quot;</span><span class="cpp1-symbol">+nb_enr+</span><span class="cpp1-string">&quot; livres qui en d&eacute;pendent&quot;</span><span class="cpp1-symbol">;
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            ret=wxMessageBox(</span><span class="cpp1-string">&quot;Etes vous sur de vouloir effacer cette ligne?? \n(Attention cet effacement est DEFINITIF!)&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Question&quot;</span><span class="cpp1-symbol">, wxYES_NO|wxNO_DEFAULT | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret == wxYES) {
+                query=</span><span class="cpp1-string">&quot;DELETE FROM &quot;</span><span class="cpp1-symbol">+nom_table +</span><span class="cpp1-string">&quot; WHERE rowid=&quot;</span><span class="cpp1-symbol">+id;
+                ret=la_belle-&gt;exec_rapide(query);
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                    la_belle-&gt;get_erreur(mess);
+                    wxMessageBox(query+</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">+mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+                }
+                init_grille();
+            }    
+        }    
+    }    
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+
+
+</span><span class="cpp1-comment">/*
+ * grilleCellLeftClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> liste_champ::grilleCellLeftClick(wxGridEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> numcol, numrow, taille,ret;
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((numcol=event.GetCol()) == </span><span class="cpp1-number">3</span><span class="cpp1-symbol">) {
+        wxString query, texte, texte_inverse;
+        numrow=event.GetRow();
+        query= </span><span class="cpp1-string">&quot;SELECT nom FROM &quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot; Where rowid=&quot;</span><span class="cpp1-symbol">+grille-&gt;GetCellValue(numrow,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-comment">//wxMessageBox(query,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        ret=la_belle-&gt;transac_prepare(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            la_belle-&gt;get_erreur(texte);
+            wxMessageBox(query+</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">+texte,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            event.Skip();
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }
+        ret=la_belle-&gt;transac_step();
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,texte,taille);
+        la_belle-&gt;transac_fin();
+        texte_inverse=inverse_texte(texte);
+        ret=wxMessageBox(</span><span class="cpp1-string">&quot;voulez vous inverser nom/pr&eacute;nom pour &quot;</span><span class="cpp1-symbol">+texte+</span><span class="cpp1-string">&quot;\n le nouveau nom sera : &quot;</span><span class="cpp1-symbol">+texte_inverse,</span><span class="cpp1-string">&quot;inversion&quot;</span><span class="cpp1-symbol">, wxYES_NO | wxICON_QUESTION , </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret == wxYES) {
+            query=</span><span class="cpp1-string">&quot;UPDATE &quot;</span><span class="cpp1-symbol">+nom_table+</span><span class="cpp1-string">&quot; set nom='&quot;</span><span class="cpp1-symbol">+texte_inverse+</span><span class="cpp1-string">&quot;' where rowid=&quot;</span><span class="cpp1-symbol">+grille-&gt;GetCellValue(numrow,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+            ret=la_belle-&gt;exec_rapide(query);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+                la_belle-&gt;get_erreur(texte);
+                wxMessageBox(query+</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">+texte,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+                modifie=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+                init_grille();
+            }
+            </span><span class="cpp1-comment">//wxMessageBox(&quot;INVERSION&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">       }
+    }
+	event.Skip();
+
+}
+wxString liste_champ::inverse_texte (wxString texte) {
+    wxString fin_ch=texte.AfterLast(' ');
+    wxString debut_ch=texte.BeforeLast(' ');
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (fin_ch+wxT(</span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">)+debut_ch);
+
+}
+</span></span>
+</code></pre>
+</body>
+</html>

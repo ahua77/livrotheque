@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_FusionDlg_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">///-----------------------------------------------------------------
+///
+/// @file      FusionDlg.h
+/// @author    stephane
+/// Created:   10/12/2009 00:38:40
+/// @section   DESCRIPTION
+///            FusionDlg class declaration
+///
+///------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#ifndef __FUSIONDLG_H__
+#define __FUSIONDLG_H__
+
+#ifdef __BORLANDC__
+</span><span class="cpp1-space">	</span><span class="cpp1-preprocessor">#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+</span><span class="cpp1-space">	</span><span class="cpp1-preprocessor">#include &lt;wx/wx.h&gt;
+</span><span class="cpp1-space">	</span><span class="cpp1-preprocessor">#include &lt;wx/dialog.h&gt;
+#else
+</span><span class="cpp1-space">	</span><span class="cpp1-preprocessor">#include &lt;wx/wxprec.h&gt;
+#endif
+
+</span><span class="cpp1-comment">//Do not add custom headers between 
+//Header Include Start and Header Include End.
+//wxDev-C++ designer will remove them. Add custom headers after the block.
+////Header Include Start
+</span><span class="cpp1-preprocessor">#include &lt;wx/combobox.h&gt;
+#include &lt;wx/listbox.h&gt;
+#include &lt;wx/button.h&gt;
+#include &lt;wx/statline.h&gt;
+#include &lt;wx/stattext.h&gt;
+</span><span class="cpp1-comment">////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &quot;mabase.h&quot;
+
+</span><span class="cpp1-comment">////Dialog Style Start
+</span><span class="cpp1-preprocessor">#undef FusionDlg_STYLE
+#define FusionDlg_STYLE wxCAPTION | wxRESIZE_BORDER | wxSYSTEM_MENU | wxSTAY_ON_TOP | wxDIALOG_NO_PARENT | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCLOSE_BOX
+</span><span class="cpp1-comment">////Dialog Style End
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> FusionDlg : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxDialog
+{
+	</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+		DECLARE_EVENT_TABLE();
+		
+	</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+		FusionDlg(wxWindow *parent, ma_base&amp; p_baseLivre, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = wxT(</span><span class="cpp1-string">&quot;Fusion&quot;</span><span class="cpp1-symbol">), </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = FusionDlg_STYLE);
+		</span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> ~FusionDlg();
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> FusionDlgInitDialog(wxInitDialogEvent&amp; event);
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CB_listeGroupes1Selected(wxCommandEvent&amp; event );
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CB_listeGroupes2Selected(wxCommandEvent&amp; event );
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> BN_AnnulerClick(wxCommandEvent&amp; event);
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CB_typeGroupeSelected(wxCommandEvent&amp; event );
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> BN_FusionnerClick(wxCommandEvent&amp; event);
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CB_typeTriSelected(wxCommandEvent&amp; event );
+	
+	</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+		</span><span class="cpp1-comment">//Do not add custom control declarations between 
+</span><span class="cpp1-space">		</span><span class="cpp1-comment">//GUI Control Declaration Start and GUI Control Declaration End.
+</span><span class="cpp1-space">		</span><span class="cpp1-comment">//wxDev-C++ will remove them. Add custom code after the block.
+</span><span class="cpp1-space">		</span><span class="cpp1-comment">////GUI Control Declaration Start
+</span><span class="cpp1-space">		wxComboBox *CB_typeGroupe;
+		wxComboBox *CB_typeTri;
+		wxComboBox *CB_listeGroupes1;
+		wxListBox *LB_listeLivres1;
+		wxComboBox *CB_listeGroupes2;
+		wxListBox *LB_listeLivres2;
+		wxButton *BN_Fusionner;
+		wxButton *BN_Annuler;
+		wxStaticText *WxStaticText3;
+		wxStaticLine *WxStaticLine1;
+		wxStaticText *WxStaticText2;
+		wxStaticText *WxStaticText1;
+		</span><span class="cpp1-comment">////GUI Control Declaration End
+</span><span class="cpp1-space">		
+	</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+		</span><span class="cpp1-comment">//Note: if you receive any error with these enum IDs, then you need to
+</span><span class="cpp1-space">		</span><span class="cpp1-comment">//change your old form code that are based on the #define control IDs.
+</span><span class="cpp1-space">		</span><span class="cpp1-comment">//#defines may replace a numeric value for the enum names.
+</span><span class="cpp1-space">		</span><span class="cpp1-comment">//Try copy and pasting the below block in your old form header files.
+</span><span class="cpp1-space">		</span><span class="cpp1-reservedword">enum
+</span><span class="cpp1-space">		{
+			</span><span class="cpp1-comment">////GUI Enum Control ID Start
+</span><span class="cpp1-space">			ID_CB_TYPE_GROUPE = </span><span class="cpp1-number">1012</span><span class="cpp1-symbol">,
+			ID_CB_TYPE_TRI = </span><span class="cpp1-number">1015</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX1 = </span><span class="cpp1-number">1001</span><span class="cpp1-symbol">,
+			ID_WXLISTBOX1 = </span><span class="cpp1-number">1009</span><span class="cpp1-symbol">,
+			ID_WXCOMBOBOX2 = </span><span class="cpp1-number">1002</span><span class="cpp1-symbol">,
+			ID_WXLISTBOX2 = </span><span class="cpp1-number">1010</span><span class="cpp1-symbol">,
+			ID_WXBUTTON1 = </span><span class="cpp1-number">1007</span><span class="cpp1-symbol">,
+			ID_WXBUTTON2 = </span><span class="cpp1-number">1008</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT3 = </span><span class="cpp1-number">1013</span><span class="cpp1-symbol">,
+			ID_WXSTATICLINE1 = </span><span class="cpp1-number">1011</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT2 = </span><span class="cpp1-number">1004</span><span class="cpp1-symbol">,
+			ID_WXSTATICTEXT1 = </span><span class="cpp1-number">1003</span><span class="cpp1-symbol">,
+			</span><span class="cpp1-comment">////GUI Enum Control ID End
+</span><span class="cpp1-space">			ID_DUMMY_VALUE_ </span><span class="cpp1-comment">//don't remove this value unless you have other enum values
+</span><span class="cpp1-space">		};
+	
+	</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnClose(wxCloseEvent&amp; event);
+		</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CreateGUIControls();
+
+        </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> remplirListeLivres(wxListBox* listeLivres, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> idGroupe);
+        </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> InitListeGroupes();
+
+        ma_base&amp; baseLivre;
+};
+
+</span><span class="cpp1-preprocessor">#endif
+</span></span>
+</code></pre>
+</body>
+</html>

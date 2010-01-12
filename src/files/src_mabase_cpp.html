@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_mabase_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">// Name:        mabase.cpp
+// Author:      PE EPAILLARD
+// Created:     10/27/2004 12:22:10 AM
+//
+//Copyright PE Epaillard, 10/27/2004 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &quot;mabase.h&quot;
+
+</span><span class="cpp1-identifier">ma_base::ma_base(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">) {
+    </span><span class="cpp1-comment">//db=NULL;
+/*    nom_base[0]='\0';
+    msg_erreur[0]='\0';*/
+</span><span class="cpp1-space">    
+    nom_base=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    ouvert=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+</span><span class="cpp1-comment">//    wxMessageBox(&quot;ma_base::ma_base(void)&quot;);
+</span><span class="cpp1-symbol">}    
+ 
+ma_base::ma_base(wxString nom) {
+    </span><span class="cpp1-comment">//db=NULL;
+/*    nom_base[0]='\0';
+    msg_erreur[0]='\0';*/
+</span><span class="cpp1-space">    nom_base=nom;
+    </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;ouvrir(nom);
+    </span><span class="cpp1-comment">//ouvert=true;
+//    wxMessageBox(&quot;ma_base::ma_base(&quot;+nom+&quot;)&quot;);
+</span><span class="cpp1-symbol">}    
+
+ma_base::~ma_base(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">) {
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouverte())
+        fermer();
+    </span><span class="cpp1-comment">// sqlite3_close(db);
+//    wxMessageBox(&quot;ma_base::~ma_base(&quot;+nom_base+&quot;)&quot;);
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ma_base::get_erreur(wxString &amp;erreur){
+    erreur=msg_erreur;
+}
+    
+wxString ma_base::get_version() {
+    </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *version;
+    
+    version=sqlite3_libversion();
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> version;
+}
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::ouvrir(wxString nom) {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> rc;
+</span><span class="cpp1-comment">//    char tempo[20000];
+//    wxMessageBox(&quot;ma_base::ouvrir(&quot;+nom+&quot;)&quot;);
+</span><span class="cpp1-space">    nom_base=nom;
+</span><span class="cpp1-comment">//    strncpy(tempo,(char *)nom.mb_str(), nom.Length());
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//strncpy(tempo,(char *)nom.utf8_str(), nom.Length());
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//tempo[nom.Length()]='\0';
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">//wxMessageBox(tempo,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION);
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//rc = sqlite3_open(tempo, &amp;db);
+//    const wxWX2MBbuf localFileName(nom.mb_str(wxConvLibc));
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//const wxMBConvUTF8 localFileName(nom.mb_str(wxConvLibc));
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//rc = sqlite3_open((const char*)localFileName, &amp;db);
+</span><span class="cpp1-space">    rc = sqlite3_open(nom.utf8_str(), &amp;db);
+    </span><span class="cpp1-comment">//rc = sqlite3_open(nom.c_str(), &amp;db);
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//tempo=nom.wc_str();
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-comment">/*for(int i=0;i&lt;nom.Length();i++)
+    {
+        tempo[i] = nom.GetChar(i);
+    }
+    tempo[nom.Length()] = '\0';    
+    rc = sqlite3_open(tempo, &amp;db);*/
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">( rc != SQLITE_OK ){
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    }
+    ouvert=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; 
+}     
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ma_base::fermer() {
+</span><span class="cpp1-comment">//    wxMessageBox(&quot;ma_base::fermer(&quot;+nom_base+&quot;)&quot;);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (sqlite3_close(db) !=  SQLITE_OK)
+        wxMessageBox(</span><span class="cpp1-string">&quot;probleme lors de la fermeture de la base &quot;</span><span class="cpp1-symbol">+nom_base,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION);
+    ouvert = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+}
+    
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::exec_rapide(wxString query){
+    sqlite3_stmt *monstate;
+    </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *reste;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> longu;
+    </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *tempo;
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouvert==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;La base n'est pas ouverte&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    
+    longu=query.Length();
+    tempo=(</span><span class="cpp1-reservedword">char</span><span class="cpp1-symbol">*)malloc((longu*</span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-symbol">(</span><span class="cpp1-reservedword">char</span><span class="cpp1-symbol">))+</span><span class="cpp1-number">20</span><span class="cpp1-symbol">);
+    strncpy(tempo,(</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *)query.mb_str(), query.Length());
+    tempo[query.Length()]='\0';
+    ret=sqlite3_prepare(db,tempo,-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,&amp;monstate,&amp;reste);
+    ret=sqlite3_step(monstate);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret!=SQLITE_DONE &amp;&amp; ret!=SQLITE_ROW) {
+       ret=sqlite3_finalize(monstate);
+       msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,sqlite3_errmsg(db));
+        wxMessageBox(</span><span class="cpp1-string">&quot;probleme lors du exec_rapide sur la base &quot;</span><span class="cpp1-symbol">+nom_base + </span><span class="cpp1-string">&quot;(&quot;</span><span class="cpp1-symbol">+query+</span><span class="cpp1-string">&quot;)&quot;</span><span class="cpp1-symbol">+ sqlite3_errmsg(db),</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION);    
+        free(tempo);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }    
+    ret=sqlite3_finalize(monstate);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret !=  SQLITE_OK)
+        wxMessageBox(</span><span class="cpp1-string">&quot;probleme lors du sqlite3_finalize sur la base &quot;</span><span class="cpp1-symbol">+nom_base + </span><span class="cpp1-string">&quot;(&quot;</span><span class="cpp1-symbol">+query+</span><span class="cpp1-string">&quot;)&quot;</span><span class="cpp1-symbol">+ sqlite3_errmsg(db),</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION);    
+    free(tempo);
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::transac_prepare(wxString query){
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret,longu;
+    </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *tempo;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouvert==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;La base n'est pas ouverte&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+       
+    longu=query.Length();
+    tempo=(</span><span class="cpp1-reservedword">char</span><span class="cpp1-symbol">*)malloc((longu*</span><span class="cpp1-reservedword">sizeof</span><span class="cpp1-symbol">(</span><span class="cpp1-reservedword">char</span><span class="cpp1-symbol">))+</span><span class="cpp1-number">20</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-comment">//tempo=(char *) query.GetData(); 
+</span><span class="cpp1-space">    strncpy(tempo,(</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *)query.mb_str(), query.Length());
+    tempo[query.Length()]='\0';
+    ret=sqlite3_prepare(db,tempo,query.Length(),&amp;proc_state,&amp;proc_reste);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret!=SQLITE_OK) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;prepare: %s (&quot;</span><span class="cpp1-symbol">+query+</span><span class="cpp1-string">&quot;)&quot;</span><span class="cpp1-symbol">,sqlite3_errmsg(db));
+        free (tempo);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    free(tempo);
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::transac_step(){
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouvert==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;La base n'est pas ouverte&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+        
+    ret=sqlite3_step(proc_state);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret==SQLITE_ROW)
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> SQLITE_ROW;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret!=SQLITE_DONE ) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;transac_step : %s &quot;</span><span class="cpp1-symbol">,sqlite3_errmsg(db));
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }    
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::transac_fin(){
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouvert==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;La base n'est pas ouverte&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+        
+    ret=sqlite3_finalize(proc_state);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret!=SQLITE_OK) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,sqlite3_errmsg(db));
+        wxMessageBox(</span><span class="cpp1-string">&quot;probleme lors du sqlite3_finalize (transac_fin) sur la base &quot;</span><span class="cpp1-symbol">+nom_base + </span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-space"> + sqlite3_errmsg(db),</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION);    
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::transac_blob(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nblob, wxFile *donnee){
+    </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *tempo;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouvert==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;La base n'est pas ouverte&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    tempo=(</span><span class="cpp1-reservedword">char</span><span class="cpp1-symbol">*)malloc(donnee-&gt;Length()+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    ret=donnee-&gt;Read(tempo, donnee-&gt;Length());
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret ==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        msg_erreur=</span><span class="cpp1-string">&quot;Rien d'&eacute;crit&quot;</span><span class="cpp1-symbol">;
+        free(tempo);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }    
+    ret=sqlite3_bind_blob(proc_state,nblob,tempo,donnee-&gt;Length(), SQLITE_TRANSIENT);
+    free(tempo);
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> ret;
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::get_value_int(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> numcol, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> &amp;val){
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb_col;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouvert==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;La base n'est pas ouverte&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    nb_col=sqlite3_column_count(proc_state);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (numcol&gt;=nb_col) {
+       msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;numero de colonne trop grand&quot;</span><span class="cpp1-symbol">);
+       </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    val=sqlite3_column_int(proc_state, numcol);
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::get_value_blob(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> numcol, wxFile *val, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> &amp;size){
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> ret_taille=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb_col;
+    </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *chaine;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouvert==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;La base n'est pas ouverte&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    nb_col=sqlite3_column_count(proc_state);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (numcol&gt;=nb_col) {
+       msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;numero de colonne trop grand&quot;</span><span class="cpp1-symbol">);
+       </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (size == -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">) {
+        ret_taille=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    } 
+    size=sqlite3_column_bytes(proc_state, numcol);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (size&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {   
+        chaine=(</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *)sqlite3_column_blob(proc_state, numcol);
+        val-&gt;Write(chaine,size);
+        val-&gt;Close();
+    }    
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::get_value_char(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> numcol, wxString &amp;val, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> &amp;size){
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> ret_taille=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb_col;
+    </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *chaine;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouvert==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;La base n'est pas ouverte&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    nb_col=sqlite3_column_count(proc_state);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (numcol&gt;=nb_col) {
+       msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;numero de colonne trop grand&quot;</span><span class="cpp1-symbol">);
+       </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (size == -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">) {
+        ret_taille=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    } 
+    size=sqlite3_column_bytes(proc_state, numcol);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (size&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {   
+        chaine=sqlite3_column_text(proc_state, numcol);
+        val.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,chaine);
+    } </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        val=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;    
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}    
+
+</span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> ma_base::last_insert(){
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">long</span><span class="cpp1-symbol">) sqlite3_last_insert_rowid(db);
+}    
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::get_nom_col(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i, wxString &amp;nom_col) {
+    </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *nom;
+    
+    nom=sqlite3_column_name(proc_state, i);
+    nom_col.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,nom);
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::transac_nbligne(){
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouvert==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;La base n'est pas ouverte&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    }
+    nb=sqlite3_column_count(proc_state);
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> nb;
+}    
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ma_base::transac_nbcol(){
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ouvert==</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        msg_erreur.Printf(</span><span class="cpp1-string">&quot;%s&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;La base n'est pas ouverte&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    }
+    nb=sqlite3_column_count(proc_state);
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> nb;
+}    
+
+</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> ma_base::ouverte(){
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> ouvert;
+}    
+
+</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> ma_base::existe(wxString nomtable){
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> res;
+    wxString mess;
+    wxString query=</span><span class="cpp1-string">&quot;select count(*) from sqlite_master where type='table' and name='&quot;</span><span class="cpp1-symbol">+nomtable+</span><span class="cpp1-string">&quot;'&quot;</span><span class="cpp1-symbol">;
+    ret=transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, NULL);
+    }
+    ret=transac_step();
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(ret==SQLITE_ROW) {
+        get_value_int(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,res);
+    }  
+    transac_fin();
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (res&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+}
+
+wxString ma_base::get_nombase() {
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> nom_base;
+}
+</span></span>
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_biblioFrame_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        newProgramFrame.h
+// Author:      
+// Created:     10/27/2004 12:22:10 AM
+//
+//Copyright PE Epaillard, 10/27/2004 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+</span><span class="cpp1-preprocessor">#ifndef __NEWPROGRAMFRAME_HPP_
+#define __NEWPROGRAMFRAME_HPP_
+
+
+#ifndef WX_PRECOMP
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#include &quot;wx/wx.h&quot;
+#endif
+
+#include &quot;mabase.h&quot;
+#include &quot;divers.h&quot;
+#include &quot;choix_colonnes.h&quot;
+#include &quot;liste_champ.h&quot;
+#include &quot;recherche.h&quot;
+#include &quot;Nouv_livre.h&quot;
+#include &quot;affiche_image.h&quot;
+#include &quot;apropos.h&quot;
+#include &quot;statistique.h&quot;
+#include &quot;export_html_dlg.h&quot;
+#include &quot;FusionDlg.h&quot;
+
+</span><span class="cpp1-comment">////Header Include Start
+</span><span class="cpp1-preprocessor">#include &lt;wx/menu.h&gt;
+#include &lt;wx/statusbr.h&gt;
+#include &lt;wx/toolbar.h&gt;
+</span><span class="cpp1-comment">////Header Include End
+</span><span class="cpp1-preprocessor">#include &lt;wx/splitter.h&gt;
+#include &lt;wx/treectrl.h&gt;
+#include &lt;wx/grid.h&gt;
+#include &lt;wx/html/htmlwin.h&gt;
+#include &lt;wx/arrstr.h&gt;
+#include &lt;wx/dynarray.h&gt;
+#include &lt;wx/frame.h&gt;
+#include &lt;wx/html/htmprint.h&gt;
+#include &lt;wx/choicdlg.h&gt;
+#include &lt;wx/textfile.h&gt;
+#include &lt;wx/bitmap.h&gt;
+#include &lt;wx/splash.h&gt;
+
+#define ID_SPLITTERWINDOW 10101
+#define ID_SPLITTERWINDOW1 10103
+#define ID_COMBOBOX 10104
+#define ID_TREE_ARBRE 10105
+#define ID_SPLITTERWINDOW2 10102
+#define ID_WXGRID_GRILLE 10106
+#define ID_HTMLWINDOW 10107
+#define ID_EFFACELIVRE 10108
+
+</span><span class="cpp1-comment">//WX_DEFINE_ARRAY(int, ArrayOfInt);
+
+</span><span class="cpp1-preprocessor">#ifdef THIS_DIALOG_STYLE
+#undef THIS_DIALOG_STYLE
+#endif
+</span><span class="cpp1-comment">////Dialog Style Start
+</span><span class="cpp1-preprocessor">#undef THIS_DIALOG_STYLE
+#define THIS_DIALOG_STYLE wxWANTS_CHARS | wxCAPTION | wxRESIZE_BORDER | wxSYSTEM_MENU | wxTHICK_FRAME | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCLOSE_BOX
+</span><span class="cpp1-comment">////Dialog Style End
+
+// id de mon evenement perso en cas de suppression
+/*enum
+{
+    EVT_C_SUPPRESSION = 7500
+};*/
+
+</span><span class="cpp1-identifier">DECLARE_EVENT_TYPE(wxEVENT_SUPPRESSION, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> bellegrille : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxGrid {
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    DECLARE_EVENT_TABLE()
+    </span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    bellegrille(wxWindow* parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize, 
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = wxWANTS_CHARS, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; name = wxPanelNameStr) 
+         : wxGrid(parent, id, pos, size, style, name) {
+    }
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnKeyDown(wxKeyEvent &amp;event);
+    wxString BuildHTML();
+
+};
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> biblioFrame : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxFrame
+{
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    DECLARE_EVENT_TABLE()
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-reservedword">enum</span><span class="cpp1-space"> {
+    </span><span class="cpp1-comment">////GUI Enum Control ID Start
+</span><span class="cpp1-space">			ID_MNU_FICHIER_QUIT = </span><span class="cpp1-number">1010</span><span class="cpp1-symbol">,
+			ID_MNU_OUVRIR_1022 = </span><span class="cpp1-number">1022</span><span class="cpp1-symbol">,
+			ID_MNU_CREERUNEBASE_1023 = </span><span class="cpp1-number">1023</span><span class="cpp1-symbol">,
+			ID_MNU_SUBMENUITEM9_1025 = </span><span class="cpp1-number">1025</span><span class="cpp1-symbol">,
+			ID_MNU_MENUITEM30_1058 = </span><span class="cpp1-number">1058</span><span class="cpp1-symbol">,
+			ID_MNU_IMPRIMERLALISTE_1059 = </span><span class="cpp1-number">1059</span><span class="cpp1-symbol">,
+			ID_MNU_MENUITEM29_1057 = </span><span class="cpp1-number">1057</span><span class="cpp1-symbol">,
+			ID_MNU_EXPORTHTML_1060 = </span><span class="cpp1-number">1060</span><span class="cpp1-symbol">,
+			ID_MNU_EXPORTCSV_1062 = </span><span class="cpp1-number">1062</span><span class="cpp1-symbol">,
+			ID_MNU_IMPORTERCVS_1026 = </span><span class="cpp1-number">1026</span><span class="cpp1-symbol">,
+			ID_MNU_1020 = </span><span class="cpp1-number">1020</span><span class="cpp1-symbol">,
+			ID_MNU_QUITTER_1011 = </span><span class="cpp1-number">1011</span><span class="cpp1-symbol">,
+			ID_MNU_OUTIL_1017 = </span><span class="cpp1-number">1017</span><span class="cpp1-symbol">,
+			ID_MNU_ORDREDETRI = </span><span class="cpp1-number">1018</span><span class="cpp1-symbol">,
+			ID_MNU_CHOIXCOLONNES_1024 = </span><span class="cpp1-number">1024</span><span class="cpp1-symbol">,
+			ID_MNU_LISTES_1027 = </span><span class="cpp1-number">1027</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_AUTEUR = </span><span class="cpp1-number">1028</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_SERIE = </span><span class="cpp1-number">1030</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_GENRE = </span><span class="cpp1-number">1031</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_EDITEUR = </span><span class="cpp1-number">1033</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_FORMAT = </span><span class="cpp1-number">1034</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_ARTISTE = </span><span class="cpp1-number">1035</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_ETAT = </span><span class="cpp1-number">1036</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_LOCALISATION = </span><span class="cpp1-number">1037</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_PAYS = </span><span class="cpp1-number">1038</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_LANGUE = </span><span class="cpp1-number">1039</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_TRADUCTEUR = </span><span class="cpp1-number">1040</span><span class="cpp1-symbol">,
+			ID_MNU_LISTE_SERIE_O = </span><span class="cpp1-number">1042</span><span class="cpp1-symbol">,
+			ID_MNU_EDITION_1043 = </span><span class="cpp1-number">1043</span><span class="cpp1-symbol">,
+			ID_MNU_RECHERCHER_1045 = </span><span class="cpp1-number">1045</span><span class="cpp1-symbol">,
+			ID_MNU_STATISTIQUE_1048 = </span><span class="cpp1-number">1048</span><span class="cpp1-symbol">,
+			ID_MNU_APROPOS_1046 = </span><span class="cpp1-number">1046</span><span class="cpp1-symbol">,
+			ID_MNU__APROPOS_1047 = </span><span class="cpp1-number">1047</span><span class="cpp1-symbol">,
+			
+			ID_MNU_OUVRIR_1015 = </span><span class="cpp1-number">1015</span><span class="cpp1-symbol">,
+			
+			ID_BARRE_STATUT = </span><span class="cpp1-number">1009</span><span class="cpp1-symbol">,
+			ID_WXTOOLBUTTON_ABOUT = </span><span class="cpp1-number">1055</span><span class="cpp1-symbol">,
+			ID_WXSEPARATOR5 = </span><span class="cpp1-number">1056</span><span class="cpp1-symbol">,
+			ID_WXTOOLBUTTON_STAT = </span><span class="cpp1-number">1049</span><span class="cpp1-symbol">,
+			ID_WXSEPARATOR4 = </span><span class="cpp1-number">1052</span><span class="cpp1-symbol">,
+			ID_WXTOOLBUTTON_TRI = </span><span class="cpp1-number">1054</span><span class="cpp1-symbol">,
+			ID_WXTOOLBUTTON_COLONNE = </span><span class="cpp1-number">1053</span><span class="cpp1-symbol">,
+			ID_WXSEPARATOR3 = </span><span class="cpp1-number">1051</span><span class="cpp1-symbol">,
+			ID_WXTOOLB_INSERER = </span><span class="cpp1-number">1014</span><span class="cpp1-symbol">,
+</span><span class="cpp1-comment">// debut stephane 2009-12-02			
+</span><span class="cpp1-space">			ID_WXTOOLB_INSERER_ISBN = </span><span class="cpp1-number">2014</span><span class="cpp1-symbol">,
+			ID_WXTOOLB_FUSION_GENRE = </span><span class="cpp1-number">2015</span><span class="cpp1-symbol">,
+			ID_WXTOOLB_PARAM = </span><span class="cpp1-number">2016</span><span class="cpp1-symbol">,
+</span><span class="cpp1-comment">// fin stephane 2009-12-02
+</span><span class="cpp1-space">			ID_WXSEPARATOR2 = </span><span class="cpp1-number">1013</span><span class="cpp1-symbol">,
+			ID_TOOLB_OUVRIR = </span><span class="cpp1-number">1008</span><span class="cpp1-symbol">,
+			ID_TOOLB_NOUV = </span><span class="cpp1-number">1007</span><span class="cpp1-symbol">,
+			ID_WXSEPARATOR1 = </span><span class="cpp1-number">1012</span><span class="cpp1-symbol">,
+			ID_TOOLB_QUIT = </span><span class="cpp1-number">1006</span><span class="cpp1-symbol">,
+			ID_TOOLB_PRINC = </span><span class="cpp1-number">1003</span><span class="cpp1-symbol">,
+    </span><span class="cpp1-comment">////GUI Enum Control ID End
+</span><span class="cpp1-space">    ID_DUMMY_VALUE_ </span><span class="cpp1-comment">//Dont Delete this DummyValue
+</span><span class="cpp1-space">    }; </span><span class="cpp1-comment">//End of Enum
+</span><span class="cpp1-space">    biblioFrame( wxWindow *parent, wxWindowID id = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title = _T(</span><span class="cpp1-string">&quot;Livrotheque&quot;</span><span class="cpp1-symbol">),
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos = wxDefaultPosition,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size = wxDefaultSize,
+        </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style = wxWANTS_CHARS |wxCAPTION | wxRESIZE_BORDER | wxSYSTEM_MENU | wxTHICK_FRAME | wxMINIMIZE_BOX | wxMAXIMIZE_BOX |  wxCLOSE_BOX );
+    </span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> ~biblioFrame();
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+  </span><span class="cpp1-comment">////GUI Control Declaration Start
+</span><span class="cpp1-space">		wxMenuBar *monmenu;
+		wxMenu *WxPopupMenu_grille;
+		wxStatusBar *barre_statut;
+		wxToolBar *toolb_princ;
+ </span><span class="cpp1-comment">////GUI Control Declaration End
+
+</span><span class="cpp1-space">    wxSplitterWindow* split_princip;
+    wxSplitterWindow* split_gauche;
+    wxComboBox* choix_arbre;
+    wxTreeCtrl* arbre;
+    wxSplitterWindow* split_droit;
+    bellegrille* grille;
+    wxHtmlWindow* visuhtml;
+    ma_base amoi;
+    ma_base config;
+    livre monlivre;
+    </span><span class="cpp1-comment">// pour la liste des choix
+</span><span class="cpp1-space">    wxArrayInt liste_choisis;
+    wxArrayInt liste_tri;
+    wxArrayString liste_choisis_nom;
+    wxArrayString liste_a_choisir;
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> param_modifie;
+    statistique *mastat;
+    </span><span class="cpp1-comment">// import csv
+</span><span class="cpp1-space">    wxArrayInt liste_choisis_import;
+    wxArrayString liste_choisis_nom_import;
+    wxArrayString list_from;
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> grille_ok;
+    wxHtmlEasyPrinting imprimehtml;
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> biblioFrameClose(wxCloseEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> toolb_quitClick(wxCommandEvent&amp; event);
+
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnSplitterwindowSashPosChanged( wxSplitterEvent&amp; event );
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnSplitterwindowDclick( wxSplitterEvent&amp; event );
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnuquitter1011Click(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OuvrirClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ouvrir_base(wxString base);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> toolb_NouvClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> insererClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> insererClickIsbn(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> insererClick_interne(wxCommandEvent&amp; event, BOOL modeIsbn);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> fusionGenre(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> parametrer(wxCommandEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnSelectLivre( wxGridEvent&amp; event );
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnGrilleClickDroit( wxGridEvent&amp; event );
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> remplir_grille(wxString where);
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> creer_base();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> popup_MnuouvrirClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_colonnes();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init_arbre();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> creation_select_livre(wxString &amp;select, wxString where, wxString order_by);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnArbreSel(wxTreeEvent &amp;event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MnuordredetriClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnSelectlignegrille(wxGridEvent &amp;event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> get_colonne(wxString nomchamp, wxString idlivre, wxString &amp;nomaffich, wxString &amp;valeur);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> AfficheLivre(wxString id_l);
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> trouve_ligne(wxString Label);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sauve_config();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> load_config();
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnulistes(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MnuimportercvsClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> popup_effacelivre(wxCommandEvent&amp; event);
+	</span><span class="cpp1-comment">//void OnKeyDown(wxKeyEvent &amp;event);
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MnurechercherClick(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnuapropos1047Click(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnustatistique1048Click(wxCommandEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnSuppression( wxCommandEvent &amp;event );
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnumenuitem_imprimeliste(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnuitem_imprimerlivre(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnuexporthtml1060Click(wxCommandEvent&amp; event);
+	</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Mnuexportcsv1062Click(wxCommandEvent&amp; event);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> image_click(wxHtmlLinkEvent &amp;event);
+
+};
+
+
+</span><span class="cpp1-preprocessor">#endif
+</span><span class="cpp1-space"> 
+ 
+ 
+ 
+</span></span>
+</code></pre>
+</body>
+</html>

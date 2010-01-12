@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_myprintout_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">// Name:        myprintout.cpp
+// Author:      PE EPAILLARD
+// Created:     10/27/2004 12:22:10 AM
+//
+//Copyright PE Epaillard, 10/27/2004 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &quot;myprintout.h&quot; </span><span class="cpp1-comment">// class's header file
+
+</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> MyPrintout::OnPrintPage(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> page)
+{
+    wxDC *dc = GetDC();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (dc)
+    {
+        dc-&gt;SetDeviceOrigin(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-comment">//dc-&gt;SetUserScale(1.0, 1.0);
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ppiScreenX, ppiScreenY;
+        GetPPIScreen(&amp;ppiScreenX, &amp;ppiScreenY);
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ppiPrinterX, ppiPrinterY;
+        GetPPIPrinter(&amp;ppiPrinterX, &amp;ppiPrinterY);
+        
+        </span><span class="cpp1-comment">// This scales the DC so that the printout roughly represents the
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">// the screen scaling. The text point size _should_ be the right size
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">// but in fact is too small for some reason. This is a detail that will
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">// need to be addressed at some point but can be fudged for the
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">// moment.
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">float</span><span class="cpp1-space"> scaleX = (</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)((</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)ppiPrinterX/(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)ppiScreenX);
+        </span><span class="cpp1-reservedword">float</span><span class="cpp1-space"> scaleY = (</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)((</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)ppiPrinterY/(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)ppiScreenY);
+        
+        </span><span class="cpp1-comment">// Now we have to check in case our real page size is reduced
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">// (e.g. because we're drawing to a print preview memory DC)
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> pageWidth, pageHeight;
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> w, h;
+        dc-&gt;GetSize(&amp;w, &amp;h);
+        
+</span><span class="cpp1-comment">//        wxString mess;
+//        mess.Printf(&quot;%d,%d&quot;,w,h);
+//        wxMessageBox(mess,&quot;scale&quot;, wxOK | wxICON_EXCLAMATION);
+
+</span><span class="cpp1-space">        GetPageSizePixels(&amp;pageWidth, &amp;pageHeight);
+    
+        </span><span class="cpp1-comment">// If printer pageWidth == current DC width, then this doesn't
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">// change. But w might be the preview bitmap width, so scale down.
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">float</span><span class="cpp1-space"> overallScaleX = scaleX * (</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)(w/(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)pageWidth);
+        </span><span class="cpp1-reservedword">float</span><span class="cpp1-space"> overallScaleY = scaleY * (</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)(h/(</span><span class="cpp1-reservedword">float</span><span class="cpp1-symbol">)pageHeight);
+        
+        dc-&gt;SetUserScale(overallScaleX, overallScaleY);
+        
+        dc-&gt;SetTextForeground(*wxBLACK);
+        dc-&gt;SetFont(wxFont(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">,wxDECORATIVE,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL));
+        
+        wxString buf;
+        buf.Printf(</span><span class="cpp1-string">&quot;PAGE %d&quot;</span><span class="cpp1-symbol">, page);
+        
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeurFont,hauteurFont;
+        dc-&gt;GetTextExtent(buf,&amp;largeurFont,&amp;hauteurFont);
+        
+        dc-&gt;DrawText(buf, </span><span class="cpp1-number">10</span><span class="cpp1-symbol">, </span><span class="cpp1-number">10</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-comment">//dc-&gt;SetDeviceOrigin(80*overallScaleX, (hauteurFont + 20)*overallScaleY);
+</span><span class="cpp1-space">        
+        wxSize taille_tmp = myWindows-&gt;tailleDessin;
+        
+        wxString mess;
+        mess.Printf(</span><span class="cpp1-string">&quot;%d,%d&quot;</span><span class="cpp1-symbol">,taille_tmp.x,taille_tmp.y);
+        </span><span class="cpp1-comment">//wxMessageBox(mess,&quot;scale&quot;, wxOK | wxICON_EXCLAMATION);
+
+</span><span class="cpp1-space">        myWindows-&gt;tailleDessin=wxSize((</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)(w/overallScaleX), (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)(h/overallScaleY));
+        
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (page == </span><span class="cpp1-number">1</span><span class="cpp1-symbol">)
+            DrawPageOne(dc);
+        
+        </span><span class="cpp1-comment">//wxString mess;
+</span><span class="cpp1-space">        mess.Printf(</span><span class="cpp1-string">&quot;%d,%d&quot;</span><span class="cpp1-symbol">,myWindows-&gt;tailleDessin.x,myWindows-&gt;tailleDessin.y);
+        </span><span class="cpp1-comment">//wxMessageBox(mess,&quot;scale&quot;, wxOK | wxICON_EXCLAMATION);
+</span><span class="cpp1-space">        
+        myWindows-&gt;tailleDessin = taille_tmp;
+        myWindows-&gt;Refresh();
+        
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> MyPrintout::OnBeginDocument(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> startPage, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> endPage)
+{
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!wxPrintout::OnBeginDocument(startPage, endPage))
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MyPrintout::GetPageInfo(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> *minPage, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> *maxPage, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> *selPageFrom, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> *selPageTo)
+{
+    *minPage = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    *maxPage = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    *selPageFrom = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+    *selPageTo = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> MyPrintout::HasPage(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> pageNum)
+{
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (pageNum == </span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MyPrintout::DrawPageOne(wxDC *dc)
+{
+    </span><span class="cpp1-comment">// You might use THIS code if you were scaling
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// graphics of known size to fit on the page.
+</span><span class="cpp1-space">    
+    myWindows-&gt;DrawCercle(*dc);
+    
+}
+</span></span>
+</code></pre>
+</body>
+</html>

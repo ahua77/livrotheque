@@ -1,0 +1,330 @@
+object frmNewForm_1: TfrmNewForm
+  Left = 8
+  Top = 8
+  AutoScroll = False
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Export HTML'
+  ClientHeight = 396
+  ClientWidth = 312
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = True
+  PopupMenu = MainForm.DesignerPopup
+  Visible = True
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnResize = FormResize
+  EVT_CLOSE = 'OnClose'
+  Wx_ICON.Data = {07544269746D617000000000}
+  Wx_Name = 'export_html_dlg'
+  Wx_IDName = 'ID_DIALOG1'
+  Wx_IDValue = 1000
+  Wx_Class = 'wxDialog'
+  Wx_Center = True
+  Wx_Hidden = False
+  Wx_SizeToContents = True
+  Wx_GeneralStyle = []
+  Wx_DialogStyle = [wxCAPTION, wxSYSTEM_MENU, wxDIALOG_NO_PARENT, wxCLOSE_BOX]
+  Wx_Border = 0
+  Wx_BorderAlignment = []
+  PixelsPerInch = 96
+  TextHeight = 13
+  object WxButton_ok: TWxButton
+    Left = 19
+    Top = 369
+    Width = 114
+    Height = 22
+    Caption = 'Lancer la g'#233'n'#233'ration'
+    TabOrder = 0
+    EVT_BUTTON = 'WxButton_okClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_OK'
+    Wx_IDValue = 1001
+    Wx_Height = 22
+    Wx_Width = 114
+  end
+  object WxButton_annul: TWxButton
+    Left = 178
+    Top = 369
+    Width = 80
+    Height = 22
+    Caption = 'Sortir'
+    TabOrder = 1
+    EVT_BUTTON = 'WxButton_annulClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_ANNUL'
+    Wx_IDValue = 1002
+    Wx_Height = 22
+    Wx_Width = 80
+  end
+  object WxButton_chemin_dest: TWxButton
+    Left = 278
+    Top = 101
+    Width = 29
+    Height = 20
+    Caption = '...'
+    TabOrder = 2
+    VerticalAlign = valTop
+    EVT_BUTTON = 'WxButton_chemin_destClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = [wxBU_TOP]
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_CHEMIN_DEST'
+    Wx_IDValue = 1004
+    Wx_Height = 20
+    Wx_Width = 29
+  end
+  object WxEdit_chemin_dest: TWxEdit
+    Left = 2
+    Top = 101
+    Width = 272
+    Height = 18
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = 3
+    Text = 'WxEdit_chemin_dest'
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = [wxTE_READONLY]
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_CHEMIN_DEST'
+    Wx_IDValue = 1005
+    Wx_MaxLength = 0
+  end
+  object WxStaticText_destination: TWxStaticText
+    Left = 2
+    Top = 83
+    Width = 128
+    Height = 17
+    Caption = 'Repertoire de destination :'
+    TabOrder = 4
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_DESTINATION'
+    Wx_IDValue = 1006
+    Wx_LabelStyle = []
+  end
+  object WxStaticText_texte_accueil: TWxStaticText
+    Left = 9
+    Top = 273
+    Width = 82
+    Height = 17
+    Caption = 'Texte d'#39'accueil :'
+    TabOrder = 5
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_TEXTE_ACCUEIL'
+    Wx_IDValue = 1007
+    Wx_LabelStyle = []
+  end
+  object WxMemo_texte_accueil: TWxMemo
+    Left = 3
+    Top = 295
+    Width = 305
+    Height = 64
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    Lines.Strings = (
+      'Bienvenue sur e-livroth'#232'que !')
+    TabOrder = 6
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = [wxTE_MULTILINE]
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_IDName = 'ID_WXMEMO_TEXTE_ACCUEIL'
+    Wx_IDValue = 1008
+    Wx_MaxLength = 0
+  end
+  object WxStaticText_titre: TWxStaticText
+    Left = 2
+    Top = 129
+    Width = 160
+    Height = 17
+    Caption = 'Titre utilis'#233' pour les pages webs :'
+    TabOrder = 7
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_TITRE'
+    Wx_IDValue = 1009
+    Wx_LabelStyle = []
+  end
+  object WxEdit_titre: TWxEdit
+    Left = 2
+    Top = 150
+    Width = 305
+    Height = 18
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = 8
+    Text = 'La livroth'#232'que de ...'
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_TITRE'
+    Wx_IDValue = 1010
+    Wx_MaxLength = 0
+  end
+  object WxStaticText_nom: TWxStaticText
+    Left = 4
+    Top = 180
+    Width = 200
+    Height = 17
+    Caption = 'Nom utilis'#233' pour le nom en bas des pages'
+    TabOrder = 9
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_NOM'
+    Wx_IDValue = 1011
+    Wx_LabelStyle = []
+  end
+  object WxEdit_nom: TWxEdit
+    Left = 2
+    Top = 197
+    Width = 305
+    Height = 18
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = 10
+    Text = 'Machin'
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_NOM'
+    Wx_IDValue = 1012
+    Wx_MaxLength = 0
+  end
+  object WxStaticText_mail: TWxStaticText
+    Left = 3
+    Top = 225
+    Width = 157
+    Height = 17
+    Caption = 'Mail '#224' mettre en bas des pages :'
+    TabOrder = 11
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticText'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXSTATICTEXT_MAIL'
+    Wx_IDValue = 1013
+    Wx_LabelStyle = []
+  end
+  object WxEdit_mail: TWxEdit
+    Left = 2
+    Top = 246
+    Width = 305
+    Height = 18
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    Modified = False
+    AutoSize = False
+    TabOrder = 12
+    Text = 'machin@truc.fr'
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = []
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXEDIT_MAIL'
+    Wx_IDValue = 1014
+    Wx_MaxLength = 0
+  end
+  object WxRadioBox_type: TWxRadioBox
+    Left = 3
+    Top = 8
+    Width = 305
+    Height = 69
+    Caption = 'Type de g'#233'n'#233'ration :'
+    MajorDimension = 2
+    Orientation = wxdVertical
+    Items.Strings = (
+      'Full HTML'
+      'HTML PDA'
+      'Ajax')
+    TabOrder = 13
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxRadioBox'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EventList.Strings = (
+      'EVT_RADIOBOX:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_IDName = 'ID_WXRADIOBOX_TYPE'
+    Wx_IDValue = 1018
+    Wx_RadioBoxStyle = wxRA_SPECIFY_COLS
+    Wx_Selection = 0
+  end
+end

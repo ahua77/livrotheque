@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_liste_champ_wxform.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-identifier">object frmNewForm: TfrmNewForm
+  Left = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">  Top = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">  Width = </span><span class="cpp1-number">418
+</span><span class="cpp1-space">  Height = </span><span class="cpp1-number">385
+</span><span class="cpp1-space">  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'liste'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -</span><span class="cpp1-number">11
+</span><span class="cpp1-space">  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = True
+  PopupMenu = MainForm.DesignerPopup
+  Visible = True
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnResize = NewFormResize
+  Wx_ICON.Data = {07544269746D617000000000}
+  Wx_Name = 'liste_champ'
+  Wx_IDName = 'ID_DIALOG1'
+  Wx_IDValue = </span><span class="cpp1-number">1000
+</span><span class="cpp1-space">  Wx_Class = 'wxDialog'
+  Wx_Center = True
+  Wx_Hidden = False
+  Wx_GeneralStyle = []
+  Wx_DialogStyle = [wxCAPTION, wxRESIZE_BORDER, wxSYSTEM_MENU, wxTHICK_FRAME, wxMINIMIZE_BOX, wxMAXIMIZE_BOX, wxCLOSE_BOX]
+  EVT_CLOSE = 'liste_champClose'
+  PixelsPerInch = </span><span class="cpp1-number">96
+</span><span class="cpp1-space">  TextHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">  object WxBoxSizer_top: TWxBoxSizer
+    Left = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">410
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">351
+</span><span class="cpp1-space">    Align = alClient
+    TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Orientation = wxVertical
+    Wx_Class = 'wxBoxSizer'
+    Wx_IDName = 'ID_WXBOXSIZER_TOP'
+    Wx_IDValue = </span><span class="cpp1-number">1002
+</span><span class="cpp1-space">    Wx_StretchFactor = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    object grille: TWxGrid
+      Left = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">      Top = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">      Width = </span><span class="cpp1-number">400
+</span><span class="cpp1-space">      Height = </span><span class="cpp1-number">300
+</span><span class="cpp1-space">      ColCount = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">      DefaultColWidth = </span><span class="cpp1-number">50
+</span><span class="cpp1-space">      DefaultRowHeight = </span><span class="cpp1-number">25
+</span><span class="cpp1-space">      RowCount = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">      TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      EVT_GRID_CELL_LEFT_CLICK = 'grilleCellLeftClick'
+      EVT_GRID_CELL_LEFT_DCLICK = 'grilleCellLeftDoubleClick'
+      Wx_LabelColSize = </span><span class="cpp1-number">50
+</span><span class="cpp1-space">      Wx_LabelRowSize = </span><span class="cpp1-number">25
+</span><span class="cpp1-space">      Wx_BGColor = clBlack
+      Wx_Class = 'wxGrid'
+      Wx_EditStyle = []
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_GRILLE_LISTE'
+      Wx_IDValue = </span><span class="cpp1-number">1004
+</span><span class="cpp1-space">      Wx_GridSelection = wxGridSelectRows
+      Wx_StretchFactor = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">      ColWidths = (
+        </span><span class="cpp1-number">50
+</span><span class="cpp1-space">        </span><span class="cpp1-number">50
+</span><span class="cpp1-space">        </span><span class="cpp1-number">50
+</span><span class="cpp1-space">        </span><span class="cpp1-number">50
+</span><span class="cpp1-space">        </span><span class="cpp1-number">50
+</span><span class="cpp1-space">        </span><span class="cpp1-number">50</span><span class="cpp1-symbol">)
+      RowHeights = (
+        </span><span class="cpp1-number">25
+</span><span class="cpp1-space">        </span><span class="cpp1-number">25
+</span><span class="cpp1-space">        </span><span class="cpp1-number">25
+</span><span class="cpp1-space">        </span><span class="cpp1-number">25
+</span><span class="cpp1-space">        </span><span class="cpp1-number">25
+</span><span class="cpp1-space">        </span><span class="cpp1-number">25</span><span class="cpp1-symbol">)
+    end
+    object WxBoxSizer_button: TWxBoxSizer
+      Left = </span><span class="cpp1-number">115
+</span><span class="cpp1-space">      Top = </span><span class="cpp1-number">315
+</span><span class="cpp1-space">      Width = </span><span class="cpp1-number">180
+</span><span class="cpp1-space">      Height = </span><span class="cpp1-number">38
+</span><span class="cpp1-space">      TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">      Wx_Class = 'wxBoxSizer'
+      Wx_IDName = 'ID_WXBOXSIZER_BUTTON'
+      Wx_IDValue = </span><span class="cpp1-number">1005
+</span><span class="cpp1-space">      Wx_StretchFactor = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      object WxButton_ok: TWxButton
+        Left = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Caption = 'OK'
+        TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_okClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'wxID_CANCEL'
+        Wx_IDValue = </span><span class="cpp1-number">1006
+</span><span class="cpp1-space">        Wx_Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Wx_Width = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">      end
+      object WxButton_inserer: TWxButton
+        Left = </span><span class="cpp1-number">95
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Caption = 'Inserer'
+        TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_insererClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_INSERER'
+        Wx_IDValue = </span><span class="cpp1-number">1007
+</span><span class="cpp1-space">        Wx_Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Wx_Width = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">      end
+    end
+  end
+  object WxPopupMenu_grille: TWxPopupMenu
+    Left = </span><span class="cpp1-number">11
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">27
+</span><span class="cpp1-space">    TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">    Glyph.Data = {
+      C2040000424DC204000000000000420000002800000018000000180000000100
+      1000030000008004000000000000000000000000000000000000007C0000E003
+      </span><span class="cpp1-float">00001F0000000042004200420042004200420042004200420042004200420042
+</span><span class="cpp1-space">      </span><span class="cpp1-octal">0042004200420042004200420042004200420042004200420042004200420042
+</span><span class="cpp1-space">      </span><span class="cpp1-octal">0042004200420042004200420042004200420042004200000000004200420042
+</span><span class="cpp1-space">      </span><span class="cpp1-octal">0042004200420042004200420042004200420042004200420042004200420042
+</span><span class="cpp1-space">      004200420000FF7FFF7F00000042004200420042004200420042004200420042
+      00420042004200420042004200000042004200420000FF7FFF7F000000420042
+      </span><span class="cpp1-octal">0042004200420042004200420042004200420042004200420042004200000000
+</span><span class="cpp1-space">      00420000FF7FFF7F000000420042004200420042004200420042004200420042
+      0042004200420042004200420000FF7F00000000FF7FFF7F0000004200420042
+      004200420042004200420042004200420042004200420042004200420000FF7F
+      FF7FFF7FFF7F0000004200420042004200420042004200420042004200420042
+      0042004200420042004200420000FF7FFF7FFF7FFF7F00000000000000000042
+      004200420042004200420042004200420042004200420042004200420000FF7F
+      FF7FFF7FFF7FFF7FFF7F00000042004200420042004200420042004200420042
+      0042004200420042004200420000FF7FFF7FFF7FFF7FFF7F0000004200420042
+      004200420042004200420042004210420000000000000000000000000000FF7F
+      FF7FFF7FFF7F0000004200420042004200420042004200420042004200421042
+      FF7FFF7FFF7FFF7FFF7FFF7F0000FF7FFF7FFF7F000000420042004200420042
+      00420042004200420042004200421042FF7F100010001000100010000000FF7F
+      FF7F000000420042004200420042004200420042004200420042004200421042
+      1000100010001000100010000000FF7F00000000004200420042004200420042
+      004200420042004200420042004210421000FF7FFF7FFF7FFF7FFF7F00000000
+      </span><span class="cpp1-number">1000000000420042004200420042004200420042004200420042004200421042
+</span><span class="cpp1-space">      </span><span class="cpp1-number">1000100010001000100010001000100010000000004200420042004200420042
+</span><span class="cpp1-space">      00420042004200420042004200421042FF7F10001000100010001000FF7FFF7F
+      FF7F000000420042004200420042004200420042004200420042004200421042
+      FF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7F0000004200420042004200420042
+      00420042004200420042004200421042FF7F1000100010001000FF7FFF7FFF7F
+      FF7F000000420042004200420042004200420042004200420042004200421042
+      FF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7F0000004200420042004200420042
+      00420042004200420042004200421042FF7F10001000100010001000FF7FFF7F
+      FF7F000000420042004200420042004200420042004200420042004200421042
+      FF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7F0000004200420042004200420042
+      </span><span class="cpp1-octal">0042004200420042004200420042104210421042104210421042104210421042
+</span><span class="cpp1-space">      </span><span class="cpp1-number">1042104200420042004200420042004200420042004200420042004200420042
+</span><span class="cpp1-space">      </span><span class="cpp1-octal">0042004200420042004200420042004200420042004200420042004200420042
+</span><span class="cpp1-space">      </span><span class="cpp1-octal">004200420042</span><span class="cpp1-symbol">}
+    Wx_Class = 'wxMenu'
+    Wx_MenuItems.IsSubMenu = False
+    Wx_MenuItems.Wx_Enabled = True
+    Wx_MenuItems.Wx_Hidden = False
+    Wx_MenuItems.Wx_IDValue = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MenuItems.Wx_MenuItemStyle = wxMnuItm_Normal
+    Wx_MenuItems.Wx_Checked = False
+    Wx_MenuItems.Wx_FileHistory = False
+    Wx_MenuItems.WxCustomMenuItem = {
+      11000000545778437573746F6D4D656E754974656D5450463018547778437573
+      746F6D4D656E754974656D577261707065720011436172726965642E49735375
+      624D656E750810436172726965642E4556545F4D656E7506144D6E7573757070
+      72696D6531303038436C69636B12436172726965642E57785F456E61626C6564
+      0911436172726965642E57785F48696464656E0811436172726965642E57785F
+      49444E616D65061449445F4D4E555F5355505052494D455F3130303812436172
+      726965642E57785F494456616C756503F00318436172726965642E57785F4D65
+      6E754974656D5374796C65070F77784D6E7549746D5F4E6F726D616C12436172
+      726965642E57785F43617074696F6E061B5375707072696D6572206C61206C69
+      676E6520636F7572616E746512436172726965642E57785F436865636B656408
+      16436172726965642E57585F4249544D41502E446174610A0C00000007544269
+      746D61700000000016436172726965642E57785F46696C65486973746F727908
+      </span><span class="cpp1-octal">0000</span><span class="cpp1-symbol">}
+  end
+end
+</span></span>
+</code></pre>
+</body>
+</html>

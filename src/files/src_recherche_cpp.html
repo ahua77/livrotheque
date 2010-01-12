@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_recherche_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        recherche.cpp
+// Author:      Fougny
+// Created:     11/02/05 15:05:20
+//
+//Copyright  PE Epaillard, 11/02/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#ifdef __GNUG__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma implementation &quot;recherche.cpp&quot;
+#endif
+
+</span><span class="cpp1-comment">/* for compilers that support precompilation
+   includes &quot;wx/wx.h&quot; */
+
+</span><span class="cpp1-preprocessor">#include &quot;wx/wxprec.h&quot;
+
+#ifdef __BORLANDC__
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#pragma hdrstop
+#endif
+
+
+#include &quot;recherche.h&quot;
+
+</span><span class="cpp1-comment">////Header Include Start
+////Header Include End
+
+
+
+//----------------------------------------------------------------------------
+// recherche
+//----------------------------------------------------------------------------
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(recherche,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(recherche::rechercheClose)
+	EVT_BUTTON(wxID_CANCEL,recherche::WxButton_rech_annulClick)
+	EVT_BUTTON(wxID_OK,recherche::OnOk)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+
+
+</span><span class="cpp1-identifier">recherche::recherche( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    CreateGUIControls();
+    init_tout();
+}
+
+recherche::~recherche()
+{
+    
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> recherche::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	wxBoxSizer* WxBoxSizer_fond = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBoxSizer(wxVERTICAL);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetSizer(WxBoxSizer_fond);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetAutoLayout(TRUE);
+
+	WxScrolledWindow1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxScrolledWindow(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSCROLLEDWINDOW1, wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">350</span><span class="cpp1-symbol">,</span><span class="cpp1-number">200</span><span class="cpp1-symbol">), wxVSCROLL | wxHSCROLL);
+	WxBoxSizer_fond-&gt;Add(WxScrolledWindow1,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,wxALIGN_CENTER_HORIZONTAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	wxArrayString arrayStringFor_WxComboBox_champ;
+	WxComboBox_champ = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxComboBox(WxScrolledWindow1, ID_WXCOMBOBOX_CHAMP, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">16</span><span class="cpp1-symbol">,</span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">260</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), arrayStringFor_WxComboBox_champ, wxCB_READONLY, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxComboBox_champ&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_texte = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(WxScrolledWindow1, ID_WXEDIT_TEXTE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">16</span><span class="cpp1-symbol">,</span><span class="cpp1-number">75</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">260</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_texte&quot;</span><span class="cpp1-symbol">));
+	WxEdit_texte-&gt;SetMaxLength(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+
+	WxStaticText_champ = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_CHAMP, wxT(</span><span class="cpp1-string">&quot;Champs sur lequel effectuer la recherche :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">203</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_champ&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_texte = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_TEXTE, wxT(</span><span class="cpp1-string">&quot;Texte &agrave; rechercher :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">54</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">100</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_texte&quot;</span><span class="cpp1-symbol">));
+
+	WxRadioButton_type_et = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxRadioButton(WxScrolledWindow1, ID_WXRADIOBUTTON_TYPE_ET, wxT(</span><span class="cpp1-string">&quot;Type ET&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">16</span><span class="cpp1-symbol">,</span><span class="cpp1-number">122</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">117</span><span class="cpp1-symbol">,</span><span class="cpp1-number">32</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxRadioButton_type_et&quot;</span><span class="cpp1-symbol">));
+	WxRadioButton_type_et-&gt;SetToolTip(wxT(</span><span class="cpp1-string">&quot;Tous Les mots doivent &ecirc;tre pr&eacute;sent Dans le champ&quot;</span><span class="cpp1-symbol">));
+	WxRadioButton_type_et-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+	WxRadioButton_type_ou = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxRadioButton(WxScrolledWindow1, ID_WXRADIOBUTTON_TYPE_OU, wxT(</span><span class="cpp1-string">&quot;Type OU&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">16</span><span class="cpp1-symbol">,</span><span class="cpp1-number">145</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">118</span><span class="cpp1-symbol">,</span><span class="cpp1-number">25</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxRadioButton_type_ou&quot;</span><span class="cpp1-symbol">));
+	WxRadioButton_type_ou-&gt;SetToolTip(wxT(</span><span class="cpp1-string">&quot;Un des mots doit &ecirc;tre pr&eacute;sent dans le champ&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_type = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_TYPE, wxT(</span><span class="cpp1-string">&quot;Type de recherche &agrave; utiliser :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">106</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">141</span><span class="cpp1-symbol">,</span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_type&quot;</span><span class="cpp1-symbol">));
+
+	wxBoxSizer* WxBoxSizer1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer_fond-&gt;Add(WxBoxSizer1,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_HORIZONTAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	WxButton_rech_ok = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, wxID_OK, wxT(</span><span class="cpp1-string">&quot;OK&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">80</span><span class="cpp1-symbol">,</span><span class="cpp1-number">28</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_rech_ok&quot;</span><span class="cpp1-symbol">));
+	WxBoxSizer1-&gt;Add(WxButton_rech_ok,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_VERTICAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	WxButton_rech_annul = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, wxID_CANCEL, wxT(</span><span class="cpp1-string">&quot;Annuler&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">95</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">80</span><span class="cpp1-symbol">,</span><span class="cpp1-number">28</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_rech_annul&quot;</span><span class="cpp1-symbol">));
+	WxBoxSizer1-&gt;Add(WxButton_rech_annul,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,wxALIGN_CENTER_VERTICAL | wxALL,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+
+	GetSizer()-&gt;Fit(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+	GetSizer()-&gt;SetSizeHints(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetTitle(wxT(</span><span class="cpp1-string">&quot;recherche&quot;</span><span class="cpp1-symbol">));
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;Center();
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetIcon(wxNullIcon);
+	
+    </span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> recherche::rechercheClose(wxCloseEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a wxDialog,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    Destroy();
+}
+ 
+</span><span class="cpp1-comment">/*
+ * WxButton_rech_annulClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> recherche::WxButton_rech_annulClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">    Destroy();
+    event.Skip();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> recherche::init_tout()
+{
+    livre monlivre;
+    wxString texte;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+
+    liste_sel.Clear();
+    WxComboBox_champ-&gt;Clear();
+    
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(monlivre.get_nom_token(i).Length() &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        texte=monlivre.get_nom_token(i);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(texte.Left(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">) != </span><span class="cpp1-string">&quot;image_&quot;</span><span class="cpp1-symbol">) {
+            liste_sel.Add(texte);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte.Left(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">) 
+                WxComboBox_champ-&gt;Append(texte.Mid(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">));
+            </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">                WxComboBox_champ-&gt;Append(texte);
+        }    
+        i++;
+    }
+    WxComboBox_champ-&gt;SetSelection(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> recherche::OnOk(wxCommandEvent&amp; event)
+{
+    wxString mess;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> n_sel, i;
+    wxString recherche, tempo;
+    wxArrayString liste_cherche;
+
+    n_sel=WxComboBox_champ-&gt;GetSelection();
+    
+    recherche = string_nettoie(WxEdit_texte-&gt;GetValue());
+
+    </span><span class="cpp1-comment">//wxMessageBox(nom_champ+&quot; |&quot;+recherche+&quot;|&quot;,&quot;coco0&quot;, wxOK | wxICON_INFORMATION, this);
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// cr&eacute;ation de la liste de mots &agrave; rechercher
+</span><span class="cpp1-space">    i=recherche.Find(' ');
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">( i &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        liste_cherche.Add(recherche.Left(i));
+        tempo=recherche.Mid(i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        recherche=tempo;
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;cherche |&quot;+recherche+&quot;|&quot;,&quot;coco1&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">        i=recherche.Find(' ');
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (recherche.Len()&gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        liste_cherche.Add(recherche);
+</span><span class="cpp1-comment">/*    for (i=0;i&lt;liste_cherche.GetCount();i++)
+        wxMessageBox(&quot; |&quot;+liste_cherche[i]+&quot;|&quot;,&quot;coco2&quot;, wxOK | wxICON_INFORMATION, this);
+
+    if (liste_cherche.GetCount() &lt;= 0) {
+        wxMessageBox(&quot; |&quot;+liste_cherche[i]+&quot;|&quot;,&quot;coco2&quot;, wxOK | wxICON_INFORMATION, this);
+    }
+    */
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_sel[n_sel].Left(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) == </span><span class="cpp1-string">&quot;id_&quot;</span><span class="cpp1-symbol">) {
+        creation_where_id(liste_sel[n_sel], liste_cherche);
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;ID &quot;+liste_sel[n_sel],&quot;coco3&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        creation_where_simple(liste_sel[n_sel], liste_cherche);
+    }
+
+    Destroy();
+    event.Skip();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> recherche::creation_where_id(wxString nom_champ, wxArrayString liste_cherche) {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+
+    table_liee = nom_champ.Mid(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_cherche.GetCount() &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        where=</span><span class="cpp1-string">&quot;WHERE &quot;</span><span class="cpp1-symbol">+table_liee+</span><span class="cpp1-string">&quot;.nom LIKE '%&quot;</span><span class="cpp1-symbol">+liste_cherche[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]+</span><span class="cpp1-string">&quot;%' &quot;</span><span class="cpp1-symbol">;
+    }
+
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(i=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">; i&lt;liste_cherche.GetCount() ; i++) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioButton_type_ou-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)
+            where+=</span><span class="cpp1-string">&quot; OR &quot;</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioButton_type_et-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)
+            where+=</span><span class="cpp1-string">&quot; AND &quot;</span><span class="cpp1-symbol">;
+        where+=table_liee+</span><span class="cpp1-string">&quot;.nom LIKE '%&quot;</span><span class="cpp1-symbol">+liste_cherche[i]+</span><span class="cpp1-string">&quot;%' &quot;</span><span class="cpp1-symbol">;
+    }
+
+    </span><span class="cpp1-comment">//wxMessageBox(&quot;|&quot;+table_liee+&quot;|&quot;,&quot;where&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">    table_liee=nom_champ;
+
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> recherche::creation_where_simple(wxString nom_champ, wxArrayString liste_cherche) {
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (liste_cherche.GetCount() &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        where=</span><span class="cpp1-string">&quot;WHERE livre.&quot;</span><span class="cpp1-symbol">+nom_champ+</span><span class="cpp1-string">&quot; LIKE '%&quot;</span><span class="cpp1-symbol">+liste_cherche[</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]+</span><span class="cpp1-string">&quot;%' &quot;</span><span class="cpp1-symbol">;
+    }
+
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(i=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">; i&lt;liste_cherche.GetCount() ; i++) {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioButton_type_ou-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)
+            where+=</span><span class="cpp1-string">&quot; OR &quot;</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxRadioButton_type_et-&gt;GetValue() == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)
+            where+=</span><span class="cpp1-string">&quot; AND &quot;</span><span class="cpp1-symbol">;
+        where+=</span><span class="cpp1-string">&quot;livre.&quot;</span><span class="cpp1-symbol">+nom_champ+</span><span class="cpp1-string">&quot; LIKE '%&quot;</span><span class="cpp1-symbol">+liste_cherche[i]+</span><span class="cpp1-string">&quot;%' &quot;</span><span class="cpp1-symbol">;
+    }
+    
+    </span><span class="cpp1-comment">//wxMessageBox(where,&quot;where&quot;, wxOK | wxICON_INFORMATION, this);
+
+</span><span class="cpp1-symbol">}
+</span></span>
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_divers_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">// Name:        divers.h
+// Author:      PE EPAILLARD
+// Created:     10/27/2004 12:22:10 AM
+//
+//Copyright PE Epaillard, 10/27/2004 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#ifndef __DIVERS_HPP_
+#define __DIVERS_HPP_
+
+#include &lt;stdio.h&gt;
+#ifndef WX_PRECOMP
+</span><span class="cpp1-space">    </span><span class="cpp1-preprocessor">#include &quot;wx/wx.h&quot;
+#endif
+#include &lt;wx/dnd.h&gt;
+#include &lt;wx/string.h&gt;
+#include &lt;wx/image.h&gt;
+#include &lt;wx/dataobj.h&gt;
+
+
+#define TAILLE_BLOCK 500
+#define TAILLE_TOKEN 30
+
+#define PARTICULARITE_NB 5
+
+</span><span class="cpp1-comment">//#define NUM_VERSION_BASE &quot;0.5&quot;
+// variable globale pour stocker le chemin de load d'images
+</span><span class="cpp1-reservedword">static</span><span class="cpp1-space"> wxString chemin_image;
+            
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> DnDFile;
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> ImageCanvas;
+</span><span class="cpp1-comment">//prototypage
+</span><span class="cpp1-identifier">wxString gettempdir();
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> resize_image(wxString nom_fichier,</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> larg,</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> haut,wxString nom_fichier_arrivee=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> gestion_quote(wxString &amp;chaine);
+wxString string_nettoie(wxString lachaine);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> convert_html(wxString &amp;texte);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> convert_html_total(wxString &amp;texte); 
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> convert_quote(wxString &amp;texte);
+</span><span class="cpp1-comment">//void rempli_canvas(ImageCanvas *lecanvas, wxImage *image);
+</span><span class="cpp1-space">    
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> livre
+{
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    wxString nom_table;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb_token;
+    wxString *valeur;
+    wxString affiche;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nb_gen_encourt;
+
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    livre();
+    ~livre(); 
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> gen_create_livre(wxString &amp;ch_create);
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> gen_create_tout(wxString &amp;ch_create, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> &amp;nb);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> gen_create_personne(wxString &amp;ch_create);
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> select_tout(</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *query);
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> select_image(wxString id,wxString &amp;query, </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> &amp;nb_img);
+    wxString get_label_particularite(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> n_token);
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> n_token();
+    wxString get_nom_token(</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> n_token);
+    wxString Get_token_type(wxString nom_t);
+};
+
+</span><span class="cpp1-comment">/*class myBitmapPanel : public wxPanel
+{
+public:
+    myBitmapPanel(wxWindow* parent, wxWindowID id = -1, const wxPoint&amp; pos = wxDefaultPosition, const wxSize&amp; size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString&amp; name = &quot;panel&quot;);
+//    refresh();
+};
+*/
+
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> DnDFile : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxFileDropTarget
+{
+</span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    ImageCanvas *moncanvas;
+    wxString chemin;
+    DnDFile(ImageCanvas *lecanvas) { 
+        moncanvas=lecanvas ;
+        SetDataObject(</span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxBitmapDataObject);
+    }
+
+    </span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> OnDropFiles(wxCoord x, wxCoord y, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxArrayString&amp; filenames);
+    </span><span class="cpp1-reservedword">virtual</span><span class="cpp1-space"> wxDragResult OnData(wxCoord x, wxCoord y, wxDragResult def);
+};
+
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> ImageCanvas : </span><span class="cpp1-reservedword">public</span><span class="cpp1-space"> wxScrolledWindow
+{
+    </span><span class="cpp1-reservedword">private</span><span class="cpp1-space"> :
+    </span><span class="cpp1-comment">//wxString nom;
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> charge;
+    wxImage image_s;
+    wxBitmap * m_bmp;
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> cliquable;
+    DnDFile *p_FileDrop;
+     
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rempli_canvas();
+    ImageCanvas( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;pos, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize &amp;size )
+        : wxScrolledWindow( parent, id, pos, size, wxCLIP_CHILDREN  )
+    {
+        p_FileDrop = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> DnDFile(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        cliquable=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+        charge=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetDropTarget(p_FileDrop);
+        </span><span class="cpp1-comment">//m_bmp=NULL;
+</span><span class="cpp1-space">    }    
+
+    ImageCanvas( wxString ch_img, wxWindow *parent, wxWindowID id,
+                        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;pos, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize &amp;size )
+            : wxScrolledWindow( parent, id, pos, size, wxCLIP_CHILDREN  )
+    {
+        p_FileDrop = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> DnDFile(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        cliquable=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> tt;
+        tt=image_s.LoadFile(ch_img);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (tt==</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)
+            rempli_canvas();
+        </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetDropTarget(p_FileDrop);
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;pou&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    }
+    ImageCanvas( wxImage image, wxWindow *parent, wxWindowID id,
+                        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;pos, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize &amp;size )
+            : wxScrolledWindow( parent, id, pos, size, wxCLIP_CHILDREN  )
+    {
+        p_FileDrop = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> DnDFile(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        cliquable=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+        image_s=image;
+        rempli_canvas();
+        </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetDropTarget(p_FileDrop);
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;pou&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    }
+    ~ImageCanvas() {
+        </span><span class="cpp1-comment">/*efface();
+        wxMessageBox(nom,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);*/
+</span><span class="cpp1-space">    }    
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init(wxImage img) {
+        efface();
+        image_s = img;
+        rempli_canvas();
+        </span><span class="cpp1-comment">//charge=true;
+</span><span class="cpp1-space">    }    
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> init(wxString ch_img) {
+        </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> tt;
+        tt=image_s.LoadFile(ch_img);
+        efface();
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (tt==</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)
+            rempli_canvas();
+        </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">            wxMessageBox(</span><span class="cpp1-string">&quot;probleme lors du chargement de l'image : &quot;</span><span class="cpp1-symbol">+ch_img,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        
+    }    
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> set_cliquable(</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> click=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+        cliquable=click;
+    }
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnLeftUp( wxMouseEvent &amp;event );
+
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> OnPaint( wxPaintEvent &amp;event )
+    {
+        </span><span class="cpp1-comment">//wxMessageBox(&quot;pou2&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">        wxPaintDC dc( </span><span class="cpp1-reservedword">this</span><span class="cpp1-space"> );
+        PrepareDC( dc );
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (charge==</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">)
+            dc.DrawBitmap( *m_bmp, </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-number">1</span><span class="cpp1-space"> , TRUE);
+        </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">            dc.Clear();
+    }
+    </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> efface()
+    {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(charge==</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+            </span><span class="cpp1-reservedword">delete</span><span class="cpp1-space"> m_bmp;
+            m_bmp=NULL;
+            charge=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+        }
+    }        
+</span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+    </span><span class="cpp1-comment">//DECLARE_DYNAMIC_CLASS(ImageCanvas)
+</span><span class="cpp1-space">    DECLARE_EVENT_TABLE()
+};
+
+
+</span><span class="cpp1-preprocessor">#endif
+
+</span></span>
+</code></pre>
+</body>
+</html>

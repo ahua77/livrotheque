@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_rech_internet_gen_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        rech_internet_gen.cpp
+// Author:      Epaillard
+// Created:     06/07/05 16:51:43
+//
+//Copyright  PE Epaillard, 06/07/05 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &quot;rech_internet_gen.h&quot;
+
+#include &lt;wx/clipbrd.h&gt;
+</span><span class="cpp1-comment">//Do not add custom headers.
+//wx-dvcpp designer will remove them
+////Header Include Start
+////Header Include End
+
+
+
+//----------------------------------------------------------------------------
+// rech_internet_gen
+//----------------------------------------------------------------------------
+</span><span class="cpp1-space">     </span><span class="cpp1-comment">//Add Custom Events only in the appropriate Block.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// Code added in  other places will be removed by wx-dvcpp 
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(rech_internet_gen,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(rech_internet_gen::rech_internet_genClose)
+	EVT_BUTTON(ID_WXBUTTON_RECHERCHE,rech_internet_gen::WxButton_rechercheClick)
+	
+	EVT_GRID_CELL_LEFT_DCLICK(rech_internet_gen::WxGrid_precisCellLeftDoubleClick)
+	
+	EVT_GRID_CELL_LEFT_DCLICK(rech_internet_gen::WxGrid_precisCellLeftDoubleClick)
+	EVT_CHECKBOX(ID_WXCHECKBOX_PROXY,rech_internet_gen::WxCheckBox_proxyClick)
+	EVT_BUTTON(wxID_CANCEL,rech_internet_gen::WxButton_okClick)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+
+
+
+</span><span class="cpp1-identifier">rech_internet_gen::rech_internet_gen( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    CreateGUIControls();
+}
+
+rech_internet_gen::~rech_internet_gen() {
+    sauve_config();
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+    </span><span class="cpp1-comment">//Do not add custom Code here
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wx-devcpp designer will remove them.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Add the custom code before or after the Blocks
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	SetTitle(wxT(</span><span class="cpp1-string">&quot;Recherche Internet g&eacute;n&eacute;rale&quot;</span><span class="cpp1-symbol">));
+	SetIcon(wxNullIcon);
+	SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">696</span><span class="cpp1-symbol">,</span><span class="cpp1-number">515</span><span class="cpp1-symbol">);
+	Center();
+	
+
+	wxArrayString arrayStringFor_WxRadioBox_choix_recherche;
+	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT(</span><span class="cpp1-string">&quot;Amazon (fr)&quot;</span><span class="cpp1-symbol">));
+	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT(</span><span class="cpp1-string">&quot;Alapage (fr)&quot;</span><span class="cpp1-symbol">));
+	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT(</span><span class="cpp1-string">&quot;Amazon (us)&quot;</span><span class="cpp1-symbol">));
+	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT(</span><span class="cpp1-string">&quot;Amazon (uk)&quot;</span><span class="cpp1-symbol">));
+	WxRadioBox_choix_recherche = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxRadioBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXRADIOBOX1, wxT(</span><span class="cpp1-string">&quot;Moteur de recherche&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">41</span><span class="cpp1-symbol">,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">122</span><span class="cpp1-symbol">,</span><span class="cpp1-number">95</span><span class="cpp1-symbol">), arrayStringFor_WxRadioBox_choix_recherche, </span><span class="cpp1-number">1</span><span class="cpp1-symbol">, wxRA_SPECIFY_COLS, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxRadioBox_choix_recherche&quot;</span><span class="cpp1-symbol">));
+	WxRadioBox_choix_recherche-&gt;SetToolTip(wxT(</span><span class="cpp1-string">&quot;Choix du moteur de recherche&quot;</span><span class="cpp1-symbol">));
+	WxRadioBox_choix_recherche-&gt;SetSelection(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+
+	WxButton_recherche = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXBUTTON_RECHERCHE, wxT(</span><span class="cpp1-string">&quot;Rechercher&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">594</span><span class="cpp1-symbol">,</span><span class="cpp1-number">115</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">69</span><span class="cpp1-symbol">,</span><span class="cpp1-number">22</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_recherche&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT1, wxT(</span><span class="cpp1-string">&quot;Double cliquez sur le livre dont vous voulez voir le d&eacute;tail&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">109</span><span class="cpp1-symbol">,</span><span class="cpp1-number">139</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText1&quot;</span><span class="cpp1-symbol">));
+	WxStaticText1-&gt;SetFont(wxFont(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL,wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">));
+
+	WxGrid_general = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxGrid(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXGRID_GENERAL, wxPoint(</span><span class="cpp1-number">13</span><span class="cpp1-symbol">,</span><span class="cpp1-number">454</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">175</span><span class="cpp1-symbol">,</span><span class="cpp1-number">18</span><span class="cpp1-symbol">));
+	WxGrid_general-&gt;Show(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+	WxGrid_general-&gt;SetDefaultColSize(</span><span class="cpp1-number">51</span><span class="cpp1-symbol">);
+	WxGrid_general-&gt;SetDefaultRowSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+	WxGrid_general-&gt;SetRowLabelSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+	WxGrid_general-&gt;SetColLabelSize(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	WxGrid_general-&gt;CreateGrid(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,wxGrid::wxGridSelectCells);
+
+	WxGrid_precis = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxGrid(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXGRID_PRECIS, wxPoint(</span><span class="cpp1-number">14</span><span class="cpp1-symbol">,</span><span class="cpp1-number">169</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">663</span><span class="cpp1-symbol">,</span><span class="cpp1-number">270</span><span class="cpp1-symbol">));
+	WxGrid_precis-&gt;SetDefaultColSize(</span><span class="cpp1-number">50</span><span class="cpp1-symbol">);
+	WxGrid_precis-&gt;SetDefaultRowSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+	WxGrid_precis-&gt;SetRowLabelSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+	WxGrid_precis-&gt;SetColLabelSize(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	WxGrid_precis-&gt;CreateGrid(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">5</span><span class="cpp1-symbol">,wxGrid::wxGridSelectCells);
+
+	WxStaticText_recherche = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_RECHERCHE, wxT(</span><span class="cpp1-string">&quot;Texte &agrave; rechercher :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,</span><span class="cpp1-number">118</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_recherche&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_recherche = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_RECHERCHE, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">112</span><span class="cpp1-symbol">,</span><span class="cpp1-number">115</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">481</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_recherche&quot;</span><span class="cpp1-symbol">));
+
+	WxCheckBox_proxy = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXCHECKBOX_PROXY, wxT(</span><span class="cpp1-string">&quot;Utiliser un proxy&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">235</span><span class="cpp1-symbol">,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">114</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxCheckBox_proxy&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_proxy-&gt;SetToolTip(wxT(</span><span class="cpp1-string">&quot;Coc&quot;</span><span class="cpp1-symbol">));
+	WxCheckBox_proxy-&gt;SetHelpText(wxT(</span><span class="cpp1-string">&quot;Cocher la case si vous voulez utiliser un proxy&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_proxy_pass = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_PROXY_PASS, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">498</span><span class="cpp1-symbol">,</span><span class="cpp1-number">74</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">138</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), wxTE_PASSWORD, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_proxy_pass&quot;</span><span class="cpp1-symbol">));
+	WxEdit_proxy_pass-&gt;Enable(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+
+	WxStaticText_proxy_pass = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_PROXY_PASS, wxT(</span><span class="cpp1-string">&quot;Password : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">435</span><span class="cpp1-symbol">,</span><span class="cpp1-number">77</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_proxy_pass&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_proxy_util = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_PROXY_UTIL, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">498</span><span class="cpp1-symbol">,</span><span class="cpp1-number">43</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">136</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_proxy_util&quot;</span><span class="cpp1-symbol">));
+	WxEdit_proxy_util-&gt;Enable(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+
+	WxStaticText_proxy_util = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_PROXY_UTIL, wxT(</span><span class="cpp1-string">&quot;Utilisateur : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">437</span><span class="cpp1-symbol">,</span><span class="cpp1-number">44</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_proxy_util&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_proxy_port = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_PROXY_PORT, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">284</span><span class="cpp1-symbol">,</span><span class="cpp1-number">73</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">143</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_proxy_port&quot;</span><span class="cpp1-symbol">));
+	WxEdit_proxy_port-&gt;Enable(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+
+	WxStaticText_proxy_port = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_PROXY_PORT, wxT(</span><span class="cpp1-string">&quot;Port : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">247</span><span class="cpp1-symbol">,</span><span class="cpp1-number">74</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_proxy_port&quot;</span><span class="cpp1-symbol">));
+
+	WxEdit_proxy_adr = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXEDIT_PROXY_ADR, wxT(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">285</span><span class="cpp1-symbol">,</span><span class="cpp1-number">42</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">142</span><span class="cpp1-symbol">,</span><span class="cpp1-number">21</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxEdit_proxy_adr&quot;</span><span class="cpp1-symbol">));
+	WxEdit_proxy_adr-&gt;Enable(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+
+	WxStaticText_proxy_adr = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_PROXY_ADR, wxT(</span><span class="cpp1-string">&quot;Adresse : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">233</span><span class="cpp1-symbol">,</span><span class="cpp1-number">44</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_proxy_adr&quot;</span><span class="cpp1-symbol">));
+
+	WxButton_ok = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, wxID_CANCEL, wxT(</span><span class="cpp1-string">&quot;Annuler&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">262</span><span class="cpp1-symbol">,</span><span class="cpp1-number">447</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">92</span><span class="cpp1-symbol">,</span><span class="cpp1-number">28</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_ok&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticBox_proxy = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticBox(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICBOX_PROXY, wxT(</span><span class="cpp1-string">&quot;Param&ecirc;tre du Proxy&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">226</span><span class="cpp1-symbol">,</span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">417</span><span class="cpp1-symbol">,</span><span class="cpp1-number">81</span><span class="cpp1-symbol">));
+    </span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-space">    init_grille(WxGrid_general);
+    init_grille(WxGrid_precis);
+
+    load_config();
+    change_etat_proxy();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::rech_internet_genClose(wxCloseEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a wxDialog,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    Destroy();
+}
+ 
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::WxCheckBox_proxyClick(wxCommandEvent&amp; event)
+{
+    change_etat_proxy();
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::change_etat_proxy(){
+    </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> etat_check;
+    
+    etat_check=WxCheckBox_proxy-&gt;IsChecked();
+    WxEdit_proxy_pass-&gt;Enable(etat_check);
+    WxEdit_proxy_util-&gt;Enable(etat_check);
+    WxEdit_proxy_port-&gt;Enable(etat_check);
+    WxEdit_proxy_adr-&gt;Enable(etat_check);
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::init_grille(wxGrid *grille) {
+    wxColour couleur = wxColour::wxColour(</span><span class="cpp1-number">64</span><span class="cpp1-symbol">,</span><span class="cpp1-number">128</span><span class="cpp1-symbol">,</span><span class="cpp1-number">128</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ir = grille-&gt;GetNumberRows();
+	grille-&gt;DeleteRows(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, ir);
+	</span><span class="cpp1-comment">//   AppendRows(ir);
+/*	ir = grille-&gt;GetNumberCols();
+	if (ir)
+		grille-&gt;DeleteCols(0, ir);*/
+</span><span class="cpp1-space">	grille-&gt;SetDefaultColSize(</span><span class="cpp1-number">75</span><span class="cpp1-symbol">);
+	grille-&gt;SetDefaultRowSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+	grille-&gt;SetColLabelSize(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+	grille-&gt;SetDefaultCellBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE));
+	grille-&gt;SetRowLabelSize(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	grille-&gt;SetSelectionBackground(couleur);	
+	
+    grille-&gt;SetColLabelValue(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Titre&quot;</span><span class="cpp1-symbol">);
+    grille-&gt;SetColLabelValue(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Auteur&quot;</span><span class="cpp1-symbol">);
+    grille-&gt;SetColLabelValue(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Editeur&quot;</span><span class="cpp1-symbol">);
+    grille-&gt;SetColLabelValue(</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Genre&quot;</span><span class="cpp1-symbol">);
+    grille-&gt;SetColLabelValue(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;ISBN&quot;</span><span class="cpp1-symbol">);
+    
+    grille-&gt;AutoSizeColumns();
+    grille-&gt;AutoSizeRows();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::sauve_config() {
+    wxString fichier_conf;
+    wxString query, mess;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    
+    fichier_conf=::wxGetCwd();
+    fichier_conf+=</span><span class="cpp1-string">&quot;\\config&quot;</span><span class="cpp1-symbol">;
+    config.ouvrir(fichier_conf);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (config.existe(</span><span class="cpp1-string">&quot;rech_internet&quot;</span><span class="cpp1-symbol">) == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+        query = </span><span class="cpp1-string">&quot;DELETE from rech_internet where type_param='PROXY'&quot;</span><span class="cpp1-symbol">;
+        config.exec_rapide(query);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        query=</span><span class="cpp1-string">&quot;CREATE TABLE rech_internet (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)&quot;</span><span class="cpp1-symbol">;
+        ret=config.exec_rapide(query);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+            config.get_erreur(mess);
+            wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'UTILISE', '&quot;</span><span class="cpp1-symbol">+wxString::Format(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,WxCheckBox_proxy-&gt;GetValue())+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'ADRESSE', '&quot;</span><span class="cpp1-symbol">+WxEdit_proxy_adr-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'PORT', '&quot;</span><span class="cpp1-symbol">+WxEdit_proxy_port-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'USER', '&quot;</span><span class="cpp1-symbol">+WxEdit_proxy_util-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'PASS', '&quot;</span><span class="cpp1-symbol">+WxEdit_proxy_pass-&gt;GetValue()+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du proxy&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    query=</span><span class="cpp1-string">&quot;INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'MOTEUR', '&quot;</span><span class="cpp1-symbol">+wxString::Format(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,WxRadioBox_choix_recherche-&gt;GetSelection())+</span><span class="cpp1-string">&quot;')&quot;</span><span class="cpp1-symbol">;
+    ret=config.exec_rapide(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&lt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        config.get_erreur(mess);
+        wxMessageBox(mess,</span><span class="cpp1-string">&quot;sauvegarde de la configuration du moteur&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    config.fermer();
+}    
+
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::load_config() {
+    wxString fichier_conf, mess;
+    wxString query,nom_param, valeur=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, taille; 
+    </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> utilise;
+    
+    fichier_conf=::wxGetCwd();
+    fichier_conf+=</span><span class="cpp1-string">&quot;\\config&quot;</span><span class="cpp1-symbol">;
+    config.ouvrir(fichier_conf);
+    query = </span><span class="cpp1-string">&quot;SELECT nom_param, val1 FROM rech_internet WHERE type_param='PROXY'&quot;</span><span class="cpp1-symbol">;
+    ret=config.transac_prepare(query);
+
+    ret=config.transac_step();
+
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(ret==SQLITE_ROW ) {
+        config.get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,nom_param,taille);
+        config.get_value_char(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,valeur,taille);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;UTILISE&quot;</span><span class="cpp1-symbol">) {
+            valeur.ToLong(&amp;utilise);
+            WxCheckBox_proxy-&gt;SetValue((</span><span class="cpp1-reservedword">bool</span><span class="cpp1-symbol">)utilise);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;ADRESSE&quot;</span><span class="cpp1-symbol">) {
+            WxEdit_proxy_adr-&gt;SetValue(valeur);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;PORT&quot;</span><span class="cpp1-symbol">) {
+            WxEdit_proxy_port-&gt;SetValue(valeur);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;USER&quot;</span><span class="cpp1-symbol">) {
+            WxEdit_proxy_util-&gt;SetValue(valeur);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;PASS&quot;</span><span class="cpp1-symbol">) {
+            WxEdit_proxy_pass-&gt;SetValue(valeur);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nom_param == </span><span class="cpp1-string">&quot;MOTEUR&quot;</span><span class="cpp1-symbol">) {
+            valeur.ToLong(&amp;utilise);
+            WxRadioBox_choix_recherche-&gt;SetSelection((</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)utilise);
+        }
+        ret=config.transac_step();
+    }  
+    config.transac_fin();
+    </span><span class="cpp1-comment">//wxMessageBox(valeur,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    config.fermer();
+
+}    
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::rempli_grille(wxGrid *Grille, liste_caracteristiques *laliste) {
+    caracteristiques* ccar;
+	wxColour couleur = wxColour::wxColour(</span><span class="cpp1-number">230</span><span class="cpp1-symbol">,</span><span class="cpp1-number">255</span><span class="cpp1-symbol">,</span><span class="cpp1-number">230</span><span class="cpp1-symbol">);
+    
+    Grille-&gt;ClearGrid();
+	laliste-&gt;Init_parcours();
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nbRows=Grille-&gt;GetNumberRows();
+
+	Grille-&gt;DeleteRows(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,nbRows);
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (ccar=laliste-&gt;Suivant())
+    {
+       </span><span class="cpp1-comment">//wxMessageBox(ccar-&gt;Affiche(),&quot;Caracteristiques&quot;, wxOK | wxICON_EXCLAMATION);
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">//ListeB-&gt;Append(ccar-&gt;Affiche());
+</span><span class="cpp1-space">        Grille-&gt;AppendRows(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+
+        Grille-&gt;SetCellValue(i,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,ccar-&gt;Titre);
+        Grille-&gt;SetCellBackgroundColour(i,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,couleur);
+        Grille-&gt;SetCellValue(i,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,ccar-&gt;Auteur);
+        Grille-&gt;SetCellBackgroundColour(i,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,couleur);
+        Grille-&gt;SetCellValue(i,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,ccar-&gt;Editeur);
+        Grille-&gt;SetCellBackgroundColour(i,</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,couleur);
+        Grille-&gt;SetCellValue(i,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,ccar-&gt;Genre);
+        Grille-&gt;SetCellBackgroundColour(i,</span><span class="cpp1-number">3</span><span class="cpp1-symbol">,couleur);
+        Grille-&gt;SetCellValue(i,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,ccar-&gt;Isbn);
+        Grille-&gt;SetCellBackgroundColour(i,</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,couleur);
+        i++;
+    }
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;j&lt;Grille-&gt;GetNumberRows();j++)
+    {
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> k=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;k&lt;Grille-&gt;GetNumberCols();k++)
+        {
+            Grille-&gt;SetReadOnly(j,k,</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+        }
+    }
+    
+    Grille-&gt;AutoSizeColumns();
+    Grille-&gt;AutoSizeRows();
+	Grille-&gt;SetSelectionMode(wxGrid::wxGridSelectRows);
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_okClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::WxButton_okClick(wxCommandEvent&amp; event)
+{
+    SetReturnCode(-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    Destroy();
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_rechercheClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::WxButton_rechercheClick(wxCommandEvent&amp; event)
+{
+    liste_caracteristiques list_livres;
+
+</span><span class="cpp1-comment">//    liste_caracteristiques list_caractPopu;
+//    liste_caracteristiques list_caractAutre;
+</span><span class="cpp1-space">    LIVRE_HTML l_livre;
+    wxString mess;
+    </span><span class="cpp1-comment">//wxCursor *curseur_wait;
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (WxEdit_recherche-&gt;GetValue().Length() == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;Le champ recherche doit au moins contenir du texte....&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-comment">//list_caractPopu.Effacer();
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//list_caractAutre.Effacer();
+</span><span class="cpp1-space">    list_livres.Effacer();
+     wxSetCursor(wxCursor(wxCURSOR_WAIT));
+    l_livre.setproxy(WxCheckBox_proxy-&gt;GetValue(), WxEdit_proxy_adr-&gt;GetValue(), WxEdit_proxy_port-&gt;GetValue(), WxEdit_proxy_util-&gt;GetValue(), WxEdit_proxy_pass-&gt;GetValue());
+    
+    l_livre.chercher_texte(WxEdit_recherche-&gt;GetValue(),list_livres, WxRadioBox_choix_recherche-&gt;GetSelection());
+</span><span class="cpp1-comment">//    l_livre.chercher_texte(WxEdit_recherche-&gt;GetValue(),list_caractPopu,list_caractAutre, WxRadioBox_choix_recherche-&gt;GetSelection());
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//curseur_wait = new wxCursor(wxCURSOR_WAIT);
+
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (list_livres.GetCount() == </span><span class="cpp1-number">0</span><span class="cpp1-space"> ) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;Pas de donn&eacute;es ramen&eacute;es&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;probleme&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        rempli_grille(WxGrid_precis, &amp;list_livres);
+    }
+</span><span class="cpp1-comment">/*    if (list_caractPopu.GetCount() == 0 &amp;&amp; list_caractAutre.GetCount() == 0) {
+        wxMessageBox(&quot;Pas de donn&eacute;es ramen&eacute;es&quot;,&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+    } else {
+        rempli_grille(WxGrid_precis, &amp;list_caractPopu);
+        rempli_grille(WxGrid_general, &amp;list_caractAutre);
+    }*/
+</span><span class="cpp1-space">    wxSetCursor(wxNullCursor);
+
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxGrid_precisCellLeftDoubleClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> rech_internet_gen::WxGrid_precisCellLeftDoubleClick(wxGridEvent&amp; event)
+{
+    wxGrid *lagrille;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret;
+    
+    lagrille = (wxGrid*)event.GetEventObject();
+    </span><span class="cpp1-comment">//wxMessageBox(lagrille-&gt;GetCellValue(event.GetRow(),4),&quot;probleme&quot;, wxOK | wxICON_EXCLAMATION, this);
+</span><span class="cpp1-space">    ma_recherche=</span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> rech_internet(lagrille-&gt;GetCellValue(event.GetRow(),</span><span class="cpp1-number">4</span><span class="cpp1-symbol">), </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, WxRadioBox_choix_recherche-&gt;GetSelection());
+    
+   </span><span class="cpp1-comment">/* wxClipboard *monclip;
+    monclip = new wxClipboard();
+    monclip-&gt;Open();
+    wxTextDataObject my_data(lagrille-&gt;GetCellValue(event.GetRow(),0));
+    monclip-&gt;SetData( &amp;my_data );
+    monclip-&gt;Close();*/
+</span><span class="cpp1-space">    
+    ret=ma_recherche-&gt;ShowModal();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret == </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) { 
+        SetReturnCode(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        Destroy();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        </span><span class="cpp1-comment">//delete(ma_recherche);
+</span><span class="cpp1-space">    }
+
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//event.Skip();
+
+</span><span class="cpp1-symbol">}
+</span></span>
+</code></pre>
+</body>
+</html>

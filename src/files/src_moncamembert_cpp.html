@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_moncamembert_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        GestionCoul.cpp
+// Author:      lootens
+// Created:     29/08/2005 17:15:49
+//
+//Copyright  PE Epaillard, 29/08/2005 
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &quot;moncamembert.h&quot;
+
+</span><span class="cpp1-comment">//Do not add custom headers.
+//wx-dvcpp designer will remove them
+////Header Include Start
+////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &lt;wx/log.h&gt;
+
+#include &lt;wx/arrimpl.cpp&gt;
+</span><span class="cpp1-identifier">WX_DEFINE_OBJARRAY(wxArrayColour);
+WX_DEFINE_OBJARRAY(wxArrayRect);
+</span><span class="cpp1-comment">//WX_DEFINE_OBJARRAY(wxArrayDouble);
+
+</span><span class="cpp1-identifier">BEGIN_DECLARE_EVENT_TYPES()
+    DECLARE_EVENT_TYPE(wxEVT_CH_COLOR, </span><span class="cpp1-number">7777</span><span class="cpp1-symbol">)
+END_DECLARE_EVENT_TYPES()
+
+DEFINE_EVENT_TYPE(wxEVT_CH_COLOR)
+
+</span><span class="cpp1-comment">// it may also be convenient to define an event table macro for this event type
+</span><span class="cpp1-preprocessor">#define EVT_CH_COLOR(id, fn) \
+    DECLARE_EVENT_TABLE_ENTRY( \
+        wxEVT_CH_COLOR, id, wxID_ANY, \
+        (wxObjectEventFunction)(wxEventFunction) wxStaticCastEvent( wxCommandEventFunction, &amp;fn ), \
+        (wxObject *) NULL \
+    ),
+
+</span><span class="cpp1-comment">/*
+#include &lt;wx/file.h&gt;
+void EcrireFichier(wxString texte);
+
+void EcrireFichier(wxString texte)
+{
+    wxFile file(_T(&quot;trace.txt&quot;),wxFile::read_write);
+    file.SeekEnd(0);
+    file.Write(texte + &quot;\n&quot;);
+    file.Close();
+}
+*/
+
+//----------------------------------------------------------------------------
+// GestionCoul
+//----------------------------------------------------------------------------
+</span><span class="cpp1-space">     </span><span class="cpp1-comment">//Add Custom Events only in the appropriate Block.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// Code added in  other places will be removed by wx-dvcpp 
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(GestionCoul,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(GestionCoul::GestionCoulClose)
+	EVT_BUTTON(ID_BUTTONTITRE,GestionCoul::wxButtonTitreClick)
+	EVT_BUTTON(ID_BUTTONOK,GestionCoul::wxButtonOK)
+	EVT_BUTTON(ID_BUTTONANNULER,GestionCoul::wxButtonCANCEL)
+	EVT_BUTTON(ID_BUTTONTEXTE,GestionCoul::wxButtonTexteClick)
+	EVT_BUTTON(ID_BUTTONAXE,GestionCoul::wxButtonAxeClick)
+	EVT_CH_COLOR(GLC_CH_COLOR,GestionCoul::ChangeCouleur)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+
+</span><span class="cpp1-identifier">GestionCoul::GestionCoul(wxWindow *parent,wxArrayColour ListeCouleur,wxArrayString ListeTexte,wxFont laFont,wxColour laCouleur,wxFont leTitreFont,wxColour leTitreCouleur,wxFont lAxeFont,wxColour lAxeCouleur,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos)
+    : wxDialog( parent, wxID_ANY, title, pos, wxSize(</span><span class="cpp1-number">500</span><span class="cpp1-symbol">,</span><span class="cpp1-number">500</span><span class="cpp1-symbol">), wxCAPTION)
+{
+    wxFont fontT(</span><span class="cpp1-number">14</span><span class="cpp1-symbol">,wxMODERN,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD);
+    wxColour couleurT=*wxBLACK;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    
+    CreateGUIControls();
+    
+    listeCarreCouleur.Clear();
+    listeStaticText.Clear();
+    
+    vache=NULL;
+    maFont = laFont;
+    maFontTmp = laFont;
+    monTitreFont = leTitreFont;
+    monTitreFontTmp = leTitreFont;
+    monAxeFont = lAxeFont;
+    monAxeFontTmp = lAxeFont;
+    
+    maCouleur = laCouleur;
+    maCouleurTmp = laCouleur;
+    monTitreCouleur = leTitreCouleur;
+    monTitreCouleurTmp = leTitreCouleur;
+    monAxeCouleur = lAxeCouleur;
+    monAxeCouleurTmp = lAxeCouleur;
+    
+    mesCouleurs = ListeCouleur;
+    mesCouleursTmp = ListeCouleur;
+    
+    mesCommentaires = ListeTexte;
+  
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) mesCommentaires.GetCount();i++)
+    {
+        CarreCouleur* MaWindow;
+        MaWindow = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> CarreCouleur(WxNoteBookPageCouleur,wxPoint(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">27</span><span class="cpp1-symbol">*i + </span><span class="cpp1-number">10</span><span class="cpp1-symbol">),wxSize(</span><span class="cpp1-number">25</span><span class="cpp1-symbol">,</span><span class="cpp1-number">25</span><span class="cpp1-symbol">),mesCouleursTmp.Item(i),i);
+        listeCarreCouleur.Add(MaWindow);
+        
+        wxStaticText *staticText;
+        staticText = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPageCouleur,wxID_ANY,mesCommentaires.Item(i),wxPoint(</span><span class="cpp1-number">40</span><span class="cpp1-symbol">,</span><span class="cpp1-number">27</span><span class="cpp1-symbol">*i + </span><span class="cpp1-number">11</span><span class="cpp1-symbol">));
+        staticText-&gt;SetFont(fontT);
+        staticText-&gt;SetForegroundColour(couleurT);
+        listeStaticText.Add(staticText);
+    }
+    
+    listeStaticText.Shrink();
+    listeCarreCouleur.Shrink();
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (</span><span class="cpp1-number">27</span><span class="cpp1-symbol">*i + </span><span class="cpp1-number">10</span><span class="cpp1-space"> + </span><span class="cpp1-number">25</span><span class="cpp1-space"> &gt; </span><span class="cpp1-number">530</span><span class="cpp1-symbol">)
+    {
+        WxNoteBookPageCouleur-&gt;SetScrollbars(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,(</span><span class="cpp1-number">27</span><span class="cpp1-symbol">*i + </span><span class="cpp1-number">10</span><span class="cpp1-space"> + </span><span class="cpp1-number">25</span><span class="cpp1-symbol">+</span><span class="cpp1-number">9</span><span class="cpp1-symbol">)/</span><span class="cpp1-number">10</span><span class="cpp1-symbol">);
+    }
+
+    TexteTexte-&gt;SetForegroundColour(maCouleurTmp);
+	TexteTexte-&gt;SetFont(maFontTmp);
+	
+	TexteTitre-&gt;SetForegroundColour(monTitreCouleurTmp);
+	TexteTitre-&gt;SetFont(monTitreFontTmp);
+	
+	TexteAxe-&gt;SetForegroundColour(monAxeCouleurTmp);
+	TexteAxe-&gt;SetFont(monAxeFontTmp);
+	
+}
+
+GestionCoul::GestionCoul(wxWindow *parent,MonCamembert *fromage,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title,
+        </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos)
+    :wxDialog(parent,wxID_ANY,title,pos,wxSize(</span><span class="cpp1-number">500</span><span class="cpp1-symbol">,</span><span class="cpp1-number">500</span><span class="cpp1-symbol">),wxCAPTION) 
+{
+    wxFont fontT(</span><span class="cpp1-number">14</span><span class="cpp1-symbol">,wxMODERN,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD);
+    wxColour couleurT=*wxBLACK;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    
+    CreateGUIControls();
+    
+    listeCarreCouleur.Clear();
+    listeStaticText.Clear();
+    
+    maFont = fromage-&gt;LaFont;
+    maFontTmp = fromage-&gt;LaFont;
+    monTitreFontTmp = fromage-&gt;TitreFont;
+    monTitreFont = fromage-&gt;TitreFont;
+    monAxeFont = fromage-&gt;AxeFont;
+    monAxeFontTmp = fromage-&gt;AxeFont;
+    
+    maCouleur = fromage-&gt;couleurTexte;
+    maCouleurTmp = fromage-&gt;couleurTexte;
+    monTitreCouleur = fromage-&gt;couleurTitre;
+    monTitreCouleurTmp = fromage-&gt;couleurTitre;
+    monAxeCouleur = fromage-&gt;couleurAxe;
+    monAxeCouleurTmp = fromage-&gt;couleurAxe;
+    
+    mesCouleurs = fromage-&gt;listeCouleur;
+    mesCouleursTmp = fromage-&gt;listeCouleur;
+    
+    mesCommentaires = fromage-&gt;asCommentaire;
+
+    vache=fromage;
+    
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) mesCommentaires.GetCount();i++)
+    {
+        CarreCouleur* MaWindow;
+        MaWindow = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> CarreCouleur(WxNoteBookPageCouleur,wxPoint(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">27</span><span class="cpp1-symbol">*i + </span><span class="cpp1-number">10</span><span class="cpp1-symbol">),wxSize(</span><span class="cpp1-number">25</span><span class="cpp1-symbol">,</span><span class="cpp1-number">25</span><span class="cpp1-symbol">),mesCouleursTmp.Item(i),i);
+        listeCarreCouleur.Add(MaWindow);
+        
+        wxStaticText *staticText;
+        staticText = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPageCouleur,wxID_ANY,mesCommentaires.Item(i),wxPoint(</span><span class="cpp1-number">40</span><span class="cpp1-symbol">,</span><span class="cpp1-number">27</span><span class="cpp1-symbol">*i + </span><span class="cpp1-number">11</span><span class="cpp1-symbol">));
+        staticText-&gt;SetFont(fontT);
+        staticText-&gt;SetForegroundColour(couleurT);
+        listeStaticText.Add(staticText);
+    }
+    
+    listeStaticText.Shrink();
+    listeCarreCouleur.Shrink();
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (</span><span class="cpp1-number">27</span><span class="cpp1-symbol">*i + </span><span class="cpp1-number">10</span><span class="cpp1-space"> + </span><span class="cpp1-number">25</span><span class="cpp1-space"> &gt; </span><span class="cpp1-number">530</span><span class="cpp1-symbol">)
+    {
+        WxNoteBookPageCouleur-&gt;SetScrollbars(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,(</span><span class="cpp1-number">27</span><span class="cpp1-symbol">*i + </span><span class="cpp1-number">10</span><span class="cpp1-space"> + </span><span class="cpp1-number">25</span><span class="cpp1-symbol">+</span><span class="cpp1-number">9</span><span class="cpp1-symbol">)/</span><span class="cpp1-number">10</span><span class="cpp1-symbol">);
+    }
+
+    TexteTexte-&gt;SetForegroundColour(maCouleurTmp);
+	TexteTexte-&gt;SetFont(maFontTmp);
+	
+	TexteTitre-&gt;SetForegroundColour(monTitreCouleurTmp);
+	TexteTitre-&gt;SetFont(monTitreFontTmp);
+	
+	TexteAxe-&gt;SetForegroundColour(monAxeCouleurTmp);
+	TexteAxe-&gt;SetFont(monAxeFontTmp);
+	
+}
+
+GestionCoul::~GestionCoul()
+{
+    
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoul::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+    </span><span class="cpp1-comment">//Do not add custom Code here
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wx-devcpp designer will remove them.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Add the custom code before or after the Blocks
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	WxPanel1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXPANEL1, wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">565</span><span class="cpp1-symbol">,</span><span class="cpp1-number">601</span><span class="cpp1-symbol">));
+
+	BUTTONOK = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(WxPanel1, ID_BUTTONOK, wxT(</span><span class="cpp1-string">&quot;Sauvegarder&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">35</span><span class="cpp1-symbol">,</span><span class="cpp1-number">555</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">180</span><span class="cpp1-symbol">,</span><span class="cpp1-number">35</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;BUTTONOK&quot;</span><span class="cpp1-symbol">));
+
+	BUTTONANNULER = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(WxPanel1, ID_BUTTONANNULER, wxT(</span><span class="cpp1-string">&quot;Annuler&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">340</span><span class="cpp1-symbol">,</span><span class="cpp1-number">555</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">180</span><span class="cpp1-symbol">,</span><span class="cpp1-number">35</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;BUTTONANNULER&quot;</span><span class="cpp1-symbol">));
+
+	WxNotebook1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxNotebook(WxPanel1, ID_WXNOTEBOOK1, wxPoint(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">,</span><span class="cpp1-number">16</span><span class="cpp1-symbol">),wxSize(</span><span class="cpp1-number">539</span><span class="cpp1-symbol">,</span><span class="cpp1-number">528</span><span class="cpp1-symbol">));
+
+	WxNoteBookPageCouleur = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxScrolledWindow(WxNotebook1, ID_WXNOTEBOOKPAGECOULEUR, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">531</span><span class="cpp1-symbol">,</span><span class="cpp1-number">500</span><span class="cpp1-symbol">));
+	WxNotebook1-&gt;AddPage(WxNoteBookPageCouleur, wxT(</span><span class="cpp1-string">&quot;Couleur&quot;</span><span class="cpp1-symbol">));
+
+	WxNoteBookPageTitre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGETITRE, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">531</span><span class="cpp1-symbol">,</span><span class="cpp1-number">500</span><span class="cpp1-symbol">));
+	WxNotebook1-&gt;AddPage(WxNoteBookPageTitre, wxT(</span><span class="cpp1-string">&quot;Titre&quot;</span><span class="cpp1-symbol">));
+	
+	WxNoteBookPageTexte = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGETEXTE, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">531</span><span class="cpp1-symbol">,</span><span class="cpp1-number">500</span><span class="cpp1-symbol">));
+	WxNotebook1-&gt;AddPage(WxNoteBookPageTexte, wxT(</span><span class="cpp1-string">&quot;Texte&quot;</span><span class="cpp1-symbol">));
+
+	wxButtonTitre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(WxNoteBookPageTitre, ID_BUTTONTITRE, wxT(</span><span class="cpp1-string">&quot;Changer la font du Titre&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">180</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">180</span><span class="cpp1-symbol">,</span><span class="cpp1-number">35</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;wxButtonTitre&quot;</span><span class="cpp1-symbol">));
+
+	TexteTitre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(WxNoteBookPageTitre, ID_TEXTETITRE, wxT(</span><span class="cpp1-string">&quot;Texte d'essai&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">55</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">525</span><span class="cpp1-symbol">,</span><span class="cpp1-number">440</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;TexteTitre&quot;</span><span class="cpp1-symbol">));
+	TexteTitre-&gt;SetMaxLength(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+
+	wxButtonTexte = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(WxNoteBookPageTexte, ID_BUTTONTEXTE, wxT(</span><span class="cpp1-string">&quot;Changer la font du Texte&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">180</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">180</span><span class="cpp1-symbol">,</span><span class="cpp1-number">35</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;wxButtonTexte&quot;</span><span class="cpp1-symbol">));
+
+	TexteTexte = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(WxNoteBookPageTexte, ID_TEXTETEXTE, wxT(</span><span class="cpp1-string">&quot;Texte d'essai&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">55</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">525</span><span class="cpp1-symbol">,</span><span class="cpp1-number">440</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;TexteTexte&quot;</span><span class="cpp1-symbol">));
+	TexteTexte-&gt;SetMaxLength(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+
+	WxNoteBookPageAxe = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGEAXE, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">,</span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">531</span><span class="cpp1-symbol">,</span><span class="cpp1-number">500</span><span class="cpp1-symbol">));
+	WxNotebook1-&gt;AddPage(WxNoteBookPageAxe, wxT(</span><span class="cpp1-string">&quot;Axe&quot;</span><span class="cpp1-symbol">));
+
+	wxButtonAxe = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(WxNoteBookPageAxe, ID_BUTTONAXE, wxT(</span><span class="cpp1-string">&quot;Changer la font de l'Axe&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">180</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">180</span><span class="cpp1-symbol">,</span><span class="cpp1-number">35</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;wxButtonAxe&quot;</span><span class="cpp1-symbol">));
+
+	TexteAxe = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(WxNoteBookPageAxe, ID_TEXTEAXE, wxT(</span><span class="cpp1-string">&quot;Texte d'essai&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">2</span><span class="cpp1-symbol">,</span><span class="cpp1-number">55</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">525</span><span class="cpp1-symbol">,</span><span class="cpp1-number">440</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;TexteAxe&quot;</span><span class="cpp1-symbol">));
+	TexteAxe-&gt;SetMaxLength(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">573</span><span class="cpp1-symbol">,</span><span class="cpp1-number">635</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetTitle(wxT(</span><span class="cpp1-string">&quot;Gestion des Couleurs et des Fonts&quot;</span><span class="cpp1-symbol">));
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;Center();
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetIcon(wxNullIcon);
+	
+    </span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoul::GestionCoulClose(wxCloseEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a Frame,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    Destroy();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoul::wxButtonOK(wxCommandEvent&amp; event)
+{
+    mesCouleurs = mesCouleursTmp;
+	maFont = maFontTmp;
+	maCouleur = maCouleurTmp;
+	monTitreFont = monTitreFontTmp;
+	monTitreCouleur = monTitreCouleurTmp;
+	monAxeFont = monAxeFontTmp;
+	monAxeCouleur = monAxeCouleurTmp;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (vache != NULL) {
+        vache-&gt;listeCouleur = mesCouleurs;
+        vache-&gt;LaFont = maFont;
+        vache-&gt;couleurTexte = maCouleur;
+        vache-&gt;couleurTitre = monTitreCouleur;
+        vache-&gt;TitreFont = monTitreFont;
+        vache-&gt;AxeFont = monAxeFont;
+        vache-&gt;couleurAxe = monAxeCouleur;
+        vache-&gt;Dessiner();
+    }
+    
+    EndModal(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    event.Skip();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoul::wxButtonCANCEL(wxCommandEvent&amp; event)
+{
+    EndModal(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    event.Skip();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoul::ChangeCouleur(wxCommandEvent&amp; event)
+{
+     mesCouleursTmp.Item(event.GetInt())=*(wxColour*)event.GetClientData();
+     
+     event.Skip();
+}
+
+BEGIN_EVENT_TABLE(CarreCouleur,wxWindow)
+    EVT_LEFT_DCLICK(CarreCouleur::DBClick)
+END_EVENT_TABLE()
+
+CarreCouleur::CarreCouleur(wxWindow *parent,wxPoint position,wxSize size,wxColour couleur,</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> id)
+   :wxWindow(parent,wxID_ANY,position,size,wxDOUBLE_BORDER)
+{
+    numero = id;
+    SetBackgroundColour(couleur);
+    couleurFond = couleur;
+}
+
+CarreCouleur::~CarreCouleur()
+{
+               
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> CarreCouleur::DBClick(wxMouseEvent&amp; event)
+{    
+    wxColourData data;
+    data.SetColour(couleurFond);
+    wxColourDialog dialog(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, &amp;data);
+
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( dialog.ShowModal() == wxID_OK )
+    {
+        couleurFond = dialog.GetColourData().GetColour();
+        SetBackgroundColour(couleurFond);
+        Refresh();
+        
+        wxCommandEvent eventCustom(wxEVT_CH_COLOR,GLC_CH_COLOR);
+        eventCustom.SetClientData(&amp;couleurFond);
+        eventCustom.SetInt(numero);
+        ProcessEvent(eventCustom);
+    }
+
+    event.Skip();         
+}
+
+BEGIN_EVENT_TABLE(MonCamembert, wxScrolledWindow)
+    EVT_MOTION (MonCamembert::OnMouseMove)
+END_EVENT_TABLE()
+
+</span><span class="cpp1-comment">// class constructor
+</span><span class="cpp1-identifier">MonCamembert::MonCamembert(wxWindow* parent,wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint&amp; pos, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString&amp; name)
+: wxScrolledWindow(parent, id, pos, size,style,name)
+{
+	</span><span class="cpp1-comment">// insert your code here
+
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Titre
+</span><span class="cpp1-space">    Titre = </span><span class="cpp1-string">&quot;Pour PE&quot;</span><span class="cpp1-symbol">;
+    couleurTitre = wxColour(</span><span class="cpp1-number">200</span><span class="cpp1-symbol">,</span><span class="cpp1-number">123</span><span class="cpp1-symbol">,</span><span class="cpp1-number">23</span><span class="cpp1-symbol">);
+    
+    </span><span class="cpp1-comment">//Axe
+</span><span class="cpp1-space">    couleurAxe = *wxBLACK;
+    AxeFont = wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,wxMODERN,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL);
+    
+    </span><span class="cpp1-comment">//init font
+</span><span class="cpp1-space">    LaFont=wxFont(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">,wxMODERN,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD);
+    TitreFont=wxFont(</span><span class="cpp1-number">20</span><span class="cpp1-symbol">,wxMODERN,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD);
+    
+    </span><span class="cpp1-comment">//init liste nbre
+</span><span class="cpp1-space">    aiNbre.Clear();
+    
+    </span><span class="cpp1-comment">//init liste commentaire
+</span><span class="cpp1-space">    asCommentaire.Clear();
+    
+    </span><span class="cpp1-comment">// flag dessin
+</span><span class="cpp1-space">    estDessine = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+    
+    </span><span class="cpp1-comment">//init couleur fond
+</span><span class="cpp1-space">    couleurTexte=*wxBLACK;
+    
+    </span><span class="cpp1-comment">//init traits
+</span><span class="cpp1-space">    penTraits = *wxBLACK_PEN;
+    
+    </span><span class="cpp1-comment">//init size
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//int largeur,hauteur;
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//GetVirtualSize(&amp;largeur,&amp;hauteur);
+</span><span class="cpp1-space">    tailleDessin=size;
+    
+    espaceDroit = </span><span class="cpp1-number">10</span><span class="cpp1-symbol">;
+    espaceHaut = </span><span class="cpp1-number">3</span><span class="cpp1-symbol">;
+    espaceBas = </span><span class="cpp1-number">5</span><span class="cpp1-symbol">;
+    espaceGauche = </span><span class="cpp1-number">5</span><span class="cpp1-symbol">;
+    espaceCentre = </span><span class="cpp1-number">5</span><span class="cpp1-symbol">;
+    espaceRectangle = </span><span class="cpp1-number">5</span><span class="cpp1-symbol">;
+    espaceTitreDessin = </span><span class="cpp1-number">3</span><span class="cpp1-symbol">;
+    espaceCase=</span><span class="cpp1-number">5</span><span class="cpp1-symbol">;
+    espaceTexteCase=</span><span class="cpp1-number">5</span><span class="cpp1-symbol">;
+    espaceBarre=</span><span class="cpp1-number">5</span><span class="cpp1-symbol">;
+    
+    hauteurTexteMin=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-comment">//type de graphique
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//typeGraph=Cercle;
+</span><span class="cpp1-space">    typeGraph=RectangleBas;
+    
+    texte.Create(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">,wxID_ANY,</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+    texte.Show(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    num_courant = -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-comment">// class destructor
+</span><span class="cpp1-identifier">MonCamembert::~MonCamembert()
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MonCamembert::OnMouseMove(wxMouseEvent &amp;event)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> heightTmp,widthTmp,clientWidth,clientHeight;
+    wxPoint pos_mouse = event.GetPosition();
+    wxClientDC dc(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-comment">//PrepareDC(dc);
+</span><span class="cpp1-space">    DoPrepareDC(dc);
+    wxPoint pos = event.GetLogicalPosition(dc);
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle || typeGraph == RectangleBas)
+    {
+        wxRect rectTmp;
+        </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> dans_rect;
+        
+        dans_rect=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+    
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)listeRect.GetCount();i++)
+        {
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (listeRect.Item(i).Inside(pos))
+            {
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (num_courant != i)
+                {
+                    wxString strTexte;
+                    strTexte.Printf(</span><span class="cpp1-string">&quot;(%d)&quot;</span><span class="cpp1-symbol">,aiNbre.Item(i));
+                    texte.SetLabel(asCommentaire.Item(i) + strTexte);
+                    texte.SetFont(LaFont);
+                    
+                    wxColour couleur_inverse;
+                    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> rouge,vert,bleu;
+                    rouge = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) listeCouleur.Item(i).Red();
+                    vert = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) listeCouleur.Item(i).Green();
+                    bleu = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) listeCouleur.Item(i).Blue();
+                    rouge = (rouge &lt; </span><span class="cpp1-number">123</span><span class="cpp1-space"> ? </span><span class="cpp1-number">255</span><span class="cpp1-space"> : </span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+                    vert = (vert &lt; </span><span class="cpp1-number">123</span><span class="cpp1-space"> ? </span><span class="cpp1-number">255</span><span class="cpp1-space"> : </span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+                    bleu = (bleu &lt; </span><span class="cpp1-number">123</span><span class="cpp1-space"> ? </span><span class="cpp1-number">255</span><span class="cpp1-space"> : </span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+                    couleur_inverse.Set(rouge,vert,bleu);
+                    
+                    texte.SetForegroundColour(couleur_inverse);
+                    texte.SetBackgroundColour(listeCouleur.Item(i));
+                    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!texte.IsShown())
+                    {
+                       texte.Show(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+                    }
+                    num_courant=i;
+                }
+                dans_rect=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+                </span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+            }
+        }
+        
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte.IsShown() &amp;&amp; !dans_rect)
+        {
+            texte.Show(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+            num_courant = -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+        }
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Cercle)
+    {
+        wxRect rectTmp;
+        </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> dans_arc;
+        </span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> distance;
+        </span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> angle1=</span><span class="cpp1-number">360</span><span class="cpp1-symbol">,angle2,alpha=</span><span class="cpp1-number">10</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> PI = </span><span class="cpp1-number">4</span><span class="cpp1-space"> * atan(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        
+        dans_arc=</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+    
+        distance = (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">) sqrt((ptCentre.x - pos.x)*(ptCentre.x - pos.x) + (ptCentre.y - pos.y)*(ptCentre.y - pos.y));
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (distance &gt; </span><span class="cpp1-number">3</span><span class="cpp1-symbol">)
+        {
+            alpha = acos((pos.x-ptCentre.x)/distance) *</span><span class="cpp1-number">180</span><span class="cpp1-symbol">/PI;
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (pos.y &lt; ptCentre.y)
+            {
+                alpha = </span><span class="cpp1-number">360</span><span class="cpp1-symbol">-alpha;          
+            }
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((distance &lt; rayon) &amp;&amp; (distance &gt; </span><span class="cpp1-number">5</span><span class="cpp1-symbol">))
+        {
+            </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;(</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">)listeAngle.GetCount();i++)
+            {
+                angle2 = listeAngle.Item(i);
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (angle2 != angle1)
+                {
+                    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (alpha&lt;angle1 &amp;&amp; alpha&gt;angle2)
+                    {
+                        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (num_courant != i)
+                        {
+                            wxString strTexte;
+                            strTexte.Printf(</span><span class="cpp1-string">&quot;(%d)&quot;</span><span class="cpp1-symbol">,aiNbre.Item(i));
+                            texte.SetLabel(asCommentaire.Item(i) + strTexte);
+                            texte.SetFont(LaFont);
+                            
+                            wxColour couleur_inverse;
+                            </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> rouge,vert,bleu;
+                            rouge = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) listeCouleur.Item(i).Red();
+                            vert = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) listeCouleur.Item(i).Green();
+                            bleu = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) listeCouleur.Item(i).Blue();
+                            rouge = (rouge &lt; </span><span class="cpp1-number">123</span><span class="cpp1-space"> ? </span><span class="cpp1-number">255</span><span class="cpp1-space"> : </span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+                            vert = (vert &lt; </span><span class="cpp1-number">123</span><span class="cpp1-space"> ? </span><span class="cpp1-number">255</span><span class="cpp1-space"> : </span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+                            bleu = (bleu &lt; </span><span class="cpp1-number">123</span><span class="cpp1-space"> ? </span><span class="cpp1-number">255</span><span class="cpp1-space"> : </span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+                            couleur_inverse.Set(rouge,vert,bleu);
+                            
+                            texte.SetForegroundColour(couleur_inverse);
+                            texte.SetBackgroundColour(listeCouleur.Item(i));
+                            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!texte.IsShown())
+                            {
+                               texte.Show(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+                            }
+                            num_courant=i;
+                        }
+                        dans_arc=</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+                        </span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+                    }
+                }
+                angle1=angle2;
+            }
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (texte.IsShown() &amp;&amp; !dans_arc)
+        {
+            texte.Show(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+            num_courant = -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+        }
+    }
+    texte.GetSize(&amp;widthTmp,&amp;heightTmp);
+    </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;GetClientSize(&amp;clientWidth,&amp;clientHeight);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (pos_mouse.x + widthTmp &gt;= clientWidth)
+    {
+        texte.Move(pos_mouse.x - widthTmp,pos_mouse.y - heightTmp);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        texte.Move(pos_mouse.x,pos_mouse.y - heightTmp);
+    }
+    event.Skip();
+}
+
+</span><span class="cpp1-comment">// No description
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MonCamembert::DrawCercle(wxDC&amp; dc)
+{
+    </span><span class="cpp1-comment">//EcrireFichier(&quot;debut draw cercle&quot;);
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">/* TODO (#1#): Implement test2DFrm::DrawCercle() */
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">float</span><span class="cpp1-space"> Total=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> iNb,iNbCom;
+	</span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> xComDeb=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,yComDeb=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	</span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> angle1=</span><span class="cpp1-number">360</span><span class="cpp1-symbol">,angle2;
+	wxRealPoint pointDebut;
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteurAxe,largeurAxe;
+	
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeurColonne=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> valeurMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteurRectangle=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> pas,pasPixel;
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> valeur;
+	valeur=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	pas=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	pasPixel=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeurNombre,hauteurNombre;
+
+    iNb = aiNbre.GetCount();
+	iNbCom = asCommentaire.GetCount();
+	
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteur,largeur;
+    hauteur = tailleDessin.GetHeight();
+    largeur = tailleDessin.GetWidth();
+    
+	dc.SetPen(penTraits);
+    dc.DrawRectangle(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,largeur,hauteur);
+	    
+	</span><span class="cpp1-comment">//cherche hauteur,largeur titre
+</span><span class="cpp1-space">	dc.SetTextForeground(couleurTitre);
+    dc.SetFont(TitreFont);
+    
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteurTitre,largeurTitre;
+    dc.GetTextExtent(Titre,&amp;largeurTitre,&amp;hauteurTitre);
+	dc.DrawText(Titre,(wxCoord)((largeur - largeurTitre)/</span><span class="cpp1-number">2</span><span class="cpp1-symbol">),(wxCoord)(espaceHaut));
+    
+    </span><span class="cpp1-comment">//cherche hauteur,largeur Texte
+</span><span class="cpp1-space">    dc.SetTextForeground(couleurTexte);
+    dc.SetFont(LaFont);
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteurFont,largeurFont,hauteurFontMax,largeurFontMax;
+    hauteurFontMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    largeurFontMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;    
+    
+    </span><span class="cpp1-comment">//EcrireFichier(&quot;debut calcul font Max&quot;);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i &lt; iNb;i++)
+    {
+        dc.GetTextExtent(asCommentaire.Item(i),&amp;largeurFont,&amp;hauteurFont);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (hauteurFont &gt; hauteurFontMax)
+            hauteurFontMax = hauteurFont;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeurFont &gt; largeurFontMax)
+            largeurFontMax = largeurFont;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (valeurMax&lt;aiNbre.Item(i))
+            valeurMax=aiNbre.Item(i);
+        Total += aiNbre.Item(i);
+    }
+    </span><span class="cpp1-comment">//EcrireFichier(&quot;fin calcul font Max&quot;);
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//EcrireFichier(&quot;debut calcul taille&quot;);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Cercle)
+    {
+        listeAngle.Clear();
+        
+    	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeurCercle;
+    	largeurCercle = largeur - espaceGauche - espaceDroit - espaceCentre - espaceTexteCase - hauteurFontMax - largeurFontMax;
+    	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteurCercle;
+    	hauteurCercle = hauteur - espaceHaut - espaceBas - hauteurTitre - espaceTitreDessin;
+    		
+    	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeurCercle&lt;</span><span class="cpp1-number">40</span><span class="cpp1-space"> || hauteurCercle&lt;</span><span class="cpp1-number">40</span><span class="cpp1-symbol">)
+    	{
+            estDessine = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+            </span><span class="cpp1-comment">//wxMessageBox(&quot;Le cercle a dessiner est trop petit&quot;,&quot;Cercle&quot;, wxOK | wxICON_EXCLAMATION);
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }
+    	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeurCercle&lt;hauteurCercle)
+    	{
+            rayon = (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)largeurCercle/</span><span class="cpp1-number">2</span><span class="cpp1-symbol">;
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            rayon = (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)hauteurCercle/</span><span class="cpp1-number">2</span><span class="cpp1-symbol">;
+        }
+        ptCentre=wxRealPoint(rayon + (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)espaceGauche,rayon + (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)(espaceHaut + hauteurTitre + espaceTitreDessin));	
+    	
+    	xComDeb = ptCentre.x + (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)espaceCentre + rayon;
+    	yComDeb = (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)(espaceHaut + hauteurTitre + espaceTitreDessin);
+    	
+    	pointDebut=wxRealPoint(ptCentre.x + rayon,ptCentre.y);
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle || typeGraph == RectangleBas)
+    {   
+        </span><span class="cpp1-comment">//EcrireFichier(&quot;debut rect clear&quot;);
+</span><span class="cpp1-space">        listeRect.Clear();
+        </span><span class="cpp1-comment">//EcrireFichier(&quot;fin rect clear&quot;);
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle)
+        {
+  	        hauteurRectangle = hauteur - espaceHaut - espaceBas - hauteurTitre - espaceTitreDessin;
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+        {
+  	        hauteurRectangle = hauteur - espaceHaut - espaceBas - hauteurTitre - espaceTitreDessin - espaceTexteCase - largeurFontMax;
+        }
+    	</span><span class="cpp1-comment">//EcrireFichier(&quot;apres hauteur rect&quot;);
+</span><span class="cpp1-space">    	
+    	hauteurTexteMin = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    	</span><span class="cpp1-comment">//cherche hauteur,largeur Axe
+</span><span class="cpp1-space">        dc.SetTextForeground(couleurAxe);
+        dc.SetFont(AxeFont);
+        
+        hauteurAxe=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        largeurAxe=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        wxString valTest;
+        valTest.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,valeurMax);
+        dc.GetTextExtent(valTest,&amp;largeurAxe,&amp;hauteurAxe);
+        </span><span class="cpp1-comment">//EcrireFichier(&quot;apres Axe&quot;);
+</span><span class="cpp1-space">        
+    	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeurRectangle=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle)
+        {
+  	        largeurRectangle = largeur - espaceGauche - espaceDroit - espaceCentre - espaceTexteCase - hauteurFontMax - largeurFontMax - largeurAxe - espaceRectangle - espaceBarre;
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+        {
+  	        largeurRectangle = largeur - espaceGauche - espaceDroit - largeurAxe - espaceRectangle - espaceBarre;
+        }
+    	</span><span class="cpp1-comment">//EcrireFichier(&quot;apres largeur rect&quot;);
+</span><span class="cpp1-space">    	
+    	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeurRectangle&lt;((iNb-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)*espaceRectangle+</span><span class="cpp1-number">3</span><span class="cpp1-symbol">*iNb) || hauteurRectangle&lt;</span><span class="cpp1-number">40</span><span class="cpp1-symbol">)
+    	{
+            estDessine = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+            </span><span class="cpp1-comment">//wxMessageBox(&quot;Le dessin est trop petit&quot;,&quot;Rectangle&quot;, wxOK | wxICON_EXCLAMATION);
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }
+        </span><span class="cpp1-comment">//EcrireFichier(&quot;apres test largeur&quot;);
+</span><span class="cpp1-space">        
+        largeurColonne = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) ((largeurRectangle-(iNb-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)*espaceRectangle)/iNb);
+        
+        xComDeb = (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">) (largeurRectangle + espaceGauche + espaceCentre + espaceBarre + largeurAxe + espaceRectangle);
+        dc.SetBrush(wxBrush(*wxBLACK, wxSOLID));
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle)
+        {
+    	    yComDeb = (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)(espaceHaut + hauteurTitre + espaceTitreDessin);
+    	    dc.DrawLine((wxCoord)(espaceGauche + largeurAxe + espaceRectangle),(wxCoord)yComDeb,(wxCoord)(espaceGauche + largeurAxe + espaceRectangle),(wxCoord)(yComDeb + hauteurRectangle));
+    	    dc.DrawLine((wxCoord)(espaceGauche + largeurAxe + espaceRectangle),(wxCoord)(yComDeb + hauteurRectangle),(wxCoord)(espaceGauche + largeurAxe + espaceRectangle + largeurRectangle + espaceBarre),(wxCoord)(yComDeb + hauteurRectangle));
+    	
+    	    dc.DrawLine((wxCoord)(espaceGauche + largeurAxe + espaceRectangle),(wxCoord)yComDeb,(wxCoord)(espaceGauche + largeurAxe),(wxCoord)yComDeb);
+    	    dc.DrawText(valTest,(wxCoord)(espaceGauche),(wxCoord)(yComDeb - hauteurAxe/</span><span class="cpp1-number">2</span><span class="cpp1-symbol">));
+        }
+    	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+    	{
+            yComDeb = (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)(espaceHaut + hauteurTitre + espaceTitreDessin);
+            
+            dc.DrawLine((wxCoord)(espaceGauche + largeurAxe + espaceRectangle),(wxCoord)yComDeb,(wxCoord)(espaceGauche + largeurAxe + espaceRectangle),(wxCoord)(yComDeb + hauteurRectangle));
+    	    dc.DrawLine((wxCoord)(espaceGauche + largeurAxe + espaceRectangle),(wxCoord)(yComDeb + hauteurRectangle),(wxCoord)(espaceGauche + largeurAxe + espaceRectangle + largeurRectangle + espaceBarre),(wxCoord)(yComDeb + hauteurRectangle));
+    	
+    	    dc.DrawLine((wxCoord)(espaceGauche + largeurAxe + espaceRectangle),(wxCoord)yComDeb,(wxCoord)(espaceGauche + largeurAxe),(wxCoord)yComDeb);
+    	    dc.DrawText(valTest,(wxCoord)(espaceGauche),(wxCoord)(yComDeb - hauteurAxe/</span><span class="cpp1-number">2</span><span class="cpp1-symbol">));
+    	    
+    	    yComDeb = hauteurRectangle + espaceHaut + hauteurTitre + espaceTitreDessin + espaceTexteCase;
+        }
+        </span><span class="cpp1-comment">//EcrireFichier(&quot;apres com deb&quot;);
+</span><span class="cpp1-space">        
+    	</span><span class="cpp1-comment">//graduation
+</span><span class="cpp1-space">    	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nbGradu;
+    	nbGradu = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (hauteurRectangle / (</span><span class="cpp1-number">4</span><span class="cpp1-symbol">*hauteurAxe));
+    	
+    	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nbGradu &gt;= </span><span class="cpp1-number">1</span><span class="cpp1-symbol">)
+    	{
+            pas = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (round((</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)((</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)valeurMax/(</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)nbGradu)/</span><span class="cpp1-number">5</span><span class="cpp1-symbol">) * </span><span class="cpp1-number">5</span><span class="cpp1-symbol">);
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (pas==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+            {
+               pas = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (round((</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)((</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)valeurMax/(</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)nbGradu)/</span><span class="cpp1-number">4</span><span class="cpp1-symbol">) * </span><span class="cpp1-number">4</span><span class="cpp1-symbol">);
+            }
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (pas==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+            {
+               pas = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (round((</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)((</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)valeurMax/(</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)nbGradu)/</span><span class="cpp1-number">3</span><span class="cpp1-symbol">) * </span><span class="cpp1-number">3</span><span class="cpp1-symbol">);
+            }
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (pas==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+            {
+               pas = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (round((</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)((</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)valeurMax/(</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)nbGradu)/</span><span class="cpp1-number">2</span><span class="cpp1-symbol">) * </span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+            }
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (pas==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+            {
+               pas = </span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+            }
+            pasPixel = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (pas * hauteurRectangle / valeurMax);
+        }
+    	</span><span class="cpp1-comment">//EcrireFichier(&quot;apres calcul graduation&quot;);
+</span><span class="cpp1-space">    	
+    	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> yMin,yCourant=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        dc.GetTextExtent(</span><span class="cpp1-string">&quot;0123456789&quot;</span><span class="cpp1-symbol">,&amp;largeurNombre,&amp;hauteurNombre);
+    	yMin = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (espaceHaut + hauteurTitre + espaceTitreDessin + hauteurNombre/</span><span class="cpp1-number">2</span><span class="cpp1-symbol">);
+    	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle)
+        {
+    	    yCourant = hauteur - espaceBas - j*pasPixel;
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+        {
+            yCourant = hauteur - espaceBas - j*pasPixel - espaceTexteCase - largeurFontMax;
+        }
+    	</span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (yCourant&gt;yMin &amp;&amp; ((</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) valeurMax &gt; (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) pas*j) &amp;&amp; pas!=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+    	{
+            </span><span class="cpp1-comment">//wxString test;
+</span><span class="cpp1-space">            </span><span class="cpp1-comment">//test.Printf(&quot;ycour=%d,ymin=%d,valeurmax=%d,pas*j=%d&quot;,yCourant,yMin,(int) valeurMax,(int) pas*j);
+</span><span class="cpp1-space">            </span><span class="cpp1-comment">//EcrireFichier(test);
+</span><span class="cpp1-space">              
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle)
+            {
+                dc.DrawLine((wxCoord)(espaceGauche + largeurAxe + espaceRectangle),(wxCoord)(hauteur - espaceBas - j*pasPixel),(wxCoord)(espaceGauche + largeurAxe),(wxCoord)(hauteur - espaceBas - j*pasPixel));
+            }
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+            {
+                </span><span class="cpp1-comment">//EcrireFichier(&quot;draw graduation&quot;);
+</span><span class="cpp1-space">                dc.DrawLine((wxCoord)(espaceGauche + largeurAxe + espaceRectangle),(wxCoord)(hauteur - espaceBas - j*pasPixel - espaceTexteCase - largeurFontMax),(wxCoord)(espaceGauche + largeurAxe),(wxCoord)(hauteur - espaceBas - j*pasPixel - espaceTexteCase - largeurFontMax));
+            }
+            valTest.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,pas*j);
+            dc.GetTextExtent(valTest,&amp;largeurNombre,&amp;hauteurNombre);
+
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (j!=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+            {
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle)
+                {
+                    dc.DrawText(valTest,(wxCoord)(espaceGauche + largeurAxe - largeurNombre),(wxCoord)(hauteur - espaceBas - j*pasPixel - hauteurAxe/</span><span class="cpp1-number">2</span><span class="cpp1-symbol">));
+                }
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+                {
+                    </span><span class="cpp1-comment">//EcrireFichier(&quot;draw texte axe&quot;);
+</span><span class="cpp1-space">                    dc.DrawText(valTest,(wxCoord)(espaceGauche + largeurAxe - largeurNombre),(wxCoord)(hauteur - espaceBas - j*pasPixel - hauteurAxe/</span><span class="cpp1-number">2</span><span class="cpp1-space"> - espaceTexteCase - largeurFontMax));
+                }
+            }
+            j++;
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle)
+            {
+        	    yCourant = hauteur - espaceBas - j*pasPixel;
+            }
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+            {
+                yCourant = hauteur - espaceBas - j*pasPixel - espaceTexteCase - largeurFontMax;
+            }
+        }
+
+    }
+    </span><span class="cpp1-comment">//EcrireFichier(&quot;fin calcul taille&quot;);
+</span><span class="cpp1-space">    
+    dc.SetTextForeground(couleurTexte);
+    dc.SetFont(LaFont);
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (iNb != </span><span class="cpp1-number">0</span><span class="cpp1-space"> &amp;&amp; iNbCom == iNb)
+	{
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (Total != </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        {
+            </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;iNb;i++)
+        	{
+                dc.SetBrush(wxBrush(listeCouleur.Item(i), wxSOLID));
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Cercle)
+                {
+                    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (i == iNb-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)
+                    {
+                        angle2=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+                    } </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">                    {
+                        angle2 = angle1 - </span><span class="cpp1-number">360</span><span class="cpp1-symbol">*(</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)(aiNbre.Item(i))/(</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)Total;
+                    }
+                    listeAngle.Add(angle2);
+                    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (aiNbre.Item(i) != </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+                    {
+        	            dessiner_portion(dc,ptCentre,rayon,pointDebut,angle2,listeCouleur.Item(i));
+                        angle1 = angle2;
+                    }
+                }
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle || typeGraph == RectangleBas)
+                {
+                    wxString mess;
+                    </span><span class="cpp1-comment">//mess.Printf(&quot;x=%d,y=%d,larg=%d,haut=%d,hauteur=%d,nombre=%d
+</span><span class="cpp1-space">                    
+                    dc.SetBrush(wxBrush(listeCouleur.Item(i), wxSOLID));
+                    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle)
+                    {
+                        dc.DrawRectangle(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + i*(espaceRectangle + largeurColonne),hauteur - espaceBas - (aiNbre.Item(i)*hauteurRectangle/valeurMax),largeurColonne,aiNbre.Item(i)*hauteurRectangle/valeurMax + </span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+                        listeRect.Add(wxRect(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + i*(espaceRectangle + largeurColonne),hauteur - espaceBas - (aiNbre.Item(i)*hauteurRectangle/valeurMax),largeurColonne,aiNbre.Item(i)*hauteurRectangle/valeurMax + </span><span class="cpp1-number">1</span><span class="cpp1-symbol">));
+                    }
+                    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+                    {
+                        dc.DrawRectangle(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + i*(espaceRectangle + largeurColonne),hauteur - espaceTexteCase - largeurFontMax - espaceBas - (aiNbre.Item(i)*hauteurRectangle/valeurMax),largeurColonne,aiNbre.Item(i)*hauteurRectangle/valeurMax + </span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+                        listeRect.Add(wxRect(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + i*(espaceRectangle + largeurColonne),hauteur - espaceTexteCase - largeurFontMax - espaceBas - (aiNbre.Item(i)*hauteurRectangle/valeurMax),largeurColonne,aiNbre.Item(i)*hauteurRectangle/valeurMax + </span><span class="cpp1-number">1</span><span class="cpp1-symbol">));
+                    }
+                    dc.SetBrush(wxBrush(*wxBLACK, wxSOLID));
+                    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle)
+                    {
+                        dc.DrawLine((wxCoord)(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + i*(espaceRectangle + largeurColonne)),hauteur - espaceBas,(wxCoord)(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + i*(espaceRectangle + largeurColonne)),hauteur - espaceBas - espaceRectangle);
+                        dc.DrawLine((wxCoord)(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + largeurColonne - </span><span class="cpp1-number">1</span><span class="cpp1-space"> + i*(espaceRectangle + largeurColonne)),hauteur - espaceBas,(wxCoord)(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + largeurColonne - </span><span class="cpp1-number">1</span><span class="cpp1-space"> + i*(espaceRectangle + largeurColonne)),hauteur - espaceBas - espaceRectangle);
+                    }
+                    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+                    {
+                        dc.DrawLine((wxCoord)(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + i*(espaceRectangle + largeurColonne)),hauteur - espaceTexteCase - largeurFontMax - espaceBas,(wxCoord)(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + i*(espaceRectangle + largeurColonne)),hauteur - espaceTexteCase - largeurFontMax - espaceBas - espaceRectangle);
+                        dc.DrawLine((wxCoord)(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + largeurColonne - </span><span class="cpp1-number">1</span><span class="cpp1-space"> + i*(espaceRectangle + largeurColonne)),hauteur - espaceTexteCase - largeurFontMax - espaceBas,(wxCoord)(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + largeurColonne - </span><span class="cpp1-number">1</span><span class="cpp1-space"> + i*(espaceRectangle + largeurColonne)),hauteur - espaceTexteCase - largeurFontMax - espaceBas - espaceRectangle);
+    	                dc.DrawRotatedText(asCommentaire.Item(i),(wxCoord)(espaceBarre + largeurAxe + espaceRectangle + espaceGauche + i*(espaceRectangle + largeurColonne) + largeurColonne/</span><span class="cpp1-number">2</span><span class="cpp1-space"> + hauteurFontMax/</span><span class="cpp1-number">2</span><span class="cpp1-symbol">),(wxCoord)(yComDeb),-</span><span class="cpp1-number">90</span><span class="cpp1-symbol">);
+                    }
+                } 
+                </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph != RectangleBas)
+                {
+                    dc.SetBrush(wxBrush(listeCouleur.Item(i), wxSOLID));
+    	            dc.DrawRectangle((wxCoord)(xComDeb),(wxCoord)(yComDeb + (hauteurFontMax + espaceCase)*i),hauteurFontMax,hauteurFontMax);
+    	            dc.DrawText(asCommentaire.Item(i),(wxCoord)(xComDeb + espaceTexteCase + hauteurFontMax),(wxCoord)(yComDeb + (hauteurFontMax + espaceCase)*i));
+                }
+            }
+            hauteurTexteMin = (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (yComDeb + (hauteurFontMax + espaceCase)* iNb);
+        }	
+    }
+    </span><span class="cpp1-comment">//EcrireFichier(&quot;fin draw cercle&quot;);
+</span><span class="cpp1-symbol">}
+
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> MonCamembert::calc_hauteur_min() {
+    </span><span class="cpp1-comment">//EcrireFichier(&quot;debut calcul hauteur min&quot;);
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> yComDeb=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> iNb;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteurTitre=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,largeurTitre=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    wxScreenDC dc;
+    </span><span class="cpp1-comment">//wxDC dc;
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteurFont=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,largeurFont=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,hauteurFontMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,largeurFontMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    wxString mess;
+
+    iNb = aiNbre.GetCount();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (iNb &lt;=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    hauteurFontMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    largeurFontMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;    
+    
+    dc.SetFont(TitreFont);
+    dc.GetTextExtent(Titre,&amp;largeurTitre,&amp;hauteurTitre);
+    dc.SetFont(LaFont);
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i &lt; iNb;i++)
+    {
+        dc.GetTextExtent(asCommentaire.Item(i),&amp;largeurFont,&amp;hauteurFont);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (hauteurFont &gt; hauteurFontMax)
+            hauteurFontMax = hauteurFont;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeurFont &gt; largeurFontMax)
+            largeurFontMax = largeurFont;
+        </span><span class="cpp1-comment">/*if (valeurMax&lt;aiNbre.Item(i))
+            valeurMax=aiNbre.Item(i);*/
+</span><span class="cpp1-space">        </span><span class="cpp1-comment">/*Total += aiNbre.Item(i);*/
+</span><span class="cpp1-space">    }
+    yComDeb = (espaceHaut + hauteurTitre + espaceTitreDessin);
+    </span><span class="cpp1-comment">//mess.Printf(&quot;espaceHaut %d,hauteurTitre %d, espaceTitreDessin %d, iNb:%d, hauteurFontMax; %d, espaceCase:%d&quot;,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//        espaceHaut, hauteurTitre, espaceTitreDessin,iNb,hauteurFontMax,espaceCase);
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wxMessageBox(mess,&quot;Nombres/Commentaires&quot;, wxOK | wxICON_EXCLAMATION);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+    {
+        </span><span class="cpp1-comment">//EcrireFichier(&quot;fin calcul hauteur min&quot;);
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (espaceTexteCase + largeurFontMax + yComDeb + </span><span class="cpp1-number">4</span><span class="cpp1-symbol">*hauteurFontMax);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> 
+    {
+        </span><span class="cpp1-comment">//EcrireFichier(&quot;fin calcul hauteur min&quot;);
+</span><span class="cpp1-space">        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (yComDeb + (hauteurFontMax + espaceCase)* iNb);
+    }
+    </span><span class="cpp1-comment">//return hauteurTexteMin;
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> MonCamembert::calc_largeur_min() {
+    </span><span class="cpp1-comment">//EcrireFichier(&quot;debut calcul largeur min&quot;);
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> iNb,valeurMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteurTitre=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,largeurTitre=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    wxScreenDC dc;
+    </span><span class="cpp1-comment">//wxDC dc;
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteurFont=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,largeurFont=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,hauteurFontMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,largeurFontMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    wxString mess;
+
+    iNb = aiNbre.GetCount();
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (iNb &lt;=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    hauteurFontMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+    largeurFontMax=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;    
+    
+    dc.SetFont(TitreFont);
+    dc.GetTextExtent(Titre,&amp;largeurTitre,&amp;hauteurTitre);
+    dc.SetFont(LaFont);
+    </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i &lt; iNb;i++)
+    {
+        dc.GetTextExtent(asCommentaire.Item(i),&amp;largeurFont,&amp;hauteurFont);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (hauteurFont &gt; hauteurFontMax)
+            hauteurFontMax = hauteurFont;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeurFont &gt; largeurFontMax)
+            largeurFontMax = largeurFont;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (valeurMax&lt;aiNbre.Item(i))
+            valeurMax = aiNbre.Item(i);
+    }
+    
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeurAxe,hauteurAxe;
+    wxString testValeur;
+        
+    testValeur.Printf(</span><span class="cpp1-string">&quot;%d&quot;</span><span class="cpp1-symbol">,valeurMax);
+    dc.SetFont(AxeFont);
+    dc.GetTextExtent(testValeur,&amp;largeurAxe,&amp;hauteurAxe);
+        
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == RectangleBas)
+    {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeurTitre &gt; espaceGauche + espaceDroit + espaceBarre + largeurAxe + espaceRectangle + iNb*(espaceRectangle + hauteurFontMax))
+        {
+            </span><span class="cpp1-comment">//EcrireFichier(&quot;fin calcul largeur min&quot;);
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) largeurTitre;
+        } </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        {
+            </span><span class="cpp1-comment">//EcrireFichier(&quot;fin calcul largeur min&quot;);
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (espaceGauche + espaceDroit + espaceBarre + largeurAxe + espaceRectangle + iNb*(espaceRectangle + hauteurFontMax));
+        }
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Rectangle)
+    {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeurTitre &gt; espaceGauche + espaceDroit + espaceBarre + largeurAxe + espaceRectangle + iNb*(espaceRectangle + </span><span class="cpp1-number">5</span><span class="cpp1-symbol">) + espaceCentre + largeurFontMax + espaceTexteCase + hauteurFontMax)
+        {
+            </span><span class="cpp1-comment">//EcrireFichier(&quot;fin calcul largeur min&quot;);
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) largeurTitre;
+        } </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        {
+            </span><span class="cpp1-comment">//EcrireFichier(&quot;fin calcul largeur min&quot;);
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) (espaceGauche + espaceDroit + espaceBarre + largeurAxe + espaceRectangle + iNb*(espaceRectangle + </span><span class="cpp1-number">5</span><span class="cpp1-symbol">) + espaceCentre + largeurFontMax + espaceTexteCase + hauteurFontMax);
+        }
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (typeGraph == Cercle) 
+    {
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (largeurTitre &gt; </span><span class="cpp1-number">80</span><span class="cpp1-space"> + espaceGauche + espaceDroit + espaceCentre + espaceTexteCase + hauteurFontMax + largeurFontMax)
+        {
+            </span><span class="cpp1-comment">//EcrireFichier(&quot;fin calcul largeur min&quot;);
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) largeurTitre;
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            </span><span class="cpp1-comment">//EcrireFichier(&quot;fin calcul largeur min&quot;);
+</span><span class="cpp1-space">            </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) </span><span class="cpp1-number">80</span><span class="cpp1-space"> + espaceGauche + espaceDroit + espaceCentre + espaceTexteCase + hauteurFontMax + largeurFontMax;
+        }
+    }
+    </span><span class="cpp1-comment">//return hauteurTexteMin;
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-comment">// No description
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MonCamembert::dessiner_portion(wxDC &amp;dc,wxRealPoint ptCentre,</span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> rayon,wxRealPoint&amp; point1,</span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> angle2,wxColour couleur)
+{
+	</span><span class="cpp1-comment">/* TODO (#1#): Implement test2DFrm::dessiner_portion() */
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> x2,y2,xc,yc;
+	</span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> PI = </span><span class="cpp1-number">4</span><span class="cpp1-space"> * atan(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+	
+	xc = ptCentre.x;
+	yc = ptCentre.y;
+	
+	dc.SetBrush(wxBrush(couleur, wxSOLID));
+	
+	</span><span class="cpp1-comment">//x1 = xc + (double) (rayon*(double)cos(angle1*PI/180));
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//y1 = yc + (double) (rayon*(double)sin(angle1*PI/180));
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (angle2==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+	{
+        x2 = xc + rayon;
+        y2 = yc;
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+	    x2 = xc + (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">) (rayon*(</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)cos(angle2*PI/</span><span class="cpp1-number">180</span><span class="cpp1-symbol">));
+	    y2 = yc + (</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">) (rayon*(</span><span class="cpp1-reservedword">double</span><span class="cpp1-symbol">)sin(angle2*PI/</span><span class="cpp1-number">180</span><span class="cpp1-symbol">));
+    }
+	
+	dc.DrawArc((wxCoord)point1.x,(wxCoord)point1.y,(wxCoord)x2,(wxCoord)y2,(wxCoord)xc,(wxCoord)yc);
+	
+	point1.x = x2;
+	point1.y = y2;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MonCamembert::OnDraw(wxDC&amp; dc)
+{
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (estDessine)
+    {
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nbre_int,nbre_string;
+    
+        nbre_int = aiNbre.GetCount();
+    	nbre_string = asCommentaire.GetCount();
+    	
+    	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nbre_int &lt;= </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        {
+            estDessine = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+            wxMessageBox(</span><span class="cpp1-string">&quot;Il n'y a aucune donn&eacute;e dans la liste des nombres&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Nombres&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION);
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nbre_string &lt;= </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+        {
+            estDessine = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+            wxMessageBox(</span><span class="cpp1-string">&quot;Il n'y a aucune donn&eacute;e dans la liste des commentaires&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Commentaires&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION);
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nbre_string != nbre_int)
+        {
+            estDessine = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+            wxMessageBox(</span><span class="cpp1-string">&quot;Le nombre de commentaires est diff&eacute;rent de celui des nombres&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Nombres/Commentaires&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION);
+            </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+        }
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) listeCouleur.GetCount() &lt; nbre_int)
+        {
+            srand(</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-symbol">&lt;</span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-symbol">&gt;(time(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)));
+            </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> test=nbre_int - listeCouleur.GetCount();
+            </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;test;i++) {
+                listeCouleur.Add(wxColour(rand()%</span><span class="cpp1-number">255</span><span class="cpp1-symbol">,rand()%</span><span class="cpp1-number">255</span><span class="cpp1-symbol">,rand()%</span><span class="cpp1-number">255</span><span class="cpp1-symbol">));
+            }
+        }
+    
+        DrawCercle(dc);
+     }
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> MonCamembert::Dessiner()
+{
+    </span><span class="cpp1-comment">//EcrireFichier(&quot;debut dessiner&quot;);
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wxClientDC dc(this);
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i;
+    
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> nbre_int,nbre_string;
+    
+    nbre_int = aiNbre.GetCount();
+	nbre_string = asCommentaire.GetCount();
+	
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nbre_int &lt;= </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+    {
+        estDessine = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+        wxMessageBox(</span><span class="cpp1-string">&quot;Il n'y a aucune donn&eacute;e dans la liste des nombres&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Nombres&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nbre_string &lt;= </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+    {
+        estDessine = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+        wxMessageBox(</span><span class="cpp1-string">&quot;Il n'y a aucune donn&eacute;e dans la liste des commentaires&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Commentaires&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (nbre_string != nbre_int)
+    {
+        estDessine = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+        wxMessageBox(</span><span class="cpp1-string">&quot;Le nombre de commentaires est diff&eacute;rent de celui des nombres&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;Nombres/Commentaires&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_EXCLAMATION);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ((</span><span class="cpp1-reservedword">int</span><span class="cpp1-symbol">) listeCouleur.GetCount() &lt; nbre_int)
+    {
+        srand(</span><span class="cpp1-reservedword">static_cast</span><span class="cpp1-symbol">&lt;</span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-symbol">&gt;(time(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)));
+        </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> test=nbre_int - listeCouleur.GetCount();
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;test;i++) {
+            listeCouleur.Add(wxColour(rand()%</span><span class="cpp1-number">255</span><span class="cpp1-symbol">,rand()%</span><span class="cpp1-number">255</span><span class="cpp1-symbol">,rand()%</span><span class="cpp1-number">255</span><span class="cpp1-symbol">));
+        }
+    }
+    
+    estDessine = </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+    
+    wxSize lataille;
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (aiNbre.GetCount() &gt;</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        SetSize(tailleDessin);
+        SetScrollbars(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (tailleDessin.GetWidth()&lt;calc_largeur_min() &amp;&amp; tailleDessin.GetHeight()&lt;calc_hauteur_min())
+        {
+            SetScrollbars(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,(calc_largeur_min()+</span><span class="cpp1-number">9</span><span class="cpp1-symbol">)/</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,(calc_hauteur_min()+</span><span class="cpp1-number">9</span><span class="cpp1-symbol">)/</span><span class="cpp1-number">10</span><span class="cpp1-symbol">);
+            tailleDessin=::wxSize(calc_largeur_min()+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,calc_hauteur_min()+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+        } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (tailleDessin.GetHeight()&lt;calc_hauteur_min()) {
+                SetScrollbars(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,(calc_hauteur_min()+</span><span class="cpp1-number">9</span><span class="cpp1-symbol">)/</span><span class="cpp1-number">10</span><span class="cpp1-symbol">);
+                tailleDessin=::wxSize(tailleDessin.GetWidth()-</span><span class="cpp1-number">15</span><span class="cpp1-symbol">,calc_hauteur_min()+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+            }
+            </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (tailleDessin.GetWidth()&lt;calc_largeur_min()) {
+                SetScrollbars(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,(calc_largeur_min()+</span><span class="cpp1-number">9</span><span class="cpp1-symbol">)/</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+                tailleDessin=::wxSize(calc_largeur_min()+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,tailleDessin.GetHeight()-</span><span class="cpp1-number">15</span><span class="cpp1-symbol">);
+            }
+        }
+    }
+    </span><span class="cpp1-comment">//EcrireFichier(&quot;milieu dessiner&quot;);
+</span><span class="cpp1-space">    Refresh();
+    </span><span class="cpp1-comment">//EcrireFichier(&quot;fin dessiner&quot;);
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-comment">/*
+ * wxButtonTitreClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoul::wxButtonTitreClick(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	wxFontData data;
+    data.SetInitialFont(monTitreFontTmp);
+    data.SetColour(monTitreCouleurTmp);
+    wxFontDialog fontDialog(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">,data);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( fontDialog.ShowModal() == wxID_OK )
+    {
+        monTitreFontTmp = fontDialog.GetFontData().GetChosenFont();
+        monTitreCouleurTmp = fontDialog.GetFontData().GetColour();
+        TexteTitre-&gt;SetForegroundColour(monTitreCouleurTmp);
+	    TexteTitre-&gt;SetFont(monTitreFontTmp);
+        Refresh();
+    }
+	event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * wxButtonTitreClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoul::wxButtonTexteClick(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	wxFontData data;
+    data.SetInitialFont(maFontTmp);
+    data.SetColour(maCouleurTmp);
+    wxFontDialog fontDialog(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">,data);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( fontDialog.ShowModal() == wxID_OK )
+    {
+        maFontTmp = fontDialog.GetFontData().GetChosenFont();
+        maCouleurTmp = fontDialog.GetFontData().GetColour();
+        TexteTexte-&gt;SetForegroundColour(maCouleurTmp);
+	    TexteTexte-&gt;SetFont(maFontTmp);
+        Refresh();
+    }
+	event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * wxButtonTitreClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> GestionCoul::wxButtonAxeClick(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	wxFontData data;
+    data.SetInitialFont(monAxeFontTmp);
+    data.SetColour(monAxeCouleurTmp);
+    wxFontDialog fontDialog(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">,data);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> ( fontDialog.ShowModal() == wxID_OK )
+    {
+        monAxeFontTmp = fontDialog.GetFontData().GetChosenFont();
+        monAxeCouleurTmp = fontDialog.GetFontData().GetColour();
+        TexteAxe-&gt;SetForegroundColour(monAxeCouleurTmp);
+	    TexteAxe-&gt;SetFont(monAxeFontTmp);
+        Refresh();
+    }
+	event.Skip();
+}
+</span></span>
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,314 @@
+################################################################################
+# File:		makefile.mac
+#
+# Purpose:	Makefile for the b64 project, for the GCC 3.3
+#           compiler, on UNIX
+#
+# Created:	15th Feburary 2005
+# Updated:	15th March 2008
+#
+################################################################################
+
+
+
+################################################################################
+# Symbols
+
+# Identification
+
+COMP_TAG			=	gcc33
+PROJ_TAG			=	b64
+PROJ_VER_MAJOR		=	1
+PROJ_TAG_VER		=	$(PROJ_TAG).$(PROJ_VER_MAJOR)
+
+CC					=	gcc-3.3
+CPPC				=	g++-3.3
+AR					=	ar
+LD					=	g++
+RM					=	rm -f
+CP					=	cp
+
+# Directories
+
+PROJ_BASE_DIR		=	../..
+PROJ_BIN_DIR		=	$(PROJ_BASE_DIR)/bin
+PROJ_INCLUDE_DIR	=	$(PROJ_BASE_DIR)/include
+PROJ_LIB_DIR		=	$(PROJ_BASE_DIR)/lib
+PROJ_OBJ_DIR		=	.
+PROJ_SRC_DIR		=	$(PROJ_BASE_DIR)/src
+PROJ_EXAMPLES_DIR	=	$(PROJ_BASE_DIR)/examples
+PROJ_SAMPLES_DIR	=	$(PROJ_BASE_DIR)/samples
+PROJ_TEST_DIR		=	$(PROJ_BASE_DIR)/test
+
+# Includes
+
+INCLUDES_LEADER		=	
+
+PROJ_INCLUDE			=	-I$(PROJ_INCLUDE_DIR)
+
+COMMON_INCLUDES		=	
+
+CC_INCLUDES = \
+ $(INCLUDES_LEADER) \
+ $(PROJ_INCLUDE) \
+ $(COMMON_INCLUDES)
+
+CPPC_INCLUDES = \
+ $(INCLUDES_LEADER) \
+ $(PROJ_INCLUDE) \
+ $(COMMON_INCLUDES) \
+ -I"$(STLSOFT_INCLUDE)" \
+ \
+
+# Lib
+
+LIBS_LEADER			=	
+
+COMMON_LIB			=	
+
+# #defines
+
+COMMON_DEFS			=	-Dunix
+
+CC_DEFS				=	$(COMMON_DEFS)
+
+CPPC_DEFS			=	$(COMMON_DEFS)
+
+# Flags
+
+CC_F_NOLOGO				=	
+CC_F_COMPILE_ONLY		=	-c
+CC_F_WARNING_MAX		=	-Wall -pedantic
+CC_F_WARNING_ERR		=	-Werror
+
+CPPC_F_NOLOGO		=	
+CPPC_F_COMPILE_ONLY	=	-c
+CPPC_F_WARNING_MAX	=	-Wall -pedantic -Wno-long-long -Wno-long-double
+CPPC_F_WARNING_ERR	=	-Werror
+CPPC_F_EXCEPTIONS	=	
+CPPC_F_RTTI			=	
+
+CC_TOOL_FLAGS		=	
+
+CC_FLAGS = \
+ $(CC_TOOL_FLAGS) \
+ $(CC_F_NOLOGO) \
+ $(CC_F_COMPILE_ONLY) \
+ $(CC_F_WARNING_MAX) \
+ $(CC_F_WARNING_ERR)
+
+CPPC_TOOL_FLAGS		=	
+
+CPPC_FLAGS = \
+ $(CPPC_TOOL_FLAGS) \
+ $(CPPC_F_NOLOGO) \
+ $(CPPC_F_COMPILE_ONLY) \
+ $(CPPC_F_WARNING_MAX) \
+ $(CPPC_F_WARNING_ERR) \
+ $(CPPC_F_EXCEPTIONS) \
+ $(CPPC_F_RTTI)
+
+# Arguments (= flags + defines + includes)
+
+CC_ARGS_ST_DEBUG				=	-D_DEBUG -UNDEBUG $(CC_FLAGS) $(CC_DEFS) $(CC_INCLUDES)
+CC_ARGS_ST_RELEASE				=	-DNDEBUG -U_DEBUG $(CC_FLAGS) $(CC_DEFS) $(CC_INCLUDES)
+
+CPPC_ARGS_ST_DEBUG			=	-D_DEBUG -UNDEBUG $(CPPC_FLAGS) $(CPPC_DEFS) $(CPPC_INCLUDES)
+CPPC_ARGS_ST_RELEASE			=	-DNDEBUG -U_DEBUG $(CPPC_FLAGS) $(CPPC_DEFS) $(CPPC_INCLUDES)
+
+AR_ARGS				=	
+
+LD_ARGS_ST_DEBUG				=	 $(COMMON_LIB)
+LD_ARGS_ST_RELEASE				=	 $(COMMON_LIB)
+
+################################################################################
+# Targets
+
+TARGET_LIB_ST_DEBUG			=	$(PROJ_LIB_DIR)/$(PROJ_TAG_VER).$(COMP_TAG).debug.a
+TARGET_LIB_UN_ST_DEBUG		=	$(PROJ_LIB_DIR)/$(PROJ_TAG).$(COMP_TAG).debug.a
+TARGET_LIB_ST_RELEASE			=	$(PROJ_LIB_DIR)/$(PROJ_TAG_VER).$(COMP_TAG).a
+TARGET_LIB_UN_ST_RELEASE		=	$(PROJ_LIB_DIR)/$(PROJ_TAG).$(COMP_TAG).a
+
+TARGET_TEST_C_1_ST_DEBUG		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).test.c.1.$(COMP_TAG).debug
+TARGET_TEST_CPP_1_ST_DEBUG		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).test.cpp.1.$(COMP_TAG).debug
+TARGET_TEST_C_1_ST_RELEASE		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).test.c.1.$(COMP_TAG)
+TARGET_TEST_CPP_1_ST_RELEASE		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).test.cpp.1.$(COMP_TAG)
+
+TARGET_EXAMPLE_C_1_ST_DEBUG		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).example.c.1.$(COMP_TAG).debug
+TARGET_EXAMPLE_C_2_ST_DEBUG		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).example.c.1.$(COMP_TAG).debug
+TARGET_EXAMPLE_CPP_1_ST_DEBUG		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).example.cpp.1.$(COMP_TAG).debug
+TARGET_EXAMPLE_CPP_2_ST_DEBUG		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).example.cpp.1.$(COMP_TAG).debug
+TARGET_EXAMPLE_C_1_ST_RELEASE		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).example.c.1.$(COMP_TAG)
+TARGET_EXAMPLE_C_2_ST_RELEASE		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).example.c.1.$(COMP_TAG)
+TARGET_EXAMPLE_CPP_1_ST_RELEASE		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).example.cpp.1.$(COMP_TAG)
+TARGET_EXAMPLE_CPP_2_ST_RELEASE		=	$(PROJ_BIN_DIR)/$(PROJ_TAG_VER).example.cpp.1.$(COMP_TAG)
+
+TARGETS = \
+ $(TARGETS_LIB)\
+ $(TARGETS_TEST)\
+ $(TARGETS_EXAMPLES)\
+ $(TARGETS_SAMPLES)\
+ \
+
+TARGETS_LIB =\
+ $(TARGET_LIB_ST_DEBUG)\
+ $(TARGET_LIB_UN_ST_DEBUG)\
+ $(TARGET_LIB_ST_RELEASE)\
+ $(TARGET_LIB_UN_ST_RELEASE)\
+ \
+
+TARGETS_TEST =\
+ $(TARGET_TEST_C_1_ST_DEBUG)\
+ $(TARGET_TEST_C_1_ST_RELEASE)\
+ $(TARGET_TEST_CPP_1_ST_DEBUG) \
+ $(TARGET_TEST_CPP_1_ST_RELEASE) \
+ \
+
+TARGETS_EXAMPLES =\
+ $(TARGET_EXAMPLE_C_1_ST_DEBUG)\
+ $(TARGET_EXAMPLE_C_2_ST_DEBUG)\
+ $(TARGET_EXAMPLE_C_1_ST_RELEASE)\
+ $(TARGET_EXAMPLE_C_2_ST_RELEASE)\
+ $(TARGET_EXAMPLE_CPP_1_ST_DEBUG) \
+ $(TARGET_EXAMPLE_CPP_2_ST_DEBUG) \
+ $(TARGET_EXAMPLE_CPP_1_ST_RELEASE) \
+ $(TARGET_EXAMPLE_CPP_2_ST_RELEASE) \
+ \
+
+OBJ_PROJ_ST_DEBUG				=	./b64.debug.o
+OBJ_PROJ_ST_RELEASE				=	./b64.o
+
+OBJ_TEST_C_1_ST_DEBUG					=	./C.debug.o
+OBJ_TEST_CPP_1_ST_DEBUG				=	./Cpp.debug.o
+OBJ_TEST_C_1_ST_RELEASE					=	./C.o
+OBJ_TEST_CPP_1_ST_RELEASE				=	./Cpp.o
+
+OBJS = \
+ $(OBJ_PROJ_ST_DEBUG) \
+ $(OBJ_PROJ_ST_RELEASE) \
+ $(OBJ_TEST_C_1_ST_DEBUG) \
+ $(OBJ_TEST_C_1_ST_RELEASE) \
+ $(OBJ_TEST_CPP_1_ST_DEBUG) \
+ $(OBJ_TEST_CPP_1_ST_RELEASE) \
+ \
+
+LIB_B64_H			=	$(PROJ_INCLUDE_DIR)/b64/b64.h
+LIB_B64_H_IMPL_LNK	=	$(PROJ_INCLUDE_DIR)/b64/implicit_link.h
+LIB_B64_HPP			=	$(PROJ_INCLUDE_DIR)/b64/b64.hpp
+LIB_B64_C			=	$(PROJ_SRC_DIR)/b64.c
+
+SRC_TEST_C_1				=	$(PROJ_TEST_DIR)/c/test.c.1/test.c.1.c
+SRC_TEST_CPP_1				=	$(PROJ_TEST_DIR)/cpp/test.cpp.1/test.cpp.1.cpp
+
+
+all:	target
+
+usage:
+	@echo "make [usage | clean | all | test | target] - default is 'all'"
+
+clean:
+	@-$(RM) $(TARGET_LIB_ST_DEBUG)
+	@-$(RM) $(TARGET_LIB_UN_ST_DEBUG)
+	@-$(RM) $(TARGET_LIB_ST_RELEASE)
+	@-$(RM) $(TARGET_LIB_UN_ST_RELEASE)
+	@-$(RM) $(TARGET_TEST_C_1_ST_DEBUG)
+	@-$(RM) $(TARGET_TEST_C_1_ST_RELEASE)
+	@-$(RM) $(TARGET_TEST_CPP_1_ST_DEBUG)
+	@-$(RM) $(TARGET_TEST_CPP_1_ST_RELEASE)
+	@-$(RM) $(TARGET_EXAMPLE_C_1_ST_DEBUG)
+	@-$(RM) $(TARGET_EXAMPLE_C_2_ST_DEBUG)
+	@-$(RM) $(TARGET_EXAMPLE_C_1_ST_RELEASE)
+	@-$(RM) $(TARGET_EXAMPLE_C_2_ST_RELEASE)
+	@-$(RM) $(TARGET_EXAMPLE_CPP_1_ST_DEBUG)
+	@-$(RM) $(TARGET_EXAMPLE_CPP_2_ST_DEBUG)
+	@-$(RM) $(TARGET_EXAMPLE_CPP_1_ST_RELEASE)
+	@-$(RM) $(TARGET_EXAMPLE_CPP_2_ST_RELEASE)
+	@-$(RM) $(OBJ_PROJ_ST_DEBUG)
+	@-$(RM) $(OBJ_PROJ_ST_RELEASE)
+	@-$(RM) $(OBJ_TEST_C_1_ST_DEBUG)
+	@-$(RM) $(OBJ_TEST_C_1_ST_RELEASE)
+	@-$(RM) $(OBJ_TEST_CPP_1_ST_DEBUG)
+	@-$(RM) $(OBJ_TEST_CPP_1_ST_RELEASE)
+
+#	@-if exist *.err del /f *.err
+#	@-if exist *.exe del /f *.exe
+#	@-if exist *.map del /f *.map
+#	@-if exist *.o del /f *.o
+#	@-if exist *.tds del /f *.tds
+
+target:		$(TARGETS)
+
+test_:
+	$(TARGET_TEST_C_1_ST_DEBUG) --unittest
+	$(TARGET_TEST_C_1_ST_RELEASE) --unittest
+	$(TARGET_TEST_CPP_1_ST_DEBUG) --unittest
+	$(TARGET_TEST_CPP_1_ST_RELEASE) --unittest
+
+test:	target test_
+
+# build targets
+
+# library
+
+
+$(TARGET_LIB_UN_ST_DEBUG): $(TARGET_LIB_ST_DEBUG)
+	@$(CP) $(TARGET_LIB_ST_DEBUG) $@
+
+$(TARGET_LIB_ST_DEBUG): $(OBJ_PROJ_ST_DEBUG) makefile.mac
+	@-mkdir -p $(PROJ_LIB_DIR)
+	$(AR) $(AR_ARGS) rcs $@ $(OBJ_PROJ_ST_DEBUG)
+
+
+$(OBJ_PROJ_ST_DEBUG):	$(LIB_B64_C) $(LIB_B64_H) makefile.mac
+	$(CC) $(CC_ARGS_ST_DEBUG) -o $@ $(LIB_B64_C)
+
+
+$(TARGET_LIB_UN_ST_RELEASE): $(TARGET_LIB_ST_RELEASE)
+	@$(CP) $(TARGET_LIB_ST_RELEASE) $@
+
+$(TARGET_LIB_ST_RELEASE): $(OBJ_PROJ_ST_RELEASE) makefile.mac
+	@-mkdir -p $(PROJ_LIB_DIR)
+	$(AR) $(AR_ARGS) rcs $@ $(OBJ_PROJ_ST_RELEASE)
+
+
+$(OBJ_PROJ_ST_RELEASE):	$(LIB_B64_C) $(LIB_B64_H) makefile.mac
+	$(CC) $(CC_ARGS_ST_RELEASE) -o $@ $(LIB_B64_C)
+
+
+	
+# C test client
+
+$(TARGET_TEST_C_1_ST_DEBUG):	$(OBJ_TEST_C_1_ST_DEBUG) makefile.mac
+	@-mkdir -p $(PROJ_BIN_DIR)
+	$(LD) $(LD_ARGS) -o $@ $(OBJ_TEST_C_1_ST_DEBUG) $(TARGET_LIB_ST_DEBUG)
+
+
+$(OBJ_TEST_C_1_ST_DEBUG):	$(SRC_TEST_C_1) $(LIB_B64_H) makefile.mac
+	$(CC) $(CC_ARGS_ST_DEBUG) -o $@ $(SRC_TEST_C_1)
+
+$(TARGET_TEST_C_1_ST_RELEASE):	$(OBJ_TEST_C_1_ST_RELEASE) makefile.mac
+	@-mkdir -p $(PROJ_BIN_DIR)
+	$(LD) $(LD_ARGS) -o $@ $(OBJ_TEST_C_1_ST_RELEASE) $(TARGET_LIB_ST_RELEASE)
+
+
+$(OBJ_TEST_C_1_ST_RELEASE):	$(SRC_TEST_C_1) $(LIB_B64_H) makefile.mac
+	$(CC) $(CC_ARGS_ST_RELEASE) -o $@ $(SRC_TEST_C_1)
+
+
+
+# C++ test client
+
+$(TARGET_TEST_CPP_1_ST_DEBUG):	$(OBJ_TEST_CPP_1_ST_DEBUG) makefile.mac
+	@-mkdir -p $(PROJ_BIN_DIR)
+	$(LD) $(LD_ARGS) -o $@ $(OBJ_TEST_CPP_1_ST_DEBUG) $(TARGET_LIB_ST_DEBUG)
+
+$(OBJ_TEST_CPP_1_ST_DEBUG):	$(SRC_TEST_CPP_1) $(LIB_B64_H) $(LIB_B64_HPP) makefile.mac
+	$(CPPC) $(CPPC_ARGS_ST_DEBUG) -o $@ $(SRC_TEST_CPP_1)
+$(TARGET_TEST_CPP_1_ST_RELEASE):	$(OBJ_TEST_CPP_1_ST_RELEASE) makefile.mac
+	@-mkdir -p $(PROJ_BIN_DIR)
+	$(LD) $(LD_ARGS) -o $@ $(OBJ_TEST_CPP_1_ST_RELEASE) $(TARGET_LIB_ST_RELEASE)
+
+$(OBJ_TEST_CPP_1_ST_RELEASE):	$(SRC_TEST_CPP_1) $(LIB_B64_H) $(LIB_B64_HPP) makefile.mac
+	$(CPPC) $(CPPC_ARGS_ST_RELEASE) -o $@ $(SRC_TEST_CPP_1)
+
+################################################################################

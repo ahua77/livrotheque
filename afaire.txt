@@ -1,0 +1,11 @@
+choisir les champs à intégrer aux fiches (exp HTML)
+faire des skins (exp HTML)
+agrandissement des images
+impression (besoin de modeles)
+addition des prix (valeur biblio)
+recherche suivant champ particularité
+supprimer espace fin de ligne
+import d'images dans le desordre (que images divers par ex)
+duplication d'un livre
+export HTML : ne gérer que les nouvelles entrées
+ecran d'options (choix du splash screen ..)

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>sha_sha2_h.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">/*
+ * FIPS 180-2 SHA-224/256/384/512 implementation
+ * Last update: 02/02/2007
+ * Issue date:  04/30/2005
+ *
+ * Copyright (C) 2005, 2007 Olivier Gay &lt;olivier.gay@a3.epfl.ch&gt;
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE PROJECT AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE PROJECT OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+</span><span class="cpp1-preprocessor">#ifndef SHA2_H
+#define SHA2_H
+
+#define SHA224_DIGEST_SIZE ( 224 / 8)
+#define SHA256_DIGEST_SIZE ( 256 / 8)
+#define SHA384_DIGEST_SIZE ( 384 / 8)
+#define SHA512_DIGEST_SIZE ( 512 / 8)
+
+#define SHA256_BLOCK_SIZE  ( 512 / 8)
+#define SHA512_BLOCK_SIZE  (1024 / 8)
+#define SHA384_BLOCK_SIZE  SHA512_BLOCK_SIZE
+#define SHA224_BLOCK_SIZE  SHA256_BLOCK_SIZE
+
+#ifndef SHA2_TYPES
+#define SHA2_TYPES
+</span><span class="cpp1-reservedword">typedef</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> uint8;
+</span><span class="cpp1-reservedword">typedef</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space">  uint32;
+</span><span class="cpp1-reservedword">typedef</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> uint64;
+</span><span class="cpp1-preprocessor">#endif
+
+#ifdef __cplusplus
+</span><span class="cpp1-reservedword">extern</span><span class="cpp1-space"> </span><span class="cpp1-string">&quot;C&quot;</span><span class="cpp1-space"> {
+</span><span class="cpp1-preprocessor">#endif
+
+</span><span class="cpp1-reservedword">typedef</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">struct</span><span class="cpp1-space"> {
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> tot_len;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> block[</span><span class="cpp1-number">2</span><span class="cpp1-space"> * SHA256_BLOCK_SIZE];
+    uint32 h[</span><span class="cpp1-number">8</span><span class="cpp1-symbol">];
+} sha256_ctx;
+
+</span><span class="cpp1-reservedword">typedef</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">struct</span><span class="cpp1-space"> {
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> tot_len;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len;
+    </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> block[</span><span class="cpp1-number">2</span><span class="cpp1-space"> * SHA512_BLOCK_SIZE];
+    uint64 h[</span><span class="cpp1-number">8</span><span class="cpp1-symbol">];
+} sha512_ctx;
+
+</span><span class="cpp1-reservedword">typedef</span><span class="cpp1-space"> sha512_ctx sha384_ctx;
+</span><span class="cpp1-reservedword">typedef</span><span class="cpp1-space"> sha256_ctx sha224_ctx;
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha224_init(sha224_ctx *ctx);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha224_update(sha224_ctx *ctx, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message,
+                   </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha224_final(sha224_ctx *ctx, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha224(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len,
+            </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest);
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha256_init(sha256_ctx * ctx);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha256_update(sha256_ctx *ctx, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message,
+                   </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha256_final(sha256_ctx *ctx, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha256(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len,
+            </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest);
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha384_init(sha384_ctx *ctx);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha384_update(sha384_ctx *ctx, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message,
+                   </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha384_final(sha384_ctx *ctx, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha384(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len,
+            </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest);
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha512_init(sha512_ctx *ctx);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha512_update(sha512_ctx *ctx, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message,
+                   </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha512_final(sha512_ctx *ctx, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest);
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sha512(</span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *message, </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> len,
+            </span><span class="cpp1-reservedword">unsigned</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> *digest);
+
+</span><span class="cpp1-preprocessor">#ifdef __cplusplus
+</span><span class="cpp1-symbol">}
+</span><span class="cpp1-preprocessor">#endif
+
+#endif </span><span class="cpp1-comment">/* !SHA2_H */
+
+</span></span>
+</code></pre>
+</body>
+</html>

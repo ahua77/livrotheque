@@ -1,0 +1,3234 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_Nouv_livre_wxform.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-identifier">object frmNewForm_1: TfrmNewForm
+  Left = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">  Top = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">  AutoScroll = False
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Nouveau livre'
+  ClientHeight = </span><span class="cpp1-number">417
+</span><span class="cpp1-space">  ClientWidth = </span><span class="cpp1-number">648
+</span><span class="cpp1-space">  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -</span><span class="cpp1-number">11
+</span><span class="cpp1-space">  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = True
+  PopupMenu = DesignerPopup.Owner
+  Visible = True
+  OnClick = FormClick
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnResize = FormResize
+  EVT_CLOSE = 'Nouv_livreClose'
+  Wx_ICON.Data = {07544269746D617000000000}
+  Wx_Name = 'Nouv_livre'
+  Wx_IDName = 'ID_NOUV_LIVRE'
+  Wx_IDValue = </span><span class="cpp1-number">1000
+</span><span class="cpp1-space">  Wx_Class = 'wxDialog'
+  Wx_Center = True
+  Wx_Hidden = False
+  Wx_SizeToContents = True
+  Wx_GeneralStyle = [wxWANTS_CHARS]
+  Wx_DialogStyle = [wxCAPTION]
+  Wx_Border = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  Wx_BorderAlignment = []
+  isAuimanagerAvailable = False
+  PixelsPerInch = </span><span class="cpp1-number">96
+</span><span class="cpp1-space">  TextHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">  object WxButton_nouv_ok: TWxButton
+    Left = </span><span class="cpp1-number">181
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">383
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">83
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">    Caption = 'OK'
+    TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">    EVT_BUTTON = 'WxButton_nouv_okClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_NOUV_OK'
+    Wx_IDValue = </span><span class="cpp1-number">1006
+</span><span class="cpp1-space">    Wx_PaneCaption = 'WxButton_nouv_ok'
+    Wx_PaneName = 'WxButton_nouv_ok_Pane'
+    Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+    Wx_Aui_Dockable_Direction = []
+    Wx_Aui_Pane_Style = []
+    Wx_Aui_Pane_Buttons = []
+    Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  end
+  object WxButton_nouv_annul: TWxButton
+    Left = </span><span class="cpp1-number">367
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">383
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">79
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">    Caption = 'Annuler'
+    TabOrder = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    EVT_BUTTON = 'WxButton_nouv_annulClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'wxID_CANCEL '
+    Wx_IDValue = </span><span class="cpp1-number">1007
+</span><span class="cpp1-space">    Wx_PaneCaption = 'WxButton_nouv_annul'
+    Wx_PaneName = 'WxButton_nouv_annul_Pane'
+    Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+    Wx_Aui_Dockable_Direction = []
+    Wx_Aui_Pane_Style = []
+    Wx_Aui_Pane_Buttons = []
+    Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  end
+  object WxNotebook_nouv: TWxNotebook
+    Left = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">637
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">381
+</span><span class="cpp1-space">    ActivePage = n_livre
+    TabIndex = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Class = 'wxNotebook'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EventList.Strings = (
+      'EVT_NOTEBOOK_PAGE_CHANGED:OnPageChanged'
+      'EVT_UPDATE_UI:OnUpdateUI'
+      'EVT_NOTEBOOK_PAGE_CHANGING:OnPageChanging')
+    Wx_IDName = 'ID_WXNOTEBOOK_NOUV'
+    Wx_IDValue = </span><span class="cpp1-number">1001
+</span><span class="cpp1-space">    Wx_Hidden = False
+    Wx_NoteBookStyle = []
+    Wx_GeneralStyle = []
+    Wx_BookAlignment = wxNB_DEFAULT
+    Wx_PaneCaption = 'WxNotebook_nouv'
+    Wx_PaneName = 'WxNotebook_nouv_Pane'
+    Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+    Wx_Aui_Dockable_Direction = []
+    Wx_Aui_Pane_Style = []
+    Wx_Aui_Pane_Buttons = []
+    Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    object n_livre: TWxNoteBookPage
+      Caption = 'Livre'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_LIVRE'
+      Wx_IDValue = </span><span class="cpp1-number">1003
+</span><span class="cpp1-space">      object WxStaticText_titre: TWxStaticText
+        Left = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">23
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">31
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Titre :'
+        TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_TITRE'
+        Wx_IDValue = </span><span class="cpp1-number">1005
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_titre'
+        Wx_PaneName = 'WxStaticText_titre_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_titre: TWxEdit
+        Left = </span><span class="cpp1-number">52
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_TITRE'
+        Wx_IDValue = </span><span class="cpp1-number">1008
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_titre'
+        Wx_PaneName = 'WxEdit_titre_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_auteur: TWxStaticText
+        Left = </span><span class="cpp1-number">319
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">41
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Auteur :'
+        TabOrder = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_AUTEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1011
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_auteur'
+        Wx_PaneName = 'WxStaticText_auteur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_auteur: TWxComboBox
+        Left = </span><span class="cpp1-number">365
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">232
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_AUTEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1012
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_auteur'
+        Wx_PaneName = 'WxComboBox_auteur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_sous_titre: TWxStaticText
+        Left = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">47
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">52
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'sous titre :'
+        TabOrder = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT8'
+        Wx_IDValue = </span><span class="cpp1-number">1040
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_sous_titre'
+        Wx_PaneName = 'WxStaticText_sous_titre_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_sous_titre: TWxEdit
+        Left = </span><span class="cpp1-number">52
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">45
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">16
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_SOUS_TITRE'
+        Wx_IDValue = </span><span class="cpp1-number">1041
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_sous_titre'
+        Wx_PaneName = 'WxEdit_sous_titre_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_serie: TWxStaticText
+        Left = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">73
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">34
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'S'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'rie :'
+        TabOrder = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_SERIE'
+        Wx_IDValue = </span><span class="cpp1-number">1009
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_serie'
+        Wx_PaneName = 'WxStaticText_serie_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_serie: TWxComboBox
+        Left = </span><span class="cpp1-number">52
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">71
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = [wxCB_SORT]
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_SERIE'
+        Wx_IDValue = </span><span class="cpp1-number">1010
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_serie'
+        Wx_PaneName = 'WxComboBox_serie_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_no_serie: TWxStaticText
+        Left = </span><span class="cpp1-number">313
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">73
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">49
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'N'#</span><span class="cpp1-number">176</span><span class="cpp1-character">' Serie :'
+        TabOrder = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_NO_SERIE'
+        Wx_IDValue = </span><span class="cpp1-number">1013
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_no_serie'
+        Wx_PaneName = 'WxStaticText_no_serie_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_no_serie: TWxEdit
+        Left = </span><span class="cpp1-number">364
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">71
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">52
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_NO_SERIE'
+        Wx_IDValue = </span><span class="cpp1-number">1014
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_no_serie'
+        Wx_PaneName = 'WxEdit_no_serie_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_genre: TWxStaticText
+        Left = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">103
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">39
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Genre :'
+        TabOrder = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_GENRE'
+        Wx_IDValue = </span><span class="cpp1-number">1015
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_genre'
+        Wx_PaneName = 'WxStaticText_genre_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_genre: TWxComboBox
+        Left = </span><span class="cpp1-number">52
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">100
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">9
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_GENRE'
+        Wx_IDValue = </span><span class="cpp1-number">1016
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_genre'
+        Wx_PaneName = 'WxComboBox_genre_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_isbn: TWxStaticText
+        Left = </span><span class="cpp1-number">314
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">105
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">44
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'I.S.B.N :'
+        TabOrder = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_ISBN'
+        Wx_IDValue = </span><span class="cpp1-number">1033
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_isbn'
+        Wx_PaneName = 'WxStaticText_isbn_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_isbn: TWxEdit
+        Left = </span><span class="cpp1-number">363
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">100
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">121
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">14
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_ISBN'
+        Wx_IDValue = </span><span class="cpp1-number">1034
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_isbn'
+        Wx_PaneName = 'WxEdit_isbn_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_internet: TWxButton
+        Left = </span><span class="cpp1-number">489
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">101
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">131
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = 'Recherche internet (ISBN)'
+        TabOrder = </span><span class="cpp1-number">35
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_internetClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_INTERNET'
+        Wx_IDValue = </span><span class="cpp1-number">1100
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_internet'
+        Wx_PaneName = 'WxButton_internet_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_editeur: TWxStaticText
+        Left = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">132
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">43
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Editeur :'
+        TabOrder = </span><span class="cpp1-number">11
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_EDITEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1019
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_editeur'
+        Wx_PaneName = 'WxStaticText_editeur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_editeur: TWxComboBox
+        Left = </span><span class="cpp1-number">52
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">129
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">12
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_EDITEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1020
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_editeur'
+        Wx_PaneName = 'WxComboBox_editeur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_date_pub: TWxStaticText
+        Left = </span><span class="cpp1-number">316
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">132
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">102
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Date de publication :'
+        TabOrder = </span><span class="cpp1-number">10
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_PUB'
+        Wx_IDValue = </span><span class="cpp1-number">1018
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_date_pub'
+        Wx_PaneName = 'WxStaticText_date_pub_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_format: TWxStaticText
+        Left = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">162
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">42
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Format :'
+        TabOrder = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_FORMAT'
+        Wx_IDValue = </span><span class="cpp1-number">1046
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_format'
+        Wx_PaneName = 'WxStaticText_format_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_format: TWxComboBox
+        Left = </span><span class="cpp1-number">52
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">158
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">18
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_FORMAT'
+        Wx_IDValue = </span><span class="cpp1-number">1047
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_format'
+        Wx_PaneName = 'WxComboBox_format_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_artiste: TWxStaticText
+        Left = </span><span class="cpp1-number">315
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">159
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">39
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Artiste :'
+        TabOrder = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_ARTISTE'
+        Wx_IDValue = </span><span class="cpp1-number">1048
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_artiste'
+        Wx_PaneName = 'WxStaticText_artiste_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_artiste: TWxComboBox
+        Left = </span><span class="cpp1-number">357
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">157
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">238
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_ARTISTE'
+        Wx_IDValue = </span><span class="cpp1-number">1049
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_artiste'
+        Wx_PaneName = 'WxComboBox_artiste_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_prix: TWxStaticText
+        Left = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">188
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">27
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Prix :'
+        TabOrder = </span><span class="cpp1-number">25
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_PRIX'
+        Wx_IDValue = </span><span class="cpp1-number">1065
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_prix'
+        Wx_PaneName = 'WxStaticText_prix_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_prix: TWxEdit
+        Left = </span><span class="cpp1-number">52
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">187
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">106
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">26
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_PRIX'
+        Wx_IDValue = </span><span class="cpp1-number">1066
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_prix'
+        Wx_PaneName = 'WxEdit_prix_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_date_entree: TWxStaticText
+        Left = </span><span class="cpp1-number">9
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">326
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">66
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Date entree :'
+        TabOrder = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_ENTREE'
+        Wx_IDValue = </span><span class="cpp1-number">1052
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_date_entree'
+        Wx_PaneName = 'WxStaticText_date_entree_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticTextdate_entree_val: TWxStaticText
+        Left = </span><span class="cpp1-number">74
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">326
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">62
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = '01/01/1980'
+        TabOrder = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXTDATE_ENTREE_VAL'
+        Wx_IDValue = </span><span class="cpp1-number">1053
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticTextdate_entree_val'
+        Wx_PaneName = 'WxStaticTextdate_entree_val_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_date_maj: TWxStaticText
+        Left = </span><span class="cpp1-number">148
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">325
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">142
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Date de derni'#</span><span class="cpp1-number">232</span><span class="cpp1-character">'re mise '#</span><span class="cpp1-number">224</span><span class="cpp1-character">' jour :'
+        TabOrder = </span><span class="cpp1-number">23
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_MAJ'
+        Wx_IDValue = </span><span class="cpp1-number">1054
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_date_maj'
+        Wx_PaneName = 'WxStaticText_date_maj_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_date_maj_val: TWxStaticText
+        Left = </span><span class="cpp1-number">289
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">325
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">62
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = '01/01/1980'
+        TabOrder = </span><span class="cpp1-number">24
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_MAJ_VAL'
+        Wx_IDValue = </span><span class="cpp1-number">1055
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_date_maj_val'
+        Wx_PaneName = 'WxStaticText_date_maj_val_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_recompense: TWxEdit
+        Left = </span><span class="cpp1-number">357
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">185
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">27
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_RECOMPENSE'
+        Wx_IDValue = </span><span class="cpp1-number">1084
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_recompense'
+        Wx_PaneName = 'WxEdit_recompense_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_recompense: TWxStaticText
+        Left = </span><span class="cpp1-number">281
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">186
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">73
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Recompense :'
+        TabOrder = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_RECOMPENSE'
+        Wx_IDValue = </span><span class="cpp1-number">1085
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_recompense'
+        Wx_PaneName = 'WxStaticText_recompense_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_auteur: TWxButton
+        Left = </span><span class="cpp1-number">598
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">16
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">29
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_AUTEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1086
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_auteur'
+        Wx_PaneName = 'WxButton_auteur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_serie: TWxButton
+        Left = </span><span class="cpp1-number">290
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">72
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">30
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_SERIE'
+        Wx_IDValue = </span><span class="cpp1-number">1087
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_serie'
+        Wx_PaneName = 'WxButton_serie_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_genre: TWxButton
+        Left = </span><span class="cpp1-number">290
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">101
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">31
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_GENRE'
+        Wx_IDValue = </span><span class="cpp1-number">1088
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_genre'
+        Wx_PaneName = 'WxButton_genre_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_editeur: TWxButton
+        Left = </span><span class="cpp1-number">290
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">130
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">32
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_EDITEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1089
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_editeur'
+        Wx_PaneName = 'WxButton_editeur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_format: TWxButton
+        Left = </span><span class="cpp1-number">290
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">158
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">33
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_FORMAT'
+        Wx_IDValue = </span><span class="cpp1-number">1090
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_format'
+        Wx_PaneName = 'WxButton_format_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_artiste: TWxButton
+        Left = </span><span class="cpp1-number">597
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">157
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">34
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_ARTISTE'
+        Wx_IDValue = </span><span class="cpp1-number">1091
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_artiste'
+        Wx_PaneName = 'WxButton_artiste_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxDatePickerCtrl_publication: TWxDatePickerCtrl
+        Left = </span><span class="cpp1-number">421
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">129
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">123
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">36
+</span><span class="cpp1-space">        Text = '3/1/2006'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxDatePickerCtrl'
+        Wx_Date = </span><span class="cpp1-float">38777.6459465625
+</span><span class="cpp1-space">        Wx_PickCalStyle = [wxDP_DROPDOWN, wxDP_ALLOWNONE]
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXDATEPICKERCTRL_PUBLICATION'
+        Wx_IDValue = </span><span class="cpp1-number">1103
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxDatePickerCtrl_publication'
+        Wx_PaneName = 'WxDatePickerCtrl_publication_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+    end
+    object n_detail: TWxNoteBookPage
+      Caption = 'D'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'tails'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_DETAIL'
+      Wx_IDValue = </span><span class="cpp1-number">1004
+</span><span class="cpp1-space">      object WxStaticText_date_achat: TWxStaticText
+        Left = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">18
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">71
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Date d'#</span><span class="cpp1-number">39</span><span class="cpp1-character">'achat :'
+        TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_ACHAT'
+        Wx_IDValue = </span><span class="cpp1-number">1021
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_date_achat'
+        Wx_PaneName = 'WxStaticText_date_achat_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_valeur: TWxStaticText
+        Left = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">42
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">40
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Valeur :'
+        TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_VALEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1023
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_valeur'
+        Wx_PaneName = 'WxStaticText_valeur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_valeur: TWxEdit
+        Left = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">39
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_VALEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1024
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_valeur'
+        Wx_PaneName = 'WxEdit_valeur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_note: TWxStaticText
+        Left = </span><span class="cpp1-number">337
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">33
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Note :'
+        TabOrder = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_NOTE'
+        Wx_IDValue = </span><span class="cpp1-number">1025
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_note'
+        Wx_PaneName = 'WxStaticText_note_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxSlider_note: TWxSlider
+        Left = </span><span class="cpp1-number">395
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">14
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">150
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">30
+</span><span class="cpp1-space">        Orientation = trHorizontal
+        Frequency = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        Position = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        SelEnd = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        SelStart = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">        TickMarks = tmBottomRight
+        TickStyle = tsAuto
+        EVT_COMMAND_SCROLL = 'WxSlider_noteScroll'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxSlider'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_IDName = 'ID_WXSLIDER_NOTE'
+        Wx_IDValue = </span><span class="cpp1-number">1027
+</span><span class="cpp1-space">        Wx_SliderStyle = []
+        Wx_SliderOrientation = wxSL_HORIZONTAL
+        Wx_SliderRange = wxSL_SELRANGE
+        Wx_ToolTip = 'Note du livre (0 '#</span><span class="cpp1-number">224</span><span class="cpp1-character">' 10)'
+        Wx_PaneCaption = 'WxSlider_note'
+        Wx_PaneName = 'WxSlider_note_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_val_note: TWxStaticText
+        Left = </span><span class="cpp1-number">550
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">18
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">10
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = '0'
+        TabOrder = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_VAL_NOTE'
+        Wx_IDValue = </span><span class="cpp1-number">1028
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_val_note'
+        Wx_PaneName = 'WxStaticText_val_note_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_nul: TWxStaticText
+        Left = </span><span class="cpp1-number">395
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">48
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Nul'
+        TabOrder = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_NUL'
+        Wx_IDValue = </span><span class="cpp1-number">1029
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_nul'
+        Wx_PaneName = 'WxStaticText_nul_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_genial: TWxStaticText
+        Left = </span><span class="cpp1-number">521
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">48
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">34
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'G'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'nial'
+        TabOrder = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_GENIAL'
+        Wx_IDValue = </span><span class="cpp1-number">1030
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_genial'
+        Wx_PaneName = 'WxStaticText_genial_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_reference: TWxStaticText
+        Left = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">65
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">60
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Reference :'
+        TabOrder = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_REFERENCE'
+        Wx_IDValue = </span><span class="cpp1-number">1031
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_reference'
+        Wx_PaneName = 'WxStaticText_reference_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_reference: TWxEdit
+        Left = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">65
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">9
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_REFERENCE'
+        Wx_IDValue = </span><span class="cpp1-number">1032
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_reference'
+        Wx_PaneName = 'WxEdit_reference_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_nb_pages: TWxStaticText
+        Left = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">94
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">71
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Nb de pages :'
+        TabOrder = </span><span class="cpp1-number">10
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_NB_PAGES'
+        Wx_IDValue = </span><span class="cpp1-number">1035
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_nb_pages'
+        Wx_PaneName = 'WxStaticText_nb_pages_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_nb_pages: TWxEdit
+        Left = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">90
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">90
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">11
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_NB_PAGES'
+        Wx_IDValue = </span><span class="cpp1-number">1036
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_nb_pages'
+        Wx_PaneName = 'WxEdit_nb_pages_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_etat: TWxComboBox
+        Left = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">117
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">12
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_ETAT'
+        Wx_IDValue = </span><span class="cpp1-number">1038
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_etat'
+        Wx_PaneName = 'WxComboBox_etat_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_etat: TWxStaticText
+        Left = </span><span class="cpp1-number">38
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">118
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">29
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Etat :'
+        TabOrder = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_ETAT'
+        Wx_IDValue = </span><span class="cpp1-number">1039
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_etat'
+        Wx_PaneName = 'WxStaticText_etat_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_condition: TWxStaticText
+        Left = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">144
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">66
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Localisation :'
+        TabOrder = </span><span class="cpp1-number">14
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_CONDITION'
+        Wx_IDValue = </span><span class="cpp1-number">1044
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_condition'
+        Wx_PaneName = 'WxStaticText_condition_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_localisation: TWxComboBox
+        Left = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">142
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">236
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_LOCALISATION'
+        Wx_IDValue = </span><span class="cpp1-number">1045
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_localisation'
+        Wx_PaneName = 'WxComboBox_localisation_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_date_lecture: TWxStaticText
+        Left = -</span><span class="cpp1-number">1
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">171
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">83
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Date de lecture :'
+        TabOrder = </span><span class="cpp1-number">16
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_DATE_LECTURE'
+        Wx_IDValue = </span><span class="cpp1-number">1050
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_date_lecture'
+        Wx_PaneName = 'WxStaticText_date_lecture_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_etat: TWxButton
+        Left = </span><span class="cpp1-number">318
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">117
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_ETAT'
+        Wx_IDValue = </span><span class="cpp1-number">1092
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_etat'
+        Wx_PaneName = 'WxButton_etat_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_localisation: TWxButton
+        Left = </span><span class="cpp1-number">318
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">142
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">18
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_LOCALISATION'
+        Wx_IDValue = </span><span class="cpp1-number">1093
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_localisation'
+        Wx_PaneName = 'WxButton_localisation_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxDatePickerCtrl_achat: TWxDatePickerCtrl
+        Left = </span><span class="cpp1-number">79
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">14
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">148
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Text = '3/3/2006'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxDatePickerCtrl'
+        Wx_Date = </span><span class="cpp1-float">38779.404674213
+</span><span class="cpp1-space">        Wx_PickCalStyle = [wxDP_DROPDOWN, wxDP_ALLOWNONE]
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXDATEPICKERCTRL_ACHAT'
+        Wx_IDValue = </span><span class="cpp1-number">1104
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxDatePickerCtrl_achat'
+        Wx_PaneName = 'WxDatePickerCtrl_achat_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxDatePickerCtrl_lecture: TWxDatePickerCtrl
+        Left = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">169
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">150
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        Text = '3/3/2006'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxDatePickerCtrl'
+        Wx_Date = </span><span class="cpp1-float">38779.4059410069
+</span><span class="cpp1-space">        Wx_PickCalStyle = [wxDP_DROPDOWN, wxDP_ALLOWNONE]
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXDATEPICKERCTRL_LECTURE'
+        Wx_IDValue = </span><span class="cpp1-number">1105
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxDatePickerCtrl_lecture'
+        Wx_PaneName = 'WxDatePickerCtrl_lecture_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+    end
+    object n_vo: TWxNoteBookPage
+      Caption = 'Version originale'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_VO'
+      Wx_IDValue = </span><span class="cpp1-number">1043
+</span><span class="cpp1-space">      object WxStaticText_titre_o: TWxStaticText
+        Left = </span><span class="cpp1-number">23
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">33
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">67
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Titre original :'
+        TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_TITRE_O'
+        Wx_IDValue = </span><span class="cpp1-number">1056
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_titre_o'
+        Wx_PaneName = 'WxStaticText_titre_o_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_titre_o: TWxEdit
+        Left = </span><span class="cpp1-number">95
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">238
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_TITRE_O'
+        Wx_IDValue = </span><span class="cpp1-number">1057
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_titre_o'
+        Wx_PaneName = 'WxEdit_titre_o_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_sous_titre_o: TWxStaticText
+        Left = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">60
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">90
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Sous titre original :'
+        TabOrder = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_SOUS_TITRE_O'
+        Wx_IDValue = </span><span class="cpp1-number">1061
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_sous_titre_o'
+        Wx_PaneName = 'WxStaticText_sous_titre_o_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxEdit_sous_titre_o: TWxEdit
+        Left = </span><span class="cpp1-number">95
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">55
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">238
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = </span><span class="cpp1-number">5
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXEDIT_SOUS_TITRE_O'
+        Wx_IDValue = </span><span class="cpp1-number">1062
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxEdit_sous_titre_o'
+        Wx_PaneName = 'WxEdit_sous_titre_o_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_serie_o: TWxStaticText
+        Left = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">84
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">74
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'serie originale :'
+        TabOrder = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_SERIE_O'
+        Wx_IDValue = </span><span class="cpp1-number">1097
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_serie_o'
+        Wx_PaneName = 'WxStaticText_serie_o_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_serie_o: TWxComboBox
+        Left = </span><span class="cpp1-number">95
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">238
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">14
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_SERIE_O'
+        Wx_IDValue = </span><span class="cpp1-number">1098
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_serie_o'
+        Wx_PaneName = 'WxComboBox_serie_o_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_pays: TWxStaticText
+        Left = </span><span class="cpp1-number">9
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">108
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">75
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Pays d'#</span><span class="cpp1-number">39</span><span class="cpp1-character">'origine :'
+        TabOrder = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_PAYS'
+        Wx_IDValue = </span><span class="cpp1-number">1058
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_pays'
+        Wx_PaneName = 'WxStaticText_pays_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_pays: TWxComboBox
+        Left = </span><span class="cpp1-number">95
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">106
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">238
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_PAYS'
+        Wx_IDValue = </span><span class="cpp1-number">1060
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_pays'
+        Wx_PaneName = 'WxComboBox_pays_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_langue: TWxStaticText
+        Left = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">136
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">88
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Langue d'#</span><span class="cpp1-number">39</span><span class="cpp1-character">'origine :'
+        TabOrder = </span><span class="cpp1-number">6
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_LANGUE_O'
+        Wx_IDValue = </span><span class="cpp1-number">1063
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_langue'
+        Wx_PaneName = 'WxStaticText_langue_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_langue: TWxComboBox
+        Left = </span><span class="cpp1-number">95
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">133
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">238
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">7
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_LANGUE'
+        Wx_IDValue = </span><span class="cpp1-number">1064
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_langue'
+        Wx_PaneName = 'WxComboBox_langue_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_traducteur: TWxStaticText
+        Left = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">160
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">62
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Traducteur :'
+        TabOrder = </span><span class="cpp1-number">8
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_TRADUCTEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1067
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_traducteur'
+        Wx_PaneName = 'WxStaticText_traducteur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxComboBox_traducteur: TWxComboBox
+        Left = </span><span class="cpp1-number">95
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">157
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">238
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">21
+</span><span class="cpp1-space">        ItemHeight = </span><span class="cpp1-number">13
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">9
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxComboBox'
+        Wx_ComboboxStyle = []
+        Wx_EditStyle = []
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCOMBOBOX_TRADUCTEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1068
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxComboBox_traducteur'
+        Wx_PaneName = 'WxComboBox_traducteur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_pays: TWxButton
+        Left = </span><span class="cpp1-number">335
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">107
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">10
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_PAYS'
+        Wx_IDValue = </span><span class="cpp1-number">1094
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_pays'
+        Wx_PaneName = 'WxButton_pays_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_langue: TWxButton
+        Left = </span><span class="cpp1-number">335
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">133
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">11
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_LANGUE'
+        Wx_IDValue = </span><span class="cpp1-number">1095
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_langue'
+        Wx_PaneName = 'WxButton_langue_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_traducteur: TWxButton
+        Left = </span><span class="cpp1-number">335
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">158
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">12
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_TRADUCTEUR'
+        Wx_IDValue = </span><span class="cpp1-number">1096
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_traducteur'
+        Wx_PaneName = 'WxButton_traducteur_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxButton_serie_o: TWxButton
+        Left = </span><span class="cpp1-number">335
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">80
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">19
+</span><span class="cpp1-space">        Caption = '...'
+        TabOrder = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        EVT_BUTTON = 'WxButton_auteurClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXBUTTON_SERIE_O'
+        Wx_IDValue = </span><span class="cpp1-number">1099
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxButton_serie_o'
+        Wx_PaneName = 'WxButton_serie_o_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+    end
+    object n_resume: TWxNoteBookPage
+      Caption = 'resum'#</span><span class="cpp1-number">233
+</span><span class="cpp1-space">      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_RESUME'
+      Wx_IDValue = </span><span class="cpp1-number">1069
+</span><span class="cpp1-space">      object WxStaticText_commentaire: TWxStaticText
+        Left = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Top = -</span><span class="cpp1-number">2
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">71
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'Commentaire :'
+        TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_COMMENTAIRE'
+        Wx_IDValue = </span><span class="cpp1-number">1070
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_commentaire'
+        Wx_PaneName = 'WxStaticText_commentaire_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxStaticText_resume: TWxStaticText
+        Left = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">175
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">49
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">17
+</span><span class="cpp1-space">        Caption = 'R'#</span><span class="cpp1-number">233</span><span class="cpp1-character">'sum'#</span><span class="cpp1-number">233</span><span class="cpp1-character">' :'
+        TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT_RESUME'
+        Wx_IDValue = </span><span class="cpp1-number">1072
+</span><span class="cpp1-space">        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText_resume'
+        Wx_PaneName = 'WxStaticText_resume_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxMemo_commentaire: TWxMemo
+        Left = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">15
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">629
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">159
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        TabOrder = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = [wxTE_MULTILINE]
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_IDName = 'ID_WXMEMO_COMMENTAIRE'
+        Wx_IDValue = </span><span class="cpp1-number">1074
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxMemo_commentaire'
+        Wx_PaneName = 'WxMemo_commentaire_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxMemo_resume: TWxMemo
+        Left = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">192
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">629
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">161
+</span><span class="cpp1-space">        BevelInner = bvNone
+        BevelOuter = bvNone
+        TabOrder = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = [wxTE_MULTILINE]
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_IDName = 'ID_WXMEMO_RESUME'
+        Wx_IDValue = </span><span class="cpp1-number">1076
+</span><span class="cpp1-space">        Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_PaneCaption = 'WxMemo_resume'
+        Wx_PaneName = 'WxMemo_resume_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+    end
+    object n_image_face: TWxNoteBookPage
+      Caption = 'image face'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_IMAGE_FACE'
+      Wx_IDValue = </span><span class="cpp1-number">1077
+</span><span class="cpp1-space">      object WxBitmapButton_face_ouvrir: TWxBitmapButton
+        Left = </span><span class="cpp1-number">605
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          18000000000000030000C30E0000C30E00000000000000000000C8D0D4C8D0D4
+          C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0
+          D4C8D0D4C8D0D4C8D0D4A7B1B64B8EAF4B8EAF4B8EAF4B8EAF4B8EAF4B8EAF4B
+          8EAF4B8EAF4B8EAF4B8EAF4B8EAFC8D0D4C8D0D4C8D0D4C8D0D4A7B1B6A7B1B6
+          65BBDD4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4B8EAFC8D0
+          D4C8D0D4C8D0D4C8D0D4A7B1B6A7B1B69ED0DD8EE3F789DFF685DCF480D8F27A
+          D5F175D2F071CFEF6CCCED4FB0DA4B8EAFC8D0D4C8D0D4C8D0D4A7B1B690E3F8
+          A7B1B697DEF090E3F78BE0F686DCF480DAF37BD6F177D3F071D0EF67C9EC4B8E
+          AFC8D0D4C8D0D4C8D0D4A7B1B6A1ECF8A7B1B69BD2DF92E5F891E4F88BE0F686
+          DCF481DAF37BD6F177D3F071D0EF4FB0DA4B8EAFC8D0D4C8D0D4A7B1B6A8F0F8
+          90E3F8A7B1B698DEF092E5F890E3F88BE0F686DCF480DAF37BD6F177D3F06CCA
+          EB4B8EAFC8D0D4C8D0D4A7B1B6AFF5F8A8F0F8A7B1B69BD3E192E4F892E5F891
+          E4F88CE0F686DDF581DAF37CD7F173D1EF4FB0DA4B8EAFC8D0D4A7B1B6B2F5F8
+          AFF5F890E3F8A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1
+          B6A7B1B6A7B1B6C8D0D4A7B1B6B2F5F8B2F5F8AFF5F890E3F890E3F890E3F890
+          E3F890E3F890E3F890E3F890E3F8A7B1B6C8D0D4C8D0D4C8D0D4A7B1B6B2F5F8
+          B2F5F8B2F5F8AFF5F890E3F8A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6B46C
+          4BB46C4BB46C4BB46C4BA7B1B6B2F5F8B2F5F8B2F5F8B2F5F8A7B1B6C8D0D4C8
+          D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4B46C4BE9BEA6B46C4BC8D0D4A7B1B6
+          A7B1B6A7B1B6A7B1B6C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0
+          D4CF9A75B46C4BB46C4BC8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8
+          D0D4C8D0D4B46C4BCF9A75C8D0D4CF9A75B46C4BC8D0D4B46C4BC8D0D4C8D0D4
+          C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4B46C4BB46C4BB46C
+          4BC8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8
+          D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4}
+        EVT_BUTTON = 'WxBitmapButton_face_ouvrirClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxBitmapButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_BITMAP.Data = {
+          07544269746D617036030000424D360300000000000036000000280000001000
+          0000100000000100180000000000000300000000000000000000000000000000
+          0000C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4
+          C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4A7B1B64B8EAF4B8EAF4B8EAF4B8E
+          AF4B8EAF4B8EAF4B8EAF4B8EAF4B8EAF4B8EAF4B8EAFC8D0D4C8D0D4C8D0D4C8
+          D0D4A7B1B6A7B1B665BBDD4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA4FB0DA
+          4FB0DA4B8EAFC8D0D4C8D0D4C8D0D4C8D0D4A7B1B6A7B1B69ED0DD8EE3F789DF
+          F685DCF480D8F27AD5F175D2F071CFEF6CCCED4FB0DA4B8EAFC8D0D4C8D0D4C8
+          D0D4A7B1B690E3F8A7B1B697DEF090E3F78BE0F686DCF480DAF37BD6F177D3F0
+          71D0EF67C9EC4B8EAFC8D0D4C8D0D4C8D0D4A7B1B6A1ECF8A7B1B69BD2DF92E5
+          F891E4F88BE0F686DCF481DAF37BD6F177D3F071D0EF4FB0DA4B8EAFC8D0D4C8
+          D0D4A7B1B6A8F0F890E3F8A7B1B698DEF092E5F890E3F88BE0F686DCF480DAF3
+          7BD6F177D3F06CCAEB4B8EAFC8D0D4C8D0D4A7B1B6AFF5F8A8F0F8A7B1B69BD3
+          E192E4F892E5F891E4F88CE0F686DDF581DAF37CD7F173D1EF4FB0DA4B8EAFC8
+          D0D4A7B1B6B2F5F8AFF5F890E3F8A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6
+          A7B1B6A7B1B6A7B1B6A7B1B6A7B1B6C8D0D4A7B1B6B2F5F8B2F5F8AFF5F890E3
+          F890E3F890E3F890E3F890E3F890E3F890E3F890E3F8A7B1B6C8D0D4C8D0D4C8
+          D0D4A7B1B6B2F5F8B2F5F8B2F5F8AFF5F890E3F8A7B1B6A7B1B6A7B1B6A7B1B6
+          A7B1B6A7B1B6B46C4BB46C4BB46C4BB46C4BA7B1B6B2F5F8B2F5F8B2F5F8B2F5
+          F8A7B1B6C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4B46C4BE9BEA6B4
+          6C4BC8D0D4A7B1B6A7B1B6A7B1B6A7B1B6C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4
+          C8D0D4C8D0D4C8D0D4CF9A75B46C4BB46C4BC8D0D4C8D0D4C8D0D4C8D0D4C8D0
+          D4C8D0D4C8D0D4C8D0D4C8D0D4B46C4BCF9A75C8D0D4CF9A75B46C4BC8D0D4B4
+          6C4BC8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4
+          B46C4BB46C4BB46C4BC8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0
+          D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8D0D4C8
+          D0D4}
+        Wx_IDName = 'ID_WXBITMAPBUTTON_IMAGE_OUVRIR'
+        Wx_IDValue = </span><span class="cpp1-number">1078
+</span><span class="cpp1-space">        Wx_ToolTip = 'charger une image'
+        Wx_PaneCaption = 'WxBitmapButton_face_ouvrir'
+        Wx_PaneName = 'WxBitmapButton_face_ouvrir_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+      object WxBitmapButton_supp_image_face: TWxBitmapButton
+        Left = </span><span class="cpp1-number">605
+</span><span class="cpp1-space">        Top = </span><span class="cpp1-number">22
+</span><span class="cpp1-space">        Width = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        Height = </span><span class="cpp1-number">20
+</span><span class="cpp1-space">        TabOrder = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">        Glyph.Data = {
+          42020000424D4202000000000000420000002800000010000000100000000100
+          1000030000000002000000000000000000000000000000000000007C0000E003
+          </span><span class="cpp1-float">00001F0000001863186318631863186318631863186318631863186318631863
+</span><span class="cpp1-space">          </span><span class="cpp1-number">1863186318631863186318631863000018631863186318631863186300001863
+</span><span class="cpp1-space">          </span><span class="cpp1-number">1863186318631863186318630000005000001863186318631863000000500000
+</span><span class="cpp1-space">          186318631863186318630000007C006800500000186318630000006800680050
+          00001863186318630000EF7DAD7D007C00680050000000000068007C007C0068
+          005000001863186318630000EF7DAD7D007C0068007C007C007C007C007C0068
+          0000186318631863186318630000EF7DAD7D007C007C007C007C007C00680000
+          18631863186318631863186318630000007C007C007C007C007C007C00001863
+          18631863186318631863186318630000007C007C007C007C007C007C00001863
+          1863186318631863186318630000AD7D007C007C007C007C007C006800500000
+          186318631863186318630000AD7D007C007C007C007C007CAD7D007C00680050
+          00001863186318630000EF7DAD7D007C007CAD7D00000000EF7DAD7D007C0068
+          005000001863186318630000EF7DAD7DAD7D0000186318630000EF7DAD7D007C
+          0000186318631863186318630000EF7D000018631863186318630000EF7D0000
+          </span><span class="cpp1-number">1863186318631863186318631863000018631863186318631863186300001863
+</span><span class="cpp1-space">          </span><span class="cpp1-number">1863186318631863186318631863186318631863186318631863186318631863
+</span><span class="cpp1-space">          </span><span class="cpp1-number">186318631863</span><span class="cpp1-symbol">}
+        EVT_BUTTON = 'WxBitmapButton_supp_image_faceClick'
+        Wx_BKColor = clBlack
+        Wx_ButtonStyle = []
+        Wx_Class = 'wxBitmapButton'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_Default = False
+        Wx_EventList.Strings = (
+          'EVT_BUTTON:OnClick'
+          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_BITMAP.Data = {
+          07544269746D617042020000424D420200000000000042000000280000001000
+          </span><span class="cpp1-octal">0000100000000100100003000000000200000000000000000000000000000000
+</span><span class="cpp1-space">          0000007C0000E00300001F00000018C618C618C618C618C618C618C618C618C6
+          18C618C618C618C618C618C618C618C618C618C618C6000018C618C618C618C6
+          18C618C6000018C618C618C618C618C618C618C6000000A0000018C618C618C6
+          18C6000000A0000018C618C618C618C618C6000000F800D000A0000018C618C6
+          000000D000D000A0000018C618C618C60000CFFB4DFB00F800D000A000000000
+          00D000F800F800D000A0000018C618C618C60000CFFB4DFB00F800D000F800F8
+          00F800F800F800D0000018C618C618C618C618C60000CFFB4DFB00F800F800F8
+          00F800F800D0000018C618C618C618C618C618C618C6000000F800F800F800F8
+          00F800F8000018C618C618C618C618C618C618C618C6000000F800F800F800F8
+          00F800F8000018C618C618C618C618C618C618C600004DFB00F800F800F800F8
+          00F800D000A0000018C618C618C618C618C600004DFB00F800F800F800F800F8
+          4DFB00F800D000A0000018C618C618C60000CFFB4DFB00F800F84DFB00000000
+          CFFB4DFB00F800D000A0000018C618C618C60000CFFB4DFB4DFB000018C618C6
+          0000CFFB4DFB00F8000018C618C618C618C618C60000CFFB000018C618C618C6
+          18C60000CFFB000018C618C618C618C618C618C618C6000018C618C618C618C6
+          18C618C6000018C618C618C618C618C618C618C618C618C618C618C618C618C6
+          18C618C618C618C618C618C618C6}
+        Wx_IDName = 'ID_WXBITMAPBUTTON_SUP_IMAGE'
+        Wx_IDValue = </span><span class="cpp1-number">1080
+</span><span class="cpp1-space">        Wx_ToolTip = 'Supprimer l'#</span><span class="cpp1-number">39</span><span class="cpp1-character">'image'
+        Wx_PaneCaption = 'WxBitmapButton_supp_image_face'
+        Wx_PaneName = 'WxBitmapButton_supp_image_face_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">        Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">      end
+    end
+    object n_image_dos: TWxNoteBookPage
+      Caption = 'image dos'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_WXNOTEBOOKPAGE1'
+      Wx_IDValue = </span><span class="cpp1-number">1081
+</span><span class="cpp1-space">    end
+    object n_image_divers: TWxNoteBookPage
+      Caption = 'image divers'
+      Wx_BKColor = clBlack
+      Wx_Class = 'wxPanel'
+      Wx_ControlOrientation = wxControlVertical
+      Wx_Default = False
+      Wx_EventList.Strings = (
+        'EVT_UPDATE_UI:OnUpdateUI')
+      Wx_FGColor = clBlack
+      Wx_GeneralStyle = []
+      Wx_Hidden = False
+      Wx_IDName = 'ID_N_IMAGE_DIVERS'
+      Wx_IDValue = </span><span class="cpp1-number">1082
+</span><span class="cpp1-space">    end
+  end
+  object WxMemo1: TWxMemo
+    Left = </span><span class="cpp1-number">251
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">10
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">2
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">1
+</span><span class="cpp1-space">    BevelInner = bvNone
+    BevelOuter = bvNone
+    Lines.Strings = (
+      'W'
+      'x'
+      'M'
+      'e'
+      'm'
+      'o'
+      '1')
+    TabOrder = </span><span class="cpp1-number">3
+</span><span class="cpp1-space">    Wx_BGColor = clBlack
+    Wx_Class = 'wxTextCtrl'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_EditStyle = [wxTE_MULTILINE]
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_IDName = 'ID_WXMEMO1'
+    Wx_IDValue = </span><span class="cpp1-number">1101
+</span><span class="cpp1-space">    Wx_MaxLength = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_PaneCaption = 'WxMemo1'
+    Wx_PaneName = 'WxMemo1_Pane'
+    Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+    Wx_Aui_Dockable_Direction = []
+    Wx_Aui_Pane_Style = []
+    Wx_Aui_Pane_Buttons = []
+    Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  end
+  object WxButton_internet_g: TWxButton
+    Left = </span><span class="cpp1-number">530
+</span><span class="cpp1-space">    Top = </span><span class="cpp1-number">383
+</span><span class="cpp1-space">    Width = </span><span class="cpp1-number">101
+</span><span class="cpp1-space">    Height = </span><span class="cpp1-number">28
+</span><span class="cpp1-space">    Caption = 'Recherche internet'
+    TabOrder = </span><span class="cpp1-number">4
+</span><span class="cpp1-space">    EVT_BUTTON = 'WxButton_internet_gClick'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON_INTERNET_G'
+    Wx_IDValue = </span><span class="cpp1-number">1102
+</span><span class="cpp1-space">    Wx_PaneCaption = 'WxButton_internet_g'
+    Wx_PaneName = 'WxButton_internet_g_Pane'
+    Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+    Wx_Aui_Dockable_Direction = []
+    Wx_Aui_Pane_Style = []
+    Wx_Aui_Pane_Buttons = []
+    Wx_BestSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_BestSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MinSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MinSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MaxSize_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_MaxSize_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Height = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Width = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_X_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">    Wx_Floating_Y_Pos = </span><span class="cpp1-number">0
+</span><span class="cpp1-space">  end
+end
+</span></span>
+</code></pre>
+</body>
+</html>

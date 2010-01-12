@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_affiche_image_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        affiche_image.cpp
+// Author:      Fougny
+// Created:     04/10/2007 11:10:12
+// Description: affiche_image class implementation
+//
+//Fougny@gmail.com
+//
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel].
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave;
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement,
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;.
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &quot;affiche_image.h&quot;
+
+</span><span class="cpp1-comment">//Do not add custom headers
+//wxDev-C++ designer will remove them
+////Header Include Start
+////Header Include End
+
+//----------------------------------------------------------------------------
+// affiche_image
+//----------------------------------------------------------------------------
+//Add Custom Events only in the appropriate block.
+//Code added in other places will be removed by wxDev-C++
+////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(affiche_image,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(affiche_image::OnClose)
+	EVT_BUTTON(wxID_CANCEL,affiche_image::WxButton_nouv_annulClick)
+END_EVENT_TABLE()
+</span><span class="cpp1-comment">////Event Table End
+
+</span><span class="cpp1-identifier">affiche_image::affiche_image(wxString c_image, wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style)
+: wxDialog(parent, id, title, position, size, style)
+{
+    </span><span class="cpp1-comment">//chemin_image=c_image;
+</span><span class="cpp1-space">    monimage.LoadFile(c_image);
+	CreateGUIControls();
+}
+
+affiche_image::affiche_image(wxImage i_image, wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style)
+: wxDialog(parent, id, title, position, size, style)
+{
+    </span><span class="cpp1-comment">//chemin_image=c_image;
+</span><span class="cpp1-space">    monimage = i_image;
+	CreateGUIControls();
+}
+
+affiche_image::affiche_image(wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style)
+: wxDialog(parent, id, title, position, size, style)
+{
+	CreateGUIControls();
+}
+
+affiche_image::~affiche_image()
+{
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> affiche_image::CreateGUIControls()
+{
+	</span><span class="cpp1-comment">//Do not add custom code between
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//GUI Items Creation Start and GUI Items Creation End.
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//wxDev-C++ designer will remove them.
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//Add the custom code before or after the blocks
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	WxPanel_image = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXPANEL_IMAGE, wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">427</span><span class="cpp1-symbol">,</span><span class="cpp1-number">524</span><span class="cpp1-symbol">));
+	WxPanel_image-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL,wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;Tahoma&quot;</span><span class="cpp1-symbol">)));
+
+	WxButton_annul = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(WxPanel_image, wxID_CANCEL, wxT(</span><span class="cpp1-string">&quot;Annuler&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">1</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton_annul&quot;</span><span class="cpp1-symbol">));
+	WxButton_annul-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL,wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;Tahoma&quot;</span><span class="cpp1-symbol">)));
+
+	SetTitle(wxT(</span><span class="cpp1-string">&quot;Image&quot;</span><span class="cpp1-symbol">));
+	SetIcon(wxNullIcon);
+	SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">435</span><span class="cpp1-symbol">,</span><span class="cpp1-number">558</span><span class="cpp1-symbol">);
+	Center();
+	
+	</span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> largeur=monimage.GetWidth();
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> hauteur=monimage.GetHeight();
+	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;SetSize(largeur+</span><span class="cpp1-number">7</span><span class="cpp1-symbol">,hauteur+</span><span class="cpp1-number">33</span><span class="cpp1-symbol">);
+	WxPanel_image-&gt;SetSize(largeur, hauteur);
+
+
+	canvas_image = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> ImageCanvas(monimage, WxPanel_image, ID_IMAGECANVAS_1,wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">),wxSize(largeur, hauteur));
+	canvas_image-&gt;set_cliquable(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    canvas_image-&gt;Refresh();
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> affiche_image::OnClose(wxCloseEvent&amp; </span><span class="cpp1-comment">/*event*/</span><span class="cpp1-symbol">)
+{
+	Destroy();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_nouv_annulClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> affiche_image::WxButton_nouv_annulClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-comment">//wxMessageBox(&quot;bouton&quot;,&quot;probleme&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">    SetReturnCode(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    EndModal(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-comment">//Destroy();
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//event.Skip();
+</span><span class="cpp1-symbol">}
+
+</span></span>
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,93 @@
+# Project: biblio
+# Compiler: Default GCC compiler
+# Compiler Type: MingW 3
+# Makefile created by wxDev-C++ 6.10.1 on 13/02/07 14:00
+
+CPP       = g++.exe
+CC        = gcc.exe
+WINDRES   = windres.exe
+OBJ       = ../o/biblioFrameApp.o ../o/biblioFrame.o ../o/liste.o ../o/mabase.o ../o/divers.o ../o/Nouv_livre.o ../o/choix_colonnes.o ../o/liste_champ.o ../o/nouv_autre.o ../o/recherche.o ../o/rech_internet.o ../o/livre_html.o ../o/apropos.o ../o/rech_internet_gen.o ../o/myprintout.o ../o/moncamembert.o ../o/statistique.o ../o/export_html_dlg.o ../o/export_html_textes.o ../o/export_html_images.o ../o/biblio_private.res
+LINKOBJ   = ../o/biblioFrameApp.o ../o/biblioFrame.o ../o/liste.o ../o/mabase.o ../o/divers.o ../o/Nouv_livre.o ../o/choix_colonnes.o ../o/liste_champ.o ../o/nouv_autre.o ../o/recherche.o ../o/rech_internet.o ../o/livre_html.o ../o/apropos.o ../o/rech_internet_gen.o ../o/myprintout.o ../o/moncamembert.o ../o/statistique.o ../o/export_html_dlg.o ../o/export_html_textes.o ../o/export_html_images.o ../o/biblio_private.res
+LIBS      = -L"D:/developpement/Dev-Cpp/Lib" -L"D:/developpement/dev-cpp/sqlite" -mwindows -s -lwxmsw28 -lwxmsw28_gl -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lodbc32 -lopengl32 -lsqlite3 -lcurl  
+INCS      = -I"D:/developpement/Dev-Cpp/Include" -I"D:/developpement/dev-cpp/sqlite"
+CXXINCS   = -I"D:/developpement/Dev-Cpp/lib/gcc/mingw32/3.4.2/include" -I"D:/developpement/Dev-Cpp/include/c++/3.4.2/backward" -I"D:/developpement/Dev-Cpp/include/c++/3.4.2/mingw32" -I"D:/developpement/Dev-Cpp/include/c++/3.4.2" -I"D:/developpement/Dev-Cpp/include" -I"D:/developpement/Dev-Cpp/include/common/wx/msw" -I"D:/developpement/Dev-Cpp/include/common/wx/generic" -I"D:/developpement/Dev-Cpp/include/common/wx/fl" -I"D:/developpement/Dev-Cpp/include/common/wx/gizmos" -I"D:/developpement/Dev-Cpp/include/common/wx/html" -I"D:/developpement/Dev-Cpp/include/common/wx/mmedia" -I"D:/developpement/Dev-Cpp/include/common/wx/net" -I"D:/developpement/Dev-Cpp/include/common/wx/ogl" -I"D:/developpement/Dev-Cpp/include/common/wx/plot" -I"D:/developpement/Dev-Cpp/include/common/wx/protocol" -I"D:/developpement/Dev-Cpp/include/common/wx/stc" -I"D:/developpement/Dev-Cpp/include/common/wx/svg" -I"D:/developpement/Dev-Cpp/include/common/wx/xml" -I"D:/developpement/Dev-Cpp/include/common/wx/xrc" -I"D:/developpement/Dev-Cpp/include/common/wx" -I"D:/developpement/Dev-Cpp/include/common" -I"D:/developpement/dev-cpp/sqlite"
+RCINCS    = --include-dir "D:/DEVELO~1/Dev-Cpp/include/common" -I"D:/DEVELO~1/dev-cpp/include" -I"D:/DEVELO~1/dev-cpp/sqlite"
+BIN       = exe/livrotheque.exe
+DEFINES   = 
+CXXFLAGS  = $(CXXINCS) $(DEFINES) -fno-rtti -fno-exceptions -fno-pcc-struct-return -fstrict-aliasing -Wall -D__WXMSW__ -D__GNUWIN32__ -D__WIN95__   
+CFLAGS    = $(INCS) $(DEFINES) -fno-rtti -fno-exceptions -fno-pcc-struct-return -fstrict-aliasing -Wall -fvtable-thunks -D__WXMSW__ -D__GNUWIN32__ -D__WIN95__   
+GPROF     = gprof.exe
+RM        = rm -f
+LINK      = g++.exe
+
+.PHONY: all all-before all-after clean clean-custom
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	$(RM) $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(LINK) $(LINKOBJ) -o "exe\livrotheque.exe" $(LIBS)
+
+../o/biblioFrameApp.o: $(GLOBALDEPS) biblioFrameApp.cpp biblioFrameApp.h biblioFrame.h mabase.h divers.h choix_colonnes.h liste_champ.h mabase.h nouv_autre.h mabase.h divers.h Nouv_livre.h mabase.h divers.h liste_champ.h nouv_autre.h rech_internet_gen.h livre_html.h divers.h mabase.h divers.h rech_internet.h mabase.h divers.h livre_html.h rech_internet.h recherche.h divers.h Nouv_livre.h apropos.h mabase.h mabase.h statistique.h mabase.h moncamembert.h myprintout.h moncamembert.h export_html_dlg.h mabase.h export_html_textes.h
+	$(CPP) -c biblioFrameApp.cpp -o ../o/biblioFrameApp.o $(CXXFLAGS)
+
+../o/biblioFrame.o: $(GLOBALDEPS) biblioFrame.cpp biblioFrame.h mabase.h divers.h choix_colonnes.h liste_champ.h mabase.h nouv_autre.h mabase.h divers.h Nouv_livre.h mabase.h divers.h liste_champ.h nouv_autre.h rech_internet_gen.h livre_html.h divers.h mabase.h divers.h rech_internet.h mabase.h divers.h livre_html.h rech_internet.h recherche.h divers.h Nouv_livre.h apropos.h mabase.h mabase.h statistique.h mabase.h moncamembert.h myprintout.h moncamembert.h export_html_dlg.h mabase.h export_html_textes.h star1.xpm star2.xpm splash.xpm Images/Self_biblioFrame_XPM.xpm Images/biblioFrame_WxToolButton_about_XPM.xpm Images/biblioFrame_WxToolButton_stat_XPM.xpm Images/biblioFrame_WxToolButton_tri_XPM.xpm Images/biblioFrame_WxToolButton_colonne_XPM.xpm Images/biblioFrame_toolb_inserer_XPM.xpm Images/biblioFrame_toolb_ouvrir_XPM.xpm Images/biblioFrame_toolb_Nouv_XPM.xpm Images/biblioFrame_toolb_quit_XPM.xpm
+	$(CPP) -c biblioFrame.cpp -o ../o/biblioFrame.o $(CXXFLAGS)
+
+../o/liste.o: $(GLOBALDEPS) liste.cpp liste.h
+	$(CPP) -c liste.cpp -o ../o/liste.o $(CXXFLAGS)
+
+../o/mabase.o: $(GLOBALDEPS) mabase.cpp mabase.h
+	$(CPP) -c mabase.cpp -o ../o/mabase.o $(CXXFLAGS)
+
+../o/divers.o: $(GLOBALDEPS) divers.cpp divers.h
+	$(CPP) -c divers.cpp -o ../o/divers.o $(CXXFLAGS)
+
+../o/Nouv_livre.o: $(GLOBALDEPS) Nouv_livre.cpp Nouv_livre.h mabase.h divers.h liste_champ.h mabase.h nouv_autre.h mabase.h divers.h Nouv_livre.h nouv_autre.h rech_internet_gen.h livre_html.h divers.h mabase.h divers.h rech_internet.h mabase.h divers.h livre_html.h rech_internet.h star1.xpm star2.xpm WxBitmapButton_supp_image_face_XPM.xpm WxBitmapButton_face_ouvrir_XPM.xpm
+	$(CPP) -c Nouv_livre.cpp -o ../o/Nouv_livre.o $(CXXFLAGS)
+
+../o/choix_colonnes.o: $(GLOBALDEPS) choix_colonnes.cpp choix_colonnes.h Images/choix_colonnes_WxBitmapButton_bas_XPM.xpm Images/choix_colonnes_WxBitmapButton_haut_XPM.xpm Images/choix_colonnes_WxBitmapButton1_XPM.xpm Images/choix_colonnes_wxButton_enleve_XPM.xpm
+	$(CPP) -c choix_colonnes.cpp -o ../o/choix_colonnes.o $(CXXFLAGS)
+
+../o/liste_champ.o: $(GLOBALDEPS) liste_champ.cpp liste_champ.h mabase.h nouv_autre.h mabase.h divers.h Nouv_livre.h mabase.h divers.h liste_champ.h nouv_autre.h rech_internet_gen.h livre_html.h divers.h mabase.h divers.h rech_internet.h mabase.h divers.h livre_html.h rech_internet.h
+	$(CPP) -c liste_champ.cpp -o ../o/liste_champ.o $(CXXFLAGS)
+
+../o/nouv_autre.o: $(GLOBALDEPS) nouv_autre.cpp nouv_autre.h mabase.h divers.h Nouv_livre.h mabase.h divers.h liste_champ.h mabase.h nouv_autre.h nouv_autre.h rech_internet_gen.h livre_html.h divers.h mabase.h divers.h rech_internet.h mabase.h divers.h livre_html.h rech_internet.h WxBitmapButton_supprime_XPM.xpm WxBitmapButton1_ouvrir_XPM.xpm
+	$(CPP) -c nouv_autre.cpp -o ../o/nouv_autre.o $(CXXFLAGS)
+
+../o/recherche.o: $(GLOBALDEPS) recherche.cpp recherche.h divers.h
+	$(CPP) -c recherche.cpp -o ../o/recherche.o $(CXXFLAGS)
+
+../o/rech_internet.o: $(GLOBALDEPS) rech_internet.cpp rech_internet.h mabase.h divers.h livre_html.h divers.h
+	$(CPP) -c rech_internet.cpp -o ../o/rech_internet.o $(CXXFLAGS)
+
+../o/livre_html.o: $(GLOBALDEPS) livre_html.cpp
+	$(CPP) -c livre_html.cpp -o ../o/livre_html.o $(CXXFLAGS)
+
+../o/apropos.o: $(GLOBALDEPS) apropos.cpp apropos.h mabase.h mabase.h biblio_private.h titre.xpm
+	$(CPP) -c apropos.cpp -o ../o/apropos.o $(CXXFLAGS)
+
+../o/rech_internet_gen.o: $(GLOBALDEPS) rech_internet_gen.cpp rech_internet_gen.h livre_html.h divers.h mabase.h divers.h rech_internet.h mabase.h divers.h livre_html.h
+	$(CPP) -c rech_internet_gen.cpp -o ../o/rech_internet_gen.o $(CXXFLAGS)
+
+../o/myprintout.o: $(GLOBALDEPS) myprintout.cpp
+	$(CPP) -c myprintout.cpp -o ../o/myprintout.o $(CXXFLAGS)
+
+../o/moncamembert.o: $(GLOBALDEPS) moncamembert.cpp moncamembert.h
+	$(CPP) -c moncamembert.cpp -o ../o/moncamembert.o $(CXXFLAGS)
+
+../o/statistique.o: $(GLOBALDEPS) statistique.cpp statistique.h mabase.h moncamembert.h myprintout.h moncamembert.h
+	$(CPP) -c statistique.cpp -o ../o/statistique.o $(CXXFLAGS)
+
+../o/export_html_dlg.o: $(GLOBALDEPS) export_html_dlg.cpp export_html_dlg.h mabase.h export_html_textes.h divers.h template_book_1024_02.xpm template_book_1024_03.xpm template_book_1024_04.xpm template_book_1024_01611.xpm template_book_1024_051015.xpm export_html_images.cpp
+	$(CPP) -c export_html_dlg.cpp -o ../o/export_html_dlg.o $(CXXFLAGS)
+
+../o/export_html_textes.o: $(GLOBALDEPS) export_html_textes.cpp export_html_textes.h
+	$(CPP) -c export_html_textes.cpp -o ../o/export_html_textes.o $(CXXFLAGS)
+
+../o/export_html_images.o: $(GLOBALDEPS) export_html_images.cpp
+	$(CPP) -c export_html_images.cpp -o ../o/export_html_images.o $(CXXFLAGS)
+
+../o/biblio_private.res: ../o/biblio_private.rc biblioApp.rc 
+	$(WINDRES) --input-format=rc -o ../o/biblio_private.res $(RCINCS) ../o/BIBLIO~1.RC -O coff

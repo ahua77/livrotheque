@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_apropos_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">//---------------------------------------------------------------------------
+//
+// Name:        apropos.cpp
+// Author:      Epaillard
+// Created:     29/06/05 17:50:05
+//Copyright ou &copy; ou Copr. PE Epaillard, 29/06/05 
+//
+//Fougny@gmail.com
+// 
+//Ce logiciel est un programme informatique servant &agrave; [rappeler les
+//caract&eacute;ristiques techniques de votre logiciel]. 
+//
+//Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et
+//respectant les principes de diffusion des logiciels libres. Vous pouvez
+//utiliser, modifier et/ou redistribuer ce programme sous les conditions
+//de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA 
+//sur le site &quot;http://www.cecill.info&quot;.
+//
+//En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,
+//de modification et de redistribution accord&eacute;s par cette licence, il n'est
+//offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,
+//seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le
+//titulaire des droits patrimoniaux et les conc&eacute;dants successifs.
+//
+//A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques
+//associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au
+//d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant 
+//donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; 
+//manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels
+//avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les
+//utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du
+//logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la
+//s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, 
+//&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. 
+//
+//Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez 
+//pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les
+//termes.
+//
+//---------------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &lt;wx/settings.h&gt;
+#include &quot;apropos.h&quot;
+#include &lt;livrotheque_private.h&gt;
+#include &quot;titre.xpm&quot;
+</span><span class="cpp1-comment">//Do not add custom headers.
+//wx-dvcpp designer will remove them
+////Header Include Start
+////Header Include End
+
+
+
+//----------------------------------------------------------------------------
+// apropos
+//----------------------------------------------------------------------------
+</span><span class="cpp1-space">     </span><span class="cpp1-comment">//Add Custom Events only in the appropriate Block.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// Code added in  other places will be removed by wx-dvcpp 
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(apropos,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(apropos::aproposClose)
+	EVT_BUTTON(wxID_CANCEL,apropos::WxButton1Click)
+END_EVENT_TABLE()
+    </span><span class="cpp1-comment">////Event Table End
+</span><span class="cpp1-space"> 
+
+
+apropos::apropos( wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    la_belle=NULL;
+    CreateGUIControls();
+}
+
+apropos::apropos( ma_base *pour_insere, wxWindow *parent, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    la_belle=pour_insere;
+    CreateGUIControls();
+}
+
+apropos::~apropos() {} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> apropos::CreateGUIControls(</span><span class="cpp1-reservedword">void</span><span class="cpp1-symbol">)
+{
+    ma_base version;
+    </span><span class="cpp1-comment">//Do not add custom Code here
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//wx-devcpp designer will remove them.
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//Add the custom code before or after the Blocks
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	WxHyperLinkCtrl_URL = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxHyperlinkCtrl(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXHYPERLINKCTRL_URL, wxT(</span><span class="cpp1-string">&quot;Site de livroth&egrave;que&quot;</span><span class="cpp1-symbol">), wxT(</span><span class="cpp1-string">&quot;http://peepaillard.free.fr/&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">, </span><span class="cpp1-number">116</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">205</span><span class="cpp1-symbol">, </span><span class="cpp1-number">22</span><span class="cpp1-symbol">), wxNO_BORDER | wxHL_CONTEXTMENU, wxT(</span><span class="cpp1-string">&quot;WxHyperLinkCtrl_URL&quot;</span><span class="cpp1-symbol">));
+	WxHyperLinkCtrl_URL-&gt;SetToolTip(wxT(</span><span class="cpp1-string">&quot;acc&eacute;der au site de livroth&egrave;que&quot;</span><span class="cpp1-symbol">));
+	WxHyperLinkCtrl_URL-&gt;SetNormalColour(wxColour(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,</span><span class="cpp1-number">255</span><span class="cpp1-symbol">));
+	WxHyperLinkCtrl_URL-&gt;SetFont(wxFont(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;Arial&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_titre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_TITRE, wxT(</span><span class="cpp1-string">&quot;Version :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">216</span><span class="cpp1-symbol">, </span><span class="cpp1-number">116</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_titre&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_titre-&gt;SetFont(wxFont(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;Arial&quot;</span><span class="cpp1-symbol">)));
+
+	WxNotebook1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxNotebook(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXNOTEBOOK1, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">, </span><span class="cpp1-number">138</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">399</span><span class="cpp1-symbol">, </span><span class="cpp1-number">234</span><span class="cpp1-symbol">), wxNB_DEFAULT);
+	WxNotebook1-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxNoteBookPage_base = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE_BASE, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">, </span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">391</span><span class="cpp1-symbol">, </span><span class="cpp1-number">206</span><span class="cpp1-symbol">));
+	WxNoteBookPage_base-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+	WxNotebook1-&gt;AddPage(WxNoteBookPage_base, wxT(</span><span class="cpp1-string">&quot;Base&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_tnom_base = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_base, ID_WXSTATICTEXT_TNOM_BASE, wxT(</span><span class="cpp1-string">&quot;Nom de la base : &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">, </span><span class="cpp1-number">15</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_tnom_base&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_tnom_base-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_nom_base = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_base, ID_WXSTATICTEXT_NOM_BASE, wxT(</span><span class="cpp1-string">&quot;nom&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">90</span><span class="cpp1-symbol">, </span><span class="cpp1-number">15</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_nom_base&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_nom_base-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_tnb_livre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_base, ID_WXSTATICTEXT_TNB_LIVRE, wxT(</span><span class="cpp1-string">&quot;Nombre de livres dans la base :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">5</span><span class="cpp1-symbol">, </span><span class="cpp1-number">60</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_tnb_livre&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_tnb_livre-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_nb_livre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_base, ID_WXSTATICTEXT_NB_LIVRE, wxT(</span><span class="cpp1-string">&quot;nb&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">160</span><span class="cpp1-symbol">, </span><span class="cpp1-number">60</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_nb_livre&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_nb_livre-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_ttaille_base = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_base, ID_WXSTATICTEXT_TTAILLE_BASE, wxT(</span><span class="cpp1-string">&quot;Taille de la base :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">6</span><span class="cpp1-symbol">, </span><span class="cpp1-number">38</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_ttaille_base&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_ttaille_base-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_taille_base = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_base, ID_WXSTATICTEXT_TAILLE_BASE, wxT(</span><span class="cpp1-string">&quot;taille&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">98</span><span class="cpp1-symbol">, </span><span class="cpp1-number">39</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_taille_base&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_taille_base-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxNoteBookPage_tech = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE_tech, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">, </span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">391</span><span class="cpp1-symbol">, </span><span class="cpp1-number">206</span><span class="cpp1-symbol">));
+	WxNoteBookPage_tech-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+	WxNotebook1-&gt;AddPage(WxNoteBookPage_tech, wxT(</span><span class="cpp1-string">&quot;Technique&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText_wx_tversion = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_tech, ID_WXSTATICTEXT_WX_TVERSION, wxT(</span><span class="cpp1-string">&quot;WxWidget Version :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">14</span><span class="cpp1-symbol">, </span><span class="cpp1-number">64</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_wx_tversion&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_wx_tversion-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_wx_version = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_tech, ID_WXSTATICTEXT_WX_VERSION, wxT(</span><span class="cpp1-string">&quot;1.0&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">113</span><span class="cpp1-symbol">, </span><span class="cpp1-number">65</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_wx_version&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_wx_version-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_titre2 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_tech, ID_WXSTATICTEXT_TITRE2, wxT(</span><span class="cpp1-string">&quot;Cr&eacute;&eacute; en utilisant :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">7</span><span class="cpp1-symbol">, </span><span class="cpp1-number">35</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_titre2&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_titre2-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_sqlite_tversion = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_tech, ID_WXSTATICTEXT_SQLITE_TVERSION, wxT(</span><span class="cpp1-string">&quot;Sqlite Version :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">, </span><span class="cpp1-number">90</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_sqlite_tversion&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_sqlite_tversion-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_sqlite_version = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_tech, ID_WXSTATICTEXT_SQLITE_VERSION, wxT(</span><span class="cpp1-string">&quot;1.0&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">86</span><span class="cpp1-symbol">, </span><span class="cpp1-number">91</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_sqlite_version&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_sqlite_version-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_tcurl = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_tech, ID_WXSTATICTEXT_TCURL, wxT(</span><span class="cpp1-string">&quot;Curl Version :&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">11</span><span class="cpp1-symbol">, </span><span class="cpp1-number">118</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_tcurl&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_tcurl-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_curl_version = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_tech, ID_WXSTATICTEXT_CURL_VERSION, wxT(</span><span class="cpp1-string">&quot;1.0&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">79</span><span class="cpp1-symbol">, </span><span class="cpp1-number">119</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_curl_version&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_curl_version-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxNoteBookPage_auteurs = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE_AUTEURS, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">, </span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">391</span><span class="cpp1-symbol">, </span><span class="cpp1-number">206</span><span class="cpp1-symbol">));
+	WxNoteBookPage_auteurs-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+	WxNotebook1-&gt;AddPage(WxNoteBookPage_auteurs, wxT(</span><span class="cpp1-string">&quot;Auteurs&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText2 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT2, wxT(</span><span class="cpp1-string">&quot;Programmeur raleur : Fougny&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">, </span><span class="cpp1-number">31</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText2&quot;</span><span class="cpp1-symbol">));
+	WxStaticText2-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText3 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT3, wxT(</span><span class="cpp1-string">&quot;Testeuse bugueuse : Esilenna&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">14</span><span class="cpp1-symbol">, </span><span class="cpp1-number">58</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText3&quot;</span><span class="cpp1-symbol">));
+	WxStaticText3-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText4 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT4, wxT(</span><span class="cpp1-string">&quot;Maitre de la connexion et des statistiques : Ricco&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">15</span><span class="cpp1-symbol">, </span><span class="cpp1-number">85</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText4&quot;</span><span class="cpp1-symbol">));
+	WxStaticText4-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText5 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT5, wxT(</span><span class="cpp1-string">&quot;Graphiste bougon : Shmirkin&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">16</span><span class="cpp1-symbol">, </span><span class="cpp1-number">116</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText5&quot;</span><span class="cpp1-symbol">));
+	WxStaticText5-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT1, wxT(</span><span class="cpp1-string">&quot;Et merci &agrave; tous les forumeurs pour leurs remarques aussi diverses que vari&eacute;es.&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">11</span><span class="cpp1-symbol">, </span><span class="cpp1-number">173</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText1&quot;</span><span class="cpp1-symbol">));
+	WxStaticText1-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	</span><span class="cpp1-comment">/* Information sur la license de livrotheque
+	*/
+</span><span class="cpp1-space">	WxNoteBookPage_license = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE_LICENSE, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">, </span><span class="cpp1-number">24</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">391</span><span class="cpp1-symbol">, </span><span class="cpp1-number">206</span><span class="cpp1-symbol">));
+	WxNoteBookPage_license-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+	WxNotebook1-&gt;AddPage(WxNoteBookPage_license, wxT(</span><span class="cpp1-string">&quot;License&quot;</span><span class="cpp1-symbol">));
+
+	WxMemo_license = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(WxNoteBookPage_license, ID_WXMEMO_LICENSE, wxEmptyString, wxPoint(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">, </span><span class="cpp1-number">2</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">388</span><span class="cpp1-symbol">, </span><span class="cpp1-number">204</span><span class="cpp1-symbol">), wxTE_READONLY | wxTE_AUTO_URL | wxTE_MULTILINE, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxMemo_license&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;SetMaxLength(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;Copyright PE Epaillard , 01/01/2005\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;fougny@gmail.com\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;Ce logiciel est un programme informatique servant &agrave; G&eacute;rer \n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;une biblioth&egrave;que personnelle. \n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;Ce logiciel est r&eacute;gi par la licence CeCILL soumise au droit fran&ccedil;ais et\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;respectant les principes de diffusion des logiciels libres. Vous pouvez\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;utiliser, modifier et/ou redistribuer ce programme sous les conditions\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;de la licence CeCILL telle que diffus&eacute;e par le CEA, le CNRS et l'INRIA \n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;sur le site \&quot;http://www.cecill.info\&quot;.\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;En contrepartie de l'accessibilit&eacute; au code source et des droits de copie,\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;de modification et de redistribution accord&eacute;s par cette licence, il n'est\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;offert aux utilisateurs qu'une garantie limit&eacute;e.  Pour les m&ecirc;mes raisons,\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;seule une responsabilit&eacute; restreinte p&egrave;se sur l'auteur du programme,  le\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;titulaire des droits patrimoniaux et les conc&eacute;dants successifs.\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;A cet &eacute;gard  l'attention de l'utilisateur est attir&eacute;e sur les risques\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;associ&eacute;s au chargement,  &agrave; l'utilisation,  &agrave; la modification et/ou au\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;d&eacute;veloppement et &agrave; la reproduction du logiciel par l'utilisateur &eacute;tant \n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;donn&eacute; sa sp&eacute;cificit&eacute; de logiciel libre, qui peut le rendre complexe &agrave; \n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;manipuler et qui le r&eacute;serve donc &agrave; des d&eacute;veloppeurs et des professionnels\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;avertis poss&eacute;dant  des  connaissances  informatiques approfondies.  Les\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;utilisateurs sont donc invit&eacute;s &agrave; charger  et  tester  l'ad&eacute;quation  du\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;logiciel &agrave; leurs besoins dans des conditions permettant d'assurer la\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;s&eacute;curit&eacute; de leurs syst&egrave;mes et ou de leurs donn&eacute;es et, plus g&eacute;n&eacute;ralement, \n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;&agrave; l'utiliser et l'exploiter dans les m&ecirc;mes conditions de s&eacute;curit&eacute;. \n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;Le fait que vous puissiez acc&eacute;der &agrave; cet en-t&ecirc;te signifie que vous avez \n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;pris connaissance de la licence CeCILL, et que vous en avez accept&eacute; les\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;AppendText(wxT(</span><span class="cpp1-string">&quot;termes.\n&quot;</span><span class="cpp1-symbol">));
+	WxMemo_license-&gt;SetFocus();
+	WxMemo_license-&gt;SetInsertionPointEnd();
+	WxMemo_license-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	WxStaticText_nver = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICTEXT_NVER, wxT(</span><span class="cpp1-string">&quot;1.0&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">284</span><span class="cpp1-symbol">, </span><span class="cpp1-number">116</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText_nver&quot;</span><span class="cpp1-symbol">));
+	WxStaticText_nver-&gt;SetFont(wxFont(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;Arial&quot;</span><span class="cpp1-symbol">)));
+
+	WxButton2 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, wxID_CANCEL, wxT(</span><span class="cpp1-string">&quot;OK&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">145</span><span class="cpp1-symbol">, </span><span class="cpp1-number">372</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">96</span><span class="cpp1-symbol">, </span><span class="cpp1-number">34</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;WxButton2&quot;</span><span class="cpp1-symbol">));
+	WxButton2-&gt;SetFont(wxFont(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">, wxSWISS, wxNORMAL, wxNORMAL, </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;MS Sans Serif&quot;</span><span class="cpp1-symbol">)));
+
+	SetTitle(wxT(</span><span class="cpp1-string">&quot;a propos&quot;</span><span class="cpp1-symbol">));
+	SetIcon(wxNullIcon);
+	SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">421</span><span class="cpp1-symbol">,</span><span class="cpp1-number">448</span><span class="cpp1-symbol">);
+	Center();
+	
+    </span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-space">	wxBitmap WxStaticBitmap_titre_BITMAP(titre_xpm);
+	WxStaticBitmap_titre = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticBitmap(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXSTATICBITMAP_TITRE, WxStaticBitmap_titre_BITMAP, wxPoint(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">,</span><span class="cpp1-number">0</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">385</span><span class="cpp1-symbol">,</span><span class="cpp1-number">116</span><span class="cpp1-symbol">));
+	WxStaticBitmap_titre-&gt;Enable(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+    WxStaticText_nver-&gt;SetLabel(VER_STRING);
+    WxStaticText_wx_version-&gt;SetLabel(wxVERSION_STRING);
+    WxStaticText_sqlite_version-&gt;SetLabel(version.get_version());
+    WxStaticText_curl_version-&gt;SetLabel(curl_version());
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (la_belle == NULL || la_belle-&gt;ouverte() == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        WxNotebook1-&gt;DeletePage(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        init_donnee_base();
+    }
+    WxMemo_license-&gt;ShowPosition(</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+    </span><span class="cpp1-comment">//WxMemo_URL-&gt;SetBackgroundColour(this-&gt;GetBackgroundColour());
+//    WxMemo_URL-&gt;SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNHIGHLIGHT));
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">//WxMemo_URL-&gt;Refresh();
+</span><span class="cpp1-symbol">}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> apropos::init_donnee_base() {
+    wxFileName le_fichier(la_belle-&gt;ma_base::get_nombase());
+    wxString query, texte, taille_for, tampon;
+    </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ret, taille;
+    wxFile fichier;
+    </span><span class="cpp1-comment">//double t_fichier;
+</span><span class="cpp1-space">    
+    </span><span class="cpp1-comment">// nom de la base
+</span><span class="cpp1-space">    WxStaticText_nom_base-&gt;SetLabel(le_fichier.GetFullName());
+    
+    </span><span class="cpp1-comment">// taille de la base
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fichier.Open(la_belle-&gt;ma_base::get_nombase(), wxFile::read) == </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">) {
+        wxMessageBox(</span><span class="cpp1-string">&quot;plouf&quot;</span><span class="cpp1-symbol">,</span><span class="cpp1-string">&quot;coco&quot;</span><span class="cpp1-symbol">, wxOK | wxICON_INFORMATION, </span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">);
+    }
+    texte.Printf(</span><span class="cpp1-string">&quot;%.lf&quot;</span><span class="cpp1-symbol">,(fichier.Length()/</span><span class="cpp1-float">1024.0</span><span class="cpp1-symbol">));
+    taille_for=</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (texte.Length() &gt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        taille =texte.Length()-</span><span class="cpp1-number">3</span><span class="cpp1-symbol">;
+        tampon=taille_for;
+        </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (taille &lt; </span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+            taille=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+        </span><span class="cpp1-comment">//taille_for.Printf(&quot;% %&quot;,texte.Mid(taille), taille_for);
+</span><span class="cpp1-space">        taille_for=texte.Mid(taille)+ </span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-space"> + tampon;
+        texte.Truncate(taille);
+        </span><span class="cpp1-comment">//wxMessageBox(taille_for + &quot;|&quot; + texte,&quot;coco&quot;, wxOK | wxICON_INFORMATION, this);
+</span><span class="cpp1-space">    }
+        
+    WxStaticText_taille_base-&gt;SetLabel(taille_for + </span><span class="cpp1-string">&quot; Ko&quot;</span><span class="cpp1-symbol">);
+
+    </span><span class="cpp1-comment">// on compte le nombre de livres
+</span><span class="cpp1-space">    query=</span><span class="cpp1-string">&quot;Select count(*) from livre&quot;</span><span class="cpp1-symbol">;
+    ret=la_belle-&gt;transac_prepare(query);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret&gt;=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) {
+        ret=la_belle-&gt;transac_step();
+    }
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (ret==SQLITE_ROW) {
+        la_belle-&gt;get_value_char(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">,texte,taille);
+    }
+    la_belle-&gt;transac_fin();
+    WxStaticText_nb_livre-&gt;SetLabel(texte);
+}
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> apropos::aproposClose(wxCloseEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// --&gt; Don't use Close with a wxDialog,
+</span><span class="cpp1-space">    </span><span class="cpp1-comment">// use Destroy instead.
+</span><span class="cpp1-space">    Destroy();
+}
+ 
+
+</span><span class="cpp1-comment">/*
+ * WxButton1Click
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> apropos::WxButton1Click(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">    Destroy();
+	event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxMemo1ClickUrl
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> apropos::WxMemo1ClickUrl(wxTextUrlEvent&amp; event)
+{
+    wxMouseEvent souris=event.GetMouseEvent();
+    
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (souris.m_leftDown == </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">) {
+        ::wxLaunchDefaultBrowser(</span><span class="cpp1-string">&quot;http://peepaillard.free.fr/&quot;</span><span class="cpp1-symbol">);
+</span><span class="cpp1-comment">//        ::wxShell(&quot;start &quot;+WxMemo_URL-&gt;GetValue()+&quot;&quot;);
+</span><span class="cpp1-space">    }
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">    souris.Skip();
+	event.Skip();
+}
+
+</span><span class="cpp1-comment">/*
+ * WxButton_siteClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> apropos::WxButton_siteClick(wxCommandEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// insert your code here
+</span><span class="cpp1-space">	::wxLaunchDefaultBrowser(</span><span class="cpp1-string">&quot;http://peepaillard.free.fr/&quot;</span><span class="cpp1-symbol">);
+}
+</span></span>
+</code></pre>
+</body>
+</html>

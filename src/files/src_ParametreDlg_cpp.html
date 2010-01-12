@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>src_ParametreDlg_cpp.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #3399FF; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-comment">///-----------------------------------------------------------------
+///
+/// @file      ParametreDlg.cpp
+/// @author    stephane
+/// Created:   12/12/2009 18:10:19
+/// @section   DESCRIPTION
+///            ParametreDlg class implementation
+///
+///------------------------------------------------------------------
+
+</span><span class="cpp1-preprocessor">#include &quot;ParametreDlg.h&quot;
+
+</span><span class="cpp1-comment">//Do not add custom headers
+//wxDev-C++ designer will remove them
+////Header Include Start
+////Header Include End
+
+</span><span class="cpp1-preprocessor">#include &quot;ParamManager.h&quot;
+
+</span><span class="cpp1-comment">//----------------------------------------------------------------------------
+// ParametreDlg
+//----------------------------------------------------------------------------
+//Add Custom Events only in the appropriate block.
+//Code added in other places will be removed by wxDev-C++
+////Event Table Start
+</span><span class="cpp1-identifier">BEGIN_EVENT_TABLE(ParametreDlg,wxDialog)
+	</span><span class="cpp1-comment">////Manual Code Start
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////Manual Code End
+</span><span class="cpp1-space">	
+	EVT_CLOSE(ParametreDlg::OnClose)
+	EVT_INIT_DIALOG(ParametreDlg::ParametreDlgInitDialog)
+	EVT_BUTTON(ID_WX_BNCANCEL,ParametreDlg::BN_CANCELClick)
+	EVT_BUTTON(ID_WX_BNOK,ParametreDlg::BN_OKClick)
+	EVT_CHECKBOX(ID_WXCHECKBOX1,ParametreDlg::CK_useTopNClick)
+END_EVENT_TABLE()
+</span><span class="cpp1-comment">////Event Table End
+
+</span><span class="cpp1-identifier">ParametreDlg::ParametreDlg(wxWindow *parent, ma_base&amp; pBaseConfig, wxWindowID id, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxString &amp;title, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxPoint &amp;position, </span><span class="cpp1-reservedword">const</span><span class="cpp1-space"> wxSize&amp; size, </span><span class="cpp1-reservedword">long</span><span class="cpp1-space"> style)
+: wxDialog(parent, id, title, position, size, style), baseConfig(pBaseConfig)
+{
+	CreateGUIControls();
+}
+
+ParametreDlg::~ParametreDlg()
+{
+} 
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParametreDlg::CreateGUIControls()
+{
+	</span><span class="cpp1-comment">//Do not add custom code between
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//GUI Items Creation Start and GUI Items Creation End.
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//wxDev-C++ designer will remove them.
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">//Add the custom code before or after the blocks
+</span><span class="cpp1-space">	</span><span class="cpp1-comment">////GUI Items Creation Start
+
+</span><span class="cpp1-space">	WxNotebook1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxNotebook(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WXNOTEBOOK1, wxPoint(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">425</span><span class="cpp1-symbol">, </span><span class="cpp1-number">265</span><span class="cpp1-symbol">), wxNB_DEFAULT);
+
+	WxNoteBookPage1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE1, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">, </span><span class="cpp1-number">26</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">417</span><span class="cpp1-symbol">, </span><span class="cpp1-number">235</span><span class="cpp1-symbol">));
+	WxNotebook1-&gt;AddPage(WxNoteBookPage1, wxT(</span><span class="cpp1-string">&quot;G&eacute;n&eacute;ral&quot;</span><span class="cpp1-symbol">));
+
+	WxNoteBookPage2 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE2, wxPoint(</span><span class="cpp1-number">4</span><span class="cpp1-symbol">, </span><span class="cpp1-number">26</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">417</span><span class="cpp1-symbol">, </span><span class="cpp1-number">235</span><span class="cpp1-symbol">));
+	WxNotebook1-&gt;AddPage(WxNoteBookPage2, wxT(</span><span class="cpp1-string">&quot;Statistiques&quot;</span><span class="cpp1-symbol">));
+
+	CK_useTopN = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxCheckBox(WxNoteBookPage2, ID_WXCHECKBOX1, wxT(</span><span class="cpp1-string">&quot;Limiter l'affichage aux &quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">12</span><span class="cpp1-symbol">, </span><span class="cpp1-number">14</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">137</span><span class="cpp1-symbol">, </span><span class="cpp1-number">17</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;CK_useTopN&quot;</span><span class="cpp1-symbol">));
+
+	ET_ValueTopN = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxTextCtrl(WxNoteBookPage2, ID_WXEDIT1, wxT(</span><span class="cpp1-string">&quot;ET_ValueTopN&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">156</span><span class="cpp1-symbol">, </span><span class="cpp1-number">13</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">41</span><span class="cpp1-symbol">, </span><span class="cpp1-number">19</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;ET_ValueTopN&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticText1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticText(WxNoteBookPage2, ID_WXSTATICTEXT1, wxT(</span><span class="cpp1-string">&quot;premiers r&eacute;sultats&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">204</span><span class="cpp1-symbol">, </span><span class="cpp1-number">13</span><span class="cpp1-symbol">), wxDefaultSize, </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxT(</span><span class="cpp1-string">&quot;WxStaticText1&quot;</span><span class="cpp1-symbol">));
+
+	WxStaticLine1 = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxStaticLine(WxNoteBookPage2, ID_WXSTATICLINE1, wxPoint(-</span><span class="cpp1-number">4</span><span class="cpp1-symbol">, </span><span class="cpp1-number">38</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">422</span><span class="cpp1-symbol">, -</span><span class="cpp1-number">1</span><span class="cpp1-symbol">), wxLI_HORIZONTAL);
+
+	BN_OK = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WX_BNOK, wxT(</span><span class="cpp1-string">&quot;OK&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">80</span><span class="cpp1-symbol">, </span><span class="cpp1-number">272</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">75</span><span class="cpp1-symbol">, </span><span class="cpp1-number">25</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;BN_OK&quot;</span><span class="cpp1-symbol">));
+
+	BN_CANCEL = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> wxButton(</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">, ID_WX_BNCANCEL, wxT(</span><span class="cpp1-string">&quot;Annuler&quot;</span><span class="cpp1-symbol">), wxPoint(</span><span class="cpp1-number">248</span><span class="cpp1-symbol">, </span><span class="cpp1-number">272</span><span class="cpp1-symbol">), wxSize(</span><span class="cpp1-number">75</span><span class="cpp1-symbol">, </span><span class="cpp1-number">25</span><span class="cpp1-symbol">), </span><span class="cpp1-number">0</span><span class="cpp1-symbol">, wxDefaultValidator, wxT(</span><span class="cpp1-string">&quot;BN_CANCEL&quot;</span><span class="cpp1-symbol">));
+
+	SetTitle(wxT(</span><span class="cpp1-string">&quot;Param&egrave;tres&quot;</span><span class="cpp1-symbol">));
+	SetIcon(wxNullIcon);
+	SetSize(</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">8</span><span class="cpp1-symbol">,</span><span class="cpp1-number">442</span><span class="cpp1-symbol">,</span><span class="cpp1-number">334</span><span class="cpp1-symbol">);
+	Center();
+	
+	</span><span class="cpp1-comment">////GUI Items Creation End
+</span><span class="cpp1-symbol">}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParametreDlg::OnClose(wxCloseEvent&amp; </span><span class="cpp1-comment">/*event*/</span><span class="cpp1-symbol">)
+{
+	Destroy();
+}
+
+</span><span class="cpp1-comment">/*
+ * BN_OKClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParametreDlg::BN_OKClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// sauvegarder en base les param&egrave;tres de tous les onglets
+</span><span class="cpp1-space">	ParamManager* param = ParamManager::GetInstance();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!param) {
+        wxMessageBox (</span><span class="cpp1-string">&quot;instance de ParamManager non cr&eacute;&eacute;e&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    wxString val1, val2;
+
+    </span><span class="cpp1-comment">// ligne STAT / USE_TOP_N
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (CK_useTopN-&gt;GetValue()) {
+        val1 = </span><span class="cpp1-string">&quot;T&quot;</span><span class="cpp1-symbol">;
+        val2 = ET_ValueTopN-&gt;GetValue();
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        val1 = </span><span class="cpp1-string">&quot;F&quot;</span><span class="cpp1-symbol">;
+        val2 = </span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">;
+    }
+    param-&gt;Set(</span><span class="cpp1-string">&quot;STAT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;USE_TOP_N&quot;</span><span class="cpp1-symbol">, val1, val2);
+        
+        
+        
+        
+    </span><span class="cpp1-comment">// fermer la fen&ecirc;tre
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;EndDialog(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-comment">/*
+ * BN_CANCELClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParametreDlg::BN_CANCELClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// fermer la fen&ecirc;tre
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">this</span><span class="cpp1-symbol">-&gt;EndDialog(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-comment">/*
+ * CK_useTopNClick
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParametreDlg::CK_useTopNClick(wxCommandEvent&amp; event)
+{
+    </span><span class="cpp1-comment">// rendre actif / inactif le champ de saisie ET_valueTopN
+</span><span class="cpp1-space">    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (CK_useTopN-&gt;GetValue())
+        ET_ValueTopN-&gt;Enable();
+    </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">        ET_ValueTopN-&gt;Disable();
+}
+
+</span><span class="cpp1-comment">/*
+ * ParametreDlgInitDialog
+ */
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> ParametreDlg::ParametreDlgInitDialog(wxInitDialogEvent&amp; event)
+{
+	</span><span class="cpp1-comment">// initialiser en fonction des valeurs pr&eacute;sentes en base
+</span><span class="cpp1-space">	ParamManager* param = ParamManager::GetInstance();
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (!param) {
+        wxMessageBox (</span><span class="cpp1-string">&quot;instance de ParamManager non cr&eacute;&eacute;e&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">return</span><span class="cpp1-symbol">;
+    }
+    
+    wxString val1 = </span><span class="cpp1-string">&quot;T&quot;</span><span class="cpp1-symbol">;
+    wxString val2 = </span><span class="cpp1-string">&quot;20&quot;</span><span class="cpp1-symbol">;
+    param-&gt;GetOrSet(</span><span class="cpp1-string">&quot;STAT&quot;</span><span class="cpp1-symbol">, </span><span class="cpp1-string">&quot;USE_TOP_N&quot;</span><span class="cpp1-symbol">, val1, val2);
+    </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (val1 == </span><span class="cpp1-string">&quot;T&quot;</span><span class="cpp1-symbol">) {
+        CK_useTopN-&gt;SetValue(</span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">);
+        ET_ValueTopN-&gt;SetValue(val2);
+    } </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> {
+        CK_useTopN-&gt;SetValue(</span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">);
+        ET_ValueTopN-&gt;SetValue(</span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">);
+    }	
+	
+	</span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (CK_useTopN-&gt;GetValue())
+	   ET_ValueTopN-&gt;Enable();
+	</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">	   ET_ValueTopN-&gt;Disable();
+}
+
+</span></span>
+</code></pre>
+</body>
+</html>
