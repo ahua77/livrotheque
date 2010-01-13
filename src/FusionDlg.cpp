@@ -1,7 +1,7 @@
 ///-----------------------------------------------------------------
 ///
 /// @file      FusionDlg.cpp
-/// @author    
+/// @author    cubbiste
 /// Created:   10/12/2009 00:38:40
 /// @section   DESCRIPTION
 ///            FusionDlg class implementation
@@ -134,11 +134,18 @@ void FusionDlg::OnClose(wxCloseEvent& /*event*/)
 void FusionDlg::FusionDlgInitDialog(wxInitDialogEvent& event)
 {
     CB_typeGroupe->AppendString("auteur");
+    CB_typeGroupe->AppendString("serie");
+    CB_typeGroupe->AppendString("genre");
     CB_typeGroupe->AppendString("editeur");
     CB_typeGroupe->AppendString("format");
-    CB_typeGroupe->AppendString("genre");
+    CB_typeGroupe->AppendString("artiste");
+    CB_typeGroupe->AppendString("etat");
+    CB_typeGroupe->AppendString("localisation");
+    CB_typeGroupe->AppendString("serie_o");
     CB_typeGroupe->AppendString("pays");
-    CB_typeGroupe->Select(1);  // selection editeur par défaut
+    CB_typeGroupe->AppendString("langue");
+    CB_typeGroupe->AppendString("traducteur");
+    CB_typeGroupe->Select(3);  // selection editeur par défaut
     
     CB_typeTri->AppendString("trier par nombre de titres");
     CB_typeTri->AppendString("trier par ordre alphabétique");
