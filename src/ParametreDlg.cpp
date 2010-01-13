@@ -1,7 +1,7 @@
 ///-----------------------------------------------------------------
 ///
 /// @file      ParametreDlg.cpp
-/// @author    
+/// @author    cubbiste
 /// Created:   12/12/2009 18:10:19
 /// @section   DESCRIPTION
 ///            ParametreDlg class implementation
@@ -66,8 +66,8 @@ BEGIN_EVENT_TABLE(ParametreDlg,wxDialog)
 END_EVENT_TABLE()
 ////Event Table End
 
-ParametreDlg::ParametreDlg(wxWindow *parent, ma_base& pBaseConfig, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
-: wxDialog(parent, id, title, position, size, style), baseConfig(pBaseConfig)
+ParametreDlg::ParametreDlg(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
+: wxDialog(parent, id, title, position, size, style)
 {
 	CreateGUIControls();
 }

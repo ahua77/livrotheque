@@ -137,6 +137,9 @@ public:
 			ID_MNU_1020 = 1020,
 			ID_MNU_QUITTER_1011 = 1011,
 			ID_MNU_OUTIL_1017 = 1017,
+// debut 2010-01-13			- pb wxDecCpp : les ID sont affectées "à la main"
+			ID_MNU_PARAMETRES = 2017,
+// fin 2010-01-13
 			ID_MNU_ORDREDETRI = 1018,
 			ID_MNU_CHOIXCOLONNES_1024 = 1024,
 			ID_MNU_LISTES_1027 = 1027,

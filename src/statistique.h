@@ -130,6 +130,7 @@ public:
 			ID_MNU_BARRESCOMMENTEES_1026 = 1026,
 			ID_MNU__OPTION_1004 = 1004,
 			ID_MNU_GESTIONDESCOULEURS_1005 = 1005,
+			ID_MNU_PARAMETRER = 2001,
 			
 ////GUI Enum Control ID End
 ID_WXCAMEMBERT = 2500,
@@ -154,6 +155,8 @@ public:
 	void Mnuaperuavantimpression1007Click(wxCommandEvent& event);
 	void MnuAffSwitch1009Click(wxCommandEvent& event);
 	void MnuGraph1013Click(wxCommandEvent& event);
+	
+	void parametrer(wxCommandEvent& event);
 //int comparemois(const wxString& first, const wxString& second);
 
 };

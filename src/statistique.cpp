@@ -48,6 +48,7 @@
 ////Header Include End
 
 #include "ParamManager.h"
+#include "ParametreDlg.h"
 
 //----------------------------------------------------------------------------
 // statistique
@@ -83,6 +84,7 @@ BEGIN_EVENT_TABLE(statistique,wxFrame)
 	EVT_MENU(ID_MNU_CAMEMBERT_1010, statistique::MnuAffSwitch1009Click)
 	EVT_MENU(ID_MNU_BARRESCOMMENTEES_1026, statistique::MnuAffSwitch1009Click)
 	EVT_MENU(ID_MNU_GESTIONDESCOULEURS_1005, statistique::Mnugestiondescouleurs1005Click)
+	EVT_MENU(ID_MNU_PARAMETRER, statistique::parametrer)
 END_EVENT_TABLE()
     ////Event Table End
 
@@ -165,6 +167,7 @@ void statistique::CreateGUIControls(void)
 	
 	wxMenu *ID_MNU__OPTION_1004_Mnu_Obj = new wxMenu(0);
 	ID_MNU__OPTION_1004_Mnu_Obj->Append(ID_MNU_GESTIONDESCOULEURS_1005, wxT("Gestion des &couleurs"), wxT(""), wxITEM_NORMAL);
+	ID_MNU__OPTION_1004_Mnu_Obj->Append(ID_MNU_PARAMETRER, wxT("Paramètres"), wxT("Configuration générale de l'application"), wxITEM_NORMAL);
 	WxMenuBar_stat->Append(ID_MNU__OPTION_1004_Mnu_Obj, wxT("&Option"));
 	SetMenuBar(WxMenuBar_stat);
     ////GUI Items Creation End
@@ -195,6 +198,14 @@ void statistique::Mnuquitter1002Click(wxCommandEvent& event)
 	// insert your code here
     Hide();
 }
+
+void statistique::parametrer(wxCommandEvent& event)
+{
+    ParametreDlg dlg(this);
+    dlg.ShowModal();
+    actualiser();
+}
+
 
 void statistique::init_tableaux(wxString nom_table) {
 //    int i,j;

@@ -1,7 +1,7 @@
 ///-----------------------------------------------------------------
 ///
 /// @file      ParametreDlg.h
-/// @author    
+/// @author    cubbiste
 /// Created:   12/12/2009 18:10:19
 /// @section   DESCRIPTION
 ///            ParametreDlg class declaration
@@ -66,8 +66,6 @@
 #include <wx/notebook.h>
 ////Header Include End
 
-#include "mabase.h"
-
 ////Dialog Style Start
 #undef ParametreDlg_STYLE
 #define ParametreDlg_STYLE wxCAPTION | wxSYSTEM_MENU | wxDIALOG_NO_PARENT | wxMINIMIZE_BOX | wxCLOSE_BOX
@@ -80,7 +78,7 @@ class ParametreDlg : public wxDialog
 		DECLARE_EVENT_TABLE();
 		
 	public:
-		ParametreDlg(wxWindow *parent, ma_base& pBaseConfig, wxWindowID id = 1, const wxString &title = wxT("Paramètres"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = ParametreDlg_STYLE);
+		ParametreDlg(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("Paramètres"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = ParametreDlg_STYLE);
 		virtual ~ParametreDlg();
 		void BN_CANCELClick(wxCommandEvent& event);
 		void CK_useTopNClick(wxCommandEvent& event);
@@ -156,8 +154,6 @@ class ParametreDlg : public wxDialog
 	private:
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
-		
-		ma_base& baseConfig;
 };
 
 #endif

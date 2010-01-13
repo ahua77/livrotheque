@@ -122,6 +122,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU_IMPORTERCVS_1026, biblioFrame::MnuimportercvsClick)
 	EVT_MENU(ID_MNU_QUITTER_1011, biblioFrame::toolb_quitClick)
 	EVT_MENU(ID_MNU_ORDREDETRI, biblioFrame::MnuordredetriClick)
+	EVT_MENU(ID_MNU_PARAMETRES, biblioFrame::parametrer)
 	EVT_MENU(ID_MNU_CHOIXCOLONNES_1024, biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_MNU_LISTE_AUTEUR, biblioFrame::Mnulistes)
 	EVT_MENU(ID_MNU_LISTE_SERIE, biblioFrame::Mnulistes)
@@ -161,7 +162,7 @@ biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title
     // creation d'un param manager pour la base config qui reste actif pendant toute la duree de vie du programme
     wxString fichier_conf;    
     fichier_conf=::wxGetCwd();
-    fichier_conf+="\\config";
+    fichier_conf+=wxFileName::GetPathSeparators()+"config";
     config.ouvrir(fichier_conf);
     ParamManager* param = new ParamManager(config, "config");
 
@@ -414,6 +415,7 @@ void biblioFrame::CreateGUIControls(void)
 	monmenu->Append(ID_MNU_FICHIER_QUIT_Mnu_Obj, wxT("Fichier"));
 	
 	wxMenu *ID_MNU_OUTIL_1017_Mnu_Obj = new wxMenu(0);
+	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_PARAMETRES, wxT("Paramètres"), wxT("Configuration de l'application"), wxITEM_NORMAL);
 	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_ORDREDETRI, wxT("Ordre de tri"), wxT("Permet de Choisir les colonnes utilisées pour le tri"), wxITEM_NORMAL);
 	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_CHOIXCOLONNES_1024, wxT("Choix des colonnes affichées"), wxT(""), wxITEM_NORMAL);
 	
@@ -684,7 +686,7 @@ void biblioFrame::insererClickIsbn(wxCommandEvent& event)
 
 void biblioFrame::parametrer(wxCommandEvent& event)
 {
-    ParametreDlg dlg(this, config);
+    ParametreDlg dlg(this);
     dlg.ShowModal();
 }
 
@@ -1249,59 +1251,6 @@ void biblioFrame::sauve_config() {
         param->Set("config", "INIT", "SPLIT_P", (long)(split_princip->GetSashPosition()));
         param->Set("config", "INIT", "SPLIT_D", (long)(split_droit->GetSashPosition()));
     }
-
-/*
-    wxString fichier_conf;
-    wxString query, mess;
-    int i, ret;
-    
-    fichier_conf=::wxGetCwd();
-    fichier_conf+="\\config";
-    config.ouvrir(fichier_conf);
-    if (config.existe("config") == true) {
-        query = "DROP TABLE config";
-        config.exec_rapide(query);
-    }
-    query="CREATE TABLE config (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)";
-    config.exec_rapide(query);
-    // sauvegarde de la base en cours de lecture (pour la réouvrir lors du prochain lancement
-    query="INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'BASE', '"+amoi.get_nombase()+"')";
-    //wxMessageBox(query,"probleme", wxOK | wxICON_EXCLAMATION, this);
-    config.exec_rapide(query);
-    // sauvegarde de la position/taille...
-    int x,y;
-    wxString str_x,str_y;
-    if (this->IsMaximized() == true) {
-        query="INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'MAXIMISED', 'T')";
-        this->Maximize(false);
-    } else {
-        query="INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'MAXIMISED', 'F')";
-    }
-    //wxMessageBox(query,"probleme", wxOK | wxICON_EXCLAMATION, this);
-    config.exec_rapide(query);
-
-    if (this->IsIconized() == false) {
-        this->GetSize(&x,&y);
-        str_x.Printf("%d",x);
-        str_y.Printf("%d",y);
-        query="INSERT INTO config (type_param, nom_param, val1, val2) VALUES ('INIT', 'TAILLE', '"+str_x+"','"+str_y+"')";
-        //wxMessageBox(query,"probleme", wxOK | wxICON_EXCLAMATION, this);
-        config.exec_rapide(query);
-        this->GetPosition(&x,&y);
-        str_x.Printf("%d",x);
-        str_y.Printf("%d",y);
-        query="INSERT INTO config (type_param, nom_param, val1, val2) VALUES ('INIT', 'POSITION', '"+str_x+"','"+str_y+"')";
-        config.exec_rapide(query);
-        //wxMessageBox(query,"probleme", wxOK | wxICON_EXCLAMATION, this);
-        str_x.Printf("%d",split_princip->GetSashPosition());
-        query="INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'SPLIT_P', '"+str_x+"')";
-        config.exec_rapide(query);
-        str_x.Printf("%d",split_droit->GetSashPosition());
-        query="INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'SPLIT_D', '"+str_x+"')";
-        config.exec_rapide(query);
-        config.fermer();
-    }
-*/
     
     //sauvegarde des parametres de la base en cours (tri, colonnes affichées)
     wxString query, mess;
@@ -1390,104 +1339,6 @@ void biblioFrame::load_config() {
     if (x>0) {
         split_droit->SetSashPosition(x);
     }  
-
-/*    
-    wxString fichier_conf, mess;
-    wxString query, valeur="";
-    int ret, taille; 
-    
-    fichier_conf=::wxGetCwd();
-    fichier_conf+="\\config";
-    //wxMessageBox(fichier_conf,"probleme", wxOK | wxICON_EXCLAMATION, this);
-    ret=config.ouvrir(fichier_conf);
-    if(ret==-1) {
-        config.get_erreur(mess);
-        wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
-    }
-    // récupération du nom de la base à ouvrir
-    query = "SELECT val1 FROM config WHERE type_param='INIT' AND nom_param='BASE'";
-    ret=config.transac_prepare(query);
-    ret=config.transac_step();
-
-    if(ret==SQLITE_ROW ) {
-        config.get_value_char(0,valeur,taille);
-    }  
-    config.transac_fin();
-    //wxMessageBox(valeur,"probleme", wxOK | wxICON_EXCLAMATION, this);
-    if (valeur !="") {
-        wxFileName fich_conf(valeur);
-        if (fich_conf.FileExists())
-            ouvrir_base(valeur);
-        else 
-            wxMessageBox("le fichier "+valeur+ " n'existe pas","probleme", wxOK | wxICON_EXCLAMATION, this);
-    }
-    
-    // récupération de la taille de la fenêtre
-    int x,y;
-    query = "SELECT val1,val2 FROM config WHERE type_param='INIT' AND nom_param='TAILLE'";
-    ret=config.transac_prepare(query);
-    ret=config.transac_step();
-    if(ret==SQLITE_ROW ) {
-        config.get_value_int(0,x);
-        config.get_value_int(1,y);
-        //mess.Printf("%d %d",x,y);
-        //wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
-        if (x>0 && y>0)
-            this->SetSize(x,y);
-    }  
-    config.transac_fin();
-    //récupération de la position de la fenêtre
-    query = "SELECT val1,val2 FROM config WHERE type_param='INIT' AND nom_param='POSITION'";
-    ret=config.transac_prepare(query);
-    ret=config.transac_step();
-    if(ret==SQLITE_ROW ) {
-        config.get_value_int(0,x);
-        config.get_value_int(1,y);
-        //mess.Printf("%d %d",x,y);
-        //wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
-        if(x>0 && y>0)
-            this->Move(x,y);
-    }  
-    config.transac_fin();
-    
-    //wxMessageBox(query,"probleme", wxOK | wxICON_EXCLAMATION, this);
-    
-    //récupération pour savoir si la fenêtre est maximisée
-    query = "SELECT val1 FROM config WHERE type_param='INIT' AND nom_param='MAXIMISED'";
-    ret=config.transac_prepare(query);
-    ret=config.transac_step();
-    if(ret==SQLITE_ROW ) {
-        config.get_value_char(0,valeur,taille);
-        if(valeur.CmpNoCase("T") == 0){
-            this->Maximize(true);
-        }
-    }  
-    config.transac_fin();
-   
-    // récupération de la position du spliter principal
-    query = "SELECT val1 FROM config WHERE type_param='INIT' AND nom_param='SPLIT_P'";
-    ret=config.transac_prepare(query);
-    ret=config.transac_step();
-    if(ret==SQLITE_ROW ) {
-        config.get_value_int(0,x);
-        if(x>0)
-            split_princip->SetSashPosition(x);
-    }  
-    config.transac_fin();
-   
-    // récuopération de la position du spliter principal
-    query = "SELECT val1 FROM config WHERE type_param='INIT' AND nom_param='SPLIT_D'";
-    ret=config.transac_prepare(query);
-    ret=config.transac_step();
-    if(ret==SQLITE_ROW ) {
-        config.get_value_int(0,x);
-        if(x>0)
-            split_droit->SetSashPosition(x);
-    }  
-    config.transac_fin();
-
-    config.fermer();
-*/
 }    
 
 /*
