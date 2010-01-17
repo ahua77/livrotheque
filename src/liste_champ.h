@@ -55,6 +55,7 @@
 #include <wx/menu.h>
 #include <wx/button.h>
 #include <wx/grid.h>
+#include <wx/sizer.h>
 ////Header Include End
 
 #include <wx/dialog.h>
@@ -80,7 +81,7 @@ class liste_champ : public wxDialog
 public:
  enum {
 ////GUI Enum Control ID Start
-			ID_MNU_SUPPRIME_1008 = 1008 ,
+			ID_MNU_SUPPRIME_1008 = 1008,
 			
 			ID_WXBUTTON_INSERER = 1007,
 			ID_GRILLE_LISTE = 1004,
@@ -122,6 +123,11 @@ public:
 	void liste_champ::OnGrilleClickDroit( wxGridEvent& event );
 	void grilleCellLeftClick(wxGridEvent& event);
     wxString inverse_texte (wxString texte);
+		void grilleLabelLeftClick(wxGridEvent& event);
+		
+private:
+    wxString critere_tri;
+    wxString ordre_tri;
 };
 
 

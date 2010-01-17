@@ -77,6 +77,7 @@ BEGIN_EVENT_TABLE(liste_champ,wxDialog)
 	EVT_BUTTON(wxID_CANCEL,liste_champ::WxButton_okClick)
 	EVT_GRID_CELL_LEFT_CLICK(liste_champ::grilleCellLeftClick)
 	EVT_GRID_CELL_LEFT_DCLICK(liste_champ::grilleCellLeftDoubleClick)
+	EVT_GRID_LABEL_LEFT_CLICK(liste_champ::grilleLabelLeftClick)
 END_EVENT_TABLE()
     ////Event Table End
 
@@ -87,6 +88,8 @@ liste_champ::liste_champ( wxWindow *parent, wxWindowID id, const wxString &title
 {
     modifie=false;
     nom_table=title;
+    critere_tri = "a.nom";
+    ordre_tri = "ASC";
     CreateGUIControls();
 }
 
@@ -96,6 +99,8 @@ liste_champ::liste_champ( ma_base *pour_modif, wxWindow *parent, wxWindowID id, 
     modifie=false;
     la_belle=pour_modif;
     nom_table=title;
+    critere_tri = "a.nom";
+    ordre_tri = "ASC";
     CreateGUIControls();
 }
 
@@ -108,37 +113,39 @@ void liste_champ::CreateGUIControls(void)
 {
     ////GUI Items Creation Start
 
-	wxBoxSizer* WxBoxSizer_top = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer_top = new wxBoxSizer(wxVERTICAL);
 	this->SetSizer(WxBoxSizer_top);
-	this->SetAutoLayout(TRUE);
+	this->SetAutoLayout(true);
 
-	grille = new wxGrid(this, ID_GRILLE_LISTE, wxPoint(5,5), wxSize(400,300));
+	grille = new wxGrid(this, ID_GRILLE_LISTE, wxPoint(5, 5), wxSize(400, 300));
+	grille->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 	grille->SetDefaultColSize(50);
 	grille->SetDefaultRowSize(25);
 	grille->SetRowLabelSize(50);
 	grille->SetColLabelSize(25);
-	grille->CreateGrid(5,5,wxGrid::wxGridSelectCells);
-	WxBoxSizer_top->Add(grille,1,wxGROW | wxALL,5);
+	grille->CreateGrid(5,5,wxGrid::wxGridSelectRows);
+	WxBoxSizer_top->Add(grille,1,wxALIGN_CENTER | wxALL,5);
 
-	wxBoxSizer* WxBoxSizer_button = new wxBoxSizer(wxHORIZONTAL);
-	WxBoxSizer_top->Add(WxBoxSizer_button,0,wxALIGN_CENTER_HORIZONTAL | wxALL,5);
+	WxBoxSizer_button = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer_top->Add(WxBoxSizer_button, 0, wxALIGN_CENTER | wxALL, 5);
 
-	WxButton_ok = new wxButton(this, wxID_CANCEL, wxT("OK"), wxPoint(5,5), wxSize(80,28), 0, wxDefaultValidator, wxT("WxButton_ok"));
-	WxBoxSizer_button->Add(WxButton_ok,0,wxALIGN_CENTER_VERTICAL | wxALL,5);
+	WxButton_ok = new wxButton(this, wxID_CANCEL, wxT("OK"), wxPoint(5, 5), wxSize(80, 28), 0, wxDefaultValidator, wxT("WxButton_ok"));
+	WxButton_ok->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer_button->Add(WxButton_ok,0,wxALIGN_CENTER | wxALL,5);
 
-	WxButton_inserer = new wxButton(this, ID_WXBUTTON_INSERER, wxT("Inserer"), wxPoint(95,5), wxSize(80,28), 0, wxDefaultValidator, wxT("WxButton_inserer"));
-	WxBoxSizer_button->Add(WxButton_inserer,0,wxALIGN_CENTER_VERTICAL | wxALL,5);
+	WxButton_inserer = new wxButton(this, ID_WXBUTTON_INSERER, wxT("Inserer"), wxPoint(95, 5), wxSize(80, 28), 0, wxDefaultValidator, wxT("WxButton_inserer"));
+	WxButton_inserer->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer_button->Add(WxButton_inserer,0,wxALIGN_CENTER | wxALL,5);
 
-	WxPopupMenu_grille = new wxMenu(wxT("")  );
-	WxPopupMenu_grille->Append(ID_MNU_SUPPRIME_1008, wxT("Supprimer la ligne courante"), wxT(""), wxITEM_NORMAL);
+	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_SUPPRIME_1008, wxT("Supprimer la ligne courante"), wxT(""), wxITEM_NORMAL);
+
+	SetTitle(wxT("liste"));
+	SetIcon(wxNullIcon);
 	
-	
-
+	GetSizer()->Layout();
 	GetSizer()->Fit(this);
 	GetSizer()->SetSizeHints(this);
-	this->SetTitle(wxT("liste"));
-	this->Center();
-	this->SetIcon(wxNullIcon);
+	Center();
 	
     ////GUI Items Creation End
 	grille->SetSelectionMode(wxGrid::wxGridSelectRows);
@@ -163,7 +170,12 @@ void liste_champ::init_grille() {
     if (ir)
         grille->DeleteCols(0, ir);
         
-    query= "SELECT rowid, nom FROM "+nom_table+" ORDER BY nom";
+    query= "SELECT a.rowid, a.nom, count(l.rowid) nn from "+nom_table
+          +" a left outer join livre l on l.id_"+nom_table
+          +" = a.rowid group by a.rowid order by "+critere_tri + " " + ordre_tri;
+
+        
+//    query= "SELECT rowid, nom FROM "+nom_table+" ORDER BY nom";
     ret=la_belle->transac_prepare(query);
     if (ret<0) {
         la_belle->get_erreur(mess);
@@ -172,7 +184,7 @@ void liste_champ::init_grille() {
     ret=la_belle->transac_step();
     i=j=0;
     nbcol=la_belle->transac_nbcol(); 
-    grille->InsertCols(0,(nbcol+1));
+    grille->InsertCols(0,nbcol);
     grille->SetColLabelValue(0,"id");
     grille->SetColLabelValue(1,"nom");
     grille->SetColLabelValue(2,"nb");
@@ -196,7 +208,7 @@ void liste_champ::init_grille() {
           ret=la_belle->transac_step();
     }  
     la_belle->transac_fin();
-    
+/*    
     for (i=0; i<grille->GetNumberRows() ; i++) {
         query="SELECT count(*) FROM livre where id_"+nom_table+"="+grille->GetRowLabelValue(i);
         ret=la_belle->transac_prepare(query);
@@ -210,6 +222,7 @@ void liste_champ::init_grille() {
         grille->SetReadOnly( i, 2, true );
         la_belle->transac_fin();
     }
+*/
     if (nom_table.CmpNoCase("auteur") == 0 || nom_table.CmpNoCase("artiste") == 0) {
         grille->AppendCols(1);
         grille->SetColLabelValue(3,"inverser");
@@ -365,4 +378,33 @@ wxString liste_champ::inverse_texte (wxString texte) {
     wxString debut_ch=texte.BeforeLast(' ');
     return (fin_ch+wxT(" ")+debut_ch);
 
+}
+
+/*
+ * grilleLabelLeftClick
+ */
+void liste_champ::grilleLabelLeftClick(wxGridEvent& event)
+{
+	// clic sur un label : trier par cette colonne et réafficher
+    BOOL changeSens = false;
+	if (event.GetCol() == 2) {
+       changeSens = (critere_tri == "nn");
+	   critere_tri = "nn";
+    } else if (event.GetCol() == 1) {
+       changeSens = (critere_tri == "a.nom");
+	   critere_tri = "a.nom";
+    } else if (event.GetCol() == 0) {
+       changeSens = (critere_tri == "a.rowid");
+	   critere_tri = "a.rowid";
+    }
+    
+    if (changeSens) {
+        if (ordre_tri == "ASC")
+           ordre_tri = "DESC";
+        else
+           ordre_tri = "ASC";
+    }
+	   
+	
+	init_grille();
 }
