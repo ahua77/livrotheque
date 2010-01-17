@@ -1084,9 +1084,11 @@ int Nouv_livre::insere_table_annexe(wxComboBox *donnee, wxString nom_table, wxSt
     // si la donnée est vide on ne fait rien
     if (valeur.Length() == 0)
         return 0;
-    gestion_quote(valeur);
+        
+    wxString valeurPourSql = valeur;
+    gestion_quote(valeurPourSql);
     // on regarde si la donnée est déja dans la table
-    query="SELECT rowid from " + nom_table + " where nom='" + valeur + "'";
+    query="SELECT rowid from " + nom_table + " where nom='" + valeurPourSql + "'";
     int id = 0;
     int retSelect = la_belle->get_value_int_rapide(query, id);
     
@@ -1102,12 +1104,14 @@ int Nouv_livre::insere_table_annexe(wxComboBox *donnee, wxString nom_table, wxSt
             VerifNouveauGroupeDlg dlgVerif (this, *la_belle, valeur, nom_table, libelleGroupePluriel);
             dlgVerif.ShowModal();
             valeur = dlgVerif.valeur();
+            valeurPourSql = valeur;
+            gestion_quote(valeurPourSql);
 
             if (dlgVerif.toujoursCreer() == true) {  // conserver en base config le nouveau paramètre
                 param->Set("config", "VERIF_NOUVEAU", nom_table, false);
             }
             // refaire requete de selection en base pour voir si la nouvelle valeur existe
-            query="SELECT rowid from " + nom_table + " where nom='" + valeur + "'";
+            query="SELECT rowid from " + nom_table + " where nom='" + valeurPourSql + "'";
             retSelect = la_belle->get_value_int_rapide(query, id);
             
             /* TODO : vérifier demande abandon de traitement du livre (ou supprimer du dlg !) */
@@ -1119,9 +1123,9 @@ int Nouv_livre::insere_table_annexe(wxComboBox *donnee, wxString nom_table, wxSt
         wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
         return -1;
     } else if (retSelect == 0) { // la valeur n'est pas encore en base : l'insérer
-        query="INSERT INTO " + nom_table + " (nom) VALUES ('" + valeur + "')";
+        query="INSERT INTO " + nom_table + " (nom) VALUES ('" + valeurPourSql + "')";
         la_belle->exec_rapide(query);
-        query="SELECT rowid from " + nom_table + " where nom='" + valeur + "'";
+        query="SELECT rowid from " + nom_table + " where nom='" + valeurPourSql + "'";
         retSelect = la_belle->get_value_int_rapide(query, id);
     }
     
