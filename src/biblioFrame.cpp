@@ -859,7 +859,10 @@ void biblioFrame::creation_select_livre(wxString &select, wxString where, wxStri
             join_list.Add(texte);
             sansid=texte.Mid(3);
             order_by+=sansid+".nom"+", ";
-        } else {
+        } else if (texte.Left(5) == "date_") {
+             order_by +=  "substr("+texte+", 7,4)||'/'||substr("+texte+",4,2)||'/'||substr("+texte+", 1,2)"+", ";   
+        }
+        else {
             if (texte == "rowid")
                 texte="livre.rowid";
             order_by+=texte+", ";
@@ -915,7 +918,7 @@ void biblioFrame::creation_select_livre(wxString &select, wxString where, wxStri
     
     select.Truncate(select.Length()-2);
     select += " "+from+" "+join+" "+where+" "+order_by;
-    //wxMessageBox(select,"coco", wxOK | wxICON_INFORMATION, this);
+    // wxMessageBox(select,"coco", wxOK | wxICON_INFORMATION, this);
 }    
 
 void biblioFrame::OnGrilleClickDroit( wxGridEvent& event ) {
