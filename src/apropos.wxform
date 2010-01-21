@@ -1,4 +1,4 @@
-object frmNewForm: TfrmNewForm
+object frmNewForm_2: TfrmNewForm
   Left = 8
   Top = 8
   AutoScroll = False
@@ -124,8 +124,8 @@ object frmNewForm: TfrmNewForm
     Top = 138
     Width = 399
     Height = 234
-    ActivePage = WxNoteBookPage_license
-    TabIndex = 3
+    ActivePage = WxNoteBookPage_auteurs
+    TabIndex = 2
     TabOrder = 1
     Wx_Class = 'wxNotebook'
     Wx_ControlOrientation = wxControlVertical
@@ -626,8 +626,8 @@ object frmNewForm: TfrmNewForm
       Wx_IDName = 'ID_WXNOTEBOOKPAGE_AUTEURS'
       Wx_IDValue = 1041
       object WxStaticText2: TWxStaticText
-        Left = 15
-        Top = 31
+        Left = 14
+        Top = 30
         Width = 139
         Height = 17
         Caption = 'Programmeur raleur : Fougny'
@@ -660,7 +660,7 @@ object frmNewForm: TfrmNewForm
       end
       object WxStaticText3: TWxStaticText
         Left = 14
-        Top = 58
+        Top = 55
         Width = 147
         Height = 17
         Caption = 'Testeuse bugueuse : Esilenna'
@@ -692,8 +692,8 @@ object frmNewForm: TfrmNewForm
         Wx_Floating_Y_Pos = 0
       end
       object WxStaticText4: TWxStaticText
-        Left = 15
-        Top = 85
+        Left = 14
+        Top = 80
         Width = 235
         Height = 17
         Caption = 'Maitre de la connexion et des statistiques : Ricco'
@@ -725,8 +725,8 @@ object frmNewForm: TfrmNewForm
         Wx_Floating_Y_Pos = 0
       end
       object WxStaticText5: TWxStaticText
-        Left = 16
-        Top = 116
+        Left = 14
+        Top = 105
         Width = 137
         Height = 17
         Caption = 'Graphiste bougon : Shmirkin'
@@ -777,6 +777,39 @@ object frmNewForm: TfrmNewForm
         Wx_LabelStyle = []
         Wx_PaneCaption = 'WxStaticText1'
         Wx_PaneName = 'WxStaticText1_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object WxStaticText6: TWxStaticText
+        Left = 14
+        Top = 130
+        Width = 263
+        Height = 17
+        Caption = 'Avec aussi des morceaux de programme par : Cubbiste'
+        TabOrder = 5
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT6'
+        Wx_IDValue = 1056
+        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText5'
+        Wx_PaneName = 'WxStaticText5_Pane'
         Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
         Wx_Aui_Dockable_Direction = []
         Wx_Aui_Pane_Style = []

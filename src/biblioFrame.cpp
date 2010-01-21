@@ -371,7 +371,7 @@ void biblioFrame::CreateGUIControls(void)
 	wxBitmap toolb_fusion_genre_BITMAP (fusionner_xpm);
 	wxBitmap toolb_fusion_genre_DISABLE_BITMAP (wxNullBitmap);
 	toolb_princ->AddTool(ID_WXTOOLB_FUSION_GENRE, wxT("toolb_fusion_genre"), toolb_fusion_genre_BITMAP, toolb_fusion_genre_DISABLE_BITMAP, 
-                         wxITEM_NORMAL, wxT("fusionner deux genres"), wxT("Fusionner deux genres"));
+                         wxITEM_NORMAL, wxT("fusionner deux groupes"), wxT("Fusionner deux groupes"));
 
 	toolb_princ->AddSeparator();
 
@@ -672,6 +672,7 @@ void biblioFrame::fusionGenre(wxCommandEvent& event)
 {
     FusionDlg dlg(this, amoi);
     dlg.ShowModal();
+    init_arbre();
 }
     
 void biblioFrame::insererClick(wxCommandEvent& event)

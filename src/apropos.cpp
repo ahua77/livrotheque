@@ -153,16 +153,16 @@ void apropos::CreateGUIControls(void)
 	WxNoteBookPage_auteurs->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 	WxNotebook1->AddPage(WxNoteBookPage_auteurs, wxT("Auteurs"));
 
-	WxStaticText2 = new wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT2, wxT("Programmeur raleur : Fougny"), wxPoint(15, 31), wxDefaultSize, 0, wxT("WxStaticText2"));
+	WxStaticText2 = new wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT2, wxT("Programmeur raleur : Fougny"), wxPoint(14, 30), wxDefaultSize, 0, wxT("WxStaticText2"));
 	WxStaticText2->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText3 = new wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT3, wxT("Testeuse bugueuse : Esilenna"), wxPoint(14, 58), wxDefaultSize, 0, wxT("WxStaticText3"));
+	WxStaticText3 = new wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT3, wxT("Testeuse bugueuse : Esilenna"), wxPoint(14, 55), wxDefaultSize, 0, wxT("WxStaticText3"));
 	WxStaticText3->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText4 = new wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT4, wxT("Maitre de la connexion et des statistiques : Ricco"), wxPoint(15, 85), wxDefaultSize, 0, wxT("WxStaticText4"));
+	WxStaticText4 = new wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT4, wxT("Maitre de la connexion et des statistiques : Ricco"), wxPoint(14, 80), wxDefaultSize, 0, wxT("WxStaticText4"));
 	WxStaticText4->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText5 = new wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT5, wxT("Graphiste bougon : Shmirkin"), wxPoint(16, 116), wxDefaultSize, 0, wxT("WxStaticText5"));
+	WxStaticText5 = new wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT5, wxT("Graphiste bougon : Shmirkin"), wxPoint(14, 105), wxDefaultSize, 0, wxT("WxStaticText5"));
 	WxStaticText5->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
 	WxStaticText1 = new wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT1, wxT("Et merci à tous les forumeurs pour leurs remarques aussi diverses que variées."), wxPoint(11, 173), wxDefaultSize, 0, wxT("WxStaticText1"));
@@ -218,6 +218,9 @@ void apropos::CreateGUIControls(void)
 
 	WxButton2 = new wxButton(this, wxID_CANCEL, wxT("OK"), wxPoint(145, 372), wxSize(96, 34), 0, wxDefaultValidator, wxT("WxButton2"));
 	WxButton2->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+
+	WxStaticText6 = new wxStaticText(WxNoteBookPage_auteurs, ID_WXSTATICTEXT6, wxT("Avec aussi des morceaux de programme par : Cubbiste"), wxPoint(14, 130), wxDefaultSize, 0, wxT("WxStaticText6"));
+	WxStaticText6->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
 	SetTitle(wxT("a propos"));
 	SetIcon(wxNullIcon);

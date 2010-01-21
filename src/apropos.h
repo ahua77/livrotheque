@@ -103,6 +103,7 @@ public:
   //wx-devcpp will remove them. Try adding the custom code 
   //after the block.
   ////GUI Control Declaration Start
+		wxStaticText *WxStaticText6;
 		wxButton *WxButton2;
 		wxStaticText *WxStaticText_nver;
 		wxTextCtrl *WxMemo_license;
@@ -145,6 +146,7 @@ public:
 	enum {
 			ID_WXSTATICBITMAP_TITRE = 1541,
 ////GUI Enum Control ID Start
+			ID_WXSTATICTEXT6 = 1056,
 			ID_WXSTATICTEXT_NVER = 1025,
 			ID_WXMEMO_LICENSE = 1040,
 			ID_WXNOTEBOOKPAGE_LICENSE = 1039,
