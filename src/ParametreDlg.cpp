@@ -66,10 +66,12 @@ BEGIN_EVENT_TABLE(ParametreDlg,wxDialog)
 END_EVENT_TABLE()
 ////Event Table End
 
-ParametreDlg::ParametreDlg(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
+ParametreDlg::ParametreDlg(wxWindow *parent, int ongletActif, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
 	CreateGUIControls();
+	
+	WxNotebook1->SetSelection(ongletActif);
 }
 
 ParametreDlg::~ParametreDlg()
@@ -178,10 +180,10 @@ void ParametreDlg::BN_OKClick(wxCommandEvent& event)
     // ligne STAT / USE_TOP_N
     BOOL useTopN = CK_useTopN->GetValue();
     long seuilTopN = 0;
-    if (useTopN) {
+    //if (useTopN) {
         wxString str2 = ET_ValueTopN->GetValue();
         sscanf(str2, "%ld", &seuilTopN);
-    }
+    //}
     param->Set("config", "STAT", "USE_TOP_N", useTopN, seuilTopN);
         
     // fermer la fenêtre
@@ -280,19 +282,13 @@ void ParametreDlg::ParametreDlgInitDialog(wxInitDialogEvent& event)
     long val2 = 20;
     param->GetOrSet("config", "STAT", "USE_TOP_N", val1, val2);
     if (val1) {
-        CK_useTopN->SetValue(true);
-        wxString str2;
-        str2.Printf("%ld", val2);
-        ET_ValueTopN->SetValue(str2);
-    } else {
-        CK_useTopN->SetValue(false);
-        ET_ValueTopN->SetValue("");
-    }	
-	
-	if (CK_useTopN->GetValue())
+       CK_useTopN->SetValue(true);
 	   ET_ValueTopN->Enable();
-	else
+    } else {
+       CK_useTopN->SetValue(false);
 	   ET_ValueTopN->Disable();
-
-
+    }
+    wxString str2;
+    str2.Printf("%ld", val2);
+    ET_ValueTopN->SetValue(str2);
 }

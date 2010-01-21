@@ -78,7 +78,7 @@ class ParametreDlg : public wxDialog
 		DECLARE_EVENT_TABLE();
 		
 	public:
-		ParametreDlg(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("Paramètres"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = ParametreDlg_STYLE);
+		ParametreDlg(wxWindow *parent, int ongletActif, wxWindowID id = 1, const wxString &title = wxT("Paramètres"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = ParametreDlg_STYLE);
 		virtual ~ParametreDlg();
 		void BN_CANCELClick(wxCommandEvent& event);
 		void CK_useTopNClick(wxCommandEvent& event);

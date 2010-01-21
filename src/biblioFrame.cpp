@@ -687,7 +687,7 @@ void biblioFrame::insererClickIsbn(wxCommandEvent& event)
 
 void biblioFrame::parametrer(wxCommandEvent& event)
 {
-    ParametreDlg dlg(this);
+    ParametreDlg dlg(this, 0);
     dlg.ShowModal();
 }
 

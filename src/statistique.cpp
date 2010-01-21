@@ -201,7 +201,7 @@ void statistique::Mnuquitter1002Click(wxCommandEvent& event)
 
 void statistique::parametrer(wxCommandEvent& event)
 {
-    ParametreDlg dlg(this);
+    ParametreDlg dlg(this, 1);
     dlg.ShowModal();
     actualiser();
 }
