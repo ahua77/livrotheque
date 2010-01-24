@@ -46,6 +46,26 @@ IMPLEMENT_APP(biblioFrameApp)
 
 bool biblioFrameApp::OnInit()
 {
+    // créer un fichier log.ini dans le répertoire de démarrage pour activer les log
+    // les traces vont dans %temp%\livrotheque_YYYY-MM-DD.log, avec YYYY-MM-DD la date de lancement du programme (pas de rotation si le programme n'est pas relancé)
+    FILE* logIni = fopen(".\\log.ini", "rt");
+    if (logIni != NULL) {
+        fclose(logIni);
+        wxDateTime now = wxDateTime::Now(); 
+        wxString filename = gettempdir() + "\\livrotheque_" + now.FormatISODate() + ".log";
+        FILE* fichier = fopen(filename, "at");
+        wxLogStderr* log = new wxLogStderr(fichier);
+        log->SetTimestamp("[%Y-%m-%d %H:%M:%S] ");
+        wxLog::SetActiveTarget(log);
+    } else {
+        wxLogNull* log = new wxLogNull;
+//        wxLog::SetActiveTarget(log); -- inutile avec wxLogNull
+    }
+
+    wxLogMessage("================================================================================");
+    wxLogMessage("-->                     démarrage de livrotheque");
+    wxLogMessage("================================================================================");
+    
 	biblioFrame *myFrame = new  biblioFrame(NULL);
 	SetTopWindow(myFrame);
 	myFrame->Show(TRUE);		
