@@ -59,13 +59,11 @@
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
-#include <wx/button.h>
-#include <wx/panel.h>
 ////Header Include End
 
 ////Dialog Style Start
 #undef affiche_image_STYLE
-#define affiche_image_STYLE wxWANTS_CHARS | wxNO_BORDER | wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX
+#define affiche_image_STYLE wxWANTS_CHARS | wxNO_BORDER | wxCAPTION | wxRESIZE_BORDER | wxSYSTEM_MENU | wxCLOSE_BOX
 ////Dialog Style End
 
 class affiche_image : public wxDialog
@@ -82,12 +80,11 @@ class affiche_image : public wxDialog
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
-		wxButton *WxButton_annul;
-		wxPanel *WxPanel_image;
 		////GUI Control Declaration End
 		//wxString chemin_image;
-        ImageCanvas *canvas_image;
+        // ImageCanvas *canvas_image;
         wxImage monimage;
+        wxImage imageAffichee;
 	private:
 		//Note: if you receive any error with these enum IDs, then you need to
 		//change your old form code that are based on the #define control IDs.
@@ -96,7 +93,6 @@ class affiche_image : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
-			ID_WXPANEL_IMAGE = 1004,
 			////GUI Enum Control ID End
 			ID_IMAGECANVAS_1 = 1500,
 			ID_DUMMY_VALUE_ //don't remove this value unless you have other enum values
@@ -106,9 +102,14 @@ class affiche_image : public wxDialog
         void WxButton_nouv_annulClick(wxCommandEvent& event);
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
+		void dessine();
+		
 	public:
 		affiche_image(wxString c_image, wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("Image"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = affiche_image_STYLE);
 		affiche_image(wxImage i_image, wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("Image"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = affiche_image_STYLE);
+		void affiche_imagePaint(wxPaintEvent& event);
+		void affiche_imageSize(wxSizeEvent& event);
+		void affiche_imageKeyUp(wxKeyEvent& event);
 };
 
 #endif
