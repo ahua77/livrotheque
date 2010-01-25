@@ -88,7 +88,7 @@ liste_champ::liste_champ( wxWindow *parent, wxWindowID id, const wxString &title
 {
     modifie=false;
     nom_table=title;
-    critere_tri = "a.nom";
+    critere_tri = "upper(a.nom)";
     ordre_tri = "ASC";
     CreateGUIControls();
 }
@@ -99,7 +99,7 @@ liste_champ::liste_champ( ma_base *pour_modif, wxWindow *parent, wxWindowID id, 
     modifie=false;
     la_belle=pour_modif;
     nom_table=title;
-    critere_tri = "a.nom";
+    critere_tri = "upper(a.nom)";
     ordre_tri = "ASC";
     CreateGUIControls();
 }
@@ -391,8 +391,8 @@ void liste_champ::grilleLabelLeftClick(wxGridEvent& event)
        changeSens = (critere_tri == "nn");
 	   critere_tri = "nn";
     } else if (event.GetCol() == 1) {
-       changeSens = (critere_tri == "a.nom");
-	   critere_tri = "a.nom";
+       changeSens = (critere_tri == "upper(a.nom)");
+	   critere_tri = "upper(a.nom)";
     } else if (event.GetCol() == 0) {
        changeSens = (critere_tri == "a.rowid");
 	   critere_tri = "a.rowid";
