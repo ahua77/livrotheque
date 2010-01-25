@@ -859,13 +859,15 @@ void biblioFrame::creation_select_livre(wxString &select, wxString where, wxStri
             //join_list.Add(liste_tri[i]);
             join_list.Add(texte);
             sansid=texte.Mid(3);
-            order_by+=sansid+".nom"+", ";
+            order_by+="upper("+sansid+".nom)"+", ";
         } else if (texte.Left(5) == "date_") {
              order_by +=  "substr("+texte+", 7,4)||'/'||substr("+texte+",4,2)||'/'||substr("+texte+", 1,2)"+", ";   
         }
         else {
             if (texte == "rowid")
                 texte="livre.rowid";
+            else if (texte == "titre" || texte == "sous_titre" || texte == "recompense" || texte == "titre_original" || texte == "sous_titre_o")
+                texte = "upper("+texte+")";
             order_by+=texte+", ";
         }        
     }    
