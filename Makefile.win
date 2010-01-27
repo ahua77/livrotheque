@@ -1,7 +1,7 @@
 # Project: livrotheque
 # Compiler: Default GCC compiler
 # Compiler Type: MingW 3
-# Makefile created by wxDev-C++ 7.2.0.2 on 06/01/10 22:47
+# Makefile created by wxDev-C++ 7.3 on 26/01/10 16:15
 
 WXLIBNAME = wxmsw28
 CPP       = g++.exe
@@ -9,14 +9,14 @@ CC        = gcc.exe
 WINDRES   = "windres.exe"
 OBJ       = o/apropos.o o/biblioFrame.o o/biblioFrameApp.o o/choix_colonnes.o o/divers.o o/export_html_dlg.o o/export_html_images.o o/export_html_textes.o o/liste.o o/liste_champ.o o/livre_html.o o/mabase.o o/moncamembert.o o/myprintout.o o/nouv_autre.o o/Nouv_livre.o o/rech_internet.o o/rech_internet_gen.o o/recherche.o o/statistique.o o/sqlite3.o o/affiche_image.o o/hmac_sha2.o o/sha2.o o/base64.o o/FusionDlg.o o/ParametreDlg.o o/ParamManager.o o/VerifNouveauGroupeDlg.o o/livrotheque_private.res
 LINKOBJ   = "o/apropos.o" "o/biblioFrame.o" "o/biblioFrameApp.o" "o/choix_colonnes.o" "o/divers.o" "o/export_html_dlg.o" "o/export_html_images.o" "o/export_html_textes.o" "o/liste.o" "o/liste_champ.o" "o/livre_html.o" "o/mabase.o" "o/moncamembert.o" "o/myprintout.o" "o/nouv_autre.o" "o/Nouv_livre.o" "o/rech_internet.o" "o/rech_internet_gen.o" "o/recherche.o" "o/statistique.o" "o/sqlite3.o" "o/affiche_image.o" "o/hmac_sha2.o" "o/sha2.o" "o/base64.o" "o/FusionDlg.o" "o/ParametreDlg.o" "o/ParamManager.o" "o/VerifNouveauGroupeDlg.o" o/livrotheque_private.res
-LIBS      = -L"C:/Program Files (x86)/Dev-Cpp/Lib" -L"libcurl-7.16.4/lib"  -mwindows -lwxmsw28 -lwxmsw28_gl -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lodbc32 -lopengl32 -lcurl  -g3 
-INCS      = -I"C:/Program Files (x86)/Dev-Cpp/Include" -I"include/images" -I"sqlite" -I"libcurl-7.16.4/include" -I"o" -I"sha" -I"libb64/src" -I"libb64/include"
-CXXINCS   = -I"C:/Program Files (x86)/Dev-Cpp/lib/gcc/mingw32/3.4.5/include" -I"C:/Program Files (x86)/Dev-Cpp/include/c++/3.4.5/backward" -I"C:/Program Files (x86)/Dev-Cpp/include/c++/3.4.5/mingw32" -I"C:/Program Files (x86)/Dev-Cpp/include/c++/3.4.5" -I"C:/Program Files (x86)/Dev-Cpp/include" -I"C:/Program Files (x86)/Dev-Cpp/" -I"C:/Program Files (x86)/Dev-Cpp/include/common/wx/msw" -I"C:/Program Files (x86)/Dev-Cpp/include/common/wx/generic" -I"C:/Program Files (x86)/Dev-Cpp/include/common/wx/html" -I"C:/Program Files (x86)/Dev-Cpp/include/common/wx/protocol" -I"C:/Program Files (x86)/Dev-Cpp/include/common/wx/xml" -I"C:/Program Files (x86)/Dev-Cpp/include/common/wx/xrc" -I"C:/Program Files (x86)/Dev-Cpp/include/common/wx" -I"C:/Program Files (x86)/Dev-Cpp/include/common" -I"include/images" -I"sqlite" -I"libcurl-7.16.4/include" -I"o" -I"sha" -I"libb64/src" -I"libb64/include"
-RCINCS    = --include-dir "C:/PROGRA~2/Dev-Cpp/include/common"
+LIBS      = -L"D:/developpement/Dev-Cpp/Lib" -L"libcurl-7.16.4/lib"  -mwindows -lwxmsw28 -lwxmsw28_gl -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lodbc32 -lopengl32 -lcurl  
+INCS      = -I"D:/developpement/Dev-Cpp/Include" -I"include/images" -I"sqlite" -I"libcurl-7.16.4/include" -I"o" -I"sha" -I"libb64/src" -I"libb64/include"
+CXXINCS   = -I"D:/developpement/Dev-Cpp/lib/gcc/mingw32/3.4.5/include" -I"D:/developpement/Dev-Cpp/include/c++/3.4.5/backward" -I"D:/developpement/Dev-Cpp/include/c++/3.4.5/mingw32" -I"D:/developpement/Dev-Cpp/include/c++/3.4.5" -I"D:/developpement/Dev-Cpp/include" -I"D:/developpement/Dev-Cpp/" -I"D:/developpement/Dev-Cpp/include/3rdparty/wx/plotctrl" -I"D:/developpement/Dev-Cpp/include/3rdparty/wx/sheet" -I"D:/developpement/Dev-Cpp/include/3rdparty/wx/treemultictrl" -I"D:/developpement/Dev-Cpp/include/3rdparty/wx/things" -I"D:/developpement/Dev-Cpp/include/3rdparty/wx" -I"D:/developpement/Dev-Cpp/include/3rdparty" -I"D:/developpement/Dev-Cpp/include/common/wx/msw" -I"D:/developpement/Dev-Cpp/include/common/wx/generic" -I"D:/developpement/Dev-Cpp/include/common/wx/fl" -I"D:/developpement/Dev-Cpp/include/common/wx/gizmos" -I"D:/developpement/Dev-Cpp/include/common/wx/html" -I"D:/developpement/Dev-Cpp/include/common/wx/mmedia" -I"D:/developpement/Dev-Cpp/include/common/wx/net" -I"D:/developpement/Dev-Cpp/include/common/wx/ogl" -I"D:/developpement/Dev-Cpp/include/common/wx/plot" -I"D:/developpement/Dev-Cpp/include/common/wx/protocol" -I"D:/developpement/Dev-Cpp/include/common/wx/stc" -I"D:/developpement/Dev-Cpp/include/common/wx/svg" -I"D:/developpement/Dev-Cpp/include/common/wx/xml" -I"D:/developpement/Dev-Cpp/include/common/wx/xrc" -I"D:/developpement/Dev-Cpp/include/common/wx" -I"D:/developpement/Dev-Cpp/include/common" -I"include/images" -I"sqlite" -I"libcurl-7.16.4/include" -I"o" -I"sha" -I"libb64/src" -I"libb64/include"
+RCINCS    = --include-dir "D:/DEVELO~1/Dev-Cpp/include/common"
 BIN       = exe/livrotheque.exe
 DEFINES   = -D__WXMSW__ -D__GNUWIN32__ -D__WIN95__
-CXXFLAGS  = $(CXXINCS) $(DEFINES) -fno-exceptions -fno-pcc-struct-return -fstrict-aliasing -Wall -D__WXMSW__ -D__GNUWIN32__ -D__WIN95__   -fexpensive-optimizations -O3 -g3
-CFLAGS    = $(INCS) $(DEFINES) -fno-exceptions -fno-pcc-struct-return -fstrict-aliasing -Wall -D__WXMSW__ -D__GNUWIN32__ -D__WIN95__   -fexpensive-optimizations -O3 -g3
+CXXFLAGS  = $(CXXINCS) $(DEFINES) -fno-exceptions -fno-pcc-struct-return -fstrict-aliasing -Wall -D__WXMSW__ -D__GNUWIN32__ -D__WIN95__   -fexpensive-optimizations -O3
+CFLAGS    = $(INCS) $(DEFINES) -fno-exceptions -fno-pcc-struct-return -fstrict-aliasing -Wall -D__WXMSW__ -D__GNUWIN32__ -D__WIN95__   -fexpensive-optimizations -O3
 GPROF     = gprof.exe
 RM        = rm -f
 LINK      = g++.exe
@@ -33,7 +33,7 @@ $(BIN): $(OBJ)
 o/apropos.o: $(GLOBALDEPS) src/apropos.cpp src/apropos.h src/mabase.h src/mabase.h
 	$(CPP) -c src/apropos.cpp -o o/apropos.o $(CXXFLAGS)
 
-o/biblioFrame.o: $(GLOBALDEPS) src/biblioFrame.cpp src/biblioFrame.h src/mabase.h src/divers.h src/choix_colonnes.h src/liste_champ.h src/mabase.h src/nouv_autre.h src/mabase.h src/divers.h src/Nouv_livre.h src/mabase.h src/divers.h src/liste_champ.h src/nouv_autre.h src/rech_internet_gen.h src/livre_html.h src/divers.h src/mabase.h src/divers.h src/rech_internet.h src/mabase.h src/divers.h src/livre_html.h src/rech_internet.h src/recherche.h src/divers.h src/Nouv_livre.h src/affiche_image.h src/divers.h src/apropos.h src/mabase.h src/mabase.h src/statistique.h src/mabase.h src/moncamembert.h src/myprintout.h src/moncamembert.h src/export_html_dlg.h src/mabase.h src/export_html_textes.h src/FusionDlg.h src/mabase.h src/Images/Self_biblioFrame_XPM.xpm src/Images/biblioFrame_WxToolButton_about_XPM.xpm src/Images/biblioFrame_WxToolButton_stat_XPM.xpm src/Images/biblioFrame_WxToolButton_tri_XPM.xpm src/Images/biblioFrame_WxToolButton_colonne_XPM.xpm src/Images/biblioFrame_toolb_inserer_XPM.xpm src/Images/biblioFrame_toolb_ouvrir_XPM.xpm src/Images/biblioFrame_toolb_Nouv_XPM.xpm src/Images/biblioFrame_toolb_quit_XPM.xpm src/Images/parametrer_xpm.xpm src/Images/fusionner_xpm.xpm src/Images/inserer_isbn_xpm.xpm src/ParametreDlg.h src/mabase.h src/ParamManager.h src/mabase.h
+o/biblioFrame.o: $(GLOBALDEPS) src/biblioFrame.cpp src/biblioFrame.h src/mabase.h src/divers.h src/choix_colonnes.h src/liste_champ.h src/mabase.h src/nouv_autre.h src/mabase.h src/divers.h src/Nouv_livre.h src/mabase.h src/divers.h src/liste_champ.h src/nouv_autre.h src/rech_internet_gen.h src/livre_html.h src/divers.h src/mabase.h src/divers.h src/rech_internet.h src/mabase.h src/divers.h src/livre_html.h src/rech_internet.h src/recherche.h src/divers.h src/Nouv_livre.h src/affiche_image.h src/divers.h src/apropos.h src/mabase.h src/mabase.h src/statistique.h src/mabase.h src/moncamembert.h src/myprintout.h src/moncamembert.h src/export_html_dlg.h src/mabase.h src/export_html_textes.h src/FusionDlg.h src/mabase.h src/Images/Self_biblioFrame_XPM.xpm src/Images/biblioFrame_WxToolButton_about_XPM.xpm src/Images/biblioFrame_WxToolButton_stat_XPM.xpm src/Images/biblioFrame_WxToolButton_tri_XPM.xpm src/Images/biblioFrame_WxToolButton_colonne_XPM.xpm src/Images/biblioFrame_toolb_inserer_XPM.xpm src/Images/biblioFrame_toolb_ouvrir_XPM.xpm src/Images/biblioFrame_toolb_Nouv_XPM.xpm src/Images/biblioFrame_toolb_quit_XPM.xpm src/Images/parametrer_xpm.xpm src/Images/fusionner_xpm.xpm src/Images/inserer_isbn_xpm.xpm src/ParametreDlg.h src/ParamManager.h src/mabase.h
 	$(CPP) -c src/biblioFrame.cpp -o o/biblioFrame.o $(CXXFLAGS)
 
 o/biblioFrameApp.o: $(GLOBALDEPS) src/biblioFrameApp.cpp src/biblioFrameApp.h src/biblioFrame.h src/mabase.h src/divers.h src/choix_colonnes.h src/liste_champ.h src/mabase.h src/nouv_autre.h src/mabase.h src/divers.h src/Nouv_livre.h src/mabase.h src/divers.h src/liste_champ.h src/nouv_autre.h src/rech_internet_gen.h src/livre_html.h src/divers.h src/mabase.h src/divers.h src/rech_internet.h src/mabase.h src/divers.h src/livre_html.h src/rech_internet.h src/recherche.h src/divers.h src/Nouv_livre.h src/affiche_image.h src/divers.h src/apropos.h src/mabase.h src/mabase.h src/statistique.h src/mabase.h src/moncamembert.h src/myprintout.h src/moncamembert.h src/export_html_dlg.h src/mabase.h src/export_html_textes.h src/FusionDlg.h src/mabase.h
@@ -87,7 +87,7 @@ o/rech_internet_gen.o: $(GLOBALDEPS) src/rech_internet_gen.cpp src/rech_internet
 o/recherche.o: $(GLOBALDEPS) src/recherche.cpp src/recherche.h src/divers.h
 	$(CPP) -c src/recherche.cpp -o o/recherche.o $(CXXFLAGS)
 
-o/statistique.o: $(GLOBALDEPS) src/statistique.cpp src/statistique.h src/mabase.h src/moncamembert.h src/myprintout.h src/moncamembert.h src/ParamManager.h src/mabase.h
+o/statistique.o: $(GLOBALDEPS) src/statistique.cpp src/statistique.h src/mabase.h src/moncamembert.h src/myprintout.h src/moncamembert.h src/ParamManager.h src/mabase.h src/ParametreDlg.h
 	$(CPP) -c src/statistique.cpp -o o/statistique.o $(CXXFLAGS)
 
 o/sqlite3.o: $(GLOBALDEPS) sqlite/sqlite3.c
@@ -108,7 +108,7 @@ o/base64.o: $(GLOBALDEPS) src/base64.cpp src/base64.hpp
 o/FusionDlg.o: $(GLOBALDEPS) src/FusionDlg.cpp src/FusionDlg.h src/mabase.h
 	$(CPP) -c src/FusionDlg.cpp -o o/FusionDlg.o $(CXXFLAGS)
 
-o/ParametreDlg.o: $(GLOBALDEPS) src/ParametreDlg.cpp src/ParametreDlg.h src/mabase.h src/ParamManager.h src/mabase.h
+o/ParametreDlg.o: $(GLOBALDEPS) src/ParametreDlg.cpp src/ParametreDlg.h src/ParamManager.h src/mabase.h
 	$(CPP) -c src/ParametreDlg.cpp -o o/ParametreDlg.o $(CXXFLAGS)
 
 o/ParamManager.o: $(GLOBALDEPS) src/ParamManager.cpp src/ParamManager.h src/mabase.h
