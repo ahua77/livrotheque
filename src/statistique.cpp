@@ -83,8 +83,8 @@ BEGIN_EVENT_TABLE(statistique,wxFrame)
 	EVT_MENU(ID_MNU_BARRES_1009, statistique::MnuAffSwitch1009Click)
 	EVT_MENU(ID_MNU_CAMEMBERT_1010, statistique::MnuAffSwitch1009Click)
 	EVT_MENU(ID_MNU_BARRESCOMMENTEES_1026, statistique::MnuAffSwitch1009Click)
+	EVT_MENU(ID_MNU_PARAMETRES, statistique::parametrer)
 	EVT_MENU(ID_MNU_GESTIONDESCOULEURS_1005, statistique::Mnugestiondescouleurs1005Click)
-	EVT_MENU(ID_MNU_PARAMETRER, statistique::parametrer)
 END_EVENT_TABLE()
     ////Event Table End
 
@@ -109,12 +109,6 @@ void statistique::CreateGUIControls(void)
     //wx-devcpp designer will remove them.
     //Add the custom code before or after the Blocks
     ////GUI Items Creation Start
-
-	SetTitle(wxT("Statistiques"));
-	SetIcon(wxNullIcon);
-	SetSize(8,8,362,296);
-	Center();
-	
 
 	WxMenuBar_stat = new wxMenuBar();
 	wxMenu *ID_MNU_FICHIER_1001_Mnu_Obj = new wxMenu(0);
@@ -166,10 +160,16 @@ void statistique::CreateGUIControls(void)
 	WxMenuBar_stat->Append(ID_MNU__AFFICHAGE_1008_Mnu_Obj, wxT("&Affichage"));
 	
 	wxMenu *ID_MNU__OPTION_1004_Mnu_Obj = new wxMenu(0);
+	ID_MNU__OPTION_1004_Mnu_Obj->Append(ID_MNU_PARAMETRES, wxT("Paramètres"), wxT(""), wxITEM_NORMAL);
 	ID_MNU__OPTION_1004_Mnu_Obj->Append(ID_MNU_GESTIONDESCOULEURS_1005, wxT("Gestion des &couleurs"), wxT(""), wxITEM_NORMAL);
-	ID_MNU__OPTION_1004_Mnu_Obj->Append(ID_MNU_PARAMETRER, wxT("Paramètres"), wxT("Configuration générale de l'application"), wxITEM_NORMAL);
 	WxMenuBar_stat->Append(ID_MNU__OPTION_1004_Mnu_Obj, wxT("&Option"));
 	SetMenuBar(WxMenuBar_stat);
+
+	SetTitle(wxT("Statistiques"));
+	SetIcon(wxNullIcon);
+	SetSize(8,8,370,300);
+	Center();
+	
     ////GUI Items Creation End
     this->SetSize(30,30,800,600);
 	//WxBoxSizer_top->Add(BeauFrometon,0,wxALIGN_CENTER_HORIZONTAL | wxALL,5);

@@ -63,21 +63,16 @@
 ////Header Include Start
 #include "Images/Self_biblioFrame_XPM.xpm"
 #include "Images/biblioFrame_WxToolButton_about_XPM.xpm"
+#include "Images/biblioFrame_toolb_parametres_XPM.xpm"
 #include "Images/biblioFrame_WxToolButton_stat_XPM.xpm"
+#include "Images/biblioFrame_toolb_fusion_genre_XPM.xpm"
 #include "Images/biblioFrame_WxToolButton_tri_XPM.xpm"
 #include "Images/biblioFrame_WxToolButton_colonne_XPM.xpm"
+#include "Images/biblioFrame_toolb_inserer_isbn_XPM.xpm"
 #include "Images/biblioFrame_toolb_inserer_XPM.xpm"
 #include "Images/biblioFrame_toolb_ouvrir_XPM.xpm"
 #include "Images/biblioFrame_toolb_Nouv_XPM.xpm"
 #include "Images/biblioFrame_toolb_quit_XPM.xpm"
-#include "Images/parametrer_xpm.xpm"
-#include "Images/fusionner_xpm.xpm"
-// #include "Images/inserer_xpm.xpm"
-#include "Images/inserer_isbn_xpm.xpm"
-// #include "Images/ouvrir_base_xpm.xpm"
-// #include "Images/nouvelle_base_xpm.xpm"
-// #include "Images/quitter_xpm.xpm"
-
 ////Header Include End
 
 #include "ParametreDlg.h"
@@ -121,8 +116,8 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU_EXPORTCSV_1062, biblioFrame::Mnuexportcsv1062Click)
 	EVT_MENU(ID_MNU_IMPORTERCVS_1026, biblioFrame::MnuimportercvsClick)
 	EVT_MENU(ID_MNU_QUITTER_1011, biblioFrame::toolb_quitClick)
-	EVT_MENU(ID_MNU_ORDREDETRI, biblioFrame::MnuordredetriClick)
 	EVT_MENU(ID_MNU_PARAMETRES, biblioFrame::parametrer)
+	EVT_MENU(ID_MNU_ORDREDETRI, biblioFrame::MnuordredetriClick)
 	EVT_MENU(ID_MNU_CHOIXCOLONNES_1024, biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_MNU_LISTE_AUTEUR, biblioFrame::Mnulistes)
 	EVT_MENU(ID_MNU_LISTE_SERIE, biblioFrame::Mnulistes)
@@ -141,13 +136,13 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU__APROPOS_1047, biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_WXTOOLBUTTON_ABOUT,biblioFrame::Mnuapropos1047Click)
+	EVT_MENU(ID_TOOLB_PARAM,biblioFrame::parametrer)
 	EVT_MENU(ID_WXTOOLBUTTON_STAT,biblioFrame::Mnustatistique1048Click)
+	EVT_MENU(ID_TOOLB_FUSION_GENRE,biblioFrame::fusionGenre)
 	EVT_MENU(ID_WXTOOLBUTTON_TRI,biblioFrame::MnuordredetriClick)
 	EVT_MENU(ID_WXTOOLBUTTON_COLONNE,biblioFrame::popup_MnuouvrirClick)
-	EVT_MENU(ID_WXTOOLB_INSERER,biblioFrame::insererClick)
 	EVT_MENU(ID_WXTOOLB_INSERER_ISBN,biblioFrame::insererClickIsbn)
-	EVT_MENU(ID_WXTOOLB_FUSION_GENRE,biblioFrame::fusionGenre)
-	EVT_MENU(ID_WXTOOLB_PARAM,biblioFrame::parametrer)
+	EVT_MENU(ID_WXTOOLB_INSERER,biblioFrame::insererClick)
 	EVT_MENU(ID_TOOLB_OUVRIR,biblioFrame::OuvrirClick)
 	EVT_MENU(ID_TOOLB_NOUV,biblioFrame::toolb_NouvClick)
 	EVT_MENU(ID_TOOLB_QUIT,biblioFrame::toolb_quitClick)
@@ -214,7 +209,7 @@ void biblioFrame::init_arbre() {
     root=arbre->AddRoot("tous");
    
     for (c='A';c<='Z';c++) {
-        query.Printf("select nom from auteur where nom LIKE '%c%%' ORDER by nom", c);
+        query.Printf("select nom from auteur where nom LIKE '%c%%' ORDER by upper(nom)", c);
 
         ret=amoi.transac_prepare(query);
         if (ret<0) {
@@ -319,80 +314,68 @@ void biblioFrame::CreateGUIControls(void)
 	//wxMenu *ID_MNU_LISTES_1027_Mnu_Obj = new wxMenu(0);
     ////GUI Items Creation Start
 
-	toolb_princ = new wxToolBar(this, ID_TOOLB_PRINC, wxPoint(0,0), wxSize(691,26), wxTB_DOCKABLE);
+	wxInitAllImageHandlers();   //Initialize graphic format handlers
+
+	toolb_princ = new wxToolBar(this, ID_TOOLB_PRINC, wxPoint(0, 0), wxSize(691, 26), wxTB_DOCKABLE);
+	toolb_princ->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
 	wxBitmap toolb_quit_BITMAP (biblioFrame_toolb_quit_XPM);
-//	wxBitmap toolb_quit_BITMAP (quitter_xpm);
 	wxBitmap toolb_quit_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_TOOLB_QUIT, wxT(""), toolb_quit_BITMAP, toolb_quit_DISABLE_BITMAP, wxITEM_NORMAL, 
-                         wxT("Quitter"), wxT("Ce bouton sert à sortir de l'application"));
+	toolb_princ->AddTool(ID_TOOLB_QUIT, wxT(""), toolb_quit_BITMAP, toolb_quit_DISABLE_BITMAP, wxITEM_NORMAL, wxT("Quitter"), wxT("Ce bouton sert à sortir de l'application"));
 
 	toolb_princ->AddSeparator();
 
 	wxBitmap toolb_Nouv_BITMAP (biblioFrame_toolb_Nouv_XPM);
-//	wxBitmap toolb_Nouv_BITMAP (nouvelle_base_xpm);
 	wxBitmap toolb_Nouv_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_TOOLB_NOUV, wxT(""), toolb_Nouv_BITMAP, toolb_Nouv_DISABLE_BITMAP, wxITEM_NORMAL, 
-                         wxT("nouvelle base"), wxT("Créer une nouvelle base"));
+	toolb_princ->AddTool(ID_TOOLB_NOUV, wxT(""), toolb_Nouv_BITMAP, toolb_Nouv_DISABLE_BITMAP, wxITEM_NORMAL, wxT("nouvelle base"), wxT("Créer une nouvelle base"));
 
 	wxBitmap toolb_ouvrir_BITMAP (biblioFrame_toolb_ouvrir_XPM);
-//	wxBitmap toolb_ouvrir_BITMAP (ouvrir_base_xpm);
 	wxBitmap toolb_ouvrir_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_TOOLB_OUVRIR, wxT(""), toolb_ouvrir_BITMAP, toolb_ouvrir_DISABLE_BITMAP, wxITEM_NORMAL, 
-                         wxT("ouvrir"), wxT("ouvrir une base existante"));
+	toolb_princ->AddTool(ID_TOOLB_OUVRIR, wxT(""), toolb_ouvrir_BITMAP, toolb_ouvrir_DISABLE_BITMAP, wxITEM_NORMAL, wxT("ouvrir"), wxT("ouvrir une base existante"));
 
 	toolb_princ->AddSeparator();
 
 	wxBitmap toolb_inserer_BITMAP (biblioFrame_toolb_inserer_XPM);
-//	wxBitmap toolb_inserer_BITMAP (inserer_xpm);
 	wxBitmap toolb_inserer_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_WXTOOLB_INSERER, wxT("toolb_inserer"), toolb_inserer_BITMAP, toolb_inserer_DISABLE_BITMAP, wxITEM_NORMAL, 
-                         wxT("Insérer (F2)"), wxT("Insérer un livre dans la base"));
+	toolb_princ->AddTool(ID_WXTOOLB_INSERER, wxT("Inserer un livre dans la base"), toolb_inserer_BITMAP, toolb_inserer_DISABLE_BITMAP, wxITEM_NORMAL, wxT("Insérer (F2)"), wxT("Insérer un livre dans la base"));
 
-	wxBitmap toolb_inserer_isbn_BITMAP (inserer_isbn_xpm);
+	wxBitmap toolb_inserer_isbn_BITMAP (biblioFrame_toolb_inserer_isbn_XPM);
 	wxBitmap toolb_inserer_isbn_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_WXTOOLB_INSERER_ISBN, wxT("toolb_inserer_isbn"), toolb_inserer_isbn_BITMAP, toolb_inserer_isbn_DISABLE_BITMAP, 
-                         wxITEM_NORMAL, wxT("Insérer par l'ISBN (F3)"), wxT("Insérer un livre dans la base en recherchant son code barre"));
+	toolb_princ->AddTool(ID_WXTOOLB_INSERER_ISBN, wxT("Insérer un livre dans la base en recherchant son code barre"), toolb_inserer_isbn_BITMAP, toolb_inserer_isbn_DISABLE_BITMAP, wxITEM_NORMAL, wxT("Insérer par l'ISBN (F3)"), wxT("Insérer un livre dans la base en recherchant son code barre"));
 
 	toolb_princ->AddSeparator();
 
 	wxBitmap WxToolButton_colonne_BITMAP (biblioFrame_WxToolButton_colonne_XPM);
 	wxBitmap WxToolButton_colonne_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_WXTOOLBUTTON_COLONNE, wxT("WxToolButton_colonne"), WxToolButton_colonne_BITMAP, WxToolButton_colonne_DISABLE_BITMAP, wxITEM_NORMAL, 
-                         wxT("Choix des colonnes"), wxT("Choisir les colonnes à afficher"));
+	toolb_princ->AddTool(ID_WXTOOLBUTTON_COLONNE, wxT("WxToolButton_colonne"), WxToolButton_colonne_BITMAP, WxToolButton_colonne_DISABLE_BITMAP, wxITEM_NORMAL, wxT("Choix des colonnes"), wxT("Choisir les colonnes à afficher"));
 
 	wxBitmap WxToolButton_tri_BITMAP (biblioFrame_WxToolButton_tri_XPM);
 	wxBitmap WxToolButton_tri_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_WXTOOLBUTTON_TRI, wxT("WxToolButton_tri"), WxToolButton_tri_BITMAP, WxToolButton_tri_DISABLE_BITMAP, wxITEM_NORMAL, 
-                         wxT("Tri"), wxT("Choix des colonnes utilisées pour le tri"));
+	toolb_princ->AddTool(ID_WXTOOLBUTTON_TRI, wxT("WxToolButton_tri"), WxToolButton_tri_BITMAP, WxToolButton_tri_DISABLE_BITMAP, wxITEM_NORMAL, wxT("Tri"), wxT("Choix des colonnes utilisées pour le tri"));
 
 	toolb_princ->AddSeparator();
 
-	wxBitmap toolb_fusion_genre_BITMAP (fusionner_xpm);
+	wxBitmap toolb_fusion_genre_BITMAP (biblioFrame_toolb_fusion_genre_XPM);
 	wxBitmap toolb_fusion_genre_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_WXTOOLB_FUSION_GENRE, wxT("toolb_fusion_genre"), toolb_fusion_genre_BITMAP, toolb_fusion_genre_DISABLE_BITMAP, 
-                         wxITEM_NORMAL, wxT("fusionner deux groupes"), wxT("Fusionner deux groupes"));
+	toolb_princ->AddTool(ID_TOOLB_FUSION_GENRE, wxT("Fusionner deux groupes"), toolb_fusion_genre_BITMAP, toolb_fusion_genre_DISABLE_BITMAP, wxITEM_NORMAL, wxT("fusionner deux groupes"), wxT("Fusionner deux groupes"));
 
 	toolb_princ->AddSeparator();
 
 	wxBitmap WxToolButton_stat_BITMAP (biblioFrame_WxToolButton_stat_XPM);
 	wxBitmap WxToolButton_stat_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_WXTOOLBUTTON_STAT, wxT("WxToolButton_stat"), WxToolButton_stat_BITMAP, WxToolButton_stat_DISABLE_BITMAP, wxITEM_NORMAL, 
-                         wxT("statistiques "), wxT("Affiche des statistiques sur la base"));
+	toolb_princ->AddTool(ID_WXTOOLBUTTON_STAT, wxT("WxToolButton_stat"), WxToolButton_stat_BITMAP, WxToolButton_stat_DISABLE_BITMAP, wxITEM_NORMAL, wxT("statistiques "), wxT("Affiche des statistiques sur la base"));
 
 	toolb_princ->AddSeparator();
 
-	wxBitmap toolb_parametres_BITMAP (parametrer_xpm);
+	wxBitmap toolb_parametres_BITMAP (biblioFrame_toolb_parametres_XPM);
 	wxBitmap toolb_parametres_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_WXTOOLB_PARAM, wxT("toolb_parametres"), toolb_parametres_BITMAP, toolb_parametres_DISABLE_BITMAP, wxITEM_NORMAL, 
-                         wxT("paramétrer l'application"), wxT("paramétrer l'application"));
+	toolb_princ->AddTool(ID_TOOLB_PARAM, wxT("paramétrer l'application"), toolb_parametres_BITMAP, toolb_parametres_DISABLE_BITMAP, wxITEM_NORMAL, wxT("paramétrer l'application"), wxT("paramétrer l'application"));
 
 	toolb_princ->AddSeparator();
 
 	wxBitmap WxToolButton_about_BITMAP (biblioFrame_WxToolButton_about_XPM);
 	wxBitmap WxToolButton_about_DISABLE_BITMAP (wxNullBitmap);
-	toolb_princ->AddTool(ID_WXTOOLBUTTON_ABOUT, wxT("WxToolButton_about"), WxToolButton_about_BITMAP, WxToolButton_about_DISABLE_BITMAP, wxITEM_NORMAL, 
-                         wxT("a propos"), wxT("A propos de la livrotheque"));
+	toolb_princ->AddTool(ID_WXTOOLBUTTON_ABOUT, wxT("WxToolButton_about"), WxToolButton_about_BITMAP, WxToolButton_about_DISABLE_BITMAP, wxITEM_NORMAL, wxT("a propos"), wxT("A propos de la livrotheque"));
 
 	barre_statut = new wxStatusBar(this, ID_BARRE_STATUT);
 
@@ -415,7 +398,7 @@ void biblioFrame::CreateGUIControls(void)
 	monmenu->Append(ID_MNU_FICHIER_QUIT_Mnu_Obj, wxT("Fichier"));
 	
 	wxMenu *ID_MNU_OUTIL_1017_Mnu_Obj = new wxMenu(0);
-	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_PARAMETRES, wxT("Paramètres"), wxT("Configuration de l'application"), wxITEM_NORMAL);
+	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_PARAMETRES, wxT("Paramètres"), wxT("Configurer l'application"), wxITEM_NORMAL);
 	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_ORDREDETRI, wxT("Ordre de tri"), wxT("Permet de Choisir les colonnes utilisées pour le tri"), wxITEM_NORMAL);
 	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_CHOIXCOLONNES_1024, wxT("Choix des colonnes affichées"), wxT(""), wxITEM_NORMAL);
 	
@@ -452,7 +435,7 @@ void biblioFrame::CreateGUIControls(void)
 	SetToolBar(toolb_princ);
 	SetTitle(wxT("Livrotheque"));
 	SetIcon(Self_biblioFrame_XPM);
-	SetSize(8,8,699,600);
+	SetSize(8,8,707,604);
 	Center();
 	
     ////GUI Items Creation End
