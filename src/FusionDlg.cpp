@@ -168,7 +168,7 @@ void FusionDlg::InitListeGroupes()
     wxString nom_table = CB_typeGroupe->GetStringSelection();
     wxString orderBy = "nn DESC";
     if (CB_typeTri->GetSelection() == 1) {
-        orderBy = "a.nom ASC"; 
+        orderBy = "upper(a.nom) ASC"; 
     }   
 	wxString query = "SELECT a.rowid, a.nom, count(l.rowid) nn from "+nom_table
           +" a, livre l where l.id_"+nom_table
@@ -243,7 +243,7 @@ void FusionDlg::remplirListeLivres(wxListBox* listeLivres, int idGroupe)
 
     	wxString query = "select l.titre, a.nom from livre l, auteur a "
                          "where id_"+nom_table+" = " + wxString::Format(_T("%d"), idGroupe) + 
-                         " and l.id_auteur=a.rowid order by a.nom, l.titre";
+                         " and l.id_auteur=a.rowid order by upper(a.nom), l.titre";
     	wxString mess;
     	int ret = baseLivre.transac_prepare(query);
     	if (ret<0) {

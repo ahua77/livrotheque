@@ -743,7 +743,7 @@ void export_html_dlg::creation_fiches_auteurs(wxString chemin_fiches, wxString c
     query=query+wxT(" FROM livre, auteur ");
     query=query+wxT(" LEFT JOIN serie ON livre.id_serie=serie.rowid ");
     query=query+wxT(" WHERE livre.id_auteur=auteur.rowid ");
-    query=query+wxT(" ORDER BY auteur.nom, serie.nom,  livre.no_serie, livre.titre ");
+    query=query+wxT(" ORDER BY upper(auteur.nom), upper(serie.nom),  livre.no_serie, upper(livre.titre) ");
     
     ret=la_belle->transac_prepare(query);
     if (ret<0) {
@@ -887,7 +887,7 @@ void export_html_dlg::creation_tree_auteur(wxString &arbre) {
 
     
     for (char i='A';i<='Z';i++) {
-        query=wxT("SELECT livre.id_auteur, auteur.nom FROM livre, auteur WHERE livre.id_auteur = auteur.rowid AND (auteur.nom LIKE '#L_MINUS#\%' OR auteur.nom LIKE '#L_MAJUS#\%') GROUP BY auteur.rowid ORDER BY auteur.nom");
+        query=wxT("SELECT livre.id_auteur, auteur.nom FROM livre, auteur WHERE livre.id_auteur = auteur.rowid AND (auteur.nom LIKE '#L_MINUS#\%' OR auteur.nom LIKE '#L_MAJUS#\%') GROUP BY auteur.rowid ORDER BY upper(auteur.nom)");
         caractere.Printf("%c",i);
         query.Replace(wxT("#L_MAJUS#"),caractere);
         caractere.Printf("%c",i+32);
@@ -982,7 +982,7 @@ void export_html_dlg::creation_tree_titre(wxString &arbre, wxString chemin_liste
         query=query+wxT(" LEFT JOIN serie ON livre.id_serie=serie.rowid ");
         query=query+wxT("WHERE (livre.titre LIKE '#L_MINUS#\%' OR livre.titre LIKE '#L_MAJUS#\%') ");
         query=query+wxT("AND livre.id_auteur=auteur.rowid  ");
-        query=query+wxT("ORDER BY livre.titre");
+        query=query+wxT("ORDER BY upper(livre.titre)");
         caractere.Printf("%c",i);
         query.Replace(wxT("#L_MAJUS#"),caractere);
         if (i>='A' && i<='Z')
@@ -1113,7 +1113,7 @@ void export_html_dlg::creation_tree_serie(wxString &arbre, wxString chemin_liste
         query=query+wxT(" LEFT JOIN serie ON livre.id_serie=serie.rowid ");
         query=query+wxT("WHERE (serie.nom LIKE '#L_MINUS#\%' OR serie.nom LIKE '#L_MAJUS#\%') ");
         query=query+wxT("AND livre.id_auteur=auteur.rowid  ");
-        query=query+wxT("ORDER BY serie.nom, livre.no_serie");
+        query=query+wxT("ORDER BY upper(serie.nom), livre.no_serie");
         caractere.Printf("%c",i);
         query.Replace(wxT("#L_MAJUS#"),caractere);
         if (i>='A' && i<='Z')

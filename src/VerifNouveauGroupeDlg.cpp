@@ -143,7 +143,7 @@ void VerifNouveauGroupeDlg::VerifNouveauGroupeDlgInitDialog(wxInitDialogEvent& e
         CB_listeGroupe->Delete(0);
         
     // remplir les listes à partir de la base
-	wxString query = "SELECT a.rowid, a.nom from " + mNomTable + " a order by a.nom ASC";
+	wxString query = "SELECT a.rowid, a.nom from " + mNomTable + " a order by upper(a.nom) ASC";
 	wxString mess;
 	int ret = mBaseLivre.transac_prepare(query);
 	if (ret<0) {

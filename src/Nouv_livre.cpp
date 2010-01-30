@@ -1214,7 +1214,7 @@ int Nouv_livre::init_combo(wxComboBox *lacombo, wxString nomtable)
         la_belle->transac_fin();
 
     }    
-    query="SELECT nom from " + nomtable + " order by nom";
+    query="SELECT nom from " + nomtable + " order by upper(nom)";
          //wxMessageBox(query,"probleme", wxOK | wxICON_EXCLAMATION, this);
    
     ret=la_belle->transac_prepare(query);
