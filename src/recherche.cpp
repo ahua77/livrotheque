@@ -224,7 +224,9 @@ void recherche::creation_where_id(wxString nom_champ, wxArrayString liste_cherch
 
     table_liee = nom_champ.Mid(3);
     if (liste_cherche.GetCount() > 0) {
-        where="WHERE "+table_liee+".nom LIKE '%"+liste_cherche[0]+"%' ";
+        wxString val = liste_cherche[0];
+        gestion_quote(val);
+        where="WHERE "+table_liee+".nom LIKE '%"+val+"%' ";
     }
 
     for(i=1; i<liste_cherche.GetCount() ; i++) {
@@ -232,7 +234,9 @@ void recherche::creation_where_id(wxString nom_champ, wxArrayString liste_cherch
             where+=" OR ";
         else if (WxRadioButton_type_et->GetValue() == true)
             where+=" AND ";
-        where+=table_liee+".nom LIKE '%"+liste_cherche[i]+"%' ";
+        wxString val = liste_cherche[i];
+        gestion_quote(val);
+        where+=table_liee+".nom LIKE '%"+val+"%' ";
     }
 
     //wxMessageBox("|"+table_liee+"|","where", wxOK | wxICON_INFORMATION, this);
@@ -244,7 +248,9 @@ void recherche::creation_where_simple(wxString nom_champ, wxArrayString liste_ch
     int i;
     
     if (liste_cherche.GetCount() > 0) {
-        where="WHERE livre."+nom_champ+" LIKE '%"+liste_cherche[0]+"%' ";
+        wxString val = liste_cherche[0];
+        gestion_quote(val);
+        where="WHERE livre."+nom_champ+" LIKE '%"+val+"%' ";
     }
 
     for(i=1; i<liste_cherche.GetCount() ; i++) {
@@ -252,7 +258,9 @@ void recherche::creation_where_simple(wxString nom_champ, wxArrayString liste_ch
             where+=" OR ";
         else if (WxRadioButton_type_et->GetValue() == true)
             where+=" AND ";
-        where+="livre."+nom_champ+" LIKE '%"+liste_cherche[i]+"%' ";
+        wxString val = liste_cherche[i];
+        gestion_quote(val);
+        where+="livre."+nom_champ+" LIKE '%"+val+"%' ";
     }
     
     //wxMessageBox(where,"where", wxOK | wxICON_INFORMATION, this);

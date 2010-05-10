@@ -1013,6 +1013,7 @@ void biblioFrame::OnArbreSel(wxTreeEvent &event) {
             remplir_grille("");
         }
         else {
+            gestion_quote(val);
             if (val.Length() == 1) {
                 where="WHERE auteur.nom LIKE '"+val+"%%' ";
                 remplir_grille(where);
