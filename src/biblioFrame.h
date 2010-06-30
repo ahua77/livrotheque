@@ -173,6 +173,7 @@ public:
 			ID_WXTOOLBUTTON_TRI = 1054,
 			ID_WXTOOLBUTTON_COLONNE = 1053,
 			ID_WXSEPARATOR3 = 1051,
+			ID_WXTOOLB_RECH_INTERNET = 1069,
 			ID_WXTOOLB_INSERER_ISBN = 1063,
 			ID_WXTOOLB_INSERER = 1014,
 			ID_WXSEPARATOR2 = 1013,
@@ -266,6 +267,7 @@ public:
 	void Mnuexporthtml1060Click(wxCommandEvent& event);
 	void Mnuexportcsv1062Click(wxCommandEvent& event);
     void image_click(wxHtmlLinkEvent &event);
+		void toolb_recherche_internetClick(wxCommandEvent& event);
 
 };
 

@@ -91,6 +91,7 @@ END_EVENT_TABLE()
 rech_internet::rech_internet( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+wxLogMessage("rech_internet::rech_internet() - entrée - this = 0x%x", this);
     isbn="0";
     auteur="";
     traducteur="";
@@ -99,11 +100,13 @@ rech_internet::rech_internet( wxWindow *parent, wxWindowID id, const wxString &t
     recherche_auto=false;
     type_recherche=-1;
     CreateGUIControls();
+wxLogMessage("rech_internet::rech_internet() - sortie - this = 0x%x", this);
 }
 
 rech_internet::rech_internet( wxString p_isbn , wxWindow *parent, int moteur_recherche, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+wxLogMessage("rech_internet::rech_internet() - entrée - this = 0x%x", this);
     isbn=p_isbn;
     auteur="";
     traducteur="";
@@ -115,9 +118,13 @@ rech_internet::rech_internet( wxString p_isbn , wxWindow *parent, int moteur_rec
   /*  if (moteur_recherche != -1) {
         WxRadioBox_choix_recherche->SetSelection(moteur_recherche);
     }*/
+wxLogMessage("rech_internet::rech_internet() - sortie - this = 0x%x", this);
 }
 
-rech_internet::~rech_internet() {} 
+rech_internet::~rech_internet() {
+wxLogMessage("rech_internet::~rech_internet() - entrée - this = 0x%x", this);
+wxLogMessage("rech_internet::~rech_internet() - sortie - this = 0x%x", this);
+} 
 
 void rech_internet::CreateGUIControls(void)
 {
@@ -135,7 +142,7 @@ void rech_internet::CreateGUIControls(void)
 	WxButton_lancer = new wxButton(this, ID_WXBUTTON_LANCER, wxT("Lancer la recherche"), wxPoint(174, 56), wxSize(121, 34), 0, wxDefaultValidator, wxT("WxButton_lancer"));
 	WxButton_lancer->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticBox_proxy = new wxStaticBox(this, ID_WXSTATICBOX_PROXY, wxT("Paramêtre du Proxy"), wxPoint(325, 30), wxSize(417, 81));
+	WxStaticBox_proxy = new wxStaticBox(this, ID_WXSTATICBOX_PROXY, wxT("Paramètre du Proxy"), wxPoint(325, 30), wxSize(417, 81));
 	WxStaticBox_proxy->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
 	WxCheckBox_proxy = new wxCheckBox(this, ID_WXCHECKBOX_PROXY, wxT("Utiliser un proxy"), wxPoint(325, 2), wxSize(114, 26), 0, wxDefaultValidator, wxT("WxCheckBox_proxy"));
@@ -167,7 +174,7 @@ void rech_internet::CreateGUIControls(void)
 	WxStaticText_proxy_pass = new wxStaticText(this, ID_WXSTATICTEXT_PROXY_PASS, wxT("Password : "), wxPoint(534, 83), wxDefaultSize, 0, wxT("WxStaticText_proxy_pass"));
 	WxStaticText_proxy_pass->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_aide = new wxStaticText(this, ID_WXSTATICTEXT_AIDE, wxT("Cochez Les éléments que vous désirez importer"), wxPoint(202, 113), wxDefaultSize, 0, wxT("WxStaticText_aide"));
+	WxStaticText_aide = new wxStaticText(this, ID_WXSTATICTEXT_AIDE, wxT("Cochez les éléments que vous désirez importer"), wxPoint(202, 113), wxDefaultSize, 0, wxT("WxStaticText_aide"));
 	WxStaticText_aide->SetFont(wxFont(14, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
 	WxStaticText_url = new wxStaticText(this, ID_WXSTATICTEXT_URL, wxT("Url : "), wxPoint(5, 149), wxDefaultSize, 0, wxT("WxStaticText_url"));
@@ -379,12 +386,16 @@ void rech_internet::rech_internetClose(wxCloseEvent& event)
  */
 void rech_internet::WxButton_OKClick(wxCommandEvent& event)
 {
+wxLogMessage("rech_internet::WxButton_OKClick() - entrée");
     //wxMessageBox(isbn,"probleme", wxOK | wxICON_EXCLAMATION, this);
 	// insert your code here
 	sauve_config();
     SetReturnCode(0);
+wxLogMessage("rech_internet::WxButton_OKClick() - avant Destroy()");
     Destroy();
+wxLogMessage("rech_internet::WxButton_OKClick() - après Destroy()");
 	event.Skip();
+wxLogMessage("rech_internet::WxButton_OKClick() - sortie");
 }
 
 /*

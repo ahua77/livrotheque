@@ -1,4 +1,4 @@
-object frmNewForm: TfrmNewForm
+object frmNewForm_4: TfrmNewForm
   Left = 8
   Top = 8
   AutoScroll = False
@@ -147,7 +147,7 @@ object frmNewForm: TfrmNewForm
     Top = 30
     Width = 417
     Height = 81
-    Caption = 'Param'#234'tre du Proxy'
+    Caption = 'Param'#232'tre du Proxy'
     TabOrder = 6
     Wx_BGColor = clBlack
     Wx_Class = 'wxStaticBox'
@@ -455,9 +455,9 @@ object frmNewForm: TfrmNewForm
   object WxStaticText_aide: TWxStaticText
     Left = 202
     Top = 113
-    Width = 409
+    Width = 403
     Height = 28
-    Caption = 'Cochez Les '#233'l'#233'ments que vous d'#233'sirez importer'
+    Caption = 'Cochez les '#233'l'#233'ments que vous d'#233'sirez importer'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -19

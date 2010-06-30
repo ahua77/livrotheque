@@ -1,4 +1,4 @@
-object frmNewForm_1: TfrmNewForm
+object frmNewForm_3: TfrmNewForm
   Left = 8
   Top = 8
   AutoScroll = False
@@ -154,8 +154,8 @@ object frmNewForm_1: TfrmNewForm
     Top = 0
     Width = 637
     Height = 381
-    ActivePage = n_resume
-    TabIndex = 3
+    ActivePage = n_livre
+    TabIndex = 0
     TabOrder = 0
     Wx_Class = 'wxNotebook'
     Wx_ControlOrientation = wxControlVertical
@@ -305,7 +305,7 @@ object frmNewForm_1: TfrmNewForm
         Top = 19
         Width = 232
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 5
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -479,7 +479,7 @@ object frmNewForm_1: TfrmNewForm
         Top = 71
         Width = 236
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 3
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -653,7 +653,7 @@ object frmNewForm_1: TfrmNewForm
         Top = 100
         Width = 236
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 9
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -865,7 +865,7 @@ object frmNewForm_1: TfrmNewForm
         Top = 129
         Width = 236
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 12
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -970,7 +970,7 @@ object frmNewForm_1: TfrmNewForm
         Top = 129
         Width = 123
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 36
         Text = '3/1/2006'
         Wx_BGColor = clBlack
@@ -1038,7 +1038,7 @@ object frmNewForm_1: TfrmNewForm
         Top = 158
         Width = 236
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 18
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -1143,7 +1143,7 @@ object frmNewForm_1: TfrmNewForm
         Top = 157
         Width = 238
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 20
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'

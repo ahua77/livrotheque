@@ -386,6 +386,8 @@ void Nouv_livre::CreateGUIControls(void)
 	//n_livre =  new myBitmapPanel(WxNotebook_nouv, ID_N_LIVRE,wxPoint(4,24),wxSize(629,353) );
     ////GUI Items Creation Start
 
+	wxInitAllImageHandlers();   //Initialize graphic format handlers
+
 	WxButton_nouv_ok = new wxButton(this, ID_WXBUTTON_NOUV_OK, wxT("OK"), wxPoint(181, 383), wxSize(83, 28), 0, wxDefaultValidator, wxT("WxButton_nouv_ok"));
 	WxButton_nouv_ok->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
@@ -802,8 +804,10 @@ void Nouv_livre::WxButton_nouv_okClick(wxCommandEvent& event)
         //wxMessageBox("rhha","probleme", wxOK | wxICON_INFORMATION, this);
         }    
         
+        wxLogMessage("Nouv_livre::WxButton_nouv_okClick() - avant Destroy()");
         Destroy();
-    }    
+        wxLogMessage("Nouv_livre::WxButton_nouv_okClick() - après Destroy()");
+    }
     // insert your code here
     event.Skip();
 

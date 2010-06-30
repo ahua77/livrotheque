@@ -68,6 +68,7 @@
 #include "Images/biblioFrame_toolb_fusion_genre_XPM.xpm"
 #include "Images/biblioFrame_WxToolButton_tri_XPM.xpm"
 #include "Images/biblioFrame_WxToolButton_colonne_XPM.xpm"
+#include "Images/biblioFrame_toolb_recherche_internet_XPM.xpm"
 #include "Images/biblioFrame_toolb_inserer_isbn_XPM.xpm"
 #include "Images/biblioFrame_toolb_inserer_XPM.xpm"
 #include "Images/biblioFrame_toolb_ouvrir_XPM.xpm"
@@ -78,7 +79,7 @@
 #include "ParametreDlg.h"
 #include "ParamManager.h"
 
-
+#include "rech_internet_gen.h"
 
 #define style_dialog_choix wxSYSTEM_MENU|wxCAPTION
 
@@ -141,6 +142,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_TOOLB_FUSION_GENRE,biblioFrame::fusionGenre)
 	EVT_MENU(ID_WXTOOLBUTTON_TRI,biblioFrame::MnuordredetriClick)
 	EVT_MENU(ID_WXTOOLBUTTON_COLONNE,biblioFrame::popup_MnuouvrirClick)
+	EVT_MENU(ID_WXTOOLB_RECH_INTERNET,biblioFrame::toolb_recherche_internetClick)
 	EVT_MENU(ID_WXTOOLB_INSERER_ISBN,biblioFrame::insererClickIsbn)
 	EVT_MENU(ID_WXTOOLB_INSERER,biblioFrame::insererClick)
 	EVT_MENU(ID_TOOLB_OUVRIR,biblioFrame::OuvrirClick)
@@ -342,6 +344,10 @@ void biblioFrame::CreateGUIControls(void)
 	wxBitmap toolb_inserer_isbn_BITMAP (biblioFrame_toolb_inserer_isbn_XPM);
 	wxBitmap toolb_inserer_isbn_DISABLE_BITMAP (wxNullBitmap);
 	toolb_princ->AddTool(ID_WXTOOLB_INSERER_ISBN, wxT("Insérer un livre dans la base en recherchant son code barre"), toolb_inserer_isbn_BITMAP, toolb_inserer_isbn_DISABLE_BITMAP, wxITEM_NORMAL, wxT("Insérer par l'ISBN (F3)"), wxT("Insérer un livre dans la base en recherchant son code barre"));
+
+	wxBitmap toolb_recherche_internet_BITMAP (biblioFrame_toolb_recherche_internet_XPM);
+	wxBitmap toolb_recherche_internet_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ->AddTool(ID_WXTOOLB_RECH_INTERNET, wxT("toolb_recherche_internet"), toolb_recherche_internet_BITMAP, toolb_recherche_internet_DISABLE_BITMAP, wxITEM_NORMAL, wxT("Faire une recherche sur internet"), wxT(""));
 
 	toolb_princ->AddSeparator();
 
@@ -688,11 +694,11 @@ void biblioFrame::insererClick_interne(wxCommandEvent& event, BOOL isbnMode)
     } else {
         Nouv_livre insere_livre(&amoi, this, -1, "Entrée d'un nouveau livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
         
-    if (isbnMode) {
-        insere_livre.WxEdit_isbn->SetFocus();
-    } else {
-        insere_livre.WxEdit_titre->SetFocus();
-    }
+        if (isbnMode) {
+            insere_livre.WxEdit_isbn->SetFocus();
+        } else {
+            insere_livre.WxEdit_titre->SetFocus();
+        }
                 
         
         ret=insere_livre.ShowModal();
@@ -1832,4 +1838,45 @@ void biblioFrame::image_click(wxHtmlLinkEvent &event)
     mon_image=new affiche_image(monlien.GetHref(),this);
     mon_image->ShowModal();
    	event.StopPropagation();
+}
+
+/*
+ * toolb_recherche_internetClick
+ */
+void biblioFrame::toolb_recherche_internetClick(wxCommandEvent& event)
+{
+    int ret;
+    wxLogMessage("biblioFrame::toolb_recherche_internetClick()");
+    rech_internet_gen* rech_gen = new rech_internet_gen(this, -1);
+    wxLogMessage("biblioFrame::toolb_recherche_internetClick() - après création de rech_gen");
+    
+    ret=rech_gen->ShowModal();
+    if (ret == 0) {
+        Nouv_livre insere_livre(&amoi, this, -1, "Entrée d'un nouveau livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
+        insere_livre.mise_a_jour(rech_gen->ma_recherche);
+
+        ret=insere_livre.ShowModal();
+        //si on a insere un enregistrement un réaffiche la grille
+        if(ret>0) {
+            init_arbre();
+            //remplir_grille("");
+            long id_ins=amoi.last_insert();
+            wxString mess;
+            mess.Printf("%d", (int) id_ins);
+            //wxMessageBox( mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+            // wxLogMessage("avant trouve_ligne()");
+            int numrow=trouve_ligne(mess);
+            // wxLogMessage("avant MakeCellVisible()");
+            grille->MakeCellVisible(numrow,1);
+            // wxLogMessage("avant SelectRow()");
+            grille->SelectRow(numrow);
+            // wxLogMessage("avant AfficheLivre()");
+            AfficheLivre(mess);
+            wxLogMessage("sortie bloc 1");
+         }    
+        wxLogMessage("sortie bloc 2");
+    }
+    wxLogMessage("sortie bloc 3");
+	// insert your code here
+	event.Skip();
 }

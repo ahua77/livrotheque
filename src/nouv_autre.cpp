@@ -57,8 +57,8 @@
 #include "nouv_autre.h"
 
 ////Header Include Start
-#include "WxBitmapButton_supprime_XPM.xpm"
-#include "WxBitmapButton1_ouvrir_XPM.xpm"
+#include "Images/nouv_autre_WxBitmapButton_supprime_XPM.xpm"
+#include "Images/nouv_autre_WxBitmapButton1_ouvrir_XPM.xpm"
 ////Header Include End
 
 
@@ -70,8 +70,8 @@
     ////Event Table Start
 BEGIN_EVENT_TABLE(nouv_autre,wxDialog)
 	////Manual Code Start
-//	EVT_TEXT(ID_WXEDIT_DATE_NAISSANCE,nouv_autre::wxEdit_Gesdate)
-//	EVT_TEXT(ID_WXEDIT_DATE_MORT,nouv_autre::wxEdit_Gesdate)
+	//	EVT_TEXT(ID_WXEDIT_DATE_NAISSANCE,nouv_autre::wxEdit_Gesdate)
+	//	EVT_TEXT(ID_WXEDIT_DATE_MORT,nouv_autre::wxEdit_Gesdate)
 	////Manual Code End
 	
 	EVT_CLOSE(nouv_autre::nouv_autreClose)
@@ -135,67 +135,87 @@ void nouv_autre::CreateGUIControls(void)
     int largeur_obj, hauteur_obj;
     ////GUI Items Creation Start
 
-	wxBoxSizer* WxBoxSizer1 = new wxBoxSizer(wxVERTICAL);
+	wxInitAllImageHandlers();   //Initialize graphic format handlers
+
+	WxBoxSizer1 = new wxBoxSizer(wxVERTICAL);
 	this->SetSizer(WxBoxSizer1);
-	this->SetAutoLayout(TRUE);
+	this->SetAutoLayout(true);
 
-	WxScrolledWindow1 = new wxScrolledWindow(this, ID_WXSCROLLEDWINDOW1, wxPoint(5,5), wxSize(500,167));
-	WxBoxSizer1->Add(WxScrolledWindow1,0,wxALIGN_LEFT | wxALL,0);
+	WxScrolledWindow1 = new wxScrolledWindow(this, ID_WXSCROLLEDWINDOW1, wxPoint(5, 0), wxSize(500, 167));
+	WxScrolledWindow1->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer1->Add(WxScrolledWindow1,0,wxALIGN_CENTER | wxALL,0);
 
-	WxStaticText_nom = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_NOM, wxT("Nom :"), wxPoint(7,8), wxSize(32,17), 0, wxT("WxStaticText_nom"));
+	WxStaticText_nom = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_NOM, wxT("Nom :"), wxPoint(7, 8), wxDefaultSize, 0, wxT("WxStaticText_nom"));
+	WxStaticText_nom->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxEdit_nom = new wxTextCtrl(WxScrolledWindow1, ID_WXEDIT_NOM, wxT(""), wxPoint(6,24), wxSize(229,21), 0, wxDefaultValidator, wxT("WxEdit_nom"));
+	WxEdit_nom = new wxTextCtrl(WxScrolledWindow1, ID_WXEDIT_NOM, wxT(""), wxPoint(6, 24), wxSize(229, 21), 0, wxDefaultValidator, wxT("WxEdit_nom"));
+	WxEdit_nom->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_date_naissance = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_DATE_NAISSANCE, wxT("Date de naissance :"), wxPoint(7,51), wxSize(99,17), 0, wxT("WxStaticText_date_naissance"));
+	WxStaticText_date_naissance = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_DATE_NAISSANCE, wxT("Date de naissance :"), wxPoint(7, 51), wxDefaultSize, 0, wxT("WxStaticText_date_naissance"));
+	WxStaticText_date_naissance->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_date_mort = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_DATE_MORT, wxT("Date du décès"), wxPoint(8,99), wxSize(74,17), 0, wxT("WxStaticText_date_mort"));
+	WxStaticText_date_mort = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_DATE_MORT, wxT("Date du décès"), wxPoint(8, 99), wxDefaultSize, 0, wxT("WxStaticText_date_mort"));
+	WxStaticText_date_mort->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_commentaire = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_COMMENTAIRE, wxT("Commentaire :"), wxPoint(4,146), wxSize(71,17), 0, wxT("WxStaticText_commentaire"));
+	WxStaticText_commentaire = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_COMMENTAIRE, wxT("Commentaire :"), wxPoint(4, 146), wxDefaultSize, 0, wxT("WxStaticText_commentaire"));
+	WxStaticText_commentaire->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_image = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_IMAGE, wxT("Image :"), wxPoint(226,3), wxSize(39,17), 0, wxT("WxStaticText_image"));
+	WxStaticText_image = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_IMAGE, wxT("Image :"), wxPoint(226, 3), wxDefaultSize, 0, wxT("WxStaticText_image"));
+	WxStaticText_image->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	wxBitmap WxBitmapButton1_ouvrir_BITMAP (WxBitmapButton1_ouvrir_XPM);
-	WxBitmapButton1_ouvrir = new wxBitmapButton(WxScrolledWindow1, ID_WXBITMAPBUTTON1_OUVRIR, WxBitmapButton1_ouvrir_BITMAP, wxPoint(242,25), wxSize(22,22), wxBU_AUTODRAW, wxDefaultValidator, wxT("WxBitmapButton1_ouvrir"));
+	wxBitmap WxBitmapButton1_ouvrir_BITMAP (nouv_autre_WxBitmapButton1_ouvrir_XPM);
+	WxBitmapButton1_ouvrir = new wxBitmapButton(WxScrolledWindow1, ID_WXBITMAPBUTTON1_OUVRIR, WxBitmapButton1_ouvrir_BITMAP, wxPoint(242, 25), wxSize(22, 22), wxBU_AUTODRAW, wxDefaultValidator, wxT("WxBitmapButton1_ouvrir"));
+	WxBitmapButton1_ouvrir->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	wxBitmap WxBitmapButton_supprime_BITMAP (WxBitmapButton_supprime_XPM);
-	WxBitmapButton_supprime = new wxBitmapButton(WxScrolledWindow1, ID_WXBITMAPBUTTON_SUPPRIME, WxBitmapButton_supprime_BITMAP, wxPoint(241,50), wxSize(22,22), wxBU_AUTODRAW, wxDefaultValidator, wxT("WxBitmapButton_supprime"));
+	wxBitmap WxBitmapButton_supprime_BITMAP (nouv_autre_WxBitmapButton_supprime_XPM);
+	WxBitmapButton_supprime = new wxBitmapButton(WxScrolledWindow1, ID_WXBITMAPBUTTON_SUPPRIME, WxBitmapButton_supprime_BITMAP, wxPoint(241, 50), wxSize(22, 22), wxBU_AUTODRAW, wxDefaultValidator, wxT("WxBitmapButton_supprime"));
+	WxBitmapButton_supprime->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxPanel_image = new wxPanel(WxScrolledWindow1, ID_WXPANEL_IMAGE, wxPoint(269,0), wxSize(226,162));
+	WxPanel_image = new wxPanel(WxScrolledWindow1, ID_WXPANEL_IMAGE, wxPoint(269, 0), wxSize(226, 162));
+	WxPanel_image->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxMemo_commentaire = new wxTextCtrl(this, ID_WXMEMO_COMMENTAIRE, wxT(""), wxPoint(5,182), wxSize(500,138), wxTE_MULTILINE, wxDefaultValidator, wxT("WxMemo_commentaire"));
+	wxDateTime WxDatePickerCtrl_naissance_Date(3,wxDateTime::Mar,2006,10,5,10,294);
+	WxDatePickerCtrl_naissance = new wxDatePickerCtrl(WxScrolledWindow1, ID_WXDATEPICKERCTRL_NAISSANCE, WxDatePickerCtrl_naissance_Date, wxPoint(7, 72), wxSize(140, 21) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_naissance"));
+	WxDatePickerCtrl_naissance->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+
+	wxDateTime WxDatePickerCtrl_mort_Date(3,wxDateTime::Mar,2006,10,6,19,306);
+	WxDatePickerCtrl_mort = new wxDatePickerCtrl(WxScrolledWindow1, ID_WXDATEPICKERCTRL_MORT, WxDatePickerCtrl_mort_Date, wxPoint(6, 116), wxSize(140, 21) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_mort"));
+	WxDatePickerCtrl_mort->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+
+	WxMemo_commentaire = new wxTextCtrl(this, ID_WXMEMO_COMMENTAIRE, wxEmptyString, wxPoint(5, 167), wxSize(500, 138), wxTE_MULTILINE, wxDefaultValidator, wxT("WxMemo_commentaire"));
 	WxMemo_commentaire->SetMaxLength(0);
 	WxMemo_commentaire->SetFocus();
 	WxMemo_commentaire->SetInsertionPointEnd();
-	WxBoxSizer1->Add(WxMemo_commentaire,1,wxGROW | wxALL,0);
+	WxMemo_commentaire->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer1->Add(WxMemo_commentaire,1,wxALIGN_CENTER | wxALL,0);
 
-	WxGrid_liste = new wxGrid(this, ID_WXGRID_LISTE, wxPoint(5,330), wxSize(501,100));
+	WxGrid_liste = new wxGrid(this, ID_WXGRID_LISTE, wxPoint(5, 310), wxSize(501, 100));
+	WxGrid_liste->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 	WxGrid_liste->SetDefaultColSize(50);
 	WxGrid_liste->SetDefaultRowSize(20);
 	WxGrid_liste->SetRowLabelSize(25);
 	WxGrid_liste->SetColLabelSize(15);
-	WxGrid_liste->CreateGrid(5,3,wxGrid::wxGridSelectCells);
-	WxBoxSizer1->Add(WxGrid_liste,1,wxGROW | wxALL,5);
+	WxGrid_liste->CreateGrid(5,3,wxGrid::wxGridSelectRows);
+	WxBoxSizer1->Add(WxGrid_liste,1,wxALIGN_CENTER | wxALL,5);
 
-	wxBoxSizer* WxBoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
-	WxBoxSizer1->Add(WxBoxSizer2,0,wxALIGN_CENTER_HORIZONTAL | wxALL,5);
+	WxBoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer1->Add(WxBoxSizer2, 0, wxALIGN_CENTER | wxALL, 5);
 
-	WxButton_ok = new wxButton(this, ID_WXBUTTON_OK, wxT("OK"), wxPoint(5,5), wxSize(80,28), 0, wxDefaultValidator, wxT("WxButton_ok"));
-	WxBoxSizer2->Add(WxButton_ok,0,wxALIGN_CENTER_VERTICAL | wxALL,5);
+	WxButton_ok = new wxButton(this, ID_WXBUTTON_OK, wxT("OK"), wxPoint(5, 5), wxSize(80, 28), 0, wxDefaultValidator, wxT("WxButton_ok"));
+	WxButton_ok->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer2->Add(WxButton_ok,0,wxALIGN_CENTER | wxALL,5);
 
-	WxButton_annul = new wxButton(this, wxID_CANCEL, wxT("Annuler"), wxPoint(95,5), wxSize(80,28), 0, wxDefaultValidator, wxT("WxButton_annul"));
-	WxBoxSizer2->Add(WxButton_annul,0,wxALIGN_CENTER_VERTICAL | wxALL,5);
+	WxButton_annul = new wxButton(this, wxID_CANCEL, wxT("Annuler"), wxPoint(95, 5), wxSize(80, 28), 0, wxDefaultValidator, wxT("WxButton_annul"));
+	WxButton_annul->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer2->Add(WxButton_annul,0,wxALIGN_CENTER | wxALL,5);
 
-	wxDateTime WxDatePickerCtrl_naissance_Date(3,wxDateTime::Mar,2006,10,5,10,294);
-	WxDatePickerCtrl_naissance = new wxDatePickerCtrl(WxScrolledWindow1, ID_WXDATEPICKERCTRL_NAISSANCE, WxDatePickerCtrl_naissance_Date, wxPoint(7,72), wxSize(140,21) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_naissance"));
-
-	wxDateTime WxDatePickerCtrl_mort_Date(3,wxDateTime::Mar,2006,10,6,19,306);
-	WxDatePickerCtrl_mort = new wxDatePickerCtrl(WxScrolledWindow1, ID_WXDATEPICKERCTRL_MORT, WxDatePickerCtrl_mort_Date, wxPoint(6,116), wxSize(140,21) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_mort"));
-
+	SetTitle(wxT("modif"));
+	SetIcon(wxNullIcon);
+	
+	GetSizer()->Layout();
 	GetSizer()->Fit(this);
 	GetSizer()->SetSizeHints(this);
-	this->SetTitle(wxT("modif"));
-	this->Center();
-	this->SetIcon(wxNullIcon);
+	Center();
 	
     ////GUI Items Creation End
     WxPanel_image->GetSize(&largeur_obj,&hauteur_obj);
@@ -224,6 +244,22 @@ void nouv_autre::init_tout() {
     }
 
     ret=la_belle->transac_step();
+
+    // destruction de la grille
+	int ir = WxGrid_liste->GetNumberRows();
+	if (ir)
+		WxGrid_liste->DeleteRows(0, ir);
+/*	ir = WxGrid_liste->GetNumberCols();
+	if (ir)
+		WxGrid_liste->DeleteCols(0, ir);*/
+    
+    // initialisation de la grille
+	WxGrid_liste->SetSelectionMode(wxGrid::wxGridSelectRows);
+    WxGrid_liste->SetColLabelValue(0,"id");
+    WxGrid_liste->SetColLabelValue(1,"Auteur");
+    WxGrid_liste->SetColLabelValue(2,"Titre");
+    
+
 
     if (ret!=SQLITE_ROW) {
         la_belle->transac_fin();
@@ -265,20 +301,6 @@ void nouv_autre::init_tout() {
     }    
     
     la_belle->transac_fin();
-    
-    // destruction de la grille
-	int ir = WxGrid_liste->GetNumberRows();
-	if (ir)
-		WxGrid_liste->DeleteRows(0, ir);
-/*	ir = WxGrid_liste->GetNumberCols();
-	if (ir)
-		WxGrid_liste->DeleteCols(0, ir);*/
-    
-    // initialisation de la grille
-	WxGrid_liste->SetSelectionMode(wxGrid::wxGridSelectRows);
-    WxGrid_liste->SetColLabelValue(0,"id");
-    WxGrid_liste->SetColLabelValue(1,"Auteur");
-    WxGrid_liste->SetColLabelValue(2,"Titre");
     
 //    query="SELECT livre.rowid, auteur.nom, livre.titre FROM livre LEFT JOIN auteur ON livre.id_auteur=auteur.rowid where livre.id_auteur="+id_courant;
     //saloperie de left join de merde

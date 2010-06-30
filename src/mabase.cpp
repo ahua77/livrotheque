@@ -40,6 +40,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <wx/log.h>
 #include "mabase.h"
 
 ma_base::ma_base(void) {
@@ -119,6 +120,7 @@ void ma_base::fermer() {
 }
     
 int ma_base::exec_rapide(wxString query){
+// wxLogMessage("ma_base::exec_rapide(%s)", query.c_str());
     sqlite3_stmt *monstate;
     const char *reste;
     int ret;
@@ -134,19 +136,25 @@ int ma_base::exec_rapide(wxString query){
     tempo=(char*)malloc((longu*sizeof(char))+20);
     strncpy(tempo,(char *)query.mb_str(), query.Length());
     tempo[query.Length()]='\0';
+// wxLogMessage("avant sqlite3_prepare()");
     ret=sqlite3_prepare(db,tempo,-1,&monstate,&reste);
+// wxLogMessage("avant sqlite3_step()");
     ret=sqlite3_step(monstate);
     if (ret!=SQLITE_DONE && ret!=SQLITE_ROW) {
+// wxLogMessage("avant sqlite3_finalize() - 1");
        ret=sqlite3_finalize(monstate);
        msg_erreur.Printf("%s",sqlite3_errmsg(db));
         wxMessageBox("probleme lors du exec_rapide sur la base "+nom_base + "("+query+")"+ sqlite3_errmsg(db),"probleme", wxOK | wxICON_EXCLAMATION);    
         free(tempo);
         return -1;
     }    
+// wxLogMessage("avant sqlite3_finalize() - 2");
     ret=sqlite3_finalize(monstate);
     if (ret !=  SQLITE_OK)
         wxMessageBox("probleme lors du sqlite3_finalize sur la base "+nom_base + "("+query+")"+ sqlite3_errmsg(db),"probleme", wxOK | wxICON_EXCLAMATION);    
+// wxLogMessage("avant free(tempo)");
     free(tempo);
+// wxLogMessage("ma_base::exec_rapide(%s) - sortie", query.c_str());
     return 0;
 }    
 

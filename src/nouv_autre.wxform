@@ -1,10 +1,11 @@
-object frmNewForm_2: TfrmNewForm
+object frmNewForm: TfrmNewForm
   Left = 8
   Top = 8
-  Width = 519
-  Height = 510
+  AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'modif'
+  ClientHeight = 472
+  ClientWidth = 503
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,11 +13,13 @@ object frmNewForm_2: TfrmNewForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = True
-  PopupMenu = MainForm.DesignerPopup
+  PopupMenu = DesignerPopup.Owner
   Visible = True
+  OnClick = FormClick
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-OnResize = FormResize
+  OnResize = FormResize
+  EVT_CLOSE = 'nouv_autreClose'
   Wx_ICON.Data = {07544269746D617000000000}
   Wx_Name = 'nouv_autre'
   Wx_IDName = 'ID_DIALOG1'
@@ -24,32 +27,35 @@ OnResize = FormResize
   Wx_Class = 'wxDialog'
   Wx_Center = True
   Wx_Hidden = False
+  Wx_SizeToContents = True
   Wx_GeneralStyle = []
   Wx_DialogStyle = [wxCAPTION, wxRESIZE_BORDER, wxSYSTEM_MENU, wxTHICK_FRAME, wxCLOSE_BOX]
-  EVT_CLOSE = 'nouv_autreClose'
+  Wx_Border = 0
+  Wx_BorderAlignment = []
+  isAuimanagerAvailable = False
   PixelsPerInch = 96
   TextHeight = 13
   object WxBoxSizer1: TWxBoxSizer
     Left = 0
     Top = 0
-    Width = 511
-    Height = 476
+    Width = 503
+    Height = 472
     Align = alClient
     TabOrder = 0
     Orientation = wxVertical
     Wx_Class = 'wxBoxSizer'
+    Wx_ControlOrientation = wxControlVertical
     Wx_IDName = 'ID_WXBOXSIZER1'
     Wx_IDValue = 1001
-    Wx_StretchFactor = 0
     object WxScrolledWindow1: TWxScrolledWindow
       Left = 5
-      Top = 5
+      Top = 0
       Width = 500
       Height = 167
       TabOrder = 0
       Wx_BKColor = clBlack
-      Wx_Border = 0
       Wx_Class = 'wxScrolledWindow'
+      Wx_ControlOrientation = wxControlVertical
       Wx_Default = False
       Wx_EventList.Strings = (
         'EVT_UPDATE_UI:OnUpdateUI')
@@ -59,6 +65,21 @@ OnResize = FormResize
       Wx_Hidden = False
       Wx_IDName = 'ID_WXSCROLLEDWINDOW1'
       Wx_IDValue = 1003
+      Wx_Border = 0
+      Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+      Wx_Aui_Dockable_Direction = []
+      Wx_Aui_Pane_Style = []
+      Wx_Aui_Pane_Buttons = []
+      Wx_BestSize_Height = 0
+      Wx_BestSize_Width = 0
+      Wx_MinSize_Height = 0
+      Wx_MinSize_Width = 0
+      Wx_MaxSize_Height = 0
+      Wx_MaxSize_Width = 0
+      Wx_Floating_Height = 0
+      Wx_Floating_Width = 0
+      Wx_Floating_X_Pos = 0
+      Wx_Floating_Y_Pos = 0
       object WxStaticText_nom: TWxStaticText
         Left = 7
         Top = 8
@@ -68,12 +89,27 @@ OnResize = FormResize
         TabOrder = 3
         Wx_BGColor = clBlack
         Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
         Wx_IDName = 'ID_WXSTATICTEXT_NOM'
         Wx_IDValue = 1009
         Wx_LabelStyle = []
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxEdit_nom: TWxEdit
         Left = 6
@@ -82,11 +118,11 @@ OnResize = FormResize
         Height = 21
         BevelInner = bvNone
         BevelOuter = bvNone
-        Modified = False
-        BorderStyle = bsNone
+        AutoSize = False
         TabOrder = 4
         Wx_BGColor = clBlack
         Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
         Wx_EditStyle = []
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
@@ -94,6 +130,20 @@ OnResize = FormResize
         Wx_IDName = 'ID_WXEDIT_NOM'
         Wx_IDValue = 1010
         Wx_MaxLength = 0
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxStaticText_date_naissance: TWxStaticText
         Left = 7
@@ -104,12 +154,27 @@ OnResize = FormResize
         TabOrder = 6
         Wx_BGColor = clBlack
         Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
         Wx_IDName = 'ID_WXSTATICTEXT_DATE_NAISSANCE'
         Wx_IDValue = 1015
         Wx_LabelStyle = []
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxStaticText_date_mort: TWxStaticText
         Left = 8
@@ -120,12 +185,27 @@ OnResize = FormResize
         TabOrder = 7
         Wx_BGColor = clBlack
         Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
         Wx_IDName = 'ID_WXSTATICTEXT_DATE_MORT'
         Wx_IDValue = 1017
         Wx_LabelStyle = []
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxStaticText_commentaire: TWxStaticText
         Left = 4
@@ -136,12 +216,27 @@ OnResize = FormResize
         TabOrder = 5
         Wx_BGColor = clBlack
         Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
         Wx_IDName = 'ID_WXSTATICTEXT_COMMENTAIRE'
         Wx_IDValue = 1011
         Wx_LabelStyle = []
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxStaticText_image: TWxStaticText
         Left = 226
@@ -152,12 +247,27 @@ OnResize = FormResize
         TabOrder = 0
         Wx_BGColor = clBlack
         Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
         Wx_IDName = 'ID_WXSTATICTEXT_IMAGE'
         Wx_IDValue = 1006
         Wx_LabelStyle = []
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxBitmapButton1_ouvrir: TWxBitmapButton
         Left = 242
@@ -204,6 +314,7 @@ OnResize = FormResize
         Wx_BKColor = clBlack
         Wx_ButtonStyle = []
         Wx_Class = 'wxBitmapButton'
+        Wx_ControlOrientation = wxControlVertical
         Wx_Default = False
         Wx_EventList.Strings = (
           'EVT_BUTTON:OnClick'
@@ -211,8 +322,6 @@ OnResize = FormResize
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
-        Wx_IDName = 'ID_WXBITMAPBUTTON1_OUVRIR'
-        Wx_IDValue = 1007
         Wx_BITMAP.Data = {
           07544269746D617036040000424D360400000000000036000000280000001000
           0000100000000100200000000000000400000000000000000000000000000000
@@ -249,6 +358,22 @@ OnResize = FormResize
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000000000000000
           0000}
+        Wx_IDName = 'ID_WXBITMAPBUTTON1_OUVRIR'
+        Wx_IDValue = 1007
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxBitmapButton_supprime: TWxBitmapButton
         Left = 241
@@ -295,6 +420,7 @@ OnResize = FormResize
         Wx_BKColor = clBlack
         Wx_ButtonStyle = []
         Wx_Class = 'wxBitmapButton'
+        Wx_ControlOrientation = wxControlVertical
         Wx_Default = False
         Wx_EventList.Strings = (
           'EVT_BUTTON:OnClick'
@@ -302,8 +428,6 @@ OnResize = FormResize
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
-        Wx_IDName = 'ID_WXBITMAPBUTTON_SUPPRIME'
-        Wx_IDValue = 1008
         Wx_BITMAP.Data = {
           07544269746D617036040000424D360400000000000036000000280000001000
           0000100000000100200000000000000400000000000000000000000000000000
@@ -340,6 +464,22 @@ OnResize = FormResize
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000000000000000
           0000}
+        Wx_IDName = 'ID_WXBITMAPBUTTON_SUPPRIME'
+        Wx_IDValue = 1008
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxPanel_image: TWxPanel
         Left = 269
@@ -349,6 +489,7 @@ OnResize = FormResize
         TabOrder = 8
         Wx_BKColor = clBlack
         Wx_Class = 'wxPanel'
+        Wx_ControlOrientation = wxControlVertical
         Wx_Default = False
         Wx_EventList.Strings = (
           'EVT_UPDATE_UI:OnUpdateUI')
@@ -357,6 +498,20 @@ OnResize = FormResize
         Wx_Hidden = False
         Wx_IDName = 'ID_WXPANEL_IMAGE'
         Wx_IDValue = 1020
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxDatePickerCtrl_naissance: TWxDatePickerCtrl
         Left = 7
@@ -370,11 +525,26 @@ OnResize = FormResize
         Wx_Class = 'wxDatePickerCtrl'
         Wx_Date = 38779.4202580324
         Wx_PickCalStyle = [wxDP_DROPDOWN, wxDP_ALLOWNONE]
+        Wx_ControlOrientation = wxControlVertical
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
         Wx_IDName = 'ID_WXDATEPICKERCTRL_NAISSANCE'
         Wx_IDValue = 1023
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxDatePickerCtrl_mort: TWxDatePickerCtrl
         Left = 6
@@ -388,35 +558,66 @@ OnResize = FormResize
         Wx_Class = 'wxDatePickerCtrl'
         Wx_Date = 38779.4210567824
         Wx_PickCalStyle = [wxDP_DROPDOWN, wxDP_ALLOWNONE]
+        Wx_ControlOrientation = wxControlVertical
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
         Wx_IDName = 'ID_WXDATEPICKERCTRL_MORT'
         Wx_IDValue = 1024
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
     end
     object WxMemo_commentaire: TWxMemo
       Left = 5
-      Top = 182
+      Top = 167
       Width = 500
       Height = 138
       BevelInner = bvNone
       BevelOuter = bvNone
+      ScrollBars = ssVertical
       TabOrder = 1
       Wx_BGColor = clBlack
-      Wx_Border = 0
       Wx_Class = 'wxTextCtrl'
+      Wx_ControlOrientation = wxControlVertical
       Wx_EditStyle = [wxTE_MULTILINE]
       Wx_FGColor = clBlack
       Wx_GeneralStyle = []
       Wx_IDName = 'ID_WXMEMO_COMMENTAIRE'
       Wx_IDValue = 1004
-      Wx_StretchFactor = 1
       Wx_MaxLength = 0
+      Wx_Border = 0
+      Wx_StretchFactor = 1
+      Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+      Wx_Aui_Dockable_Direction = []
+      Wx_Aui_Pane_Style = []
+      Wx_Aui_Pane_Buttons = []
+      Wx_BestSize_Height = 0
+      Wx_BestSize_Width = 0
+      Wx_MinSize_Height = 0
+      Wx_MinSize_Width = 0
+      Wx_MaxSize_Height = 0
+      Wx_MaxSize_Width = 0
+      Wx_Floating_Height = 0
+      Wx_Floating_Width = 0
+      Wx_Floating_X_Pos = 0
+      Wx_Floating_Y_Pos = 0
     end
     object WxGrid_liste: TWxGrid
       Left = 5
-      Top = 330
+      Top = 310
       Width = 501
       Height = 100
       ColCount = 4
@@ -430,6 +631,7 @@ OnResize = FormResize
       Wx_LabelRowSize = 15
       Wx_BGColor = clBlack
       Wx_Class = 'wxGrid'
+      Wx_ControlOrientation = wxControlVertical
       Wx_EditStyle = []
       Wx_FGColor = clBlack
       Wx_GeneralStyle = []
@@ -438,6 +640,20 @@ OnResize = FormResize
       Wx_IDValue = 1022
       Wx_GridSelection = wxGridSelectRows
       Wx_StretchFactor = 1
+      Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+      Wx_Aui_Dockable_Direction = []
+      Wx_Aui_Pane_Style = []
+      Wx_Aui_Pane_Buttons = []
+      Wx_BestSize_Height = 0
+      Wx_BestSize_Width = 0
+      Wx_MinSize_Height = 0
+      Wx_MinSize_Width = 0
+      Wx_MaxSize_Height = 0
+      Wx_MaxSize_Width = 0
+      Wx_Floating_Height = 0
+      Wx_Floating_Width = 0
+      Wx_Floating_X_Pos = 0
+      Wx_Floating_Y_Pos = 0
       ColWidths = (
         25
         50
@@ -453,14 +669,14 @@ OnResize = FormResize
     end
     object WxBoxSizer2: TWxBoxSizer
       Left = 165
-      Top = 440
+      Top = 420
       Width = 180
       Height = 38
       TabOrder = 2
       Wx_Class = 'wxBoxSizer'
+      Wx_ControlOrientation = wxControlVertical
       Wx_IDName = 'ID_WXBOXSIZER2'
       Wx_IDValue = 1012
-      Wx_StretchFactor = 0
       object WxButton_ok: TWxButton
         Left = 5
         Top = 5
@@ -472,6 +688,7 @@ OnResize = FormResize
         Wx_BKColor = clBlack
         Wx_ButtonStyle = []
         Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
         Wx_Default = False
         Wx_EventList.Strings = (
           'EVT_BUTTON:OnClick'
@@ -481,6 +698,20 @@ OnResize = FormResize
         Wx_Hidden = False
         Wx_IDName = 'ID_WXBUTTON_OK'
         Wx_IDValue = 1013
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
       object WxButton_annul: TWxButton
         Left = 95
@@ -493,6 +724,7 @@ OnResize = FormResize
         Wx_BKColor = clBlack
         Wx_ButtonStyle = []
         Wx_Class = 'wxButton'
+        Wx_ControlOrientation = wxControlVertical
         Wx_Default = False
         Wx_EventList.Strings = (
           'EVT_BUTTON:OnClick'
@@ -502,6 +734,20 @@ OnResize = FormResize
         Wx_Hidden = False
         Wx_IDName = 'wxID_CANCEL'
         Wx_IDValue = 1014
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
       end
     end
   end

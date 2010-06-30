@@ -48,7 +48,10 @@
 ////Header Include Start
 ////Header Include End
 
-
+/** conservation en static de la liste des résultats d'une précédente recherche */
+liste_caracteristiques rech_internet_gen::s_list_livres;
+/** conservation en static de la chaîne recherchée lors d'une précédente recherche */
+wxString rech_internet_gen::s_critere;
 
 //----------------------------------------------------------------------------
 // rech_internet_gen
@@ -76,11 +79,15 @@ END_EVENT_TABLE()
 rech_internet_gen::rech_internet_gen( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    wxLogMessage("rech_internet_gen::rech_internet_gen() - entrée - this = 0x%x", this);
     CreateGUIControls();
+    wxLogMessage("rech_internet_gen::rech_internet_gen() - sortie - this = 0x%x", this);
 }
 
 rech_internet_gen::~rech_internet_gen() {
+    wxLogMessage("rech_internet_gen::~rech_internet_gen() - entrée - this = 0x%x", this);
     sauve_config();
+    wxLogMessage("rech_internet_gen::~rech_internet_gen() - sortie - this = 0x%x", this);
 } 
 
 void rech_internet_gen::CreateGUIControls(void)
@@ -90,85 +97,114 @@ void rech_internet_gen::CreateGUIControls(void)
     //Add the custom code before or after the Blocks
     ////GUI Items Creation Start
 
-	SetTitle(wxT("Recherche Internet générale"));
-	SetIcon(wxNullIcon);
-	SetSize(8,8,696,515);
-	Center();
-	
-
 	wxArrayString arrayStringFor_WxRadioBox_choix_recherche;
 	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT("Amazon (fr)"));
 	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT("Alapage (fr)"));
 	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT("Amazon (us)"));
 	arrayStringFor_WxRadioBox_choix_recherche.Add(wxT("Amazon (uk)"));
-	WxRadioBox_choix_recherche = new wxRadioBox(this, ID_WXRADIOBOX1, wxT("Moteur de recherche"), wxPoint(41,4), wxSize(122,95), arrayStringFor_WxRadioBox_choix_recherche, 1, wxRA_SPECIFY_COLS, wxDefaultValidator, wxT("WxRadioBox_choix_recherche"));
+	WxRadioBox_choix_recherche = new wxRadioBox(this, ID_WXRADIOBOX1, wxT("Moteur de recherche"), wxPoint(41, 4), wxSize(122, 95), arrayStringFor_WxRadioBox_choix_recherche, 1, wxRA_SPECIFY_COLS, wxDefaultValidator, wxT("WxRadioBox_choix_recherche"));
 	WxRadioBox_choix_recherche->SetToolTip(wxT("Choix du moteur de recherche"));
 	WxRadioBox_choix_recherche->SetSelection(0);
+	WxRadioBox_choix_recherche->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxButton_recherche = new wxButton(this, ID_WXBUTTON_RECHERCHE, wxT("Rechercher"), wxPoint(594,115), wxSize(69,22), 0, wxDefaultValidator, wxT("WxButton_recherche"));
+	WxButton_recherche = new wxButton(this, ID_WXBUTTON_RECHERCHE, wxT("Rechercher"), wxPoint(594, 115), wxSize(69, 22), 0, wxDefaultValidator, wxT("WxButton_recherche"));
+	WxButton_recherche->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText1 = new wxStaticText(this, ID_WXSTATICTEXT1, wxT("Double cliquez sur le livre dont vous voulez voir le détail"), wxPoint(109,139), wxDefaultSize, 0, wxT("WxStaticText1"));
-	WxStaticText1->SetFont(wxFont(12, wxSWISS, wxNORMAL,wxNORMAL, false));
+	WxStaticText1 = new wxStaticText(this, ID_WXSTATICTEXT1, wxT("Double cliquez sur le livre dont vous voulez voir le détail"), wxPoint(109, 139), wxDefaultSize, 0, wxT("WxStaticText1"));
+	WxStaticText1->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxGrid_general = new wxGrid(this, ID_WXGRID_GENERAL, wxPoint(13,454), wxSize(175,18));
+	WxGrid_general = new wxGrid(this, ID_WXGRID_GENERAL, wxPoint(13, 454), wxSize(175, 18));
 	WxGrid_general->Show(false);
+	WxGrid_general->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 	WxGrid_general->SetDefaultColSize(51);
 	WxGrid_general->SetDefaultRowSize(15);
 	WxGrid_general->SetRowLabelSize(15);
 	WxGrid_general->SetColLabelSize(0);
-	WxGrid_general->CreateGrid(1,5,wxGrid::wxGridSelectCells);
+	WxGrid_general->CreateGrid(1,5,wxGrid::wxGridSelectRows);
 
-	WxGrid_precis = new wxGrid(this, ID_WXGRID_PRECIS, wxPoint(14,169), wxSize(663,270));
+	WxGrid_precis = new wxGrid(this, ID_WXGRID_PRECIS, wxPoint(14, 169), wxSize(663, 270));
+	WxGrid_precis->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 	WxGrid_precis->SetDefaultColSize(50);
 	WxGrid_precis->SetDefaultRowSize(15);
 	WxGrid_precis->SetRowLabelSize(15);
 	WxGrid_precis->SetColLabelSize(0);
-	WxGrid_precis->CreateGrid(1,5,wxGrid::wxGridSelectCells);
+	WxGrid_precis->CreateGrid(1,5,wxGrid::wxGridSelectRows);
 
-	WxStaticText_recherche = new wxStaticText(this, ID_WXSTATICTEXT_RECHERCHE, wxT("Texte à rechercher :"), wxPoint(7,118), wxDefaultSize, 0, wxT("WxStaticText_recherche"));
+	WxStaticText_recherche = new wxStaticText(this, ID_WXSTATICTEXT_RECHERCHE, wxT("Texte à rechercher :"), wxPoint(7, 118), wxDefaultSize, 0, wxT("WxStaticText_recherche"));
+	WxStaticText_recherche->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxEdit_recherche = new wxTextCtrl(this, ID_WXEDIT_RECHERCHE, wxT(""), wxPoint(112,115), wxSize(481,21), 0, wxDefaultValidator, wxT("WxEdit_recherche"));
+	WxEdit_recherche = new wxTextCtrl(this, ID_WXEDIT_RECHERCHE, wxT(""), wxPoint(112, 115), wxSize(481, 21), 0, wxDefaultValidator, wxT("WxEdit_recherche"));
+	WxEdit_recherche->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxCheckBox_proxy = new wxCheckBox(this, ID_WXCHECKBOX_PROXY, wxT("Utiliser un proxy"), wxPoint(235,2), wxSize(114,21), 0, wxDefaultValidator, wxT("WxCheckBox_proxy"));
+	WxCheckBox_proxy = new wxCheckBox(this, ID_WXCHECKBOX_PROXY, wxT("Utiliser un proxy"), wxPoint(235, 2), wxSize(114, 21), 0, wxDefaultValidator, wxT("WxCheckBox_proxy"));
 	WxCheckBox_proxy->SetToolTip(wxT("Coc"));
 	WxCheckBox_proxy->SetHelpText(wxT("Cocher la case si vous voulez utiliser un proxy"));
+	WxCheckBox_proxy->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxEdit_proxy_pass = new wxTextCtrl(this, ID_WXEDIT_PROXY_PASS, wxT(""), wxPoint(498,74), wxSize(138,21), wxTE_PASSWORD, wxDefaultValidator, wxT("WxEdit_proxy_pass"));
+	WxEdit_proxy_pass = new wxTextCtrl(this, ID_WXEDIT_PROXY_PASS, wxT(""), wxPoint(498, 74), wxSize(138, 21), wxTE_PASSWORD, wxDefaultValidator, wxT("WxEdit_proxy_pass"));
 	WxEdit_proxy_pass->Enable(false);
+	WxEdit_proxy_pass->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_proxy_pass = new wxStaticText(this, ID_WXSTATICTEXT_PROXY_PASS, wxT("Password : "), wxPoint(435,77), wxDefaultSize, 0, wxT("WxStaticText_proxy_pass"));
+	WxStaticText_proxy_pass = new wxStaticText(this, ID_WXSTATICTEXT_PROXY_PASS, wxT("Password : "), wxPoint(435, 77), wxDefaultSize, 0, wxT("WxStaticText_proxy_pass"));
+	WxStaticText_proxy_pass->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxEdit_proxy_util = new wxTextCtrl(this, ID_WXEDIT_PROXY_UTIL, wxT(""), wxPoint(498,43), wxSize(136,21), 0, wxDefaultValidator, wxT("WxEdit_proxy_util"));
+	WxEdit_proxy_util = new wxTextCtrl(this, ID_WXEDIT_PROXY_UTIL, wxT(""), wxPoint(498, 43), wxSize(136, 21), 0, wxDefaultValidator, wxT("WxEdit_proxy_util"));
 	WxEdit_proxy_util->Enable(false);
+	WxEdit_proxy_util->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_proxy_util = new wxStaticText(this, ID_WXSTATICTEXT_PROXY_UTIL, wxT("Utilisateur : "), wxPoint(437,44), wxDefaultSize, 0, wxT("WxStaticText_proxy_util"));
+	WxStaticText_proxy_util = new wxStaticText(this, ID_WXSTATICTEXT_PROXY_UTIL, wxT("Utilisateur : "), wxPoint(437, 44), wxDefaultSize, 0, wxT("WxStaticText_proxy_util"));
+	WxStaticText_proxy_util->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxEdit_proxy_port = new wxTextCtrl(this, ID_WXEDIT_PROXY_PORT, wxT(""), wxPoint(284,73), wxSize(143,21), 0, wxDefaultValidator, wxT("WxEdit_proxy_port"));
+	WxEdit_proxy_port = new wxTextCtrl(this, ID_WXEDIT_PROXY_PORT, wxT(""), wxPoint(284, 73), wxSize(143, 21), 0, wxDefaultValidator, wxT("WxEdit_proxy_port"));
 	WxEdit_proxy_port->Enable(false);
+	WxEdit_proxy_port->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_proxy_port = new wxStaticText(this, ID_WXSTATICTEXT_PROXY_PORT, wxT("Port : "), wxPoint(247,74), wxDefaultSize, 0, wxT("WxStaticText_proxy_port"));
+	WxStaticText_proxy_port = new wxStaticText(this, ID_WXSTATICTEXT_PROXY_PORT, wxT("Port : "), wxPoint(247, 74), wxDefaultSize, 0, wxT("WxStaticText_proxy_port"));
+	WxStaticText_proxy_port->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxEdit_proxy_adr = new wxTextCtrl(this, ID_WXEDIT_PROXY_ADR, wxT(""), wxPoint(285,42), wxSize(142,21), 0, wxDefaultValidator, wxT("WxEdit_proxy_adr"));
+	WxEdit_proxy_adr = new wxTextCtrl(this, ID_WXEDIT_PROXY_ADR, wxT(""), wxPoint(285, 42), wxSize(142, 21), 0, wxDefaultValidator, wxT("WxEdit_proxy_adr"));
 	WxEdit_proxy_adr->Enable(false);
+	WxEdit_proxy_adr->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_proxy_adr = new wxStaticText(this, ID_WXSTATICTEXT_PROXY_ADR, wxT("Adresse : "), wxPoint(233,44), wxDefaultSize, 0, wxT("WxStaticText_proxy_adr"));
+	WxStaticText_proxy_adr = new wxStaticText(this, ID_WXSTATICTEXT_PROXY_ADR, wxT("Adresse : "), wxPoint(233, 44), wxDefaultSize, 0, wxT("WxStaticText_proxy_adr"));
+	WxStaticText_proxy_adr->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxButton_ok = new wxButton(this, wxID_CANCEL, wxT("Annuler"), wxPoint(262,447), wxSize(92,28), 0, wxDefaultValidator, wxT("WxButton_ok"));
+	WxButton_ok = new wxButton(this, wxID_CANCEL, wxT("Annuler"), wxPoint(262, 447), wxSize(92, 28), 0, wxDefaultValidator, wxT("WxButton_ok"));
+	WxButton_ok->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticBox_proxy = new wxStaticBox(this, ID_WXSTATICBOX_PROXY, wxT("Paramêtre du Proxy"), wxPoint(226,24), wxSize(417,81));
+	WxStaticBox_proxy = new wxStaticBox(this, ID_WXSTATICBOX_PROXY, wxT("Paramètre du Proxy"), wxPoint(226, 24), wxSize(417, 81));
+	WxStaticBox_proxy->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+
+	SetTitle(wxT("Recherche Internet générale"));
+	SetIcon(wxNullIcon);
+	SetSize(8,8,704,519);
+	Center();
+	
     ////GUI Items Creation End
     init_grille(WxGrid_general);
     init_grille(WxGrid_precis);
 
     load_config();
     change_etat_proxy();
+
+    // affichage de la liste conservée d'une recherche précédente
+    if (s_list_livres.GetCount() == 0 ) {
+        // wxMessageBox("Pas de données ramenées","probleme", wxOK | wxICON_EXCLAMATION, this);
+    } else {
+        rempli_grille(WxGrid_precis, &s_list_livres);
+    }
+    WxEdit_recherche->SetValue(s_critere);
+    
+
 }
 
 void rech_internet_gen::rech_internet_genClose(wxCloseEvent& event)
 {
     // --> Don't use Close with a wxDialog,
     // use Destroy instead.
+wxLogMessage("rech_internet_gen::rech_internet_genClose() - entrée");
     Destroy();
+wxLogMessage("rech_internet_gen::rech_internet_genClose() - sortie");
 }
  
 void rech_internet_gen::WxCheckBox_proxyClick(wxCommandEvent& event)
@@ -213,6 +249,7 @@ void rech_internet_gen::init_grille(wxGrid *grille) {
 }
 
 void rech_internet_gen::sauve_config() {
+    wxLogMessage("rech_internet_gen::sauve_config() - entrée");
     wxString fichier_conf;
     wxString query, mess;
     int ret;
@@ -222,9 +259,11 @@ void rech_internet_gen::sauve_config() {
     config.ouvrir(fichier_conf);
     if (config.existe("rech_internet") == true) {
         query = "DELETE from rech_internet where type_param='PROXY'";
+        wxLogMessage(query);
         config.exec_rapide(query);
     } else {
         query="CREATE TABLE rech_internet (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)";
+        wxLogMessage(query);
         ret=config.exec_rapide(query);
         if (ret<0) {
             config.get_erreur(mess);
@@ -232,7 +271,10 @@ void rech_internet_gen::sauve_config() {
             return;
         }
     }
+    wxLogMessage("WxCheckBox_proxy : 0x%x", WxCheckBox_proxy);
+    wxLogMessage("WxCheckBox_proxy : %d", WxCheckBox_proxy->GetValue());
     query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'UTILISE', '"+wxString::Format("%d",WxCheckBox_proxy->GetValue())+"')";
+    wxLogMessage(query);
     ret=config.exec_rapide(query);
     if (ret<0) {
         config.get_erreur(mess);
@@ -240,6 +282,7 @@ void rech_internet_gen::sauve_config() {
         return;
     }
     query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'ADRESSE', '"+WxEdit_proxy_adr->GetValue()+"')";
+        wxLogMessage(query);
     ret=config.exec_rapide(query);
     if (ret<0) {
         config.get_erreur(mess);
@@ -247,6 +290,7 @@ void rech_internet_gen::sauve_config() {
         return;
     }
     query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'PORT', '"+WxEdit_proxy_port->GetValue()+"')";
+        wxLogMessage(query);
     ret=config.exec_rapide(query);
     if (ret<0) {
         config.get_erreur(mess);
@@ -254,6 +298,7 @@ void rech_internet_gen::sauve_config() {
         return;
     }
     query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'USER', '"+WxEdit_proxy_util->GetValue()+"')";
+        wxLogMessage(query);
     ret=config.exec_rapide(query);
     if (ret<0) {
         config.get_erreur(mess);
@@ -261,6 +306,7 @@ void rech_internet_gen::sauve_config() {
         return;
     }
     query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'PASS', '"+WxEdit_proxy_pass->GetValue()+"')";
+        wxLogMessage(query);
     ret=config.exec_rapide(query);
     if (ret<0) {
         config.get_erreur(mess);
@@ -268,13 +314,16 @@ void rech_internet_gen::sauve_config() {
         return;
     }
     query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'MOTEUR', '"+wxString::Format("%d",WxRadioBox_choix_recherche->GetSelection())+"')";
+        wxLogMessage(query);
     ret=config.exec_rapide(query);
     if (ret<0) {
         config.get_erreur(mess);
         wxMessageBox(mess,"sauvegarde de la configuration du moteur", wxOK | wxICON_EXCLAMATION, this);
         return;
     }
+        wxLogMessage("avant config.fermer");
     config.fermer();
+    wxLogMessage("rech_internet_gen::sauve_config() - sortie");
 }    
 
 
@@ -375,7 +424,7 @@ void rech_internet_gen::WxButton_okClick(wxCommandEvent& event)
  */
 void rech_internet_gen::WxButton_rechercheClick(wxCommandEvent& event)
 {
-    liste_caracteristiques list_livres;
+//    liste_caracteristiques list_livres;
 
 //    liste_caracteristiques list_caractPopu;
 //    liste_caracteristiques list_caractAutre;
@@ -389,19 +438,21 @@ void rech_internet_gen::WxButton_rechercheClick(wxCommandEvent& event)
     }
     //list_caractPopu.Effacer();
     //list_caractAutre.Effacer();
-    list_livres.Effacer();
+    s_list_livres.Effacer();
      wxSetCursor(wxCursor(wxCURSOR_WAIT));
     l_livre.setproxy(WxCheckBox_proxy->GetValue(), WxEdit_proxy_adr->GetValue(), WxEdit_proxy_port->GetValue(), WxEdit_proxy_util->GetValue(), WxEdit_proxy_pass->GetValue());
-    
-    l_livre.chercher_texte(WxEdit_recherche->GetValue(),list_livres, WxRadioBox_choix_recherche->GetSelection());
+
+    // mémorisation du critère de recherche pour le prochain affichage de la fenêtre    
+    s_critere = WxEdit_recherche->GetValue();
+    l_livre.chercher_texte(WxEdit_recherche->GetValue(),s_list_livres, WxRadioBox_choix_recherche->GetSelection());
 //    l_livre.chercher_texte(WxEdit_recherche->GetValue(),list_caractPopu,list_caractAutre, WxRadioBox_choix_recherche->GetSelection());
 
     //curseur_wait = new wxCursor(wxCURSOR_WAIT);
 
-    if (list_livres.GetCount() == 0 ) {
+    if (s_list_livres.GetCount() == 0 ) {
         wxMessageBox("Pas de données ramenées","probleme", wxOK | wxICON_EXCLAMATION, this);
     } else {
-        rempli_grille(WxGrid_precis, &list_livres);
+        rempli_grille(WxGrid_precis, &s_list_livres);
     }
 /*    if (list_caractPopu.GetCount() == 0 && list_caractAutre.GetCount() == 0) {
         wxMessageBox("Pas de données ramenées","probleme", wxOK | wxICON_EXCLAMATION, this);

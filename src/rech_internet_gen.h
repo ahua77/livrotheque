@@ -170,6 +170,10 @@ public:
     void sauve_config() ;
     void load_config();
 	void WxGrid_precisCellLeftDoubleClick(wxGridEvent& event);
+	
+private:
+    static liste_caracteristiques s_list_livres;
+    static wxString s_critere;
 
 };
 

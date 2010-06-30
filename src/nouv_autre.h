@@ -52,15 +52,16 @@
 #include "Nouv_livre.h"
 
 ////Header Include Start
-#include <wx/datectrl.h>
-#include <wx/dateevt.h>
 #include <wx/button.h>
 #include <wx/grid.h>
+#include <wx/datectrl.h>
+#include <wx/dateevt.h>
 #include <wx/panel.h>
 #include <wx/bmpbuttn.h>
 #include <wx/textctrl.h>
 #include <wx/stattext.h>
 #include <wx/scrolwin.h>
+#include <wx/sizer.h>
 ////Header Include End
 #include <wx/filename.h>
 #include <wx/dialog.h>
@@ -89,11 +90,11 @@ class nouv_autre : public wxDialog
 public:
  enum {
 ////GUI Enum Control ID Start
-			ID_WXDATEPICKERCTRL_MORT = 1024,
-			ID_WXDATEPICKERCTRL_NAISSANCE = 1023,
 			ID_WXBUTTON_OK = 1013,
 			ID_WXGRID_LISTE = 1022,
 			ID_WXMEMO_COMMENTAIRE = 1004,
+			ID_WXDATEPICKERCTRL_MORT = 1024,
+			ID_WXDATEPICKERCTRL_NAISSANCE = 1023,
 			ID_WXPANEL_IMAGE = 1020,
 			ID_WXBITMAPBUTTON_SUPPRIME = 1008,
 			ID_WXBITMAPBUTTON1_OUVRIR = 1007,
@@ -114,13 +115,13 @@ ID_DUMMY_VALUE_ //Dont Delete this DummyValue
     virtual ~nouv_autre();
 public:
   ////GUI Control Declaration Start
-		wxDatePickerCtrl *WxDatePickerCtrl_mort;
-		wxDatePickerCtrl *WxDatePickerCtrl_naissance;
 		wxButton *WxButton_annul;
 		wxButton *WxButton_ok;
 		wxBoxSizer *WxBoxSizer2;
 		wxGrid *WxGrid_liste;
 		wxTextCtrl *WxMemo_commentaire;
+		wxDatePickerCtrl *WxDatePickerCtrl_mort;
+		wxDatePickerCtrl *WxDatePickerCtrl_naissance;
 		wxPanel *WxPanel_image;
 		wxBitmapButton *WxBitmapButton_supprime;
 		wxBitmapButton *WxBitmapButton1_ouvrir;
