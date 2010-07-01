@@ -130,6 +130,9 @@ public:
     void OnOk(wxCommandEvent& event);
     void creation_where_simple(wxString nom_champ, wxArrayString liste_cherche);
     void creation_where_id(wxString nom_champ, wxArrayString liste_cherche);
+
+private:    
+    static long s_nbInstances;
 };
 
 

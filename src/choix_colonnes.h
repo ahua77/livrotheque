@@ -163,6 +163,9 @@ public:
 	void WxBitmapButton_hautClick(wxCommandEvent& event);
     void choix_colonnes::deplace_choisi(bool haut);
 		void WxBitmapButton_basClick(wxCommandEvent& event);
+
+private:    
+    static long s_nbInstances;
 };
 
 

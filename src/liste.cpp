@@ -60,6 +60,7 @@
 ////Header Include End
 
 
+long liste::s_nbInstances = 0;
 
 //----------------------------------------------------------------------------
 // liste
@@ -79,12 +80,15 @@ END_EVENT_TABLE()
 liste::liste( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("liste::liste() - nbInstances = %ld", s_nbInstances);
     CreateGUIControls();
 }
 
 liste::~liste()
 {
-    
+    s_nbInstances--;
+    wxLogMessage("liste::~liste() - nbInstances = %ld", s_nbInstances);    
 } 
 
 void liste::CreateGUIControls(void)

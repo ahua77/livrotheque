@@ -128,6 +128,7 @@ public:
 private:
     wxString critere_tri;
     wxString ordre_tri;
+    static long s_nbInstances;
 };
 
 

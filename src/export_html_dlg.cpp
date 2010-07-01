@@ -64,6 +64,9 @@
 #define MODE_HTML 0 
 #define MODE_HTML_PDA 1
 #define MODE_AJAX 2
+
+long export_html_dlg::s_nbInstances = 0;
+
 //----------------------------------------------------------------------------
 // export_html_dlg
 //----------------------------------------------------------------------------
@@ -84,6 +87,9 @@ END_EVENT_TABLE()
 export_html_dlg::export_html_dlg(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("export_html_dlg::export_html_dlg() - nbInstances = %ld", s_nbInstances);
+
     la_belle=NULL;
 	CreateGUIControls();
 }
@@ -91,12 +97,17 @@ export_html_dlg::export_html_dlg(wxWindow *parent, wxWindowID id, const wxString
 export_html_dlg::export_html_dlg( ma_base *pour_lecture, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("export_html_dlg::export_html_dlg() - nbInstances = %ld", s_nbInstances);
+
     la_belle=pour_lecture;
 	CreateGUIControls();
 }
 
 export_html_dlg::~export_html_dlg()
 {
+    s_nbInstances--;
+    wxLogMessage("export_html_dlg::~export_html_dlg() - nbInstances = %ld", s_nbInstances);
 } 
 
 void export_html_dlg::CreateGUIControls()

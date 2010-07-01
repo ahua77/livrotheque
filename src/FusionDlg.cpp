@@ -41,6 +41,8 @@
 
 #include "FusionDlg.h"
 
+long FusionDlg::s_nbInstances = 0;
+
 //Do not add custom headers
 //wxDev-C++ designer will remove them
 ////Header Include Start
@@ -70,11 +72,15 @@ END_EVENT_TABLE()
 FusionDlg::FusionDlg(wxWindow *parent, ma_base& p_baseLivre, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style), baseLivre(p_baseLivre)
 {
+    s_nbInstances++;
+    wxLogMessage("FusionDlg::FusionDlg() - nbInstances = %ld", s_nbInstances);
 	CreateGUIControls();
 }
 
 FusionDlg::~FusionDlg()
 {
+    s_nbInstances--;
+    wxLogMessage("FusionDlg::~FusionDlg() - nbInstances = %ld", s_nbInstances);
 } 
 
 void FusionDlg::CreateGUIControls()
@@ -279,6 +285,7 @@ void FusionDlg::remplirListeLivres(wxListBox* listeLivres, int idGroupe)
 void FusionDlg::BN_AnnulerClick(wxCommandEvent& event)
 {
 	this->EndDialog(0);
+	Destroy();
 }
 
 /*

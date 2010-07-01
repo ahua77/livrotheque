@@ -148,6 +148,8 @@ class export_html_dlg : public wxDialog
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
 		void WxButton_chemin_destClick(wxCommandEvent& event);
+
+        static long s_nbInstances;
 };
 
 #endif

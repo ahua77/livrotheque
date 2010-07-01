@@ -110,6 +110,9 @@ class affiche_image : public wxDialog
 		void affiche_imagePaint(wxPaintEvent& event);
 		void affiche_imageSize(wxSizeEvent& event);
 		void affiche_imageKeyUp(wxKeyEvent& event);
+
+    private:    
+        static long s_nbInstances;
 };
 
 #endif

@@ -144,6 +144,8 @@ class export_html_textes : public wxDialog
 	private:
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
+
+        static long s_nbInstances;
 };
 
 #endif

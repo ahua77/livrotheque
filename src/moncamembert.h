@@ -237,6 +237,9 @@ public:
 	void wxButtonTexteClick(wxCommandEvent& event);
 	void wxButtonAxeClick(wxCommandEvent& event);
 
+private:    
+    static long s_nbInstances;
+
 };
 
 class CarreCouleur : public wxWindow

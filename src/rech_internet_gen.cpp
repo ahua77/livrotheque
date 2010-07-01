@@ -52,6 +52,7 @@
 liste_caracteristiques rech_internet_gen::s_list_livres;
 /** conservation en static de la chaîne recherchée lors d'une précédente recherche */
 wxString rech_internet_gen::s_critere;
+long rech_internet_gen::s_nbInstances = 0;
 
 //----------------------------------------------------------------------------
 // rech_internet_gen
@@ -79,15 +80,15 @@ END_EVENT_TABLE()
 rech_internet_gen::rech_internet_gen( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
-    wxLogMessage("rech_internet_gen::rech_internet_gen() - entrée - this = 0x%x", this);
+    s_nbInstances++;
+    wxLogMessage("rech_internet_gen::rech_internet_gen() - nbInstances = %ld", s_nbInstances);
     CreateGUIControls();
-    wxLogMessage("rech_internet_gen::rech_internet_gen() - sortie - this = 0x%x", this);
 }
 
 rech_internet_gen::~rech_internet_gen() {
-    wxLogMessage("rech_internet_gen::~rech_internet_gen() - entrée - this = 0x%x", this);
+    s_nbInstances--;
+    wxLogMessage("rech_internet_gen::~rech_internet_gen() - nbInstances = %ld", s_nbInstances);
     sauve_config();
-    wxLogMessage("rech_internet_gen::~rech_internet_gen() - sortie - this = 0x%x", this);
 } 
 
 void rech_internet_gen::CreateGUIControls(void)
@@ -213,6 +214,7 @@ void rech_internet_gen::WxCheckBox_proxyClick(wxCommandEvent& event)
 	// insert your code here
 	event.Skip();
 }
+
 void rech_internet_gen::change_etat_proxy(){
     bool etat_check;
     

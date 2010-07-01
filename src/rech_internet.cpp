@@ -51,6 +51,7 @@
 ////Header Include Start
 ////Header Include End
 
+long rech_internet::s_nbInstances = 0;
 
 
 //----------------------------------------------------------------------------
@@ -91,7 +92,8 @@ END_EVENT_TABLE()
 rech_internet::rech_internet( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
-wxLogMessage("rech_internet::rech_internet() - entrée - this = 0x%x", this);
+    s_nbInstances++;
+    wxLogMessage("rech_internet::rech_internet() - nbInstances = %ld", s_nbInstances);
     isbn="0";
     auteur="";
     traducteur="";
@@ -100,13 +102,13 @@ wxLogMessage("rech_internet::rech_internet() - entrée - this = 0x%x", this);
     recherche_auto=false;
     type_recherche=-1;
     CreateGUIControls();
-wxLogMessage("rech_internet::rech_internet() - sortie - this = 0x%x", this);
 }
 
 rech_internet::rech_internet( wxString p_isbn , wxWindow *parent, int moteur_recherche, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
-wxLogMessage("rech_internet::rech_internet() - entrée - this = 0x%x", this);
+    s_nbInstances++;
+    wxLogMessage("rech_internet::rech_internet() - nbInstances = %ld", s_nbInstances);
     isbn=p_isbn;
     auteur="";
     traducteur="";
@@ -118,12 +120,11 @@ wxLogMessage("rech_internet::rech_internet() - entrée - this = 0x%x", this);
   /*  if (moteur_recherche != -1) {
         WxRadioBox_choix_recherche->SetSelection(moteur_recherche);
     }*/
-wxLogMessage("rech_internet::rech_internet() - sortie - this = 0x%x", this);
 }
 
 rech_internet::~rech_internet() {
-wxLogMessage("rech_internet::~rech_internet() - entrée - this = 0x%x", this);
-wxLogMessage("rech_internet::~rech_internet() - sortie - this = 0x%x", this);
+    s_nbInstances--;
+    wxLogMessage("rech_internet::~rech_internet() - nbInstances = %ld", s_nbInstances);
 } 
 
 void rech_internet::CreateGUIControls(void)
@@ -386,16 +387,11 @@ void rech_internet::rech_internetClose(wxCloseEvent& event)
  */
 void rech_internet::WxButton_OKClick(wxCommandEvent& event)
 {
-wxLogMessage("rech_internet::WxButton_OKClick() - entrée");
-    //wxMessageBox(isbn,"probleme", wxOK | wxICON_EXCLAMATION, this);
 	// insert your code here
 	sauve_config();
     SetReturnCode(0);
-wxLogMessage("rech_internet::WxButton_OKClick() - avant Destroy()");
     Destroy();
-wxLogMessage("rech_internet::WxButton_OKClick() - après Destroy()");
 	event.Skip();
-wxLogMessage("rech_internet::WxButton_OKClick() - sortie");
 }
 
 /*
@@ -552,87 +548,6 @@ void rech_internet::sauve_config() {
     
     param->Set("rech_internet", "OPTION", "INVERSE", (long)(WxCheckBox_auteur_inverse->GetValue()));
     param->Set("rech_internet", "OPTION", "MINUSCULE", (long)(WxCheckBox_minuscule->GetValue()));
-    
-/*    
-
-    wxString fichier_conf;
-    wxString query, mess;
-    int ret;
-    
-    fichier_conf=::wxGetCwd();
-    fichier_conf+="\\config";
-    config.ouvrir(fichier_conf);
-    query = "DROP TABLE rech_internet";
-    config.exec_rapide(query);
-    query="CREATE TABLE rech_internet (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)";
-    ret=config.exec_rapide(query);
-    if (ret<0) {
-        config.get_erreur(mess);
-        wxMessageBox(mess,"sauvegarde de la configuration du proxy", wxOK | wxICON_EXCLAMATION, this);
-        return;
-    }
-    query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'UTILISE', '"+wxString::Format("%d",WxCheckBox_proxy->GetValue())+"')";
-    ret=config.exec_rapide(query);
-    if (ret<0) {
-        config.get_erreur(mess);
-        wxMessageBox(mess,"sauvegarde de la configuration du proxy", wxOK | wxICON_EXCLAMATION, this);
-        return;
-    }
-    query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'ADRESSE', '"+WxEdit_proxy_adr->GetValue()+"')";
-    ret=config.exec_rapide(query);
-    if (ret<0) {
-        config.get_erreur(mess);
-        wxMessageBox(mess,"sauvegarde de la configuration du proxy", wxOK | wxICON_EXCLAMATION, this);
-        return;
-    }
-    query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'PORT', '"+WxEdit_proxy_port->GetValue()+"')";
-    ret=config.exec_rapide(query);
-    if (ret<0) {
-        config.get_erreur(mess);
-        wxMessageBox(mess,"sauvegarde de la configuration du proxy", wxOK | wxICON_EXCLAMATION, this);
-        return;
-    }
-    query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'USER', '"+WxEdit_proxy_util->GetValue()+"')";
-    ret=config.exec_rapide(query);
-    if (ret<0) {
-        config.get_erreur(mess);
-        wxMessageBox(mess,"sauvegarde de la configuration du proxy", wxOK | wxICON_EXCLAMATION, this);
-        return;
-    }
-    query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'PASS', '"+WxEdit_proxy_pass->GetValue()+"')";
-    ret=config.exec_rapide(query);
-    if (ret<0) {
-        config.get_erreur(mess);
-        wxMessageBox(mess,"sauvegarde de la configuration du proxy", wxOK | wxICON_EXCLAMATION, this);
-        return;
-    }
-    
-    mess.Printf("%d",WxCheckBox_auteur_inverse->GetValue());
-    query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('OPTION', 'INVERSE', '"+mess+"')";
-    ret=config.exec_rapide(query);
-    if (ret<0) {
-        config.get_erreur(mess);
-        wxMessageBox(mess,"sauvegarde de la configuration d'option d'inversion", wxOK | wxICON_EXCLAMATION, this);
-        return;
-    }
-    mess.Printf("%d",WxCheckBox_minuscule->GetValue());
-    query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('OPTION', 'MINUSCULE', '"+mess+"')";
-    ret=config.exec_rapide(query);
-    if (ret<0) {
-        config.get_erreur(mess);
-        wxMessageBox(mess,"sauvegarde de la configuration d'option de minusculisation", wxOK | wxICON_EXCLAMATION, this);
-        return;
-    }
-    query="INSERT INTO rech_internet (type_param, nom_param, val1) VALUES ('PROXY', 'MOTEUR', '"+wxString::Format("%d",WxRadioBox_choix_recherche->GetSelection())+"')";
-    ret=config.exec_rapide(query);
-    if (ret<0) {
-        config.get_erreur(mess);
-        wxMessageBox(mess,"sauvegarde de la configuration du moteur", wxOK | wxICON_EXCLAMATION, this);
-        return;
-    }
-    
-    config.fermer();
-*/
 }    
 
 void rech_internet::load_config() {
@@ -665,42 +580,6 @@ void rech_internet::load_config() {
     valLong = 0;
     param->GetOrSet("rech_internet", "PROXY", "MOTEUR", valLong);
     WxRadioBox_choix_recherche->SetSelection((int)valLong);
-/*
-    wxString fichier_conf, mess;
-    wxString query,nom_param, valeur="";
-    int ret, taille; 
-    long utilise;
-    
-    fichier_conf=::wxGetCwd();
-    fichier_conf+="\\config";
-    config.ouvrir(fichier_conf);
-    query = "SELECT nom_param, val1 FROM rech_internet WHERE type_param='PROXY'";
-    ret=config.transac_prepare(query);
-
-    ret=config.transac_step();
-
-    while(ret==SQLITE_ROW ) {
-        config.get_value_char(0,nom_param,taille);
-        config.get_value_char(1,valeur,taille);
-        if (nom_param == "UTILISE") {
-            valeur.ToLong(&utilise);
-            WxCheckBox_proxy->SetValue((bool)utilise);
-        } else if (nom_param == "ADRESSE") {
-            WxEdit_proxy_adr->SetValue(valeur);
-        } else if (nom_param == "PORT") {
-            WxEdit_proxy_port->SetValue(valeur);
-        } else if (nom_param == "USER") {
-            WxEdit_proxy_util->SetValue(valeur);
-        } else if (nom_param == "PASS") {
-            WxEdit_proxy_pass->SetValue(valeur);
-        } else if (nom_param == "MOTEUR") {
-            valeur.ToLong(&utilise);
-            WxRadioBox_choix_recherche->SetSelection((int)utilise);
-        }
-        ret=config.transac_step();
-    }  
-    config.transac_fin();
-*/
     
     valLong = 0;
     param->GetOrSet("rech_internet", "OPTION", "INVERSE", valLong);
@@ -709,28 +588,6 @@ void rech_internet::load_config() {
     valLong = 0;
     param->GetOrSet("rech_internet", "OPTION", "MINUSCULE", valLong);
     WxCheckBox_minuscule->SetValue((bool)valLong);
-    
-/*
-    query = "SELECT nom_param, val1 FROM rech_internet WHERE type_param='OPTION'";
-    ret=config.transac_prepare(query);
-
-    ret=config.transac_step();
-    int check;
-    while(ret==SQLITE_ROW ) {
-        config.get_value_char(0,nom_param,taille);
-        config.get_value_int(1,check);
-        if (nom_param == "INVERSE") {
-             WxCheckBox_auteur_inverse->SetValue((bool)check);
-        } else if (nom_param == "MINUSCULE") {
-             WxCheckBox_minuscule->SetValue((bool)check);
-        }
-        ret=config.transac_step();
-    }  
-    
-    config.transac_fin();
-    //wxMessageBox(valeur,"probleme", wxOK | wxICON_EXCLAMATION, this);
-    config.fermer();
-*/
 }    
 
 void rech_internet::inverse_auteur() {

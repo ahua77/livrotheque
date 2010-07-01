@@ -41,6 +41,8 @@
 
 #include "VerifNouveauGroupeDlg.h"
 
+long VerifNouveauGroupeDlg::s_nbInstances = 0;
+
 //Do not add custom headers
 //wxDev-C++ designer will remove them
 ////Header Include Start
@@ -69,6 +71,9 @@ VerifNouveauGroupeDlg::VerifNouveauGroupeDlg(wxWindow *parent, ma_base& pBase,
                                              wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style), mBaseLivre (pBase)
 {
+    s_nbInstances++;
+    wxLogMessage("VerifNouveauGroupeDlg::VerifNouveauGroupeDlg() - nbInstances = %ld", s_nbInstances);
+
     mValeur = valeur;
     mNomTable = nom_table;
     
@@ -83,6 +88,8 @@ VerifNouveauGroupeDlg::VerifNouveauGroupeDlg(wxWindow *parent, ma_base& pBase,
 
 VerifNouveauGroupeDlg::~VerifNouveauGroupeDlg()
 {
+    s_nbInstances--;
+    wxLogMessage("VerifNouveauGroupeDlg::~VerifNouveauGroupeDlg() - nbInstances = %ld", s_nbInstances);
 } 
 
 void VerifNouveauGroupeDlg::CreateGUIControls()
@@ -179,6 +186,7 @@ void VerifNouveauGroupeDlg::BN_ChoisirClick(wxCommandEvent& event)
 	mValeur = CB_listeGroupe->GetValue();
 	mOk = true;
 	this->EndDialog(0);
+	Destroy();
 }
 
 /*
@@ -189,6 +197,7 @@ void VerifNouveauGroupeDlg::BN_CreerClick(wxCommandEvent& event)
 	mValeur = ET_nomGroupe->GetValue();
 	mOk = true;
 	this->EndDialog(0);
+	Destroy();
 }
 
 /*
@@ -198,4 +207,5 @@ void VerifNouveauGroupeDlg::BN_AnnulerClick(wxCommandEvent& event)
 {
     mOk = false;
     this->EndDialog(1);
+    Destroy();
 }

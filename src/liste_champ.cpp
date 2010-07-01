@@ -59,6 +59,7 @@
 ////Header Include Start
 ////Header Include End
 
+long liste_champ::s_nbInstances = 0;
 
 
 //----------------------------------------------------------------------------
@@ -86,6 +87,9 @@ END_EVENT_TABLE()
 liste_champ::liste_champ( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("liste_champ::liste_champ() - nbInstances = %ld", s_nbInstances);
+
     modifie=false;
     nom_table=title;
     critere_tri = "upper(a.nom)";
@@ -96,6 +100,9 @@ liste_champ::liste_champ( wxWindow *parent, wxWindowID id, const wxString &title
 liste_champ::liste_champ( ma_base *pour_modif, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("liste_champ::liste_champ() - nbInstances = %ld", s_nbInstances);
+
     modifie=false;
     la_belle=pour_modif;
     nom_table=title;
@@ -106,6 +113,9 @@ liste_champ::liste_champ( ma_base *pour_modif, wxWindow *parent, wxWindowID id, 
 
 liste_champ::~liste_champ()
 {
+    s_nbInstances--;
+    wxLogMessage("liste_champ::~liste_champ() - nbInstances = %ld", s_nbInstances);
+
     SetReturnCode(modifie);
 } 
 
@@ -270,8 +280,8 @@ void liste_champ::grilleCellLeftDoubleClick(wxGridEvent& event)
     
     nb_ligne=event.GetRow();
     id=grille->GetRowLabelValue(nb_ligne);
-    nouv_autre nouv(la_belle, id, this, -1, nom_table);
-    nouv.ShowModal();
+    nouv_autre* nouv = new nouv_autre(la_belle, id, this, -1, nom_table);
+    nouv->ShowModal();
     init_grille();
 	// insert your code here
 	event.Skip();
@@ -282,8 +292,8 @@ void liste_champ::grilleCellLeftDoubleClick(wxGridEvent& event)
  */
 void liste_champ::WxButton_insererClick(wxCommandEvent& event)
 {
-    nouv_autre nouv(la_belle, "-1", this, -1, nom_table);
-    nouv.ShowModal();
+    nouv_autre* nouv = new nouv_autre(la_belle, "-1", this, -1, nom_table);
+    nouv->ShowModal();
     init_grille();
 	// insert your code here
 	event.Skip();

@@ -154,6 +154,7 @@ class ParametreDlg : public wxDialog
 	private:
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
+        static long s_nbInstances;
 };
 
 #endif

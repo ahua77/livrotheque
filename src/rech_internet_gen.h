@@ -174,6 +174,7 @@ public:
 private:
     static liste_caracteristiques s_list_livres;
     static wxString s_critere;
+    static long s_nbInstances;
 
 };
 

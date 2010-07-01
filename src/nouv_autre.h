@@ -163,6 +163,9 @@ public:
 	void WxBitmapButton1_ouvrirClick(wxCommandEvent& event);
 	void wxEdit_Gesdate(wxCommandEvent& event);
 	void WxGrid_listeCellLeftDoubleClick(wxGridEvent& event);
+
+private:    
+    static long s_nbInstances;
 };
 
 

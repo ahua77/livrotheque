@@ -138,6 +138,8 @@ class FusionDlg : public wxDialog
         void InitListeGroupes();
 
         ma_base& baseLivre;
+    
+        static long s_nbInstances;
 };
 
 #endif

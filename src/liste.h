@@ -102,6 +102,8 @@ public:
     void listeClose(wxCloseEvent& event);
     void CreateGUIControls(void);
 
+private:    
+    static long s_nbInstances;
 };
 
 

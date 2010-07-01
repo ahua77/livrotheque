@@ -48,6 +48,8 @@
 
 #include "ParamManager.h"
 
+long ParametreDlg::s_nbInstances = 0;
+
 //----------------------------------------------------------------------------
 // ParametreDlg
 //----------------------------------------------------------------------------
@@ -69,6 +71,9 @@ END_EVENT_TABLE()
 ParametreDlg::ParametreDlg(wxWindow *parent, int ongletActif, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("ParametreDlg::ParametreDlg() - nbInstances = %ld", s_nbInstances);
+
 	CreateGUIControls();
 	
 	WxNotebook1->SetSelection(ongletActif);
@@ -76,6 +81,8 @@ ParametreDlg::ParametreDlg(wxWindow *parent, int ongletActif, wxWindowID id, con
 
 ParametreDlg::~ParametreDlg()
 {
+    s_nbInstances--;
+    wxLogMessage("ParametreDlg::~ParametreDlg() - nbInstances = %ld", s_nbInstances);
 } 
 
 void ParametreDlg::CreateGUIControls()
@@ -188,6 +195,7 @@ void ParametreDlg::BN_OKClick(wxCommandEvent& event)
         
     // fermer la fenêtre
 	this->EndDialog(0);
+	this->Destroy();
 }
 
 /*
@@ -197,6 +205,7 @@ void ParametreDlg::BN_CANCELClick(wxCommandEvent& event)
 {
     // fermer la fenêtre
 	this->EndDialog(0);
+    this->Destroy();
 }
 
 /*

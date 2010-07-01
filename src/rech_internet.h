@@ -295,6 +295,10 @@ public:
     void lancer_recherche();
     void inverse_auteur();
     void minusculisation();
+
+private:    
+    static long s_nbInstances;
+
 };
 
 

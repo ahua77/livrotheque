@@ -47,6 +47,8 @@
  
 #include "export_html_textes.h"
 
+long export_html_textes::s_nbInstances = 0;
+
 //Do not add custom headers
 //wxDev-C++ designer will remove them
 ////Header Include Start
@@ -69,11 +71,15 @@ END_EVENT_TABLE()
 export_html_textes::export_html_textes(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("export_html_textes::export_html_textes() - nbInstances = %ld", s_nbInstances);
 	CreateGUIControls();
 }
 
 export_html_textes::~export_html_textes()
 {
+    s_nbInstances--;
+    wxLogMessage("export_html_textes::~export_html_textes() - nbInstances = %ld", s_nbInstances);
 } 
 
 void export_html_textes::CreateGUIControls()

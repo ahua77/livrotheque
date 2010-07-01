@@ -368,6 +368,10 @@ public:
 	void WxButton_internetClick(wxCommandEvent& event);
 	void WxButton_internet_gClick(wxCommandEvent& event);
     void mise_a_jour(rech_internet *rech);
+
+private:    
+    static long s_nbInstances;
+
 };
 
 

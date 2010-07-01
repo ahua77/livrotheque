@@ -48,6 +48,7 @@
 ////Header Include Start
 ////Header Include End
 
+long apropos::s_nbInstances = 0;
 
 
 //----------------------------------------------------------------------------
@@ -70,6 +71,9 @@ END_EVENT_TABLE()
 apropos::apropos( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("apropos::apropos() - nbInstances = %ld", s_nbInstances);
+
     la_belle=NULL;
     CreateGUIControls();
 }
@@ -77,11 +81,18 @@ apropos::apropos( wxWindow *parent, wxWindowID id, const wxString &title, const 
 apropos::apropos( ma_base *pour_insere, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("apropos::apropos() - nbInstances = %ld", s_nbInstances);
+
     la_belle=pour_insere;
     CreateGUIControls();
 }
 
-apropos::~apropos() {} 
+apropos::~apropos() 
+{
+    s_nbInstances--;
+    wxLogMessage("apropos::~apropos() - nbInstances = %ld", s_nbInstances);
+} 
 
 void apropos::CreateGUIControls(void)
 {

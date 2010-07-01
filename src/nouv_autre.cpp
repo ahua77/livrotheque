@@ -62,6 +62,8 @@
 ////Header Include End
 
 
+long nouv_autre::s_nbInstances = 0;
+
 
 //----------------------------------------------------------------------------
 // nouv_autre
@@ -89,12 +91,16 @@ END_EVENT_TABLE()
 nouv_autre::nouv_autre( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("nouv_autre::nouv_autre() - nbInstances = %ld", s_nbInstances);
     CreateGUIControls();
 }
 
 nouv_autre::nouv_autre( ma_base *pour_modif, wxString id_champ, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("nouv_autre::nouv_autre() - nbInstances = %ld", s_nbInstances);
     wxString champ;
     wxString type;
     int x,y;
@@ -127,7 +133,8 @@ nouv_autre::nouv_autre( ma_base *pour_modif, wxString id_champ, wxWindow *parent
 
 nouv_autre::~nouv_autre()
 {
-    
+    s_nbInstances--;
+    wxLogMessage("FusionDlg::~FusionDlg() - nbInstances = %ld", s_nbInstances);    
 } 
 
 void nouv_autre::CreateGUIControls(void)
@@ -574,7 +581,7 @@ void nouv_autre::WxGrid_listeCellLeftDoubleClick(wxGridEvent& event)
     nb_ligne=event.GetRow();
     id=WxGrid_liste->GetCellValue(nb_ligne,0);
     //wxMessageBox(id,"probleme", wxOK | wxICON_EXCLAMATION, this);
-    Nouv_livre insere_livre(la_belle, id,false, this, -1, "Modification du livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
-    ret=insere_livre.ShowModal();
+    Nouv_livre* insere_livre = new Nouv_livre(la_belle, id,false, this, -1, "Modification du livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
+    ret=insere_livre->ShowModal();
     init_tout();
 }

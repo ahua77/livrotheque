@@ -139,6 +139,7 @@ class VerifNouveauGroupeDlg : public wxDialog
         wxString mLibelleGroupePluriel;
         wxString mValeur;
         BOOL mOk;
+        static long s_nbInstances;
 };
 
 #endif

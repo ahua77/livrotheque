@@ -41,6 +41,8 @@
 
 #include "affiche_image.h"
 
+long affiche_image::s_nbInstances = 0;
+
 //Do not add custom headers
 //wxDev-C++ designer will remove them
 ////Header Include Start
@@ -66,6 +68,9 @@ END_EVENT_TABLE()
 affiche_image::affiche_image(wxString c_image, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("affiche_image::affiche_image() - nbInstances = %ld", s_nbInstances);
+
     //chemin_image=c_image;
     monimage.LoadFile(c_image);
 	CreateGUIControls();
@@ -74,6 +79,8 @@ affiche_image::affiche_image(wxString c_image, wxWindow *parent, wxWindowID id, 
 affiche_image::affiche_image(wxImage i_image, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("affiche_image::affiche_image() - nbInstances = %ld", s_nbInstances);
     //chemin_image=c_image;
     monimage = i_image;
 	CreateGUIControls();
@@ -82,11 +89,15 @@ affiche_image::affiche_image(wxImage i_image, wxWindow *parent, wxWindowID id, c
 affiche_image::affiche_image(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("affiche_image::affiche_image() - nbInstances = %ld", s_nbInstances);
 	CreateGUIControls();
 }
 
 affiche_image::~affiche_image()
 {
+    s_nbInstances--;
+    wxLogMessage("affiche_image::~affiche_image() - nbInstances = %ld", s_nbInstances);
 //    wxMessageBox("dans affiche_image::~affiche_image()");
 } 
 
@@ -141,7 +152,7 @@ void affiche_image::WxButton_nouv_annulClick(wxCommandEvent& event)
     //wxMessageBox("bouton","probleme", wxOK | wxICON_INFORMATION, this);
     SetReturnCode(0);
     EndModal(0);
-    //Destroy();
+    Destroy();
 	// insert your code here
 	//event.Skip();
 }

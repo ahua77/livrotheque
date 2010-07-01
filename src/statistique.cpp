@@ -201,8 +201,8 @@ void statistique::Mnuquitter1002Click(wxCommandEvent& event)
 
 void statistique::parametrer(wxCommandEvent& event)
 {
-    ParametreDlg dlg(this, 1);
-    dlg.ShowModal();
+    ParametreDlg* dlg = new ParametreDlg(this, 1);
+    dlg->ShowModal();
     actualiser();
 }
 
@@ -462,8 +462,8 @@ void statistique::Mnugestiondescouleurs1005Click(wxCommandEvent& event)
 {
 	// insert your code here
 //	GestionListeCouleur magest(this,BeauFrometon->listeCouleur, BeauFrometon->asCommentaire, BeauFrometon->LaFont, BeauFrometon->couleurTexte);
-	GestionCoul magest(this,BeauFrometon);
-	magest.ShowModal();
+	GestionCoul* magest = new GestionCoul(this,BeauFrometon);
+	magest->ShowModal();
 	dessiner();
 }
 

@@ -60,6 +60,7 @@
 ////Header Include End
 
 
+long recherche::s_nbInstances = 0;
 
 //----------------------------------------------------------------------------
 // recherche
@@ -80,13 +81,17 @@ END_EVENT_TABLE()
 recherche::recherche( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("recherche::recherche() - nbInstances = %ld", s_nbInstances);
+
     CreateGUIControls();
     init_tout();
 }
 
 recherche::~recherche()
 {
-    
+    s_nbInstances--;
+    wxLogMessage("recherche::~recherche() - nbInstances = %ld", s_nbInstances);
 } 
 
 void recherche::CreateGUIControls(void)

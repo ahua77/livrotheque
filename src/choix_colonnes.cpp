@@ -63,6 +63,7 @@
 #include "Images/choix_colonnes_wxButton_enleve_XPM.xpm"
 ////Header Include End
 
+long choix_colonnes::s_nbInstances = 0;
 
 
 //----------------------------------------------------------------------------
@@ -98,12 +99,18 @@ END_EVENT_TABLE()
 choix_colonnes::choix_colonnes( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("choix_colonnes::choix_colonnes() - nbInstances = %ld", s_nbInstances);
+
     CreateGUIControls();
 }
 
 choix_colonnes::choix_colonnes( wxArrayString &l_choix, wxArrayInt *l_choisis, wxArrayString *l_choisis_nom, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("choix_colonnes::choix_colonnes() - nbInstances = %ld", s_nbInstances);
+
     liste_choix=l_choix;
     liste_choisis=l_choisis;
     liste_choisis_nom=l_choisis_nom;
@@ -114,7 +121,8 @@ choix_colonnes::choix_colonnes( wxArrayString &l_choix, wxArrayInt *l_choisis, w
 
 choix_colonnes::~choix_colonnes()
 {
-    
+    s_nbInstances--;
+    wxLogMessage("choix_colonnes::~choix_colonnes() - nbInstances = %ld", s_nbInstances);
 } 
 
 void choix_colonnes::init_listbox()

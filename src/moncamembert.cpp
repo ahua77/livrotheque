@@ -81,6 +81,9 @@ void EcrireFichier(wxString texte)
 }
 */
 
+long GestionCoul::s_nbInstances = 0;
+
+
 //----------------------------------------------------------------------------
 // GestionCoul
 //----------------------------------------------------------------------------
@@ -106,6 +109,9 @@ GestionCoul::GestionCoul(wxWindow *parent,wxArrayColour ListeCouleur,wxArrayStri
         const wxPoint& pos)
     : wxDialog( parent, wxID_ANY, title, pos, wxSize(500,500), wxCAPTION)
 {
+    s_nbInstances++;
+    wxLogMessage("GestionCoul::GestionCoul() - nbInstances = %ld", s_nbInstances);
+
     wxFont fontT(14,wxMODERN,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD);
     wxColour couleurT=*wxBLACK;
     int i;
@@ -172,6 +178,9 @@ GestionCoul::GestionCoul(wxWindow *parent,MonCamembert *fromage,
         const wxPoint& pos)
     :wxDialog(parent,wxID_ANY,title,pos,wxSize(500,500),wxCAPTION) 
 {
+    s_nbInstances++;
+    wxLogMessage("GestionCoul::GestionCoul() - nbInstances = %ld", s_nbInstances);
+
     wxFont fontT(14,wxMODERN,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD);
     wxColour couleurT=*wxBLACK;
     int i;
@@ -236,7 +245,8 @@ GestionCoul::GestionCoul(wxWindow *parent,MonCamembert *fromage,
 
 GestionCoul::~GestionCoul()
 {
-    
+    s_nbInstances--;
+    wxLogMessage("GestionCoul::~GestionCoul() - nbInstances = %ld", s_nbInstances);
 } 
 
 void GestionCoul::CreateGUIControls(void)
@@ -317,12 +327,14 @@ void GestionCoul::wxButtonOK(wxCommandEvent& event)
     }
     
     EndModal(1);
+    Destroy();
     event.Skip();
 }
 
 void GestionCoul::wxButtonCANCEL(wxCommandEvent& event)
 {
     EndModal(0);
+    Destroy();
     event.Skip();
 }
 

@@ -192,6 +192,8 @@ public:
 		void WxMemo1ClickUrl(wxTextUrlEvent& event);
 		void WxButton_siteClick(wxCommandEvent& event);
 
+private:    
+    static long s_nbInstances;
 };
 
 

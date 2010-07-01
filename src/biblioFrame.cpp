@@ -195,7 +195,7 @@ biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title
 
 biblioFrame::~biblioFrame()
 { 
-    delete mastat;
+    mastat->Destroy();
     amoi.fermer();
 } 
 void biblioFrame::init_arbre() {
@@ -659,8 +659,8 @@ void biblioFrame::toolb_NouvClick(wxCommandEvent& event)
 
 void biblioFrame::fusionGenre(wxCommandEvent& event)
 {
-    FusionDlg dlg(this, amoi);
-    dlg.ShowModal();
+    FusionDlg* dlg = new FusionDlg(this, amoi);
+    dlg->ShowModal();
     init_arbre();
 }
     
@@ -676,8 +676,8 @@ void biblioFrame::insererClickIsbn(wxCommandEvent& event)
 
 void biblioFrame::parametrer(wxCommandEvent& event)
 {
-    ParametreDlg dlg(this, 0);
-    dlg.ShowModal();
+    ParametreDlg* dlg = new ParametreDlg(this, 0);
+    dlg->ShowModal();
 }
 
 /*
@@ -692,16 +692,16 @@ void biblioFrame::insererClick_interne(wxCommandEvent& event, BOOL isbnMode)
     if (amoi.ouverte()==false) {
         wxMessageBox("Vous devez ouvrir ou créer une base pour inserer un nouveau livre!","probleme", wxOK | wxICON_EXCLAMATION, this);
     } else {
-        Nouv_livre insere_livre(&amoi, this, -1, "Entrée d'un nouveau livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
+        Nouv_livre* insere_livre = new Nouv_livre(&amoi, this, -1, "Entrée d'un nouveau livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
         
         if (isbnMode) {
-            insere_livre.WxEdit_isbn->SetFocus();
+            insere_livre->WxEdit_isbn->SetFocus();
         } else {
-            insere_livre.WxEdit_titre->SetFocus();
+            insere_livre->WxEdit_titre->SetFocus();
         }
                 
         
-        ret=insere_livre.ShowModal();
+        ret=insere_livre->ShowModal();
         //si on a insere un enregistrement un réaffiche la grille
         if(ret>0) {
             init_arbre();
@@ -725,8 +725,8 @@ void biblioFrame::OnSelectLivre( wxGridEvent &event )
     
     nb_ligne=event.GetRow();
     id=grille->GetRowLabelValue(nb_ligne);
-    Nouv_livre insere_livre(&amoi, id,false, this, -1, "Modification du livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
-    ret=insere_livre.ShowModal();
+    Nouv_livre* insere_livre = new Nouv_livre(&amoi, id,false, this, -1, "Modification du livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
+    ret=insere_livre->ShowModal();
     mess.Printf("%d", ret);
         //si on a inserer un enregistrement un réaffiche la grille
         if(ret>0) {
@@ -989,8 +989,8 @@ void biblioFrame::popup_MnuouvrirClick(wxCommandEvent& event)
     liste_choisis_p=liste_choisis;
     liste_choisis_nom_p=liste_choisis_nom;
     //choix_colonnes choisir(liste_a_choisir, &liste_choisis, &liste_choisis_nom, this, -1, "choix du tri", wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION);
-    choix_colonnes choisir(liste_a_choisir, &liste_choisis_p, &liste_choisis_nom_p, this, -1, "choix des colonnes à afficher", wxDefaultPosition, wxDefaultSize, style_dialog_choix);
-    ret=choisir.ShowModal();
+    choix_colonnes* choisir = new choix_colonnes(liste_a_choisir, &liste_choisis_p, &liste_choisis_nom_p, this, -1, "choix des colonnes à afficher", wxDefaultPosition, wxDefaultSize, style_dialog_choix);
+    ret=choisir->ShowModal();
     if (ret==0) {
         //mess.Printf("ret:%d",ret);
         //wxMessageBox(mess,"coco", wxOK | wxICON_INFORMATION, this);
@@ -1356,38 +1356,38 @@ void biblioFrame::Mnulistes(wxCommandEvent& event)
             //remplir_grille("");
         }
     } else if (event.GetId() == ID_MNU_LISTE_SERIE) {
-        liste_champ choisir(&amoi, this, -1, "serie");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "serie");
+        choisir->ShowModal();
     } else if (event.GetId() == ID_MNU_LISTE_GENRE) {
-        liste_champ choisir(&amoi, this, -1, "genre");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "genre");
+        choisir->ShowModal();
     } else if (event.GetId() == ID_MNU_LISTE_EDITEUR) {
-        liste_champ choisir(&amoi, this, -1, "editeur");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "editeur");
+        choisir->ShowModal();
     } else if (event.GetId() == ID_MNU_LISTE_FORMAT) {
-        liste_champ choisir(&amoi, this, -1, "format");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "format");
+        choisir->ShowModal();
     } else if (event.GetId() == ID_MNU_LISTE_ARTISTE) {
-        liste_champ choisir(&amoi, this, -1, "artiste");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "artiste");
+        choisir->ShowModal();
     } else if (event.GetId() == ID_MNU_LISTE_ETAT) {
-        liste_champ choisir(&amoi, this, -1, "etat");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "etat");
+        choisir->ShowModal();
     } else if (event.GetId() == ID_MNU_LISTE_LOCALISATION) {
-        liste_champ choisir(&amoi, this, -1, "localisation");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "localisation");
+        choisir->ShowModal();
     } else if (event.GetId() == ID_MNU_LISTE_SERIE_O) {
-        liste_champ choisir(&amoi, this, -1, "serie_o");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "serie_o");
+        choisir->ShowModal();
     } else if (event.GetId() == ID_MNU_LISTE_PAYS) {
-        liste_champ choisir(&amoi, this, -1, "pays");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "pays");
+        choisir->ShowModal();
     } else if (event.GetId() == ID_MNU_LISTE_LANGUE) {
-        liste_champ choisir(&amoi, this, -1, "langue");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "langue");
+        choisir->ShowModal();
     } else if (event.GetId() == ID_MNU_LISTE_TRADUCTEUR) {
-        liste_champ choisir(&amoi, this, -1, "traducteur");
-        choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(&amoi, this, -1, "traducteur");
+        choisir->ShowModal();
     }    
 	//event.Skip();
 }
@@ -1399,15 +1399,15 @@ void biblioFrame::Mnulistes(wxCommandEvent& event)
 void biblioFrame::MnurechercherClick(wxCommandEvent& event)
 {
     list_from.Clear();
-    recherche ma_recherche(this, -1, "Recherche", wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
+    recherche* ma_recherche = new recherche(this, -1, "Recherche", wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
     
-    ma_recherche.ShowModal();
-    if (ma_recherche.table_liee.Len() > 0) {
-        list_from.Add(ma_recherche.table_liee);
+    ma_recherche->ShowModal();
+    if (ma_recherche->table_liee.Len() > 0) {
+        list_from.Add(ma_recherche->table_liee);
     }
-    remplir_grille(ma_recherche.where);
+    remplir_grille(ma_recherche->where);
 
-    list_from.Remove(ma_recherche.table_liee);
+    list_from.Remove(ma_recherche->table_liee);
 
     //event.Skip();
 }
@@ -1419,9 +1419,9 @@ void biblioFrame::MnurechercherClick(wxCommandEvent& event)
  */
 void biblioFrame::Mnuapropos1047Click(wxCommandEvent& event)
 {
-    apropos mon_apropos(&amoi, this, -1);// ,"Recherche", wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
+    apropos* mon_apropos = new apropos(&amoi, this, -1);// ,"Recherche", wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
     
-    mon_apropos.ShowModal();
+    mon_apropos->ShowModal();
 	//event.Skip();
 }
 
@@ -1617,9 +1617,9 @@ void biblioFrame::Mnuexporthtml1060Click(wxCommandEvent& event)
         wxMessageBox("Vous n'avez pas ouvert de base -> je ne  peux pas l'exporter","probleme", wxOK | wxICON_EXCLAMATION, this);
         return;
     }
-    export_html_dlg mon_exporthtml(&amoi, this, -1);// ,"Recherche", wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
+    export_html_dlg* mon_exporthtml = new export_html_dlg(&amoi, this, -1);// ,"Recherche", wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
 
-    mon_exporthtml.ShowModal();
+    mon_exporthtml->ShowModal();
 	//event.Skip();
 }
 
@@ -1852,10 +1852,10 @@ void biblioFrame::toolb_recherche_internetClick(wxCommandEvent& event)
     
     ret=rech_gen->ShowModal();
     if (ret == 0) {
-        Nouv_livre insere_livre(&amoi, this, -1, "Entrée d'un nouveau livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
-        insere_livre.mise_a_jour(rech_gen->ma_recherche);
+        Nouv_livre* insere_livre = new Nouv_livre(&amoi, this, -1, "Entrée d'un nouveau livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
+        insere_livre->mise_a_jour(rech_gen->ma_recherche);
 
-        ret=insere_livre.ShowModal();
+        ret=insere_livre->ShowModal();
         //si on a insere un enregistrement un réaffiche la grille
         if(ret>0) {
             init_arbre();

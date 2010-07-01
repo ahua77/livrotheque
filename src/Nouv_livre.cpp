@@ -70,6 +70,8 @@
 #include "VerifNouveauGroupeDlg.h"
 #include "ParamManager.h"
 
+long Nouv_livre::s_nbInstances = 0;
+
 //----------------------------------------------------------------------------
 // Nouv_livre
 //----------------------------------------------------------------------------
@@ -125,15 +127,21 @@ END_EVENT_TABLE()
 Nouv_livre::Nouv_livre( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
+    s_nbInstances++;
+    wxLogMessage("Nouv_livre::Nouv_livre() - nbInstances = %ld", s_nbInstances);
+
     insertion=true;
     id_courant=_("-1");
+    la_belle = NULL;
     CreateGUIControls();
 }
+
 Nouv_livre::Nouv_livre(ma_base *pour_insere, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
-    wxString mess;
-    
+    s_nbInstances++;
+    wxLogMessage("Nouv_livre::Nouv_livre() - nbInstances = %ld", s_nbInstances);
+
     insertion=true;
     id_courant=_("-1");
     la_belle=pour_insere;
@@ -144,7 +152,8 @@ Nouv_livre::Nouv_livre(ma_base *pour_insere, wxWindow *parent, wxWindowID id, co
 Nouv_livre::Nouv_livre(ma_base *pour_modif, wxString id_modif, bool insert, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
 {
-    //wxString mess;
+    s_nbInstances++;
+    wxLogMessage("Nouv_livre::Nouv_livre() - nbInstances = %ld", s_nbInstances);
     
     insertion=insert;
     id_courant=id_modif;
@@ -192,8 +201,10 @@ Nouv_livre::Nouv_livre(ma_base *pour_modif, wxString id_modif, bool insert, wxWi
 
 Nouv_livre::~Nouv_livre()
 {
-    
+    s_nbInstances--;
+    wxLogMessage("Nouv_livre::~Nouv_livre() - nbInstances = %ld", s_nbInstances);    
 } 
+
 bool Nouv_livre::init_image(wxString nom_champ, ImageCanvas *moncanvas) {//, wxImage *monimage) {
     wxString query;
     int ret, taille;
@@ -821,7 +832,7 @@ void Nouv_livre::WxButton_nouv_annulClick(wxCommandEvent& event)
     //wxMessageBox("rhha","probleme", wxOK | wxICON_INFORMATION, this);
     SetReturnCode(0);
     EndModal(0);
-    //Destroy();
+    Destroy();
 	// insert your code here
 	//event.Skip();
 }
@@ -1105,13 +1116,13 @@ int Nouv_livre::insere_table_annexe(wxComboBox *donnee, wxString nom_table, wxSt
         BOOL verifNouveau = true;
         param->GetOrSet("config", "VERIF_NOUVEAU", nom_table, verifNouveau);
         if (verifNouveau) {    
-            VerifNouveauGroupeDlg dlgVerif (this, *la_belle, valeur, nom_table, libelleGroupePluriel);
-            dlgVerif.ShowModal();
-            valeur = dlgVerif.valeur();
+            VerifNouveauGroupeDlg* dlgVerif = new VerifNouveauGroupeDlg(this, *la_belle, valeur, nom_table, libelleGroupePluriel);
+            dlgVerif->ShowModal();
+            valeur = dlgVerif->valeur();
             valeurPourSql = valeur;
             gestion_quote(valeurPourSql);
 
-            if (dlgVerif.toujoursCreer() == true) {  // conserver en base config le nouveau paramètre
+            if (dlgVerif->toujoursCreer() == true) {  // conserver en base config le nouveau paramètre
                 param->Set("config", "VERIF_NOUVEAU", nom_table, false);
             }
             // refaire requete de selection en base pour voir si la nouvelle valeur existe
@@ -1498,11 +1509,11 @@ void Nouv_livre::WxButton_auteurClick(wxCommandEvent& event)
         la_belle->transac_fin();
     }    
     if (id =="") {
-        liste_champ choisir(la_belle, this, -1, nom_table);
-        ret=choisir.ShowModal();
+        liste_champ* choisir = new liste_champ(la_belle, this, -1, nom_table);
+        ret=choisir->ShowModal();
     } else {    
-        nouv_autre nouv(la_belle, id, this, -1, nom_table);
-        ret=nouv.ShowModal();
+            nouv_autre* nouv = new nouv_autre(la_belle, id, this, -1, nom_table);
+        ret=nouv->ShowModal();
     }    
     init_combo(macombo,nom_table);
 	// insert your code here
@@ -1719,10 +1730,10 @@ void Nouv_livre::WxButton_internetClick(wxCommandEvent& event)
     // fin modif - 2009-11-26
     
     
-    rech_internet rech(ean, this, -1);
-    ret=rech.ShowModal();
+    rech_internet* rech = new rech_internet(ean, this, -1);
+    ret=rech->ShowModal();
     if (ret == 0) { 
-        mise_a_jour(&rech);
+        mise_a_jour(rech);
     }
 
 	// insert your code here
@@ -1734,13 +1745,12 @@ void Nouv_livre::WxButton_internetClick(wxCommandEvent& event)
  */
 void Nouv_livre::WxButton_internet_gClick(wxCommandEvent& event)
 {
-    int ret;
-    rech_internet_gen rech_gen(this, -1);
+    rech_internet_gen* rech_gen = new rech_internet_gen(this, -1);
     
-    ret=rech_gen.ShowModal();
+    int ret = rech_gen->ShowModal();
     if (ret == 0) { 
         //wxMessageBox("popo","probleme", wxOK | wxICON_EXCLAMATION, this);
-        mise_a_jour(rech_gen.ma_recherche);
+        mise_a_jour(rech_gen->ma_recherche);
     }
 	// insert your code here
 	event.Skip();
