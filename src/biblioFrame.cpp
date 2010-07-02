@@ -120,6 +120,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU_PARAMETRES, biblioFrame::parametrer)
 	EVT_MENU(ID_MNU_ORDREDETRI, biblioFrame::MnuordredetriClick)
 	EVT_MENU(ID_MNU_CHOIXCOLONNES_1024, biblioFrame::popup_MnuouvrirClick)
+	EVT_MENU(ID_MNU_RECHERCHER_1045, biblioFrame::MnurechercherClick)
 	EVT_MENU(ID_MNU_LISTE_AUTEUR, biblioFrame::Mnulistes)
 	EVT_MENU(ID_MNU_LISTE_SERIE, biblioFrame::Mnulistes)
 	EVT_MENU(ID_MNU_LISTE_GENRE, biblioFrame::Mnulistes)
@@ -132,8 +133,8 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU_LISTE_LANGUE, biblioFrame::Mnulistes)
 	EVT_MENU(ID_MNU_LISTE_TRADUCTEUR, biblioFrame::Mnulistes)
 	EVT_MENU(ID_MNU_LISTE_SERIE_O, biblioFrame::Mnulistes)
-	EVT_MENU(ID_MNU_RECHERCHER_1045, biblioFrame::MnurechercherClick)
 	EVT_MENU(ID_MNU_STATISTIQUE_1048, biblioFrame::Mnustatistique1048Click)
+	EVT_MENU(ID_MNU_AFFICHER_VALEUR_TOTALE, biblioFrame::OnAfficherValeurTotale)
 	EVT_MENU(ID_MNU__APROPOS_1047, biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_WXTOOLBUTTON_ABOUT,biblioFrame::Mnuapropos1047Click)
@@ -407,6 +408,11 @@ void biblioFrame::CreateGUIControls(void)
 	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_PARAMETRES, wxT("Paramètres"), wxT("Configurer l'application"), wxITEM_NORMAL);
 	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_ORDREDETRI, wxT("Ordre de tri"), wxT("Permet de Choisir les colonnes utilisées pour le tri"), wxITEM_NORMAL);
 	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_CHOIXCOLONNES_1024, wxT("Choix des colonnes affichées"), wxT(""), wxITEM_NORMAL);
+	monmenu->Append(ID_MNU_OUTIL_1017_Mnu_Obj, wxT("Option"));
+	
+	wxMenu *ID_MNU_EDITION_1043_Mnu_Obj = new wxMenu(0);
+	ID_MNU_EDITION_1043_Mnu_Obj->Append(ID_MNU_RECHERCHER_1045, wxT("Rechercher"), wxT(""), wxITEM_NORMAL);
+	monmenu->Append(ID_MNU_EDITION_1043_Mnu_Obj, wxT("Edition"));
 	
 	wxMenu *ID_MNU_LISTES_1027_Mnu_Obj = new wxMenu(0);
 	ID_MNU_LISTES_1027_Mnu_Obj->Append(ID_MNU_LISTE_AUTEUR, wxT("Auteur"), wxT(""), wxITEM_NORMAL);
@@ -421,13 +427,12 @@ void biblioFrame::CreateGUIControls(void)
 	ID_MNU_LISTES_1027_Mnu_Obj->Append(ID_MNU_LISTE_LANGUE, wxT("Langue"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_LISTES_1027_Mnu_Obj->Append(ID_MNU_LISTE_TRADUCTEUR, wxT("Traducteur"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_LISTES_1027_Mnu_Obj->Append(ID_MNU_LISTE_SERIE_O, wxT("serie originale"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_LISTES_1027, wxT("Listes"), ID_MNU_LISTES_1027_Mnu_Obj);
-	monmenu->Append(ID_MNU_OUTIL_1017_Mnu_Obj, wxT("Option"));
+	monmenu->Append(ID_MNU_LISTES_1027_Mnu_Obj, wxT("Listes"));
 	
-	wxMenu *ID_MNU_EDITION_1043_Mnu_Obj = new wxMenu(0);
-	ID_MNU_EDITION_1043_Mnu_Obj->Append(ID_MNU_RECHERCHER_1045, wxT("Rechercher"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_EDITION_1043_Mnu_Obj->Append(ID_MNU_STATISTIQUE_1048, wxT("Statistique"), wxT(""), wxITEM_NORMAL);
-	monmenu->Append(ID_MNU_EDITION_1043_Mnu_Obj, wxT("Edition"));
+	wxMenu *ID_MNU_STATISTIQUES_Mnu_Obj = new wxMenu(0);
+	ID_MNU_STATISTIQUES_Mnu_Obj->Append(ID_MNU_STATISTIQUE_1048, wxT("Afficher les statistiques"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_STATISTIQUES_Mnu_Obj->Append(ID_MNU_AFFICHER_VALEUR_TOTALE, wxT("Afficher la valeur totale"), wxT(""), wxITEM_NORMAL);
+	monmenu->Append(ID_MNU_STATISTIQUES_Mnu_Obj, wxT("Statistiques"));
 	
 	wxMenu *ID_MNU_APROPOS_1046_Mnu_Obj = new wxMenu(0);
 	ID_MNU_APROPOS_1046_Mnu_Obj->Append(ID_MNU__APROPOS_1047, wxT("&A propos"), wxT(""), wxITEM_NORMAL);
@@ -1879,4 +1884,29 @@ void biblioFrame::toolb_recherche_internetClick(wxCommandEvent& event)
     wxLogMessage("sortie bloc 3");
 	// insert your code here
 	event.Skip();
+}
+
+/*
+ * OnAfficherValeurTotale
+ */
+void biblioFrame::OnAfficherValeurTotale(wxCommandEvent& event)
+{
+    int nbLivres = 0;
+    int prixTotal = 0;
+
+    wxString query = "SELECT count(rowid), sum(prix) FROM livre";
+    int ret=amoi.transac_prepare(query);
+    if (ret>=0) {
+        ret=amoi.transac_step();
+    }    
+    if (ret==SQLITE_ROW) {
+        amoi.get_value_int(0, nbLivres);
+        amoi.get_value_int(1, prixTotal);
+        ret=amoi.transac_step();
+    }    
+    amoi.transac_fin();
+
+    wxString mess;
+    mess.Printf("nombre de livres dans la bibliothèque : %d\nvaleur globale : %d", nbLivres, prixTotal);
+    wxMessageBox(mess, "Livrothèque");
 }

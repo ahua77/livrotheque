@@ -140,6 +140,8 @@ public:
 			ID_MNU_PARAMETRES = 1068,
 			ID_MNU_ORDREDETRI = 1018,
 			ID_MNU_CHOIXCOLONNES_1024 = 1024,
+			ID_MNU_EDITION_1043 = 1043,
+			ID_MNU_RECHERCHER_1045 = 1045,
 			ID_MNU_LISTES_1027 = 1027,
 			ID_MNU_LISTE_AUTEUR = 1028,
 			ID_MNU_LISTE_SERIE = 1030,
@@ -153,9 +155,9 @@ public:
 			ID_MNU_LISTE_LANGUE = 1039,
 			ID_MNU_LISTE_TRADUCTEUR = 1040,
 			ID_MNU_LISTE_SERIE_O = 1042,
-			ID_MNU_EDITION_1043 = 1043,
-			ID_MNU_RECHERCHER_1045 = 1045,
+			ID_MNU_STATISTIQUES = 1070,
 			ID_MNU_STATISTIQUE_1048 = 1048,
+			ID_MNU_AFFICHER_VALEUR_TOTALE = 1071,
 			ID_MNU_APROPOS_1046 = 1046,
 			ID_MNU__APROPOS_1047 = 1047,
 			
@@ -268,6 +270,7 @@ public:
 	void Mnuexportcsv1062Click(wxCommandEvent& event);
     void image_click(wxHtmlLinkEvent &event);
 		void toolb_recherche_internetClick(wxCommandEvent& event);
+		void OnAfficherValeurTotale(wxCommandEvent& event);
 
 };
 
