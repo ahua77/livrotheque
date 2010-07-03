@@ -100,6 +100,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_SPLITTER_DCLICK( ID_SPLITTERWINDOW, biblioFrame::OnSplitterwindowDclick )
 	EVT_GRID_CMD_CELL_LEFT_DCLICK(ID_WXGRID_GRILLE, biblioFrame::OnSelectLivre)
 	EVT_GRID_CMD_CELL_RIGHT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnGrilleClickDroit)
+	EVT_GRID_CMD_LABEL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnGrilleLabelLeftClick)
 	EVT_TREE_SEL_CHANGED(ID_TREE_ARBRE, biblioFrame::OnArbreSel)
 	//EVT_GRID_CMD_CELL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
 	EVT_GRID_CMD_SELECT_CELL(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
@@ -817,7 +818,18 @@ void biblioFrame::remplir_grille(wxString where)
     SetStatusText(mess,1);
     for (i=0;i<(int)liste_choisis_nom.GetCount();i++) {
         //amoi.get_nom_col(i,texte);
-        grille->SetColLabelValue(i,liste_choisis_nom[i]);
+        wxString textCol = liste_choisis_nom[i];
+/** pour afficher l'ordre de tri dans les labels de colonne
+        int idAttrCol = liste_choisis[i];
+        // recherche dans liste_tri si la colonne est un critère de tri. Si oui, ajoute sa position de tri entre ()
+        for (int iTri = 0; iTri < liste_tri.GetCount(); iTri++) {
+            if (liste_tri[iTri] == idAttrCol) {
+                textCol.Printf("%s (%d)", liste_choisis_nom[i].c_str(), iTri+1);
+            }
+        }
+***/
+        // grille->SetColLabelValue(i,liste_choisis_nom[i]);
+        grille->SetColLabelValue(i,textCol);
     }    
     grille->SetColLabelSize(15);
     grille->SetRowLabelSize(0);
@@ -1046,8 +1058,8 @@ void biblioFrame::MnuordredetriClick(wxCommandEvent& event)
      wxArrayString liste_tri_nom_p;
 
 	liste_tri_p=liste_tri;
-    choix_colonnes choisir(liste_a_choisir, &liste_tri_p, NULL, this, -1, "choix des champs utilisés pour le tri", wxDefaultPosition, wxDefaultSize, style_dialog_choix);
-    ret=choisir.ShowModal();
+    choix_colonnes* choisir = new choix_colonnes(liste_a_choisir, &liste_tri_p, NULL, this, -1, "choix des champs utilisés pour le tri", wxDefaultPosition, wxDefaultSize, style_dialog_choix);
+    ret=choisir->ShowModal();
     if (ret==0) {
         liste_tri=liste_tri_p;
         //liste_choisis_nom=liste_choisis_nom_p;
@@ -1668,8 +1680,8 @@ void biblioFrame::MnuimportercvsClick(wxCommandEvent& event)
         mess="Liste des colonnes contenues dans le fichier csv (ligne 0):\n\n"+mess+donnees[i]+"|\n\nnombre de lignes :"+texte;
         wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
         //mess.Printf("%d",i);
-        choix_colonnes choisir(liste_a_choisir_lim, &liste_choisis_import, &liste_choisis_nom_import, this, -1, "choix des colonnes à afficher", wxDefaultPosition, wxDefaultSize, style_dialog_choix);
-        ret=choisir.ShowModal();
+        choix_colonnes* choisir = new choix_colonnes(liste_a_choisir_lim, &liste_choisis_import, &liste_choisis_nom_import, this, -1, "choix des colonnes à afficher", wxDefaultPosition, wxDefaultSize, style_dialog_choix);
+        ret=choisir->ShowModal();
         if (ret==0) {
             if (liste_choisis_import.GetCount()!= donnees.GetCount()) {
                 mess.Printf("Le nombre de colonnes selectionnée (%d) ne correspond pas au nombre se trouvant dans le fichier (%d)",liste_choisis_import.GetCount(), donnees.GetCount());
@@ -1909,4 +1921,47 @@ void biblioFrame::OnAfficherValeurTotale(wxCommandEvent& event)
     wxString mess;
     mess.Printf("nombre de livres dans la bibliothèque : %d\nvaleur globale : %d", nbLivres, prixTotal);
     wxMessageBox(mess, "Livrothèque");
+}
+
+void biblioFrame::OnGrilleLabelLeftClick(wxGridEvent& event)
+{
+    wxLogMessage("biblioFrame::OnGrilleLabelLeftClick() - col = %d", event.GetCol());
+/*    
+    int ii = 0;
+    wxLogMessage("liste_choisis_nom : ");
+    for (ii = 0; ii < liste_choisis_nom.GetCount(); ii++)
+        wxLogMessage("   %d : %s", ii, liste_choisis_nom[ii].c_str());
+    wxLogMessage("liste_choisis : ");
+    for (ii = 0; ii < liste_choisis.GetCount(); ii++)
+        wxLogMessage("   %d : %d - %s", ii, liste_choisis[ii], liste_a_choisir[liste_choisis[ii]].c_str());
+    wxLogMessage("liste_tri : ");
+    for (ii = 0; ii < liste_tri.GetCount(); ii++)
+        wxLogMessage("   %d : %d - %s", ii, liste_tri[ii], liste_a_choisir[liste_tri[ii]].c_str());
+        
+    wxLogMessage("colonne cliquée : %s - %s", liste_choisis_nom[event.GetCol()].c_str(), liste_a_choisir[liste_choisis[event.GetCol()]].c_str());
+    wxLogMessage("mettre en premier dans liste_tri : %d", liste_choisis[event.GetCol()]);
+*/    
+
+    if (liste_tri.GetCount() > 0 && liste_tri[0] == liste_choisis[event.GetCol()]) {
+        // le nouveau critère est déjà le premier --> ne rien faire et ne pas rafraichir la liste
+    } else {
+        // insérer le nouveau critère en première position
+        liste_tri.Insert(liste_choisis[event.GetCol()], 0);
+        
+        // supprimer le nouveau premier critère s'il apparaissait déjà plus loin
+        for (int ii = 1; ii < liste_tri.GetCount(); ii++) {
+            if (liste_tri[ii] == liste_choisis[event.GetCol()]) {
+                liste_tri.RemoveAt(ii);
+                break;
+            }
+        }
+/*
+        wxLogMessage("après modification : liste_tri : ");
+        for (ii = 0; ii < liste_tri.GetCount(); ii++)
+            wxLogMessage("   %d : %d - %s", ii, liste_tri[ii], liste_a_choisir[liste_tri[ii]].c_str());
+*/        
+        // réafficher la grille pour prise en compte des nouveaux critères de tri
+        init_arbre();
+        param_modifie=true;
+    }
 }

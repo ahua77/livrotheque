@@ -242,6 +242,7 @@ public:
 	void parametrer(wxCommandEvent& event);
     void OnSelectLivre( wxGridEvent& event );
     void OnGrilleClickDroit( wxGridEvent& event );
+	void OnGrilleLabelLeftClick(wxGridEvent& event);
 	void remplir_grille(wxString where);
 	int creer_base();
 	void popup_MnuouvrirClick(wxCommandEvent& event);
