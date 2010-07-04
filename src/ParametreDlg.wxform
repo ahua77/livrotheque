@@ -561,6 +561,39 @@ object frmNewForm: TfrmNewForm
         Wx_Floating_X_Pos = 0
         Wx_Floating_Y_Pos = 0
       end
+      object CK_cleanTmpOnExit: TWxCheckBox
+        Left = 4
+        Top = 172
+        Width = 402
+        Height = 17
+        Caption = 'Effacer les fichiers temporaires en quittant le programme'
+        TabOrder = 15
+        Wx_BGColor = clBlack
+        Wx_CheckBoxStyle = []
+        Wx_Class = 'wxCheckBox'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WX_CK_CLEAN_TMP_ON_EXIT'
+        Wx_IDValue = 1037
+        Wx_PaneCaption = 'WxCheckBox1'
+        Wx_PaneName = 'WxCheckBox1_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
     end
     object WxNoteBookPage2: TWxNoteBookPage
       Caption = 'Statistiques'

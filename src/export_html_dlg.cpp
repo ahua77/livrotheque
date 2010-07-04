@@ -623,6 +623,7 @@ void export_html_dlg::creation_fiches_livres(wxString chemin_fiche,wxString chem
     int ret,taille;
     wxString fiche_courante, nomfich;
     wxFile fichier;
+    wxFileName fichierFN;
     wxString ligne_image;
     
     if (WxRadioBox_type->GetSelection() == MODE_AJAX) {
@@ -697,6 +698,17 @@ void export_html_dlg::creation_fiches_livres(wxString chemin_fiche,wxString chem
         la_belle->get_value_char(18,valeur,taille);
         fiche_courante.Replace(wxT("#DATE_MAJ#"),valeur);
 
+        // interpreter la date de Maj pour dater les fichiers
+        wxDateTime dateMaj;
+        wxString str = valeur;
+        wxString format = "%d/%m/%Y";
+        if ( !dateMaj.ParseFormat(str, format) ) {
+            // parsing failed --> on garde la date courante
+            dateMaj = wxDateTime::Now();
+        } else {
+            // dateMaj contient la date de mise à jour du livre
+        }
+
         // génération des images
         wxString l_images="";
         nomfich=wxT("cover_")+id_courant+wxT("_recto.jpg");
@@ -706,6 +718,9 @@ void export_html_dlg::creation_fiches_livres(wxString chemin_fiche,wxString chem
             l_images=l_images+ligne_image;
             l_images.Replace(wxT("#NOM_IMAGE#"),nomfich);
         }
+        // dater le fichier de la fiche de sa date de mise à jour
+        fichierFN = chemin_image+nomfich;
+        fichierFN.SetTimes(&dateMaj, &dateMaj, &dateMaj);
                 
         nomfich=wxT("cover_")+id_courant+wxT("_verso.jpg");
         fichier.Open(chemin_image+nomfich,wxFile::write);
@@ -714,6 +729,9 @@ void export_html_dlg::creation_fiches_livres(wxString chemin_fiche,wxString chem
             l_images=l_images+ligne_image;
             l_images.Replace(wxT("#NOM_IMAGE#"),nomfich);
         }
+        // dater le fichier de la fiche de sa date de mise à jour
+        fichierFN = chemin_image+nomfich;
+        fichierFN.SetTimes(&dateMaj, &dateMaj, &dateMaj);
         fiche_courante.Replace(wxT("#IMAGES#"),l_images);
         
         convert_html(fiche_courante);
@@ -723,6 +741,10 @@ void export_html_dlg::creation_fiches_livres(wxString chemin_fiche,wxString chem
         fichier.Open(nomfich,wxFile::write);
         fichier.Write(fiche_courante);
         fichier.Close();
+        
+        // dater le fichier de la fiche de sa date de mise à jour
+        fichierFN = nomfich;
+        fichierFN.SetTimes(&dateMaj, &dateMaj, &dateMaj);
 
        ret=la_belle->transac_step();
     }

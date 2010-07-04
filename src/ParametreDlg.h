@@ -89,6 +89,7 @@ class ParametreDlg : public wxDialog
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
+		wxCheckBox *CK_cleanTmpOnExit;
 		wxButton *BN_CANCEL;
 		wxButton *BN_OK;
 		wxStaticLine *WxStaticLine1;
@@ -123,6 +124,7 @@ class ParametreDlg : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
+			ID_WX_CK_CLEAN_TMP_ON_EXIT = 1037,
 			ID_WX_BNCANCEL = 1009,
 			ID_WX_BNOK = 1008,
 			ID_WXSTATICLINE1 = 1007,

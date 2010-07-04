@@ -143,6 +143,8 @@ void ParametreDlg::CreateGUIControls()
 
 	BN_CANCEL = new wxButton(this, ID_WX_BNCANCEL, wxT("Annuler"), wxPoint(248, 272), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_CANCEL"));
 
+	CK_cleanTmpOnExit = new wxCheckBox(WxNoteBookPage1, ID_WX_CK_CLEAN_TMP_ON_EXIT, wxT("Effacer les fichiers temporaires en quittant le programme"), wxPoint(4, 172), wxSize(402, 17), 0, wxDefaultValidator, wxT("CK_cleanTmpOnExit"));
+
 	SetTitle(wxT("Paramètres"));
 	SetIcon(wxNullIcon);
 	SetSize(8,8,442,334);
@@ -170,6 +172,7 @@ void ParametreDlg::BN_OKClick(wxCommandEvent& event)
 
     // Onglet Général
     param->Set("config", "INIT", "USE_SPLASH", CK_use_splash_screen->GetValue());
+    param->Set("config", "INIT", "CLEAN_TMP_ON_EXIT", CK_cleanTmpOnExit->GetValue());
 
     param->Set("config", "VERIF_NOUVEAU", "traducteur", CK_avertirNouveau_traducteur->GetValue());
     param->Set("config", "VERIF_NOUVEAU", "langue", CK_avertirNouveau_langue->GetValue());
@@ -236,6 +239,10 @@ void ParametreDlg::ParametreDlgInitDialog(wxInitDialogEvent& event)
     BOOL useSplashScreen = true;
     param->GetOrSet("config", "INIT", "USE_SPLASH", useSplashScreen);    
     CK_use_splash_screen->SetValue(useSplashScreen);
+    
+    BOOL cleanTmpOnExit = false;
+    param->GetOrSet("config", "INIT", "CLEAN_TMP_ON_EXIT", cleanTmpOnExit);    
+    CK_cleanTmpOnExit->SetValue(cleanTmpOnExit);
     
     BOOL avertirNouveau = true;
     param->GetOrSet("config", "VERIF_NOUVEAU", "auteur", avertirNouveau);

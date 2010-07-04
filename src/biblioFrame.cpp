@@ -55,6 +55,7 @@
 
  #include "biblioFrame.h"
 
+#include <wx/dir.h>
 
 
 #include "star1.xpm" 
@@ -199,7 +200,24 @@ biblioFrame::~biblioFrame()
 { 
     mastat->Destroy();
     amoi.fermer();
+
+    // nettoyage des fichiers temporaires
+    // dernier endroit où on peut le faire, car au-delà, la base config est fermée (car contenue dans this)
+    ParamManager* param = ParamManager::GetInstance("config");
+    BOOL cleanTmp = false;
+    param->GetOrSet("config", "INIT", "CLEAN_TMP_ON_EXIT", cleanTmp);
+    if (cleanTmp) {
+        // supprimer les fichiers (pas les répertoires pour ne pas effacer les logs) présents dans %temp%/tmp_livro
+        wxArrayString vFichiers;
+        wxDir::GetAllFiles(gettempdir(), &vFichiers, _("*.*"), wxDIR_FILES);
+        // wxLogMessage("fichiers à effacer : ");
+        for (int iFic = 0; iFic < vFichiers.GetCount(); iFic++) {
+            // wxLogMessage(" . " + vFichiers[iFic]);
+            wxRemoveFile(vFichiers[iFic]);
+        }
+    }
 } 
+
 void biblioFrame::init_arbre() {
     wxTreeItemId root;
     wxTreeItemId branche;
