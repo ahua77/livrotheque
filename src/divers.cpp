@@ -282,7 +282,17 @@ wxString gettempdir(){
     if (tt=false) {
         //wxMessageBox("Pas de répertoire temporaire défini, j'utilise le repertoire courant (bien fait pour vous)","probleme", wxOK | wxICON_EXCLAMATION, this);
         tempdir=".";
-    }    
+    }
+    
+    if (!wxDirExists(tempdir)) {
+        tempdir = ".";
+    }
+    
+    tempdir = tempdir + "\\tmp_livro";
+    if (!wxDirExists(tempdir)) {
+        wxMkDir(tempdir);
+    }
+
     return tempdir;
 }    
 
