@@ -530,7 +530,7 @@ object frmNewForm: TfrmNewForm
       end
       object CK_use_splash_screen: TWxCheckBox
         Left = 4
-        Top = 150
+        Top = 141
         Width = 185
         Height = 17
         Caption = 'Afficher l'#39#233'cran de d'#233'marrage'
@@ -563,7 +563,7 @@ object frmNewForm: TfrmNewForm
       end
       object CK_cleanTmpOnExit: TWxCheckBox
         Left = 4
-        Top = 172
+        Top = 162
         Width = 402
         Height = 17
         Caption = 'Effacer les fichiers temporaires en quittant le programme'
@@ -579,6 +579,127 @@ object frmNewForm: TfrmNewForm
         Wx_IDValue = 1037
         Wx_PaneCaption = 'WxCheckBox1'
         Wx_PaneName = 'WxCheckBox1_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object WxStaticLine3: TWxStaticLine
+        Left = 0
+        Top = 187
+        Width = 417
+        Height = 7
+        TabOrder = 16
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticLine'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_IDName = 'ID_WXSTATICLINE3'
+        Wx_IDValue = 1038
+        Wx_LIOrientation = wxLI_HORIZONTAL
+        Wx_Length = 417
+        LastOrientation = wxLI_HORIZONTAL
+      end
+      object CK_use_largeur_max_colonnes: TWxCheckBox
+        Left = 4
+        Top = 200
+        Width = 175
+        Height = 17
+        Caption = 'Limiter les colonnes '#224' environ '
+        TabOrder = 17
+        EVT_CHECKBOX = 'CK_use_largeur_max_colonnesClick'
+        Wx_BGColor = clBlack
+        Wx_CheckBoxStyle = []
+        Wx_Class = 'wxCheckBox'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WX_CK_USE_LARGEUR_MAX_COLONNES'
+        Wx_IDValue = 1039
+        Wx_PaneCaption = 'WxCheckBox1'
+        Wx_PaneName = 'WxCheckBox1_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object ET_LargeurMaxColonnes: TWxEdit
+        Left = 181
+        Top = 200
+        Width = 46
+        Height = 19
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = 18
+        Text = 'ET_LargeurMaxColonnes'
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WX_ET_LARGEUR_MAX_COLONNES'
+        Wx_IDValue = 1040
+        Wx_MaxLength = 0
+        Wx_PaneCaption = 'WxEdit1'
+        Wx_PaneName = 'WxEdit1_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object WxStaticText3: TWxStaticText
+        Left = 232
+        Top = 201
+        Width = 102
+        Height = 19
+        Caption = 'caract'#232'res de large'
+        TabOrder = 19
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT3'
+        Wx_IDValue = 1041
+        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText3'
+        Wx_PaneName = 'WxStaticText3_Pane'
         Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
         Wx_Aui_Dockable_Direction = []
         Wx_Aui_Pane_Style = []

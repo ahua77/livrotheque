@@ -62,6 +62,7 @@ BEGIN_EVENT_TABLE(ParametreDlg,wxDialog)
 	
 	EVT_CLOSE(ParametreDlg::OnClose)
 	EVT_INIT_DIALOG(ParametreDlg::ParametreDlgInitDialog)
+	EVT_CHECKBOX(ID_WX_CK_USE_LARGEUR_MAX_COLONNES,ParametreDlg::CK_use_largeur_max_colonnesClick)
 	EVT_BUTTON(ID_WX_BNCANCEL,ParametreDlg::BN_CANCELClick)
 	EVT_BUTTON(ID_WX_BNOK,ParametreDlg::BN_OKClick)
 	EVT_CHECKBOX(ID_WX_CK_UseTopN,ParametreDlg::CK_useTopNClick)
@@ -126,7 +127,9 @@ void ParametreDlg::CreateGUIControls()
 
 	WxStaticLine2 = new wxStaticLine(WxNoteBookPage1, ID_WXSTATICLINE2, wxPoint(-4, 126), wxSize(422, -1), wxLI_HORIZONTAL);
 
-	CK_use_splash_screen = new wxCheckBox(WxNoteBookPage1, ID_WX_CK_UseSplashScreen, wxT("Afficher l'écran de démarrage"), wxPoint(4, 150), wxSize(185, 17), 0, wxDefaultValidator, wxT("CK_use_splash_screen"));
+	CK_use_splash_screen = new wxCheckBox(WxNoteBookPage1, ID_WX_CK_UseSplashScreen, wxT("Afficher l'écran de démarrage"), wxPoint(4, 141), wxSize(185, 17), 0, wxDefaultValidator, wxT("CK_use_splash_screen"));
+
+	CK_cleanTmpOnExit = new wxCheckBox(WxNoteBookPage1, ID_WX_CK_CLEAN_TMP_ON_EXIT, wxT("Effacer les fichiers temporaires en quittant le programme"), wxPoint(4, 162), wxSize(402, 17), 0, wxDefaultValidator, wxT("CK_cleanTmpOnExit"));
 
 	WxNoteBookPage2 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE2, wxPoint(4, 26), wxSize(417, 235));
 	WxNotebook1->AddPage(WxNoteBookPage2, wxT("Statistiques"));
@@ -143,7 +146,13 @@ void ParametreDlg::CreateGUIControls()
 
 	BN_CANCEL = new wxButton(this, ID_WX_BNCANCEL, wxT("Annuler"), wxPoint(248, 272), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_CANCEL"));
 
-	CK_cleanTmpOnExit = new wxCheckBox(WxNoteBookPage1, ID_WX_CK_CLEAN_TMP_ON_EXIT, wxT("Effacer les fichiers temporaires en quittant le programme"), wxPoint(4, 172), wxSize(402, 17), 0, wxDefaultValidator, wxT("CK_cleanTmpOnExit"));
+	WxStaticLine3 = new wxStaticLine(WxNoteBookPage1, ID_WXSTATICLINE3, wxPoint(0, 187), wxSize(417, -1), wxLI_HORIZONTAL);
+
+	CK_use_largeur_max_colonnes = new wxCheckBox(WxNoteBookPage1, ID_WX_CK_USE_LARGEUR_MAX_COLONNES, wxT("Limiter les colonnes à environ "), wxPoint(4, 200), wxSize(175, 17), 0, wxDefaultValidator, wxT("CK_use_largeur_max_colonnes"));
+
+	ET_LargeurMaxColonnes = new wxTextCtrl(WxNoteBookPage1, ID_WX_ET_LARGEUR_MAX_COLONNES, wxT("ET_LargeurMaxColonnes"), wxPoint(181, 200), wxSize(46, 19), 0, wxDefaultValidator, wxT("ET_LargeurMaxColonnes"));
+
+	WxStaticText3 = new wxStaticText(WxNoteBookPage1, ID_WXSTATICTEXT3, wxT("caractères de large"), wxPoint(232, 201), wxDefaultSize, 0, wxT("WxStaticText3"));
 
 	SetTitle(wxT("Paramètres"));
 	SetIcon(wxNullIcon);
@@ -187,13 +196,17 @@ void ParametreDlg::BN_OKClick(wxCommandEvent& event)
     param->Set("config", "VERIF_NOUVEAU", "serie", CK_avertirNouveau_serie->GetValue());
     param->Set("config", "VERIF_NOUVEAU", "auteur", CK_avertirNouveau_auteur->GetValue());
 
+    BOOL useLargeurMaxColonnes = CK_use_largeur_max_colonnes->GetValue();
+    long largeurMaxColonnes = 0;
+    wxString str2 = ET_LargeurMaxColonnes->GetValue();
+    sscanf(str2, "%ld", &largeurMaxColonnes);
+    param->Set("config", "INIT", "LARGEUR_MAX_COLONNE", useLargeurMaxColonnes, largeurMaxColonnes);
+
     // ligne STAT / USE_TOP_N
     BOOL useTopN = CK_useTopN->GetValue();
     long seuilTopN = 0;
-    //if (useTopN) {
-        wxString str2 = ET_ValueTopN->GetValue();
-        sscanf(str2, "%ld", &seuilTopN);
-    //}
+    str2 = ET_ValueTopN->GetValue();
+    sscanf(str2, "%ld", &seuilTopN);
     param->Set("config", "STAT", "USE_TOP_N", useTopN, seuilTopN);
         
     // fermer la fenêtre
@@ -243,6 +256,21 @@ void ParametreDlg::ParametreDlgInitDialog(wxInitDialogEvent& event)
     BOOL cleanTmpOnExit = false;
     param->GetOrSet("config", "INIT", "CLEAN_TMP_ON_EXIT", cleanTmpOnExit);    
     CK_cleanTmpOnExit->SetValue(cleanTmpOnExit);
+    
+    BOOL useLargeurMaxColonnes = false;
+    long largeurMaxColonnes = 0;
+    param->GetOrSet("config", "INIT", "LARGEUR_MAX_COLONNE", useLargeurMaxColonnes, largeurMaxColonnes);    
+    if (useLargeurMaxColonnes) {
+       CK_use_largeur_max_colonnes->SetValue(true);
+	   ET_LargeurMaxColonnes->Enable();
+    } else {
+       CK_use_largeur_max_colonnes->SetValue(false);
+	   ET_LargeurMaxColonnes->Disable();
+    }
+    wxString str_largeurMaxColonnes;
+    str_largeurMaxColonnes.Printf("%ld", largeurMaxColonnes);
+    ET_LargeurMaxColonnes->SetValue(str_largeurMaxColonnes);
+    
     
     BOOL avertirNouveau = true;
     param->GetOrSet("config", "VERIF_NOUVEAU", "auteur", avertirNouveau);
@@ -307,4 +335,16 @@ void ParametreDlg::ParametreDlgInitDialog(wxInitDialogEvent& event)
     wxString str2;
     str2.Printf("%ld", val2);
     ET_ValueTopN->SetValue(str2);
+}
+
+/*
+ * CK_use_largeur_max_colonnesClick
+ */
+void ParametreDlg::CK_use_largeur_max_colonnesClick(wxCommandEvent& event)
+{
+    // rendre actif / inactif le champ de saisie ET_valueTopN
+    if (CK_use_largeur_max_colonnes->GetValue())
+        ET_LargeurMaxColonnes->Enable();
+    else
+        ET_LargeurMaxColonnes->Disable();
 }

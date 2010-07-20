@@ -83,13 +83,17 @@ class ParametreDlg : public wxDialog
 		void BN_CANCELClick(wxCommandEvent& event);
 		void CK_useTopNClick(wxCommandEvent& event);
 		void ParametreDlgInitDialog(wxInitDialogEvent& event);
+		void CK_use_largeur_max_colonnesClick(wxCommandEvent& event);
 	
 	private:
 		//Do not add custom control declarations between 
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
-		wxCheckBox *CK_cleanTmpOnExit;
+		wxStaticText *WxStaticText3;
+		wxTextCtrl *ET_LargeurMaxColonnes;
+		wxCheckBox *CK_use_largeur_max_colonnes;
+		wxStaticLine *WxStaticLine3;
 		wxButton *BN_CANCEL;
 		wxButton *BN_OK;
 		wxStaticLine *WxStaticLine1;
@@ -97,6 +101,7 @@ class ParametreDlg : public wxDialog
 		wxTextCtrl *ET_ValueTopN;
 		wxCheckBox *CK_useTopN;
 		wxPanel *WxNoteBookPage2;
+		wxCheckBox *CK_cleanTmpOnExit;
 		wxCheckBox *CK_use_splash_screen;
 		wxStaticLine *WxStaticLine2;
 		wxCheckBox *CK_avertirNouveau_traducteur;
@@ -124,7 +129,10 @@ class ParametreDlg : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
-			ID_WX_CK_CLEAN_TMP_ON_EXIT = 1037,
+			ID_WXSTATICTEXT3 = 1041,
+			ID_WX_ET_LARGEUR_MAX_COLONNES = 1040,
+			ID_WX_CK_USE_LARGEUR_MAX_COLONNES = 1039,
+			ID_WXSTATICLINE3 = 1038,
 			ID_WX_BNCANCEL = 1009,
 			ID_WX_BNOK = 1008,
 			ID_WXSTATICLINE1 = 1007,
@@ -132,6 +140,7 @@ class ParametreDlg : public wxDialog
 			ID_WXEDIT1 = 1005,
 			ID_WX_CK_UseTopN = 1004,
 			ID_WXNOTEBOOKPAGE2 = 1003,
+			ID_WX_CK_CLEAN_TMP_ON_EXIT = 1037,
 			ID_WX_CK_UseSplashScreen = 1010,
 			ID_WXSTATICLINE2 = 1036,
 			ID_WX_CK_avertirNouveau_traducteur = 1032,

@@ -701,7 +701,11 @@ void biblioFrame::insererClickIsbn(wxCommandEvent& event)
 void biblioFrame::parametrer(wxCommandEvent& event)
 {
     ParametreDlg* dlg = new ParametreDlg(this, 0);
-    dlg->ShowModal();
+    int retShow = dlg->ShowModal();
+    
+    if (retShow = wxID_OK) {
+        remplir_grille("");
+    }
 }
 
 /*
@@ -778,6 +782,14 @@ int biblioFrame::trouve_ligne(wxString Label){
 
 void biblioFrame::remplir_grille(wxString where)
 {
+    // récupération du paramétrage : faut-il faire un word wrap dans les colonnes ?
+    ParamManager* param = ParamManager::GetInstance("config");
+    BOOL useLargeurMax = false;
+    long largeurMax = 40;
+    if (param) {
+        param->GetOrSet("config", "INIT", "LARGEUR_MAX_COLONNE", useLargeurMax, largeurMax);
+    }
+
     int i,j;
      int ret;
      wxString mess;
@@ -819,6 +831,39 @@ void biblioFrame::remplir_grille(wxString where)
         }else {
             for (champ=0; champ<nbcol;champ++) {
                 amoi.get_value_char(champ,texte,taille);
+                
+                if (useLargeurMax && largeurMax > 0 && texte.Length() > largeurMax) {
+                    wxString texteRestant = texte;
+                    texte = "";
+                    while (texteRestant.length() > largeurMax) {
+                        // on cherche l'espace le plus proche du largeurMax-eme car de texteRestant et on coupe à ce point
+                        int ecart = 0;
+                        bool encore = true;
+                        int ptCoupe = -1;
+                        while (encore) {
+                            if (largeurMax-ecart>=0 && texteRestant.Mid(largeurMax-ecart, 1) == " ") {
+                                encore = false;
+                                ptCoupe = largeurMax-ecart;
+                            } else if (texteRestant.Mid(largeurMax+ecart, 1) == " ") {
+                                encore = false;
+                                ptCoupe = largeurMax+ecart;
+                            } else if (largeurMax-ecart<0 && largeurMax+ecart>texteRestant.Length()) {
+                                encore = false;
+                            }
+                            ecart++;
+                        }
+                        if (ptCoupe != -1) {
+                            texte = texte + texteRestant.Left(ptCoupe) + "\n";
+                            texteRestant = texteRestant.Right(texteRestant.Length()-ptCoupe-1);
+                        } else {
+                            texte = texte + texteRestant;
+                            texteRestant = "";
+                        }
+                    }
+                    if (texteRestant != "") 
+                        texte += texteRestant;
+                }
+                    
                 if (champ == 0) {
                     grille->SetRowLabelValue(i,texte);
                 } else {    
