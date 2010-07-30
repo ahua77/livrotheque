@@ -272,6 +272,10 @@ public:
     void image_click(wxHtmlLinkEvent &event);
 		void toolb_recherche_internetClick(wxCommandEvent& event);
 		void OnAfficherValeurTotale(wxCommandEvent& event);
+		
+private:
+    wxSplashScreen* m_splash;
+    void killSplash();
 
 };
 

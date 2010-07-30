@@ -159,6 +159,8 @@ END_EVENT_TABLE()
 biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxFrame( parent, id, title, position, size, style)
 {
+    m_splash = NULL;
+
     // creation d'un param manager pour la base config qui reste actif pendant toute la duree de vie du programme
     wxString fichier_conf;    
     fichier_conf=::wxGetCwd();
@@ -169,30 +171,33 @@ biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title
     BOOL useSplash = true;
     param->GetOrSet("config", "INIT", "USE_SPLASH", useSplash);
     
-    
     // l'option -nosplash permet d'empêcher l'affichage du splash screen, essentiellement à des fins de debug en cas de pb de démarrage
     if (wxTheApp->argc >1) {
-        for (int ii = 1; ii < wxTheApp->argc; ii++)
-        {
+        for (int ii = 1; ii < wxTheApp->argc; ii++) {
             wxString arg = _T(wxTheApp->argv[ii]);
             if (arg == "-nosplash")
                 useSplash = false;
         }
     }
         
-    wxSplashScreen* splash = NULL;
+    CreateGUIControls();
     if (useSplash) {
         wxBitmap WxStaticBitmap_splash(splash_xpm);
-        splash = new wxSplashScreen(WxStaticBitmap_splash,
+        m_splash = new wxSplashScreen(WxStaticBitmap_splash,
            wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_TIMEOUT,
            6000, NULL, -1, wxDefaultPosition, wxDefaultSize,
            wxSIMPLE_BORDER|wxSTAY_ON_TOP);
     }
-    CreateGUIControls();
 
     load_config();
-    if (useSplash && splash != NULL) {
-       splash->~wxSplashScreen();
+    killSplash();
+}
+
+void biblioFrame::killSplash()
+{
+    if (m_splash) {
+        delete m_splash;
+        m_splash = NULL;
     }
 }
 
@@ -236,6 +241,7 @@ void biblioFrame::init_arbre() {
         ret=amoi.transac_prepare(query);
         if (ret<0) {
             amoi.get_erreur(mess);
+            killSplash();
             wxMessageBox("init_arbre "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
             amoi.fermer();
             return;
@@ -249,6 +255,7 @@ void biblioFrame::init_arbre() {
 
             if (ret<0) {
                 amoi.get_erreur(mess);
+                killSplash();
                 wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
             }else {
                 amoi.get_value_char(0,texte,taille);
@@ -610,6 +617,7 @@ void biblioFrame::ouvrir_base(wxString filename) {
     if (ret<0) {
         amoi.get_erreur(mess);
         mess2.Printf("probleme :%s avec la base : ",mess.mb_str());
+        killSplash();
         wxMessageBox(mess2+filename,"probleme lors de l'ouverture", wxOK | wxICON_EXCLAMATION, this);
         return;
     }
@@ -636,6 +644,7 @@ int biblioFrame::creer_base() {
     if (ret<0) {
         amoi.get_erreur(mess);
         mess2.Printf("probleme :%s : vous devez creer un fichier qui n'existe pas déja",mess.mb_str());
+        killSplash();
         wxMessageBox(mess2,"probleme lors de la creation", wxOK | wxICON_EXCLAMATION, this);
         return -1;
     }
@@ -645,6 +654,7 @@ int biblioFrame::creer_base() {
         if (ret<0) {
             amoi.get_erreur(mess);
             mess2.Printf("probleme :%s : vous devez creer un fichier qui n'existe pas déja",mess.mb_str());
+            killSplash();
             wxMessageBox(mess2,"probleme lors de la creation", wxOK | wxICON_EXCLAMATION, this);
             return -1;
         }
@@ -813,6 +823,7 @@ void biblioFrame::remplir_grille(wxString where)
     if (ret<0) {
         amoi.get_erreur(mess);
         mess=query+"\n"+mess;
+        killSplash();
         wxMessageBox("remplir_grille "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
         amoi.fermer();
         return;
@@ -827,6 +838,7 @@ void biblioFrame::remplir_grille(wxString where)
         grille->AppendRows();
         if (ret<0) {
             amoi.get_erreur(mess);
+            killSplash();
             wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
         }else {
             for (champ=0; champ<nbcol;champ++) {
@@ -1307,7 +1319,8 @@ void biblioFrame::sauve_config() {
 	// sauvegarder les paramètres généraux dans la base config
 	ParamManager* param = ParamManager::GetInstance("config");
 	if (!param) {
-        wxMessageBox ("biblioFrame::load_config() : instance de ParamManager non créée");
+        killSplash();
+        wxMessageBox ("biblioFrame::sauve_config() : instance de ParamManager non créée");
         return;
     }
     
@@ -1365,6 +1378,7 @@ void biblioFrame::load_config() {
 	// initialiser en fonction des valeurs présentes en base
 	ParamManager* param = ParamManager::GetInstance("config");
 	if (!param) {
+        killSplash();
         wxMessageBox ("biblioFrame::load_config() : instance de ParamManager non créée");
         return;
     }
@@ -1376,8 +1390,10 @@ void biblioFrame::load_config() {
         wxFileName fich_conf(valeur);
         if (fich_conf.FileExists())
             ouvrir_base(valeur);
-        else 
-            wxMessageBox("le fichier "+valeur+ " n'existe pas","probleme", wxOK | wxICON_EXCLAMATION, this);
+        else {
+            killSplash();   // pour éviter que la messageBox ne s'affiche derrière le splashScreen
+            wxMessageBox("le fichier " + valeur + " n'existe pas", "problème", wxOK | wxICON_EXCLAMATION, this);
+        }
     }
 
     // récupération de la taille de la fenêtre
