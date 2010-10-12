@@ -553,7 +553,7 @@ BuildCmd=
 
 [VersionInfo]
 Major=1
-Minor=2
+Minor=3
 Release=0
 Build=0
 LanguageID=1036
@@ -567,14 +567,14 @@ LegalTrademarks=
 OriginalFilename=Livrotheque.exe
 ProductName=Livrotheque
 ProductVersion=
-AutoIncBuildNrOnRebuild=1
+AutoIncBuildNrOnRebuild=0
 AutoIncBuildNrOnCompile=0
 
 [Profile1]
 ProfileName=MingW 3.4.2
 Type=0
 ObjFiles=
-Includes=include\images;sqlite;libcurl-7.16.4\include;o;sha;libb64\src;libb64\include
+Includes=include\images;sqlite;libcurl-7.16.4\include;o;sha;libb64\src;libb64\include;src/images
 Libs=libcurl-7.16.4\lib
 ResourceIncludes=
 MakeIncludes=
