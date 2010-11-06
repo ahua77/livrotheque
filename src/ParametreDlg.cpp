@@ -62,10 +62,14 @@ BEGIN_EVENT_TABLE(ParametreDlg,wxDialog)
 	
 	EVT_CLOSE(ParametreDlg::OnClose)
 	EVT_INIT_DIALOG(ParametreDlg::ParametreDlgInitDialog)
-	EVT_CHECKBOX(ID_WX_CK_USE_LARGEUR_MAX_COLONNES,ParametreDlg::CK_use_largeur_max_colonnesClick)
+	EVT_BUTTON(ID_WX_BN_PARCOURIR_SAVE,ParametreDlg::BN_ParcourirSaveClick)
 	EVT_BUTTON(ID_WX_BNCANCEL,ParametreDlg::BN_CANCELClick)
 	EVT_BUTTON(ID_WX_BNOK,ParametreDlg::BN_OKClick)
+	EVT_RADIOBUTTON(ID_WX_RB_SAUVE_DOSSIER_SPECIFIE,ParametreDlg::RB_SauveDossierSpecifieClick)
+	EVT_RADIOBUTTON(ID_WX_RB_SAUVE_DOSSIER_BASE,ParametreDlg::RB_SauveDossierBaseClick)
+	EVT_CHECKBOX(ID_WX_CK_UseSauvegarde,ParametreDlg::CK_UseSauvegardeClick)
 	EVT_CHECKBOX(ID_WX_CK_UseTopN,ParametreDlg::CK_useTopNClick)
+	EVT_CHECKBOX(ID_WX_CK_USE_LARGEUR_MAX_COLONNES,ParametreDlg::CK_use_largeur_max_colonnesClick)
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -131,6 +135,14 @@ void ParametreDlg::CreateGUIControls()
 
 	CK_cleanTmpOnExit = new wxCheckBox(WxNoteBookPage1, ID_WX_CK_CLEAN_TMP_ON_EXIT, wxT("Effacer les fichiers temporaires en quittant le programme"), wxPoint(4, 162), wxSize(402, 17), 0, wxDefaultValidator, wxT("CK_cleanTmpOnExit"));
 
+	WxStaticLine3 = new wxStaticLine(WxNoteBookPage1, ID_WXSTATICLINE3, wxPoint(0, 187), wxSize(417, -1), wxLI_HORIZONTAL);
+
+	CK_use_largeur_max_colonnes = new wxCheckBox(WxNoteBookPage1, ID_WX_CK_USE_LARGEUR_MAX_COLONNES, wxT("Limiter les colonnes à environ "), wxPoint(4, 200), wxSize(175, 17), 0, wxDefaultValidator, wxT("CK_use_largeur_max_colonnes"));
+
+	ET_LargeurMaxColonnes = new wxTextCtrl(WxNoteBookPage1, ID_WX_ET_LARGEUR_MAX_COLONNES, wxT("ET_LargeurMaxColonnes"), wxPoint(181, 200), wxSize(46, 19), 0, wxDefaultValidator, wxT("ET_LargeurMaxColonnes"));
+
+	WxStaticText3 = new wxStaticText(WxNoteBookPage1, ID_WXSTATICTEXT3, wxT("caractères de large"), wxPoint(232, 201), wxDefaultSize, 0, wxT("WxStaticText3"));
+
 	WxNoteBookPage2 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE2, wxPoint(4, 26), wxSize(417, 235));
 	WxNotebook1->AddPage(WxNoteBookPage2, wxT("Statistiques"));
 
@@ -142,17 +154,42 @@ void ParametreDlg::CreateGUIControls()
 
 	WxStaticLine1 = new wxStaticLine(WxNoteBookPage2, ID_WXSTATICLINE1, wxPoint(-4, 38), wxSize(422, -1), wxLI_HORIZONTAL);
 
+	WxNoteBookPage3 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE3, wxPoint(4, 26), wxSize(417, 235));
+	WxNotebook1->AddPage(WxNoteBookPage3, wxT("Sauvegarde"));
+
+	CK_UseSauvegarde = new wxCheckBox(WxNoteBookPage3, ID_WX_CK_UseSauvegarde, wxT("Activer les sauvegardes automatiques de la base"), wxPoint(10, 13), wxSize(393, 17), 0, wxDefaultValidator, wxT("CK_UseSauvegarde"));
+
+	ET_FrequenceSauvegarde = new wxTextCtrl(WxNoteBookPage3, ID_WX_ET_FREQ_SAUVE, wxT("ET_FrequenceSauvegarde"), wxPoint(237, 36), wxSize(59, 19), 0, wxDefaultValidator, wxT("ET_FrequenceSauvegarde"));
+
+	ET_NB_CONSERVATION = new wxTextCtrl(WxNoteBookPage3, ID_WX_ET_NB_CONSERV, wxT("ET_NB_CONSERVATION"), wxPoint(237, 57), wxSize(59, 19), 0, wxDefaultValidator, wxT("ET_NB_CONSERVATION"));
+
+	WxStaticText4 = new wxStaticText(WxNoteBookPage3, ID_WXSTATICTEXT4, wxT("Fréquence de sauvegarde :"), wxPoint(29, 38), wxDefaultSize, 0, wxT("WxStaticText4"));
+
+	WxStaticText5 = new wxStaticText(WxNoteBookPage3, ID_WXSTATICTEXT5, wxT("Nombre de sauvegardes conservées :"), wxPoint(29, 57), wxDefaultSize, 0, wxT("WxStaticText5"));
+
+	WxStaticLine4 = new wxStaticLine(WxNoteBookPage3, ID_WXSTATICLINE4, wxPoint(11, 156), wxSize(402, -1), wxLI_HORIZONTAL);
+
+	WxStaticText7 = new wxStaticText(WxNoteBookPage3, ID_WXSTATICTEXT7, wxT("la précédente sauvegarde est plus ancienne que la fréquence demandée."), wxPoint(10, 181), wxDefaultSize, 0, wxT("WxStaticText7"));
+	WxStaticText7->SetFont(wxFont(9, wxSWISS, wxITALIC, wxNORMAL, false));
+
+	WxStaticText8 = new wxStaticText(WxNoteBookPage3, ID_WXSTATICTEXT8, wxT("Une sauvegarde est réalisée à la fermeture de la base de données, si "), wxPoint(10, 164), wxDefaultSize, 0, wxT("WxStaticText8"));
+	WxStaticText8->SetFont(wxFont(9, wxSWISS, wxITALIC, wxNORMAL, false));
+
+	WxStaticText6 = new wxStaticText(WxNoteBookPage3, ID_WXSTATICTEXT6, wxT("jours"), wxPoint(312, 38), wxDefaultSize, 0, wxT("WxStaticText6"));
+
+	WxStaticText11 = new wxStaticText(WxNoteBookPage3, ID_WXSTATICTEXT11, wxT("Emplacement de la sauvegarde :"), wxPoint(29, 79), wxDefaultSize, 0, wxT("WxStaticText11"));
+
+	RB_SauveDossierBase = new wxRadioButton(WxNoteBookPage3, ID_WX_RB_SAUVE_DOSSIER_BASE, wxT("Dans le sous-dossier \"sauvegardes\" du dossier de la base de données"), wxPoint(29, 95), wxSize(385, 17), 0, wxDefaultValidator, wxT("RB_SauveDossierBase"));
+
+	RB_SauveDossierSpecifie = new wxRadioButton(WxNoteBookPage3, ID_WX_RB_SAUVE_DOSSIER_SPECIFIE, wxT("Dans le dossier ci-dessous :"), wxPoint(29, 114), wxSize(361, 17), 0, wxDefaultValidator, wxT("RB_SauveDossierSpecifie"));
+
+	ET_Rep_Sauvegarde = new wxTextCtrl(WxNoteBookPage3, ID_WX_ET_REP_SAUVE, wxT("ET_Rep_Sauvegarde"), wxPoint(46, 132), wxSize(329, 19), 0, wxDefaultValidator, wxT("ET_Rep_Sauvegarde"));
+
 	BN_OK = new wxButton(this, ID_WX_BNOK, wxT("OK"), wxPoint(80, 272), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_OK"));
 
 	BN_CANCEL = new wxButton(this, ID_WX_BNCANCEL, wxT("Annuler"), wxPoint(248, 272), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_CANCEL"));
 
-	WxStaticLine3 = new wxStaticLine(WxNoteBookPage1, ID_WXSTATICLINE3, wxPoint(0, 187), wxSize(417, -1), wxLI_HORIZONTAL);
-
-	CK_use_largeur_max_colonnes = new wxCheckBox(WxNoteBookPage1, ID_WX_CK_USE_LARGEUR_MAX_COLONNES, wxT("Limiter les colonnes à environ "), wxPoint(4, 200), wxSize(175, 17), 0, wxDefaultValidator, wxT("CK_use_largeur_max_colonnes"));
-
-	ET_LargeurMaxColonnes = new wxTextCtrl(WxNoteBookPage1, ID_WX_ET_LARGEUR_MAX_COLONNES, wxT("ET_LargeurMaxColonnes"), wxPoint(181, 200), wxSize(46, 19), 0, wxDefaultValidator, wxT("ET_LargeurMaxColonnes"));
-
-	WxStaticText3 = new wxStaticText(WxNoteBookPage1, ID_WXSTATICTEXT3, wxT("caractères de large"), wxPoint(232, 201), wxDefaultSize, 0, wxT("WxStaticText3"));
+	BN_ParcourirSave = new wxButton(WxNoteBookPage3, ID_WX_BN_PARCOURIR_SAVE, wxT("..."), wxPoint(381, 130), wxSize(31, 22), 0, wxDefaultValidator, wxT("BN_ParcourirSave"));
 
 	SetTitle(wxT("Paramètres"));
 	SetIcon(wxNullIcon);
@@ -208,6 +245,21 @@ void ParametreDlg::BN_OKClick(wxCommandEvent& event)
     str2 = ET_ValueTopN->GetValue();
     sscanf(str2, "%ld", &seuilTopN);
     param->Set("config", "STAT", "USE_TOP_N", useTopN, seuilTopN);
+
+    // lignes SAVE
+    BOOL useSave = CK_UseSauvegarde->GetValue();
+    long frequence = 0;
+    str2 = ET_FrequenceSauvegarde->GetValue();
+    sscanf(str2, "%ld", &frequence);
+    param->Set("config", "SAVE", "ACTIVE", useSave, frequence);
+    long nbJours = 0;
+    str2 = ET_NB_CONSERVATION->GetValue();
+    sscanf(str2, "%ld", &nbJours);
+    param->Set("config", "SAVE", "NB_CONSERVATION", nbJours);
+    BOOL useDirSpec = RB_SauveDossierSpecifie->GetValue();
+    wxString dirSpec = ET_Rep_Sauvegarde->GetValue();
+    param->Set("config", "SAVE", "DIR_SAVE", useDirSpec, dirSpec);
+
         
     // fermer la fenêtre
 	this->EndDialog(0);
@@ -335,6 +387,39 @@ void ParametreDlg::ParametreDlgInitDialog(wxInitDialogEvent& event)
     wxString str2;
     str2.Printf("%ld", val2);
     ET_ValueTopN->SetValue(str2);
+    
+    // onglet Sauvegardes
+    val1 = false;
+    val2 = 1;
+    param->GetOrSet("config", "SAVE", "ACTIVE", val1, val2);
+    if (val1) {
+        CK_UseSauvegarde->SetValue(true);
+        ET_NB_CONSERVATION->Enable();
+        ET_FrequenceSauvegarde->Enable();
+    } else {
+        CK_UseSauvegarde->SetValue(false);
+        ET_NB_CONSERVATION->Disable();
+        ET_FrequenceSauvegarde->Disable();
+    }
+    str2.Printf("%ld", val2);
+    ET_FrequenceSauvegarde->SetValue(str2);
+
+    val2 = 1;
+    param->GetOrSet("config", "SAVE", "NB_CONSERVATION", val2);
+    str2.Printf("%ld", val2);
+    ET_NB_CONSERVATION->SetValue(str2);
+    
+    BOOL useDirSpec = false;
+    wxString dirSpec;
+    param->GetOrSet("config", "SAVE", "DIR_SAVE", useDirSpec, dirSpec);
+    RB_SauveDossierSpecifie->SetValue(useDirSpec);
+    RB_SauveDossierBase->SetValue(!useDirSpec);
+    ET_Rep_Sauvegarde->SetValue(dirSpec);
+    if (useDirSpec) {
+        ET_Rep_Sauvegarde->Enable();
+    } else {
+        ET_Rep_Sauvegarde->Disable();
+    }
 }
 
 /*
@@ -347,4 +432,59 @@ void ParametreDlg::CK_use_largeur_max_colonnesClick(wxCommandEvent& event)
         ET_LargeurMaxColonnes->Enable();
     else
         ET_LargeurMaxColonnes->Disable();
+}
+
+/*
+ * CK_UseSauvegardeClick
+ */
+void ParametreDlg::CK_UseSauvegardeClick(wxCommandEvent& event)
+{
+    // rendre actifs / inactifs les champs de saisie ET_NB_CONSERVATION et ET_FrequenceSauvegarde
+    if (CK_UseSauvegarde->GetValue()) {
+        ET_NB_CONSERVATION->Enable();
+        ET_FrequenceSauvegarde->Enable();
+        ET_Rep_Sauvegarde->Enable();
+        RB_SauveDossierSpecifie->Enable();
+        RB_SauveDossierBase->Enable();
+    } else {
+        ET_NB_CONSERVATION->Disable();
+        ET_FrequenceSauvegarde->Disable();
+        ET_Rep_Sauvegarde->Disable();
+        RB_SauveDossierSpecifie->Disable();
+        RB_SauveDossierBase->Disable();
+    }
+}
+
+/*
+ * RB_SauveDossierBaseClick
+ */
+void ParametreDlg::RB_SauveDossierBaseClick(wxCommandEvent& event)
+{
+    if (RB_SauveDossierSpecifie->GetValue()) {
+        ET_Rep_Sauvegarde->Enable();
+    } else {
+        ET_Rep_Sauvegarde->Disable();
+    }
+}
+
+/*
+ * RB_SauveDossierSpecifieClick
+ */
+void ParametreDlg::RB_SauveDossierSpecifieClick(wxCommandEvent& event)
+{
+    if (RB_SauveDossierSpecifie->GetValue()) {
+        ET_Rep_Sauvegarde->Enable();
+    } else {
+        ET_Rep_Sauvegarde->Disable();
+    }
+}
+
+/*
+ * BN_ParcourirSaveClick
+ */
+void ParametreDlg::BN_ParcourirSaveClick(wxCommandEvent& event)
+{
+	wxString dir = wxDirSelector("Choisissez le répertoire de sauvegarde", ET_Rep_Sauvegarde->GetValue());
+	if (!dir.empty())  // si vide : utilisateur a fait "cancel" dans la fenêtre de sélection
+    	ET_Rep_Sauvegarde->SetValue(dir);
 }

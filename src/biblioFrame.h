@@ -85,6 +85,7 @@
 #define ID_WXGRID_GRILLE 10106
 #define ID_HTMLWINDOW 10107
 #define ID_EFFACELIVRE 10108
+#define ID_DUPLIQUELIVRE 10109
 
 //WX_DEFINE_ARRAY(int, ArrayOfInt);
 
@@ -260,6 +261,7 @@ public:
 	void Mnulistes(wxCommandEvent& event);
 	void MnuimportercvsClick(wxCommandEvent& event);
 	void popup_effacelivre(wxCommandEvent& event);
+	void dupliquelivre(wxCommandEvent& event);
 	//void OnKeyDown(wxKeyEvent &event);
 	void MnurechercherClick(wxCommandEvent& event);
 	void Mnuapropos1047Click(wxCommandEvent& event);
@@ -276,7 +278,8 @@ public:
 private:
     wxSplashScreen* m_splash;
     void killSplash();
-
+    void fermerBaseLivre();
+    void modifieLivre(wxString id);
 };
 
 

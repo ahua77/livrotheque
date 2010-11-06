@@ -113,7 +113,7 @@ int ma_base::ouvrir(wxString nom) {
 }     
 
 void ma_base::fermer() {
-//    wxMessageBox("ma_base::fermer("+nom_base+")");
+    wxLogMessage("ma_base::fermer("+nom_base+")");
     if (sqlite3_close(db) !=  SQLITE_OK)
         wxMessageBox("probleme lors de la fermeture de la base "+nom_base,"probleme", wxOK | wxICON_EXCLAMATION);
     ouvert = false;

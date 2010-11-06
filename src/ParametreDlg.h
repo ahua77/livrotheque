@@ -58,6 +58,7 @@
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
 #include <wx/button.h>
+#include <wx/radiobut.h>
 #include <wx/textctrl.h>
 #include <wx/statline.h>
 #include <wx/checkbox.h>
@@ -84,23 +85,42 @@ class ParametreDlg : public wxDialog
 		void CK_useTopNClick(wxCommandEvent& event);
 		void ParametreDlgInitDialog(wxInitDialogEvent& event);
 		void CK_use_largeur_max_colonnesClick(wxCommandEvent& event);
+		void CK_UseSauvegardeClick(wxCommandEvent& event);
+		void RB_SauveDossierBaseClick(wxCommandEvent& event);
+		void RB_SauveDossierSpecifieClick(wxCommandEvent& event);
+		void BN_ParcourirSaveClick(wxCommandEvent& event);
 	
 	private:
 		//Do not add custom control declarations between 
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
-		wxStaticText *WxStaticText3;
-		wxTextCtrl *ET_LargeurMaxColonnes;
-		wxCheckBox *CK_use_largeur_max_colonnes;
-		wxStaticLine *WxStaticLine3;
+		wxButton *BN_ParcourirSave;
 		wxButton *BN_CANCEL;
 		wxButton *BN_OK;
+		wxTextCtrl *ET_Rep_Sauvegarde;
+		wxRadioButton *RB_SauveDossierSpecifie;
+		wxRadioButton *RB_SauveDossierBase;
+		wxStaticText *WxStaticText11;
+		wxStaticText *WxStaticText6;
+		wxStaticText *WxStaticText8;
+		wxStaticText *WxStaticText7;
+		wxStaticLine *WxStaticLine4;
+		wxStaticText *WxStaticText5;
+		wxStaticText *WxStaticText4;
+		wxTextCtrl *ET_NB_CONSERVATION;
+		wxTextCtrl *ET_FrequenceSauvegarde;
+		wxCheckBox *CK_UseSauvegarde;
+		wxPanel *WxNoteBookPage3;
 		wxStaticLine *WxStaticLine1;
 		wxStaticText *WxStaticText1;
 		wxTextCtrl *ET_ValueTopN;
 		wxCheckBox *CK_useTopN;
 		wxPanel *WxNoteBookPage2;
+		wxStaticText *WxStaticText3;
+		wxTextCtrl *ET_LargeurMaxColonnes;
+		wxCheckBox *CK_use_largeur_max_colonnes;
+		wxStaticLine *WxStaticLine3;
 		wxCheckBox *CK_cleanTmpOnExit;
 		wxCheckBox *CK_use_splash_screen;
 		wxStaticLine *WxStaticLine2;
@@ -129,17 +149,32 @@ class ParametreDlg : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
-			ID_WXSTATICTEXT3 = 1041,
-			ID_WX_ET_LARGEUR_MAX_COLONNES = 1040,
-			ID_WX_CK_USE_LARGEUR_MAX_COLONNES = 1039,
-			ID_WXSTATICLINE3 = 1038,
+			ID_WX_BN_PARCOURIR_SAVE = 1063,
 			ID_WX_BNCANCEL = 1009,
 			ID_WX_BNOK = 1008,
+			ID_WX_ET_REP_SAUVE = 1062,
+			ID_WX_RB_SAUVE_DOSSIER_SPECIFIE = 1061,
+			ID_WX_RB_SAUVE_DOSSIER_BASE = 1060,
+			ID_WXSTATICTEXT11 = 1059,
+			ID_WXSTATICTEXT6 = 1058,
+			ID_WXSTATICTEXT8 = 1053,
+			ID_WXSTATICTEXT7 = 1052,
+			ID_WXSTATICLINE4 = 1050,
+			ID_WXSTATICTEXT5 = 1047,
+			ID_WXSTATICTEXT4 = 1046,
+			ID_WX_ET_NB_CONSERV = 1045,
+			ID_WX_ET_FREQ_SAUVE = 1044,
+			ID_WX_CK_UseSauvegarde = 1043,
+			ID_WXNOTEBOOKPAGE3 = 1042,
 			ID_WXSTATICLINE1 = 1007,
 			ID_WXSTATICTEXT1 = 1006,
 			ID_WXEDIT1 = 1005,
 			ID_WX_CK_UseTopN = 1004,
 			ID_WXNOTEBOOKPAGE2 = 1003,
+			ID_WXSTATICTEXT3 = 1041,
+			ID_WX_ET_LARGEUR_MAX_COLONNES = 1040,
+			ID_WX_CK_USE_LARGEUR_MAX_COLONNES = 1039,
+			ID_WXSTATICLINE3 = 1038,
 			ID_WX_CK_CLEAN_TMP_ON_EXIT = 1037,
 			ID_WX_CK_UseSplashScreen = 1010,
 			ID_WXSTATICLINE2 = 1036,

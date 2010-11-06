@@ -106,6 +106,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	//EVT_GRID_CMD_CELL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
 	EVT_GRID_CMD_SELECT_CELL(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
 	EVT_MENU(ID_EFFACELIVRE , biblioFrame::popup_effacelivre)
+	EVT_MENU(ID_DUPLIQUELIVRE , biblioFrame::dupliquelivre)
 	EVT_COMMAND  (ID_WXGRID_GRILLE, wxEVENT_SUPPRESSION, biblioFrame::OnSuppression)
 	EVT_HTML_LINK_CLICKED(ID_HTMLWINDOW,biblioFrame::image_click)
 	////Manual Code End
@@ -204,7 +205,8 @@ void biblioFrame::killSplash()
 biblioFrame::~biblioFrame()
 { 
     mastat->Destroy();
-    amoi.fermer();
+    fermerBaseLivre();
+//    amoi.fermer();
 
     // nettoyage des fichiers temporaires
     // dernier endroit où on peut le faire, car au-delà, la base config est fermée (car contenue dans this)
@@ -243,7 +245,8 @@ void biblioFrame::init_arbre() {
             amoi.get_erreur(mess);
             killSplash();
             wxMessageBox("init_arbre "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
-            amoi.fermer();
+            fermerBaseLivre();
+            // amoi.fermer();
             return;
         }    
         ret=amoi.transac_step();
@@ -552,10 +555,13 @@ void biblioFrame::CreateGUIControls(void)
 
 void biblioFrame::biblioFrameClose(wxCloseEvent& event)
 {
+    wxLogMessage("biblioFrame::biblioFrameClose()");
+    this->SetTransparent(0);
     sauve_config();
     // --> Don't use Close with a Frame,
     // use Destroy instead.
     Destroy();
+    wxLogMessage("biblioFrame::biblioFrameClose() - sortie");
 }
 
 void biblioFrame::OnSplitterwindowSashPosChanged( wxSplitterEvent& event )
@@ -587,9 +593,12 @@ void biblioFrame::OnSplitterwindowDclick( wxSplitterEvent& event )
  */
 void biblioFrame::toolb_quitClick(wxCommandEvent& event)
 {
+    wxLogMessage("biblioFrame::toolb_quitClick()");
+    this->SetTransparent(0);
     sauve_config();
     Destroy();
     //event.Skip();
+    wxLogMessage("biblioFrame::toolb_quitClick() - sortie");
 }
 
 /*
@@ -610,8 +619,10 @@ void biblioFrame::OuvrirClick(wxCommandEvent& event)
 
 void biblioFrame::ouvrir_base(wxString filename) {
     wxString mess, mess2;
-    if (amoi.ouverte()==true)
-            amoi.fermer();
+    if (amoi.ouverte()==true) {
+        fermerBaseLivre();
+        // amoi.fermer();
+    }
             
     int ret=amoi.ouvrir(filename);
     if (ret<0) {
@@ -677,8 +688,10 @@ void biblioFrame::toolb_NouvClick(wxCommandEvent& event)
 
     if ( !filename.empty() )
     {
-        if (amoi.ouverte()==true)
-                amoi.fermer();
+        if (amoi.ouverte()==true) {
+            fermerBaseLivre();
+            // amoi.fermer();
+        }
                 
         amoi.ouvrir(filename);
         
@@ -777,7 +790,25 @@ void biblioFrame::OnSelectLivre( wxGridEvent &event )
             AfficheLivre(id);
         }    
 
-}    
+}
+
+void biblioFrame::modifieLivre(wxString id)
+{
+    Nouv_livre* insere_livre = new Nouv_livre(&amoi, id,false, this, -1, "Modification du livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
+    int ret=insere_livre->ShowModal();
+    //si on a modifié un enregistrement on réaffiche la grille
+    if(ret>0) {
+        wxString mess;
+        mess.Printf("%d", ret);
+        //wxMessageBox(mess+" "+id,"coco", wxOK | wxICON_INFORMATION, this);
+        init_arbre();
+        //remplir_grille("");
+        int numrow=trouve_ligne(id);
+        grille->MakeCellVisible(numrow,1);
+        grille->SelectRow(numrow);
+        AfficheLivre(id);
+    }
+}
 
 int biblioFrame::trouve_ligne(wxString Label){
     int i;
@@ -825,7 +856,8 @@ void biblioFrame::remplir_grille(wxString where)
         mess=query+"\n"+mess;
         killSplash();
         wxMessageBox("remplir_grille "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
-        amoi.fermer();
+        fermerBaseLivre();
+        // amoi.fermer();
         return;
     }
     ret=SQLITE_ROW;
@@ -1016,9 +1048,11 @@ void biblioFrame::OnGrilleClickDroit( wxGridEvent& event ) {
     id_l=grille->GetLabelValue(0,nrow);
     AfficheLivre(id_l);
     grille->SelectRow(nrow);
+	menu_efface=WxPopupMenu_grille->Insert(0, ID_DUPLIQUELIVRE,"dupliquer le livre sélectionné",_("Permet de dupliquer les livres selectionnés"), wxITEM_NORMAL);
 	menu_efface=WxPopupMenu_grille->Insert(0, ID_EFFACELIVRE,"effacer le livre sélectionné",_("Permet d'effacer les livres selectionnés"), wxITEM_NORMAL);
     PopupMenu(WxPopupMenu_grille);
     WxPopupMenu_grille->Delete(ID_EFFACELIVRE);
+    WxPopupMenu_grille->Delete(ID_DUPLIQUELIVRE);
 }    
 
 void biblioFrame::OnSelectlignegrille(wxGridEvent &event)
@@ -1062,6 +1096,40 @@ void biblioFrame::popup_effacelivre(wxCommandEvent& event){
                 wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
             }    
             init_arbre();
+            //remplir_grille("");
+            //ret=wxMessageBox("effacement de "+id,"Question", wxYES_NO|wxNO_DEFAULT |wxICON_EXCLAMATION, this);
+        }    
+    }    
+}    
+
+void biblioFrame::dupliquelivre(wxCommandEvent& event){
+    wxArrayInt cell_select;
+    wxString query, mess;
+    int ret;
+    
+    cell_select=grille->GetSelectedRows();
+    if (cell_select.GetCount()>0) {
+        wxString id=grille->GetRowLabelValue(cell_select[0]);
+        ret=wxMessageBox("Etes vous sur de vouloir dupliquer le livre avec l'id n°"+id+"?","Question", wxYES_NO|wxNO_DEFAULT | wxICON_EXCLAMATION, this);
+        if (ret == wxYES) {
+            
+            query="INSERT INTO livre SELECT * FROM livre WHERE rowid="+id;
+            ret=amoi.exec_rapide(query);
+            if (ret<0) {
+                amoi.get_erreur(mess);
+                wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+            }
+            int idDuplique = (int)(amoi.last_insert());
+            mess.Printf("%d", idDuplique);
+            wxMessageBox("last insert = " + mess);
+            
+            init_arbre();
+            int numrow=trouve_ligne(mess);
+            grille->MakeCellVisible(numrow,1);
+            grille->SelectRow(numrow);
+            AfficheLivre(mess);
+            modifieLivre(mess);
+
             //remplir_grille("");
             //ret=wxMessageBox("effacement de "+id,"Question", wxYES_NO|wxNO_DEFAULT |wxICON_EXCLAMATION, this);
         }    
@@ -1314,8 +1382,9 @@ void biblioFrame::get_colonne(wxString nomchamp, wxString idlivre, wxString &nom
     amoi.transac_fin();
 
 }    
-void biblioFrame::sauve_config() {
-
+void biblioFrame::sauve_config()
+{
+    wxLogMessage("biblioFrame::sauve_config()");
 	// sauvegarder les paramètres généraux dans la base config
 	ParamManager* param = ParamManager::GetInstance("config");
 	if (!param) {
@@ -1369,8 +1438,9 @@ void biblioFrame::sauve_config() {
             query="INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'TRI', '"+mess+"')";
             amoi.exec_rapide(query);
        }    
-    }    
-
+    }
+    
+    wxLogMessage("biblioFrame::sauve_config() - sortie");
 }    
 
 void biblioFrame::load_config() {
@@ -2042,5 +2112,98 @@ void biblioFrame::OnGrilleLabelLeftClick(wxGridEvent& event)
         // réafficher la grille pour prise en compte des nouveaux critères de tri
         init_arbre();
         param_modifie=true;
+    }
+}
+
+/**
+ * ferme la base courante (base des livres, pas de config) - en fait une sauvegarde si nécessaire
+ */
+void biblioFrame::fermerBaseLivre()
+{
+    if (!amoi.ouverte())
+        return;
+
+    amoi.fermer();
+
+	// initialiser en fonction des valeurs présentes en base
+	ParamManager* param = ParamManager::GetInstance("config");
+	if (!param) {
+        killSplash();
+        wxMessageBox ("biblioFrame::load_config() : instance de ParamManager non créée");
+        return;
+    }
+    
+    // récupération du nom de la base à ouvrir
+    BOOL faireSauvegarde = false;
+    long frequenceSauvegarde = 1;
+    param->GetOrSet("config", "SAVE", "ACTIVE", faireSauvegarde, frequenceSauvegarde);
+    
+
+    if (faireSauvegarde) {
+        wxDateTime now = wxDateTime::Now();
+
+        BOOL useRepSauvegardeSpec = false;
+        wxString repSauvegardeSpec;
+        param->GetOrSet("config", "SAVE", "DIR_SAVE", useRepSauvegardeSpec, repSauvegardeSpec);
+        
+        wxFileName baseFN (amoi.get_nombase());
+        wxLogMessage("base à sauvegarder : %s", baseFN.GetFullPath().c_str());
+        wxString repSauvegarde = baseFN.GetPathWithSep() + "sauvegardes\\";
+        if (useRepSauvegardeSpec)
+            repSauvegarde = repSauvegardeSpec + "\\";
+        wxString racineNom = baseFN.GetName();
+        wxString nomSauvegarde = racineNom + "_" + now.FormatISODate() + ".db";
+        wxLogMessage("sauvegarde à faire en %s - %s", repSauvegarde.c_str(), nomSauvegarde.c_str());
+
+        // chercher les précédentes sauvegardes et chercher une plus récente que <frequenceSauvegarde> jours
+        wxArrayString tabFiles;
+        wxDir::GetAllFiles(repSauvegarde, &tabFiles, racineNom + "_????-??-??.db", wxDIR_FILES);
+        wxLogMessage("%d fichiers de sauvegarde trouvés", tabFiles.GetCount());
+        bool recentTrouve = false;
+        for (int iSauv = 0; iSauv < tabFiles.GetCount() && !recentTrouve; iSauv++) {
+            wxFileName ficSauvFN (tabFiles[iSauv]);
+            wxDateTime dateModif = ficSauvFN.GetModificationTime();
+            if (dateModif >= now - wxDateSpan::Days(frequenceSauvegarde)) {
+                wxLogMessage ("sauvegarde inutile");
+                recentTrouve = true;
+            }
+        }
+
+        bool ok = !recentTrouve;
+        if (ok) {
+            if (!wxDirExists(repSauvegarde)) {
+                wxLogMessage("création du répertoire de sauvegarde");
+                wxMkDir(repSauvegarde);
+                if (!wxDirExists(repSauvegarde)) {  // rq : wxMkDir peut retourner false meme quand il a réussi à créer le répertoire !
+                    wxMessageBox ("création du répertoire de sauvegarde [" + repSauvegarde + "] impossible - pas de sauvegarde de la base");
+                    ok = false;
+                }
+            }
+        }
+        
+        if (ok) {
+            ok = wxCopyFile(amoi.get_nombase(), repSauvegarde + nomSauvegarde);
+            if (!ok) {
+                wxMessageBox ("sauvegarde de la base en [" + repSauvegarde + nomSauvegarde + "] impossible - pas de sauvegarde de la base");
+            } else {
+                tabFiles.Add(repSauvegarde + nomSauvegarde);
+            }
+        }
+        
+        for (int ii = 0; ii < tabFiles.GetCount(); ii++) {
+            wxLogMessage("   %d - %s", ii, tabFiles[ii].c_str());
+        }
+        
+        long nbSauvGardees = 1;
+        param->GetOrSet("config", "SAVE", "NB_CONSERVATION", nbSauvGardees);
+        if (tabFiles.GetCount() > nbSauvGardees) {
+            // il faut effacer les sauvegardes les plus anciennes pour n'en conserver que nbSauvGardees
+            // on se base sur les noms de fichier pour déterminer l'ordre des sauvegardes
+            tabFiles.Sort();
+            for (int iSauv = 0; iSauv < tabFiles.GetCount() - nbSauvGardees; iSauv++) {
+                wxLogMessage("suppression de la sauvegarde %s", tabFiles[iSauv].c_str());
+                wxRemoveFile(tabFiles[iSauv]);
+            }
+        }
     }
 }

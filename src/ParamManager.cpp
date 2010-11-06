@@ -106,6 +106,15 @@ void ParamManager::GetOrSet(const wxString& tableParam, const wxString& typePara
 }
 
 void ParamManager::GetOrSet(const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
+                            BOOL& val1, wxString& val2)
+{
+    wxString str1 = "T";
+    if (!val1) str1 = "F";
+    GetOrSet(tableParam, typeParam, nomParam, str1, val2);
+    val1 = (str1 == "T");
+}
+
+void ParamManager::GetOrSet(const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
                             BOOL& val1)
 {
     long dummyVal2=0;
@@ -166,6 +175,14 @@ void ParamManager::Set(const wxString& tableParam, const wxString& typeParam, co
     wxString str1 = "T";
     if (!val1) str1 = "F";
     Set (tableParam, typeParam, nomParam, str1);
+}
+
+void ParamManager::Set(const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
+                            BOOL val1, wxString val2)
+{
+    wxString str1 = "T";
+    if (!val1) str1 = "F";
+    Set (tableParam, typeParam, nomParam, str1, val2);
 }
 
 void ParamManager::Set(const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
