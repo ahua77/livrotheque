@@ -122,6 +122,8 @@ public:
 		//
 		void setproxy(bool utiliser, wxString adresse, wxString port, wxString user, wxString pass);
 		wxString interieur(wxString sTexte,wxString debut,wxString fin);
+
+private:
         bool prox_utilise;
         wxString prox_adresse;
         int prox_port;

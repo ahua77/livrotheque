@@ -44,7 +44,8 @@
 #include <wx/dir.h>
 
 #include "biblioFrame.h"
-
+#include "curl_util.h"
+#include "ParamManager.h"
 
 IMPLEMENT_APP(biblioFrameApp)
 
@@ -76,6 +77,33 @@ bool biblioFrameApp::OnInit()
 	biblioFrame *myFrame = new  biblioFrame(NULL);
 	SetTopWindow(myFrame);
 	myFrame->Show(TRUE);		
+
+    // initialisation de la config réseau
+    curl_util* curl = new curl_util;
+    // relire en base config les paramètres de proxy
+    bool prox_utilise;
+    wxString prox_adresse, prox_user, prox_pass;
+    int prox_port;
+    long valLong = 0;
+
+    ParamManager* param = ParamManager::GetInstance("config");
+    if (param) {
+        param->GetOrSet("rech_internet", "PROXY", "UTILISE", valLong);
+        prox_utilise = (bool)valLong;
+    
+        param->GetOrSet("rech_internet", "PROXY", "ADRESSE", prox_adresse);
+    
+        valLong = 0;
+        param->GetOrSet("rech_internet", "PROXY", "PORT", valLong);
+        prox_port = (int)valLong;
+    
+        param->GetOrSet("rech_internet", "PROXY", "USER", prox_user);
+        param->GetOrSet("rech_internet", "PROXY", "PASS", prox_pass);
+        curl->SetProxy(prox_utilise, prox_adresse, prox_port, prox_user, prox_pass);    
+    } else {
+        wxMessageBox("pas de ParamManager : paramètres de proxy par défaut");
+    }
+
 	return TRUE;
 }
  

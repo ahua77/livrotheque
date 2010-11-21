@@ -45,6 +45,7 @@
 #include <wx/filename.h>
 
 #include "ParamManager.h"
+#include "curl_util.h"
 
 //Do not add custom headers.
 //wx-dvcpp designer will remove them
@@ -418,6 +419,15 @@ void rech_internet::lancer_recherche() {
 
      wxSetCursor(wxCursor(wxCURSOR_WAIT));
     l_livre.setproxy(WxCheckBox_proxy->GetValue(), WxEdit_proxy_adr->GetValue(), WxEdit_proxy_port->GetValue(), WxEdit_proxy_util->GetValue(), WxEdit_proxy_pass->GetValue());
+    
+    curl_util* curl = curl_util::GetInstance();
+    if (curl) {
+        long port = 0;
+        WxEdit_proxy_util->GetValue().ToLong(&port);
+        curl->SetProxy(WxCheckBox_proxy->GetValue(), WxEdit_proxy_adr->GetValue(), (int)port, WxEdit_proxy_util->GetValue(), WxEdit_proxy_pass->GetValue());
+    }
+    
+    
     l_livre.traiter_isbn(isbn,img_recto,img_verso, l_carac,WxRadioBox_choix_recherche->GetSelection());
     /*if (ret<0) {
        wxMessageBox("Problême lors de la récupérationdes données","Probême", wxOK | wxICON_EXCLAMATION);
@@ -548,6 +558,14 @@ void rech_internet::sauve_config() {
     
     param->Set("rech_internet", "OPTION", "INVERSE", (long)(WxCheckBox_auteur_inverse->GetValue()));
     param->Set("rech_internet", "OPTION", "MINUSCULE", (long)(WxCheckBox_minuscule->GetValue()));
+    
+    // mettre à jour l'objet curl_util avec les paramètres de proxy
+    curl_util* curl = curl_util::GetInstance();
+    if (curl) {
+        long port = 0;
+        WxEdit_proxy_util->GetValue().ToLong(&port);
+        curl->SetProxy(WxCheckBox_proxy->GetValue(), WxEdit_proxy_adr->GetValue(), (int)port, WxEdit_proxy_util->GetValue(), WxEdit_proxy_pass->GetValue());
+    }
 }    
 
 void rech_internet::load_config() {

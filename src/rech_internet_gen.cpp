@@ -43,6 +43,10 @@
 #include "rech_internet_gen.h"
 
 #include <wx/clipbrd.h>
+
+#include "curl_util.h"
+#include "ParamManager.h"
+
 //Do not add custom headers.
 //wx-dvcpp designer will remove them
 ////Header Include Start
@@ -252,6 +256,33 @@ void rech_internet_gen::init_grille(wxGrid *grille) {
 
 void rech_internet_gen::sauve_config() {
     wxLogMessage("rech_internet_gen::sauve_config() - entrée");
+
+    ParamManager* param = ParamManager::GetInstance("config");
+    if (param == NULL) {
+        wxMessageBox("rech_internet_gen::sauve_config() : pas de ParamManager disponible");
+        return;
+    }
+
+    param->Set("rech_internet", "PROXY", "UTILISE", (long)(WxCheckBox_proxy->GetValue()));
+    param->Set("rech_internet", "PROXY", "ADRESSE", WxEdit_proxy_adr->GetValue());
+    param->Set("rech_internet", "PROXY", "PORT", WxEdit_proxy_port->GetValue());
+    param->Set("rech_internet", "PROXY", "USER", WxEdit_proxy_util->GetValue());
+    param->Set("rech_internet", "PROXY", "PASS", WxEdit_proxy_pass->GetValue());
+    param->Set("rech_internet", "PROXY", "MOTEUR", (long)(WxRadioBox_choix_recherche->GetSelection()));
+    
+    // param->Set("rech_internet", "OPTION", "INVERSE", (long)(WxCheckBox_auteur_inverse->GetValue()));
+    // param->Set("rech_internet", "OPTION", "MINUSCULE", (long)(WxCheckBox_minuscule->GetValue()));
+    
+    // mettre à jour l'objet curl_util avec les paramètres de proxy
+    curl_util* curl = curl_util::GetInstance();
+    if (curl) {
+        long port = 0;
+        WxEdit_proxy_util->GetValue().ToLong(&port);
+        curl->SetProxy(WxCheckBox_proxy->GetValue(), WxEdit_proxy_adr->GetValue(), (int)port, WxEdit_proxy_util->GetValue(), WxEdit_proxy_pass->GetValue());
+    }
+
+
+/*
     wxString fichier_conf;
     wxString query, mess;
     int ret;
@@ -326,6 +357,7 @@ void rech_internet_gen::sauve_config() {
         wxLogMessage("avant config.fermer");
     config.fermer();
     wxLogMessage("rech_internet_gen::sauve_config() - sortie");
+*/
 }    
 
 
@@ -443,6 +475,12 @@ void rech_internet_gen::WxButton_rechercheClick(wxCommandEvent& event)
     s_list_livres.Effacer();
      wxSetCursor(wxCursor(wxCURSOR_WAIT));
     l_livre.setproxy(WxCheckBox_proxy->GetValue(), WxEdit_proxy_adr->GetValue(), WxEdit_proxy_port->GetValue(), WxEdit_proxy_util->GetValue(), WxEdit_proxy_pass->GetValue());
+    curl_util* curl = curl_util::GetInstance();
+    if (curl) {
+        long port = 0;
+        WxEdit_proxy_util->GetValue().ToLong(&port);
+        curl->SetProxy(WxCheckBox_proxy->GetValue(), WxEdit_proxy_adr->GetValue(), (int)port, WxEdit_proxy_util->GetValue(), WxEdit_proxy_pass->GetValue());
+    }
 
     // mémorisation du critère de recherche pour le prochain affichage de la fenêtre    
     s_critere = WxEdit_recherche->GetValue();

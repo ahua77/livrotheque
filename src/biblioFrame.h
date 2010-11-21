@@ -125,6 +125,8 @@ private:
 public:
     enum {
     ////GUI Enum Control ID Start
+			ID_MNU_OUVRIR_1015 = 1015,
+			
 			ID_MNU_FICHIER_QUIT = 1010,
 			ID_MNU_OUVRIR_1022 = 1022,
 			ID_MNU_CREERUNEBASE_1023 = 1023,
@@ -161,8 +163,7 @@ public:
 			ID_MNU_AFFICHER_VALEUR_TOTALE = 1071,
 			ID_MNU_APROPOS_1046 = 1046,
 			ID_MNU__APROPOS_1047 = 1047,
-			
-			ID_MNU_OUVRIR_1015 = 1015,
+			ID_MNU_VERIFIER_VERSION = 1072,
 			
 			ID_BARRE_STATUT = 1009,
 			ID_WXTOOLBUTTON_ABOUT = 1055,
@@ -186,6 +187,8 @@ public:
 			ID_TOOLB_QUIT = 1006,
 			ID_TOOLB_PRINC = 1003,
     ////GUI Enum Control ID End
+			ID_MNU_VERIFIER_VERSION_SILENCIEUX = 2000,
+			ID_TIMER_VERIFIER_VERSION = 2001,
     ID_DUMMY_VALUE_ //Dont Delete this DummyValue
     }; //End of Enum
     biblioFrame( wxWindow *parent, wxWindowID id = 1, const wxString &title = _T("Livrotheque"),
@@ -195,8 +198,8 @@ public:
     virtual ~biblioFrame();
 public:
   ////GUI Control Declaration Start
-		wxMenuBar *monmenu;
 		wxMenu *WxPopupMenu_grille;
+		wxMenuBar *monmenu;
 		wxStatusBar *barre_statut;
 		wxToolBar *toolb_princ;
  ////GUI Control Declaration End
@@ -272,11 +275,16 @@ public:
 	void Mnuexporthtml1060Click(wxCommandEvent& event);
 	void Mnuexportcsv1062Click(wxCommandEvent& event);
     void image_click(wxHtmlLinkEvent &event);
-		void toolb_recherche_internetClick(wxCommandEvent& event);
-		void OnAfficherValeurTotale(wxCommandEvent& event);
+	void toolb_recherche_internetClick(wxCommandEvent& event);
+	void OnAfficherValeurTotale(wxCommandEvent& event);
+	void OnVerifierVersion(wxCommandEvent& event);
+	void OnVerifierVersionSilencieux(wxCommandEvent& event);
+    void OnTimerVerifierVersion(wxTimerEvent& event);
+    void verifierVersion(bool silencieux);
 		
 private:
     wxSplashScreen* m_splash;
+    wxTimer* m_timerVerif;
     void killSplash();
     void fermerBaseLivre();
     void modifieLivre(wxString id);

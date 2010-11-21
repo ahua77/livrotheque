@@ -81,6 +81,9 @@
 #include "ParamManager.h"
 
 #include "rech_internet_gen.h"
+#include "VersionXml.h"
+#include "VersionDlg.h"
+#include "livrotheque_private.h"
 
 #define style_dialog_choix wxSYSTEM_MENU|wxCAPTION
 
@@ -109,9 +112,13 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_DUPLIQUELIVRE , biblioFrame::dupliquelivre)
 	EVT_COMMAND  (ID_WXGRID_GRILLE, wxEVENT_SUPPRESSION, biblioFrame::OnSuppression)
 	EVT_HTML_LINK_CLICKED(ID_HTMLWINDOW,biblioFrame::image_click)
+
+	EVT_MENU(ID_MNU_VERIFIER_VERSION_SILENCIEUX, biblioFrame::OnVerifierVersionSilencieux)
+    EVT_TIMER(ID_TIMER_VERIFIER_VERSION, biblioFrame::OnTimerVerifierVersion)
 	////Manual Code End
 	
 	EVT_CLOSE(biblioFrame::biblioFrameClose)
+	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_MNU_OUVRIR_1022, biblioFrame::OuvrirClick)
 	EVT_MENU(ID_MNU_CREERUNEBASE_1023, biblioFrame::toolb_NouvClick)
 	EVT_MENU(ID_MNU_MENUITEM30_1058, biblioFrame::Mnuitem_imprimerlivre)
@@ -139,7 +146,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU_STATISTIQUE_1048, biblioFrame::Mnustatistique1048Click)
 	EVT_MENU(ID_MNU_AFFICHER_VALEUR_TOTALE, biblioFrame::OnAfficherValeurTotale)
 	EVT_MENU(ID_MNU__APROPOS_1047, biblioFrame::Mnuapropos1047Click)
-	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
+	EVT_MENU(ID_MNU_VERIFIER_VERSION, biblioFrame::OnVerifierVersion)
 	EVT_MENU(ID_WXTOOLBUTTON_ABOUT,biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_TOOLB_PARAM,biblioFrame::parametrer)
 	EVT_MENU(ID_WXTOOLBUTTON_STAT,biblioFrame::Mnustatistique1048Click)
@@ -192,6 +199,11 @@ biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title
 
     load_config();
     killSplash();
+
+
+    // on lance la première vérification de version en asynchrone pour laisser le temps à la fenêtre de se dessiner
+    m_timerVerif = new wxTimer(this, ID_TIMER_VERIFIER_VERSION);
+    m_timerVerif->Start(1000, wxTIMER_ONE_SHOT);
 }
 
 void biblioFrame::killSplash()
@@ -226,6 +238,7 @@ biblioFrame::~biblioFrame()
 } 
 
 void biblioFrame::init_arbre() {
+    // wxLogMessage("biblioFrame::init_arbre");
     wxTreeItemId root;
     wxTreeItemId branche;
     wxString query;
@@ -270,6 +283,7 @@ void biblioFrame::init_arbre() {
     }  
     arbre->SelectItem(root);
     arbre->Expand(root);
+    // wxLogMessage("biblioFrame::init_arbre - sortie");
 }
 
 void biblioFrame::init_colonnes() {
@@ -415,8 +429,6 @@ void biblioFrame::CreateGUIControls(void)
 
 	barre_statut = new wxStatusBar(this, ID_BARRE_STATUT);
 
-	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
-
 	monmenu = new wxMenuBar();
 	wxMenu *ID_MNU_FICHIER_QUIT_Mnu_Obj = new wxMenu(0);
 	ID_MNU_FICHIER_QUIT_Mnu_Obj->Append(ID_MNU_OUVRIR_1022, wxT("Ouvrir une Base"), wxT(""), wxITEM_NORMAL);
@@ -465,8 +477,11 @@ void biblioFrame::CreateGUIControls(void)
 	
 	wxMenu *ID_MNU_APROPOS_1046_Mnu_Obj = new wxMenu(0);
 	ID_MNU_APROPOS_1046_Mnu_Obj->Append(ID_MNU__APROPOS_1047, wxT("&A propos"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_APROPOS_1046_Mnu_Obj->Append(ID_MNU_VERIFIER_VERSION, wxT("Vérifier la version"), wxT(""), wxITEM_NORMAL);
 	monmenu->Append(ID_MNU_APROPOS_1046_Mnu_Obj, wxT("Aide"));
 	SetMenuBar(monmenu);
+
+	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
 
 	SetStatusBar(barre_statut);
 	toolb_princ->SetToolBitmapSize(wxSize(16,16));
@@ -555,13 +570,13 @@ void biblioFrame::CreateGUIControls(void)
 
 void biblioFrame::biblioFrameClose(wxCloseEvent& event)
 {
-    wxLogMessage("biblioFrame::biblioFrameClose()");
+    // wxLogMessage("biblioFrame::biblioFrameClose()");
     this->SetTransparent(0);
     sauve_config();
     // --> Don't use Close with a Frame,
     // use Destroy instead.
     Destroy();
-    wxLogMessage("biblioFrame::biblioFrameClose() - sortie");
+    // wxLogMessage("biblioFrame::biblioFrameClose() - sortie");
 }
 
 void biblioFrame::OnSplitterwindowSashPosChanged( wxSplitterEvent& event )
@@ -593,12 +608,12 @@ void biblioFrame::OnSplitterwindowDclick( wxSplitterEvent& event )
  */
 void biblioFrame::toolb_quitClick(wxCommandEvent& event)
 {
-    wxLogMessage("biblioFrame::toolb_quitClick()");
+    // wxLogMessage("biblioFrame::toolb_quitClick()");
     this->SetTransparent(0);
     sauve_config();
     Destroy();
     //event.Skip();
-    wxLogMessage("biblioFrame::toolb_quitClick() - sortie");
+    // wxLogMessage("biblioFrame::toolb_quitClick() - sortie");
 }
 
 /*
@@ -823,6 +838,8 @@ int biblioFrame::trouve_ligne(wxString Label){
 
 void biblioFrame::remplir_grille(wxString where)
 {
+    // wxLogMessage("biblioFrame::remplir_grille");
+
     // récupération du paramétrage : faut-il faire un word wrap dans les colonnes ?
     ParamManager* param = ParamManager::GetInstance("config");
     BOOL useLargeurMax = false;
@@ -949,6 +966,7 @@ void biblioFrame::remplir_grille(wxString where)
         AfficheLivre(grille->GetLabelValue(0,0));
         grille_ok=true;
     }    
+    // wxLogMessage("biblioFrame::remplir_grille - sortie");
 }
 
 void biblioFrame::creation_select_livre(wxString &select, wxString where, wxString order_by) {
@@ -1384,7 +1402,7 @@ void biblioFrame::get_colonne(wxString nomchamp, wxString idlivre, wxString &nom
 }    
 void biblioFrame::sauve_config()
 {
-    wxLogMessage("biblioFrame::sauve_config()");
+    // wxLogMessage("biblioFrame::sauve_config()");
 	// sauvegarder les paramètres généraux dans la base config
 	ParamManager* param = ParamManager::GetInstance("config");
 	if (!param) {
@@ -1440,7 +1458,7 @@ void biblioFrame::sauve_config()
        }    
     }
     
-    wxLogMessage("biblioFrame::sauve_config() - sortie");
+    // wxLogMessage("biblioFrame::sauve_config() - sortie");
 }    
 
 void biblioFrame::load_config() {
@@ -2012,9 +2030,9 @@ void biblioFrame::image_click(wxHtmlLinkEvent &event)
 void biblioFrame::toolb_recherche_internetClick(wxCommandEvent& event)
 {
     int ret;
-    wxLogMessage("biblioFrame::toolb_recherche_internetClick()");
+    // wxLogMessage("biblioFrame::toolb_recherche_internetClick()");
     rech_internet_gen* rech_gen = new rech_internet_gen(this, -1);
-    wxLogMessage("biblioFrame::toolb_recherche_internetClick() - après création de rech_gen");
+    // wxLogMessage("biblioFrame::toolb_recherche_internetClick() - après création de rech_gen");
     
     ret=rech_gen->ShowModal();
     if (ret == 0) {
@@ -2038,11 +2056,11 @@ void biblioFrame::toolb_recherche_internetClick(wxCommandEvent& event)
             grille->SelectRow(numrow);
             // wxLogMessage("avant AfficheLivre()");
             AfficheLivre(mess);
-            wxLogMessage("sortie bloc 1");
+            // wxLogMessage("sortie bloc 1");
          }    
-        wxLogMessage("sortie bloc 2");
+        // wxLogMessage("sortie bloc 2");
     }
-    wxLogMessage("sortie bloc 3");
+    // wxLogMessage("sortie bloc 3");
 	// insert your code here
 	event.Skip();
 }
@@ -2074,7 +2092,7 @@ void biblioFrame::OnAfficherValeurTotale(wxCommandEvent& event)
 
 void biblioFrame::OnGrilleLabelLeftClick(wxGridEvent& event)
 {
-    wxLogMessage("biblioFrame::OnGrilleLabelLeftClick() - col = %d", event.GetCol());
+    // wxLogMessage("biblioFrame::OnGrilleLabelLeftClick() - col = %d", event.GetCol());
 /*    
     int ii = 0;
     wxLogMessage("liste_choisis_nom : ");
@@ -2206,4 +2224,52 @@ void biblioFrame::fermerBaseLivre()
             }
         }
     }
+}
+
+/*
+ * OnVerifierVersion
+ */
+void biblioFrame::OnVerifierVersion(wxCommandEvent& event)
+{
+    verifierVersion(false);
+}
+
+void biblioFrame::OnVerifierVersionSilencieux(wxCommandEvent& event)
+{
+    verifierVersion(true);
+}
+
+/**
+ * recherche les infos de version sur le serveur de référence et vérifie / affiche si la version utilisée est la dernière disponible
+ * @param silencieux : si true, le résultat n'est affiché que lorsque la version n'est pas à jour
+ */
+void biblioFrame::verifierVersion(bool silencieux)
+{
+    // wxLogMessage("biblioFrame::verifierVersion");
+    wxString urlFichierVersion = "http://peepaillard.free.fr/livrotheque.xml";    
+
+    ParamManager* param = ParamManager::GetInstance("config");
+    wxString urlSpecifique = "";
+    BOOL usePreprod = false;
+    param->GetOrSet("config", "INIT", "VERIF_VERSION", usePreprod, urlSpecifique);
+    if (urlSpecifique != "")
+        urlFichierVersion = urlSpecifique;
+    
+    VersionXml version(urlFichierVersion, gettempdir(), VER_STRING, usePreprod);
+    
+    bool aJour = version.aJour();
+    if (silencieux == false || aJour == false || version.afficherMessage() == true) {
+        // wxLogMessage("afficher la boite versionDlg - silencieux = %d - aJour = %d", silencieux, aJour);
+        VersionDlg dlg (this, version);
+        dlg.ShowModal();
+    }
+
+    // wxLogMessage("biblioFrame::verifierVersion - sortie");
+}
+
+void biblioFrame::OnTimerVerifierVersion(wxTimerEvent& event)
+{
+    verifierVersion(true);
+    delete m_timerVerif;
+    m_timerVerif = NULL;
 }
