@@ -291,7 +291,7 @@ void choix_colonnes::ajouteClick() {
  */
 void choix_colonnes::WxButton_enleveClick(wxCommandEvent& event)
 {
-    int num_choix;
+    int num_choix=0;
     int num_choisi;
     int i;
     wxString texte;
@@ -351,7 +351,7 @@ void choix_colonnes::WxButton_okClick(wxCommandEvent& event)
 void choix_colonnes::deplace_choisi(bool haut) {
     wxString val, val_insere;
     wxString texte;
-    int i,num_choix;
+    int i,num_choix=0;
 
 	int num_choisi=itemListBox_choisis->GetSelection();
 
@@ -423,7 +423,7 @@ void choix_colonnes::WxBitmapButton_basClick(wxCommandEvent& event)
         event.Skip();
         return;
     }
-	if (num_choisi >= (itemListBox_choisis->GetCount()-1)) {
+	if (num_choisi >= (int)(itemListBox_choisis->GetCount()-1)) {
         //wxMessageBox("déja tout en bas","Oups", wxOK | wxICON_INFORMATION, this);
         event.Skip();
         return;

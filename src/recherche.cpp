@@ -225,7 +225,7 @@ void recherche::OnOk(wxCommandEvent& event)
 }
 
 void recherche::creation_where_id(wxString nom_champ, wxArrayString liste_cherche) {
-    int i;
+    // int i;
 
     table_liee = nom_champ.Mid(3);
     if (liste_cherche.GetCount() > 0) {
@@ -234,7 +234,7 @@ void recherche::creation_where_id(wxString nom_champ, wxArrayString liste_cherch
         where="WHERE "+table_liee+".nom LIKE '%"+val+"%' ";
     }
 
-    for(i=1; i<liste_cherche.GetCount() ; i++) {
+    for(size_t i=1; i<liste_cherche.GetCount() ; i++) {
         if (WxRadioButton_type_ou->GetValue() == true)
             where+=" OR ";
         else if (WxRadioButton_type_et->GetValue() == true)
@@ -250,7 +250,7 @@ void recherche::creation_where_id(wxString nom_champ, wxArrayString liste_cherch
 }
 
 void recherche::creation_where_simple(wxString nom_champ, wxArrayString liste_cherche) {
-    int i;
+    // int i;
     
     if (liste_cherche.GetCount() > 0) {
         wxString val = liste_cherche[0];
@@ -258,7 +258,7 @@ void recherche::creation_where_simple(wxString nom_champ, wxArrayString liste_ch
         where="WHERE livre."+nom_champ+" LIKE '%"+val+"%' ";
     }
 
-    for(i=1; i<liste_cherche.GetCount() ; i++) {
+    for(size_t i=1; i<liste_cherche.GetCount() ; i++) {
         if (WxRadioButton_type_ou->GetValue() == true)
             where+=" OR ";
         else if (WxRadioButton_type_et->GetValue() == true)

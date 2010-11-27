@@ -66,7 +66,7 @@ bool biblioFrameApp::OnInit()
         log->SetTimestamp("[%Y-%m-%d %H:%M:%S] ");
         wxLog::SetActiveTarget(log);
     } else {
-        wxLogNull* log = new wxLogNull;
+        /* wxLogNull* log = */ new wxLogNull;
 //        wxLog::SetActiveTarget(log); -- inutile avec wxLogNull
     }
 
@@ -80,14 +80,14 @@ bool biblioFrameApp::OnInit()
 
     // initialisation de la config réseau
     curl_util* curl = new curl_util;
-    // relire en base config les paramètres de proxy
-    bool prox_utilise;
-    wxString prox_adresse, prox_user, prox_pass;
-    int prox_port;
-    long valLong = 0;
 
     ParamManager* param = ParamManager::GetInstance("config");
     if (param) {
+        // relire en base config les paramètres de proxy
+        bool prox_utilise;
+        wxString prox_adresse, prox_user, prox_pass;
+        int prox_port;
+        long valLong = 0;
         param->GetOrSet("rech_internet", "PROXY", "UTILISE", valLong);
         prox_utilise = (bool)valLong;
     

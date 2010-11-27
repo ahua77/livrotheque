@@ -15,6 +15,7 @@ public:
     }
 
     void SetProxy(bool prox_utilise, wxString prox_adresse, int prox_port, wxString prox_user, wxString prox_pass);
+    void SetTimeout(long timeout) {m_timeout = timeout;}
 
     int GetFile(wxString url, const wxString& filename, const wxString& tempDir);
     
@@ -26,6 +27,8 @@ private:
     int m_prox_port;
     wxString m_prox_user;
     wxString m_prox_pass;
+    
+    long m_timeout;
 };
 
 #endif

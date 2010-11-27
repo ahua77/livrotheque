@@ -200,10 +200,17 @@ biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title
     load_config();
     killSplash();
 
-
-    // on lance la première vérification de version en asynchrone pour laisser le temps à la fenêtre de se dessiner
-    m_timerVerif = new wxTimer(this, ID_TIMER_VERIFIER_VERSION);
-    m_timerVerif->Start(1000, wxTIMER_ONE_SHOT);
+    // si la vérification de version est demandée et si aucune vérification n'a encore été faite le même jour
+    BOOL verifVersion = true;
+    param->GetOrSet("config", "INIT", "VERIF_VERSION", verifVersion);
+    wxString dateDerniereVerif;
+    param->GetOrSet("config", "INIT", "DERNIERE_VERIF_VERSION", dateDerniereVerif);
+    wxDateTime now = wxDateTime::Now();
+    if (verifVersion && (dateDerniereVerif == "" || dateDerniereVerif < now.Format("%Y/%m/%d"))) {
+        // on lance la première vérification de version en asynchrone pour laisser le temps à la fenêtre de se dessiner
+        m_timerVerif = new wxTimer(this, ID_TIMER_VERIFIER_VERSION);
+        m_timerVerif->Start(1000, wxTIMER_ONE_SHOT);
+    }
 }
 
 void biblioFrame::killSplash()
@@ -230,7 +237,7 @@ biblioFrame::~biblioFrame()
         wxArrayString vFichiers;
         wxDir::GetAllFiles(gettempdir(), &vFichiers, _("*.*"), wxDIR_FILES);
         // wxLogMessage("fichiers à effacer : ");
-        for (int iFic = 0; iFic < vFichiers.GetCount(); iFic++) {
+        for (size_t iFic = 0; iFic < vFichiers.GetCount(); iFic++) {
             // wxLogMessage(" . " + vFichiers[iFic]);
             wxRemoveFile(vFichiers[iFic]);
         }
@@ -893,10 +900,10 @@ void biblioFrame::remplir_grille(wxString where)
             for (champ=0; champ<nbcol;champ++) {
                 amoi.get_value_char(champ,texte,taille);
                 
-                if (useLargeurMax && largeurMax > 0 && texte.Length() > largeurMax) {
+                if (useLargeurMax && largeurMax > 0 && (long)(texte.Length()) > largeurMax) {
                     wxString texteRestant = texte;
                     texte = "";
-                    while (texteRestant.length() > largeurMax) {
+                    while ((long)(texteRestant.length()) > largeurMax) {
                         // on cherche l'espace le plus proche du largeurMax-eme car de texteRestant et on coupe à ce point
                         int ecart = 0;
                         bool encore = true;
@@ -908,7 +915,7 @@ void biblioFrame::remplir_grille(wxString where)
                             } else if (texteRestant.Mid(largeurMax+ecart, 1) == " ") {
                                 encore = false;
                                 ptCoupe = largeurMax+ecart;
-                            } else if (largeurMax-ecart<0 && largeurMax+ecart>texteRestant.Length()) {
+                            } else if (largeurMax-ecart<0 && largeurMax+ecart>(long)(texteRestant.Length())) {
                                 encore = false;
                             }
                             ecart++;
@@ -2116,7 +2123,7 @@ void biblioFrame::OnGrilleLabelLeftClick(wxGridEvent& event)
         liste_tri.Insert(liste_choisis[event.GetCol()], 0);
         
         // supprimer le nouveau premier critère s'il apparaissait déjà plus loin
-        for (int ii = 1; ii < liste_tri.GetCount(); ii++) {
+        for (size_t ii = 1; ii < liste_tri.GetCount(); ii++) {
             if (liste_tri[ii] == liste_choisis[event.GetCol()]) {
                 liste_tri.RemoveAt(ii);
                 break;
@@ -2175,10 +2182,10 @@ void biblioFrame::fermerBaseLivre()
 
         // chercher les précédentes sauvegardes et chercher une plus récente que <frequenceSauvegarde> jours
         wxArrayString tabFiles;
-        wxDir::GetAllFiles(repSauvegarde, &tabFiles, racineNom + "_????-??-??.db", wxDIR_FILES);
+        wxDir::GetAllFiles(repSauvegarde, &tabFiles, racineNom + "_?""?""?""?-?""?-?""?.db", wxDIR_FILES);
         wxLogMessage("%d fichiers de sauvegarde trouvés", tabFiles.GetCount());
         bool recentTrouve = false;
-        for (int iSauv = 0; iSauv < tabFiles.GetCount() && !recentTrouve; iSauv++) {
+        for (size_t iSauv = 0; iSauv < tabFiles.GetCount() && !recentTrouve; iSauv++) {
             wxFileName ficSauvFN (tabFiles[iSauv]);
             wxDateTime dateModif = ficSauvFN.GetModificationTime();
             if (dateModif >= now - wxDateSpan::Days(frequenceSauvegarde)) {
@@ -2208,17 +2215,17 @@ void biblioFrame::fermerBaseLivre()
             }
         }
         
-        for (int ii = 0; ii < tabFiles.GetCount(); ii++) {
+        for (size_t ii = 0; ii < tabFiles.GetCount(); ii++) {
             wxLogMessage("   %d - %s", ii, tabFiles[ii].c_str());
         }
         
         long nbSauvGardees = 1;
         param->GetOrSet("config", "SAVE", "NB_CONSERVATION", nbSauvGardees);
-        if (tabFiles.GetCount() > nbSauvGardees) {
+        if ((long)(tabFiles.GetCount()) > nbSauvGardees) {
             // il faut effacer les sauvegardes les plus anciennes pour n'en conserver que nbSauvGardees
             // on se base sur les noms de fichier pour déterminer l'ordre des sauvegardes
             tabFiles.Sort();
-            for (int iSauv = 0; iSauv < tabFiles.GetCount() - nbSauvGardees; iSauv++) {
+            for (size_t iSauv = 0; iSauv < tabFiles.GetCount() - nbSauvGardees; iSauv++) {
                 wxLogMessage("suppression de la sauvegarde %s", tabFiles[iSauv].c_str());
                 wxRemoveFile(tabFiles[iSauv]);
             }
@@ -2251,7 +2258,7 @@ void biblioFrame::verifierVersion(bool silencieux)
     ParamManager* param = ParamManager::GetInstance("config");
     wxString urlSpecifique = "";
     BOOL usePreprod = false;
-    param->GetOrSet("config", "INIT", "VERIF_VERSION", usePreprod, urlSpecifique);
+    param->GetOrSet("config", "INIT", "VERIF_VERSION_PREPROD", usePreprod, urlSpecifique);
     if (urlSpecifique != "")
         urlFichierVersion = urlSpecifique;
     
@@ -2263,6 +2270,11 @@ void biblioFrame::verifierVersion(bool silencieux)
         VersionDlg dlg (this, version);
         dlg.ShowModal();
     }
+    
+    // sauvegarder la date de dernière verif
+    wxDateTime now = wxDateTime::Now();
+    wxString dateDerniereVerif = now.Format("%Y/%m/%d");
+    param->Set("config", "INIT", "DERNIERE_VERIF_VERSION", dateDerniereVerif);
 
     // wxLogMessage("biblioFrame::verifierVersion - sortie");
 }

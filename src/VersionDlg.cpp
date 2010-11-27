@@ -54,14 +54,14 @@ void VersionDlg::CreateGUIControls()
 	this->SetSizer(WxBoxSizer1);
 	this->SetAutoLayout(true);
 
-	WxStaticText1 = new wxStaticText(this, ID_WXSTATICTEXT1, wxT("WxStaticText1"), wxPoint(251, 5), wxDefaultSize, 0, wxT("WxStaticText1"));
+	WxStaticText1 = new wxStaticText(this, ID_WXSTATICTEXT1, wxT("WxStaticText1"), wxPoint(223, 5), wxDefaultSize, 0, wxT("WxStaticText1"));
 	WxStaticText1->SetFont(wxFont(14, wxSWISS, wxNORMAL, wxBOLD, false));
 	WxBoxSizer1->Add(WxStaticText1,0,wxALIGN_LEFT | wxLEFT | wxTOP,5);
 
-	WxStaticText2 = new wxStaticText(this, ID_WXSTATICTEXT2, wxT("WxStaticText2"), wxPoint(251, 24), wxDefaultSize, 0, wxT("WxStaticText2"));
+	WxStaticText2 = new wxStaticText(this, ID_WXSTATICTEXT2, wxT("WxStaticText2"), wxPoint(251, 34), wxDefaultSize, 0, wxT("WxStaticText2"));
 	WxBoxSizer1->Add(WxStaticText2,0,wxALIGN_LEFT | wxLEFT,5);
 
-	WxStaticText3 = new wxStaticText(this, ID_WXSTATICTEXT3, wxT("WxStaticText3"), wxPoint(251, 43), wxDefaultSize, 0, wxT("WxStaticText3"));
+	WxStaticText3 = new wxStaticText(this, ID_WXSTATICTEXT3, wxT("WxStaticText3"), wxPoint(251, 53), wxDefaultSize, 0, wxT("WxStaticText3"));
 	WxBoxSizer1->Add(WxStaticText3,0,wxALIGN_LEFT | wxLEFT,5);
 
 	WxBoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -74,14 +74,14 @@ void VersionDlg::CreateGUIControls()
 	WxHyperLinkCtrl1->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, true, wxT("MS Sans Serif")));
 	WxBoxSizer2->Add(WxHyperLinkCtrl1,0,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxLEFT,5);
 
-	WxMemo1 = new wxTextCtrl(this, ID_WXMEMO1, wxEmptyString, wxPoint(5, 86), wxSize(564, 47), wxTE_MULTILINE, wxDefaultValidator, wxT("WxMemo1"));
+	WxMemo1 = new wxTextCtrl(this, ID_WXMEMO1, wxEmptyString, wxPoint(5, 96), wxSize(564, 47), wxTE_MULTILINE, wxDefaultValidator, wxT("WxMemo1"));
 	WxMemo1->SetMaxLength(0);
 	WxMemo1->AppendText(wxT("WxMemo1"));
 	WxMemo1->SetFocus();
 	WxMemo1->SetInsertionPointEnd();
 	WxBoxSizer1->Add(WxMemo1,0,wxALIGN_CENTER | wxALL,5);
 
-	WxMemo2 = new wxTextCtrl(this, ID_WXMEMO2, wxEmptyString, wxPoint(5, 143), wxSize(564, 200), wxTE_RICH | wxTE_MULTILINE, wxDefaultValidator, wxT("WxMemo2"));
+	WxMemo2 = new wxTextCtrl(this, ID_WXMEMO2, wxEmptyString, wxPoint(5, 153), wxSize(564, 200), wxTE_RICH | wxTE_MULTILINE, wxDefaultValidator, wxT("WxMemo2"));
 	WxMemo2->SetMaxLength(0);
 	WxMemo2->AppendText(wxT("WxMemo2"));
 	WxMemo2->SetFocus();
@@ -195,6 +195,8 @@ void VersionDlg::CreateGUIControls()
 	WxMemo1->SetEditable(false);
 	WxMemo2->SetEditable(false);
     WxMemo2->SetInsertionPoint(0);
+    
+    btnOK->SetLabel("Fermer");
 	btnOK->SetFocus();
 	
 	WxBoxSizer1->Layout();

@@ -40,6 +40,7 @@
 ///------------------------------------------------------------------
 
 #include "ParamManager.h"
+#include <wx/log.h>
 
 MapParamManager ParamManager::tabInstance;
 
@@ -217,7 +218,7 @@ void ParamManager::Set(const wxString& tableParam, const wxString& typeParam, co
     if (!baseConfig.existe(tableParam)) {
         baseConfig.exec_rapide("CREATE TABLE " + tableParam + " (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)");
     }
-    
+
     wxString query = "select val1, val2 from " + tableParam + " where type_param='" + typeParam + "' and nom_param='" + nomParam + "'";
     int ret=baseConfig.transac_prepare(query);
     if (ret < 0) {
@@ -229,11 +230,22 @@ void ParamManager::Set(const wxString& tableParam, const wxString& typeParam, co
         ret = baseConfig.transac_step();
         if (ret == SQLITE_ROW) {
             // il ne doit y avoir qu'une ligne avec typeParam / nomParam --> on ne prend que la premiere trouvée
-            query = "update " + tableParam + " set val1 = '" + val1 + "', val2 = '" + val2 + "'"
-                    " where type_param='" + typeParam + "' and nom_param='" + nomParam + "'";
-            ret = baseConfig.exec_rapide(query);
-            if (ret < 0) {
-                wxMessageBox("probleme avec la requete " + query);
+            wxString val1_avant, val2_avant;
+            int size1, size2;
+            baseConfig.get_value_char(0, val1_avant, size1);
+            baseConfig.get_value_char(1, val2_avant, size2);
+            // la lecture en base est beaucoup plus rapide que l'écriture : on commence par récupérer les valeurs courantes, et on
+            // ne les remplace que si elles ont effectivement été modifiées
+            if (val1 != val1_avant || val2 != val2_avant) {
+                query = "update " + tableParam + " set val1 = '" + val1 + "', val2 = '" + val2 + "'"
+                        " where type_param='" + typeParam + "' and nom_param='" + nomParam + "'";
+                wxLogMessage(query);
+                ret = baseConfig.exec_rapide(query);
+                if (ret < 0) {
+                    wxMessageBox("probleme avec la requete " + query);
+                }
+            } else {
+                // wxLogMessage("pas de changement pour %s/%s : ('%s', '%s')", tableParam.c_str(), nomParam.c_str(), val1.c_str(), val2.c_str());
             }
         } else {
             // la ligne typeParam / nomParam n'existe pas : on en profite pour l'insérer

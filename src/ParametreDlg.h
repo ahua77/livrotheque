@@ -57,6 +57,7 @@
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
+#include <wx/statbox.h>
 #include <wx/button.h>
 #include <wx/radiobut.h>
 #include <wx/textctrl.h>
@@ -89,15 +90,30 @@ class ParametreDlg : public wxDialog
 		void RB_SauveDossierBaseClick(wxCommandEvent& event);
 		void RB_SauveDossierSpecifieClick(wxCommandEvent& event);
 		void BN_ParcourirSaveClick(wxCommandEvent& event);
+		void WxCheckBox_proxyClick(wxCommandEvent& event);
 	
 	private:
 		//Do not add custom control declarations between 
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
-		wxButton *BN_ParcourirSave;
+		wxCheckBox *WxCheck_verifVersion;
+		wxStaticText *WxStaticText9;
+		wxTextCtrl *WxEdit_timeout;
+		wxTextCtrl *WxEdit_proxy_pass;
+		wxTextCtrl *WxEdit_proxy_util;
+		wxStaticText *WxStaticText_proxy_pass;
+		wxStaticText *WxStaticText_proxy_util;
+		wxStaticText *WxStaticText_proxy_port;
+		wxStaticText *WxStaticText_proxy_adr;
+		wxTextCtrl *WxEdit_proxy_port;
+		wxTextCtrl *WxEdit_proxy_adr;
+		wxStaticBox *WxStaticBox_proxy;
+		wxCheckBox *WxCheckBox_proxy;
+		wxPanel *WxNoteBookPage4;
 		wxButton *BN_CANCEL;
 		wxButton *BN_OK;
+		wxButton *BN_ParcourirSave;
 		wxTextCtrl *ET_Rep_Sauvegarde;
 		wxRadioButton *RB_SauveDossierSpecifie;
 		wxRadioButton *RB_SauveDossierBase;
@@ -149,9 +165,23 @@ class ParametreDlg : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
-			ID_WX_BN_PARCOURIR_SAVE = 1063,
+			ID_WXCHECKBOX1 = 1122,
+			ID_WXSTATICTEXT9 = 1121,
+			ID_WX_TIMEOUT = 1120,
+			ID_WXEDIT_PROXY_PASS = 1119,
+			ID_WXEDIT_PROXY_UTIL = 1118,
+			ID_WXSTATICTEXT_PROXY_PASS = 1117,
+			ID_WXSTATICTEXT_PROXY_UTIL = 1116,
+			ID_WXSTATICTEXT_PROXY_PORT = 1115,
+			ID_WXSTATICTEXT_PROXY_ADR = 1114,
+			ID_WXEDIT_PROXY_PORT = 1113,
+			ID_WXEDIT_PROXY_ADR = 1112,
+			ID_WXSTATICBOX_PROXY = 1111,
+			ID_WXCHECKBOX_PROXY = 1110,
+			ID_WXNOTEBOOKPAGE4 = 1064,
 			ID_WX_BNCANCEL = 1009,
 			ID_WX_BNOK = 1008,
+			ID_WX_BN_PARCOURIR_SAVE = 1063,
 			ID_WX_ET_REP_SAUVE = 1062,
 			ID_WX_RB_SAUVE_DOSSIER_SPECIFIE = 1061,
 			ID_WX_RB_SAUVE_DOSSIER_BASE = 1060,
@@ -200,6 +230,7 @@ class ParametreDlg : public wxDialog
 	private:
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
+		void change_etat_proxy();
         static long s_nbInstances;
 };
 

@@ -4,7 +4,7 @@ object frmNewForm_1: TfrmNewForm
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'V'#233'rification de la version'
-  ClientHeight = 360
+  ClientHeight = 410
   ClientWidth = 570
   Color = clBtnFace
   OldCreateOrder = True
@@ -34,7 +34,7 @@ object frmNewForm_1: TfrmNewForm
     Left = 0
     Top = 0
     Width = 570
-    Height = 360
+    Height = 410
     Align = alClient
     TabOrder = 0
     Orientation = wxVertical
@@ -43,7 +43,7 @@ object frmNewForm_1: TfrmNewForm
     Wx_IDName = 'ID_WXBOXSIZER1'
     Wx_IDValue = 1001
     object WxStaticText1: TWxStaticText
-      Left = 251
+      Left = 223
       Top = 5
       Width = 133
       Height = 29
@@ -85,7 +85,7 @@ object frmNewForm_1: TfrmNewForm
     end
     object WxStaticText2: TWxStaticText
       Left = 251
-      Top = 24
+      Top = 34
       Width = 77
       Height = 19
       Caption = 'WxStaticText2'
@@ -120,7 +120,7 @@ object frmNewForm_1: TfrmNewForm
     end
     object WxStaticText3: TWxStaticText
       Left = 251
-      Top = 43
+      Top = 53
       Width = 77
       Height = 19
       Caption = 'WxStaticText3'
@@ -155,7 +155,7 @@ object frmNewForm_1: TfrmNewForm
     end
     object WxBoxSizer2: TWxBoxSizer
       Left = 168
-      Top = 62
+      Top = 72
       Width = 237
       Height = 19
       TabOrder = 6
@@ -247,7 +247,7 @@ object frmNewForm_1: TfrmNewForm
     end
     object WxMemo1: TWxMemo
       Left = 5
-      Top = 86
+      Top = 96
       Width = 564
       Height = 47
       BevelInner = bvNone
@@ -283,7 +283,7 @@ object frmNewForm_1: TfrmNewForm
     end
     object WxMemo2: TWxMemo
       Left = 5
-      Top = 143
+      Top = 153
       Width = 564
       Height = 200
       BevelInner = bvNone
@@ -321,7 +321,7 @@ object frmNewForm_1: TfrmNewForm
     end
     object WxStdDialogButtonSizer1: TWxStdDialogButtonSizer
       Left = 249
-      Top = 353
+      Top = 363
       Width = 75
       Height = 23
       TabOrder = 5

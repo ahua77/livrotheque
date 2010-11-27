@@ -13,6 +13,7 @@ curl_util* curl_util::s_instance = NULL;
 curl_util::curl_util()
 {
     s_instance = this;
+    m_timeout = 10;
 }
 
 curl_util::~curl_util()
@@ -55,7 +56,7 @@ size_t write_d(void *ptr,size_t size, size_t nmemb, void *stream)
 
 int curl_util::GetFile(wxString url, const wxString& filename, const wxString& tempDir)
 {
-  wxLogMessage("curl_util::GetFile() - param proxtt = {%d, %s, %d, %s, %s}",
+  wxLogMessage("curl_util::GetFile() - param proxy = {%d, %s, %d, %s, %s}",
                   m_prox_utilise, m_prox_adresse.c_str(), m_prox_port, m_prox_user.c_str(), m_prox_pass.c_str());
   CURL *curl_handle;
   wxString headerfilename = tempDir + wxFileName::GetPathSeparators() + wxT("head.html");
@@ -83,9 +84,9 @@ int curl_util::GetFile(wxString url, const wxString& filename, const wxString& t
 
   /* no progress meter please */
   curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 1);
-  curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, 60);
+  curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, m_timeout);
   
-  curl_easy_setopt(curl_handle,CURLOPT_VERBOSE,0); 
+  curl_easy_setopt(curl_handle,CURLOPT_VERBOSE,0);
   /* shut up completely */
   
   /* send all data to this function  */

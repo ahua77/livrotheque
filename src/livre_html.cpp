@@ -267,7 +267,7 @@ size_t LIVRE_HTML::write_d(void *ptr,size_t size, size_t nmemb, void *stream)
  
 wxString LIVRE_HTML::recup_donnee(wxString donnee, wxString debut, wxString fin, int type_recup) {
     wxString resultat;
-    size_t debut_d, fin_d;
+    int debut_d, fin_d;
     //int fin_d;
     
     debut_d=donnee.Find(debut);
@@ -286,7 +286,7 @@ wxString LIVRE_HTML::recup_donnee(wxString donnee, wxString debut, wxString fin,
     resultat.Replace("<br />","\n",true);
     resultat.Replace("<BR />","\n",true);
     // suppression des blancs de début et de fin
-    int i=0;
+    size_t i=0;
     while ((resultat[i]==' ' || resultat[i]=='\t' || resultat[i]=='\n') && i<resultat.Len()) {
         i++;
     }

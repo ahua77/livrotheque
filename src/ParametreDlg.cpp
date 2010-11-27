@@ -47,6 +47,7 @@
 ////Header Include End
 
 #include "ParamManager.h"
+#include "curl_util.h"
 
 long ParametreDlg::s_nbInstances = 0;
 
@@ -62,9 +63,10 @@ BEGIN_EVENT_TABLE(ParametreDlg,wxDialog)
 	
 	EVT_CLOSE(ParametreDlg::OnClose)
 	EVT_INIT_DIALOG(ParametreDlg::ParametreDlgInitDialog)
-	EVT_BUTTON(ID_WX_BN_PARCOURIR_SAVE,ParametreDlg::BN_ParcourirSaveClick)
+	EVT_CHECKBOX(ID_WXCHECKBOX_PROXY,ParametreDlg::WxCheckBox_proxyClick)
 	EVT_BUTTON(ID_WX_BNCANCEL,ParametreDlg::BN_CANCELClick)
 	EVT_BUTTON(ID_WX_BNOK,ParametreDlg::BN_OKClick)
+	EVT_BUTTON(ID_WX_BN_PARCOURIR_SAVE,ParametreDlg::BN_ParcourirSaveClick)
 	EVT_RADIOBUTTON(ID_WX_RB_SAUVE_DOSSIER_SPECIFIE,ParametreDlg::RB_SauveDossierSpecifieClick)
 	EVT_RADIOBUTTON(ID_WX_RB_SAUVE_DOSSIER_BASE,ParametreDlg::RB_SauveDossierBaseClick)
 	EVT_CHECKBOX(ID_WX_CK_UseSauvegarde,ParametreDlg::CK_UseSauvegardeClick)
@@ -98,9 +100,9 @@ void ParametreDlg::CreateGUIControls()
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
-	WxNotebook1 = new wxNotebook(this, ID_WXNOTEBOOK1, wxPoint(0, 0), wxSize(425, 265), wxNB_DEFAULT);
+	WxNotebook1 = new wxNotebook(this, ID_WXNOTEBOOK1, wxPoint(0, 0), wxSize(435, 265), wxNB_DEFAULT);
 
-	WxNoteBookPage1 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE1, wxPoint(4, 26), wxSize(417, 235));
+	WxNoteBookPage1 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE1, wxPoint(4, 26), wxSize(427, 235));
 	WxNotebook1->AddPage(WxNoteBookPage1, wxT("Général"));
 
 	WxStaticText2 = new wxStaticText(WxNoteBookPage1, ID_WXSTATICTEXT2, wxT("Avertir avant de créer un nouveau groupe des types cochés ci-dessous :"), wxPoint(4, 6), wxDefaultSize, 0, wxT("WxStaticText2"));
@@ -143,7 +145,7 @@ void ParametreDlg::CreateGUIControls()
 
 	WxStaticText3 = new wxStaticText(WxNoteBookPage1, ID_WXSTATICTEXT3, wxT("caractères de large"), wxPoint(232, 201), wxDefaultSize, 0, wxT("WxStaticText3"));
 
-	WxNoteBookPage2 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE2, wxPoint(4, 26), wxSize(417, 235));
+	WxNoteBookPage2 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE2, wxPoint(4, 26), wxSize(427, 235));
 	WxNotebook1->AddPage(WxNoteBookPage2, wxT("Statistiques"));
 
 	CK_useTopN = new wxCheckBox(WxNoteBookPage2, ID_WX_CK_UseTopN, wxT("Limiter l'affichage aux "), wxPoint(12, 14), wxSize(137, 17), 0, wxDefaultValidator, wxT("CK_useTopN"));
@@ -154,7 +156,7 @@ void ParametreDlg::CreateGUIControls()
 
 	WxStaticLine1 = new wxStaticLine(WxNoteBookPage2, ID_WXSTATICLINE1, wxPoint(-4, 38), wxSize(422, -1), wxLI_HORIZONTAL);
 
-	WxNoteBookPage3 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE3, wxPoint(4, 26), wxSize(417, 235));
+	WxNoteBookPage3 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE3, wxPoint(4, 26), wxSize(427, 235));
 	WxNotebook1->AddPage(WxNoteBookPage3, wxT("Sauvegarde"));
 
 	CK_UseSauvegarde = new wxCheckBox(WxNoteBookPage3, ID_WX_CK_UseSauvegarde, wxT("Activer les sauvegardes automatiques de la base"), wxPoint(10, 13), wxSize(393, 17), 0, wxDefaultValidator, wxT("CK_UseSauvegarde"));
@@ -185,15 +187,50 @@ void ParametreDlg::CreateGUIControls()
 
 	ET_Rep_Sauvegarde = new wxTextCtrl(WxNoteBookPage3, ID_WX_ET_REP_SAUVE, wxT("ET_Rep_Sauvegarde"), wxPoint(46, 132), wxSize(329, 19), 0, wxDefaultValidator, wxT("ET_Rep_Sauvegarde"));
 
-	BN_OK = new wxButton(this, ID_WX_BNOK, wxT("OK"), wxPoint(80, 272), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_OK"));
-
-	BN_CANCEL = new wxButton(this, ID_WX_BNCANCEL, wxT("Annuler"), wxPoint(248, 272), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_CANCEL"));
-
 	BN_ParcourirSave = new wxButton(WxNoteBookPage3, ID_WX_BN_PARCOURIR_SAVE, wxT("..."), wxPoint(381, 130), wxSize(31, 22), 0, wxDefaultValidator, wxT("BN_ParcourirSave"));
+
+	BN_OK = new wxButton(this, ID_WX_BNOK, wxT("OK"), wxPoint(102, 270), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_OK"));
+
+	BN_CANCEL = new wxButton(this, ID_WX_BNCANCEL, wxT("Annuler"), wxPoint(286, 270), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_CANCEL"));
+
+	WxNoteBookPage4 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE4, wxPoint(4, 26), wxSize(427, 235));
+	WxNotebook1->AddPage(WxNoteBookPage4, wxT("Réseau"));
+
+	WxCheckBox_proxy = new wxCheckBox(WxNoteBookPage4, ID_WXCHECKBOX_PROXY, wxT("Utiliser un proxy"), wxPoint(7, 7), wxSize(114, 26), 0, wxDefaultValidator, wxT("WxCheckBox_proxy"));
+	WxCheckBox_proxy->SetToolTip(wxT("Cochez si votre connexion internet utilise un proxy"));
+	WxCheckBox_proxy->SetHelpText(wxT("Cocher la case si vous voulez utiliser un proxy"));
+
+	WxStaticBox_proxy = new wxStaticBox(WxNoteBookPage4, ID_WXSTATICBOX_PROXY, wxT("Paramètre du Proxy"), wxPoint(7, 35), wxSize(417, 81));
+
+	WxEdit_proxy_adr = new wxTextCtrl(WxNoteBookPage4, ID_WXEDIT_PROXY_ADR, wxT(""), wxPoint(66, 53), wxSize(142, 21), 0, wxDefaultValidator, wxT("WxEdit_proxy_adr"));
+	WxEdit_proxy_adr->Enable(false);
+
+	WxEdit_proxy_port = new wxTextCtrl(WxNoteBookPage4, ID_WXEDIT_PROXY_PORT, wxT(""), wxPoint(65, 84), wxSize(143, 21), 0, wxDefaultValidator, wxT("WxEdit_proxy_port"));
+	WxEdit_proxy_port->Enable(false);
+
+	WxStaticText_proxy_adr = new wxStaticText(WxNoteBookPage4, ID_WXSTATICTEXT_PROXY_ADR, wxT("Adresse : "), wxPoint(14, 55), wxDefaultSize, 0, wxT("WxStaticText_proxy_adr"));
+
+	WxStaticText_proxy_port = new wxStaticText(WxNoteBookPage4, ID_WXSTATICTEXT_PROXY_PORT, wxT("Port : "), wxPoint(28, 85), wxDefaultSize, 0, wxT("WxStaticText_proxy_port"));
+
+	WxStaticText_proxy_util = new wxStaticText(WxNoteBookPage4, ID_WXSTATICTEXT_PROXY_UTIL, wxT("Utilisateur : "), wxPoint(218, 55), wxDefaultSize, 0, wxT("WxStaticText_proxy_util"));
+
+	WxStaticText_proxy_pass = new wxStaticText(WxNoteBookPage4, ID_WXSTATICTEXT_PROXY_PASS, wxT("Password : "), wxPoint(216, 88), wxDefaultSize, 0, wxT("WxStaticText_proxy_pass"));
+
+	WxEdit_proxy_util = new wxTextCtrl(WxNoteBookPage4, ID_WXEDIT_PROXY_UTIL, wxT(""), wxPoint(279, 54), wxSize(136, 21), 0, wxDefaultValidator, wxT("WxEdit_proxy_util"));
+	WxEdit_proxy_util->Enable(false);
+
+	WxEdit_proxy_pass = new wxTextCtrl(WxNoteBookPage4, ID_WXEDIT_PROXY_PASS, wxT(""), wxPoint(279, 85), wxSize(138, 21), wxTE_PASSWORD, wxDefaultValidator, wxT("WxEdit_proxy_pass"));
+	WxEdit_proxy_pass->Enable(false);
+
+	WxEdit_timeout = new wxTextCtrl(WxNoteBookPage4, ID_WX_TIMEOUT, wxT("WxEdit_timeout"), wxPoint(127, 125), wxSize(121, 19), 0, wxDefaultValidator, wxT("WxEdit_timeout"));
+
+	WxStaticText9 = new wxStaticText(WxNoteBookPage4, ID_WXSTATICTEXT9, wxT("Timeout (secondes)"), wxPoint(11, 126), wxDefaultSize, 0, wxT("WxStaticText9"));
+
+	WxCheck_verifVersion = new wxCheckBox(WxNoteBookPage4, ID_WXCHECKBOX1, wxT("Vérifier la dernière version au lancement du programme"), wxPoint(10, 159), wxSize(415, 17), 0, wxDefaultValidator, wxT("WxCheck_verifVersion"));
 
 	SetTitle(wxT("Paramètres"));
 	SetIcon(wxNullIcon);
-	SetSize(8,8,442,334);
+	SetSize(8,8,455,334);
 	Center();
 	
 	////GUI Items Creation End
@@ -209,6 +246,7 @@ void ParametreDlg::OnClose(wxCloseEvent& /*event*/)
  */
 void ParametreDlg::BN_OKClick(wxCommandEvent& event)
 {
+    wxLogMessage("ParametreDlg::BN_OKClick()");
     // sauvegarder en base les paramètres de tous les onglets
 	ParamManager* param = ParamManager::GetInstance("config");
 	if (!param) {
@@ -217,6 +255,7 @@ void ParametreDlg::BN_OKClick(wxCommandEvent& event)
     }
 
     // Onglet Général
+    wxLogMessage("ParametreDlg::BN_OKClick() - onglet General");
     param->Set("config", "INIT", "USE_SPLASH", CK_use_splash_screen->GetValue());
     param->Set("config", "INIT", "CLEAN_TMP_ON_EXIT", CK_cleanTmpOnExit->GetValue());
 
@@ -240,6 +279,7 @@ void ParametreDlg::BN_OKClick(wxCommandEvent& event)
     param->Set("config", "INIT", "LARGEUR_MAX_COLONNE", useLargeurMaxColonnes, largeurMaxColonnes);
 
     // ligne STAT / USE_TOP_N
+    wxLogMessage("ParametreDlg::BN_OKClick() - ligne STAT / USE_TOP_N");
     BOOL useTopN = CK_useTopN->GetValue();
     long seuilTopN = 0;
     str2 = ET_ValueTopN->GetValue();
@@ -247,6 +287,7 @@ void ParametreDlg::BN_OKClick(wxCommandEvent& event)
     param->Set("config", "STAT", "USE_TOP_N", useTopN, seuilTopN);
 
     // lignes SAVE
+    wxLogMessage("ParametreDlg::BN_OKClick() - ligne SAVE");
     BOOL useSave = CK_UseSauvegarde->GetValue();
     long frequence = 0;
     str2 = ET_FrequenceSauvegarde->GetValue();
@@ -260,10 +301,36 @@ void ParametreDlg::BN_OKClick(wxCommandEvent& event)
     wxString dirSpec = ET_Rep_Sauvegarde->GetValue();
     param->Set("config", "SAVE", "DIR_SAVE", useDirSpec, dirSpec);
 
+    // lignes PROXY
+    wxLogMessage("ParametreDlg::BN_OKClick() - ligne PROXY");
+    param->Set("rech_internet", "PROXY", "UTILISE", (long)(WxCheckBox_proxy->GetValue()));
+    param->Set("rech_internet", "PROXY", "ADRESSE", WxEdit_proxy_adr->GetValue());
+    param->Set("rech_internet", "PROXY", "PORT", WxEdit_proxy_port->GetValue());
+    param->Set("rech_internet", "PROXY", "USER", WxEdit_proxy_util->GetValue());
+    param->Set("rech_internet", "PROXY", "PASS", WxEdit_proxy_pass->GetValue());
+    param->Set("rech_internet", "NETWORK", "TIMEOUT", WxEdit_timeout->GetValue());
+    
+    
+    // mettre à jour l'objet curl_util avec les paramètres de proxy
+    curl_util* curl = curl_util::GetInstance();
+    if (curl) {
+        long port = 0;
+        WxEdit_proxy_util->GetValue().ToLong(&port);
+        curl->SetProxy(WxCheckBox_proxy->GetValue(), WxEdit_proxy_adr->GetValue(), (int)port, WxEdit_proxy_util->GetValue(), WxEdit_proxy_pass->GetValue());
+        long timeout = 0;
+        WxEdit_timeout->GetValue().ToLong(&timeout);
+        curl->SetTimeout(timeout);
+    }
+
+    // lignes VERIF_VERSION
+    wxLogMessage("ParametreDlg::BN_OKClick() - ligne VERIF_VERSION");
+    param->Set("config", "INIT", "VERIF_VERSION", WxCheck_verifVersion->GetValue());
         
     // fermer la fenêtre
 	this->EndDialog(0);
 	this->Destroy();
+
+    wxLogMessage("ParametreDlg::BN_OKClick() - sortie");
 }
 
 /*
@@ -420,6 +487,38 @@ void ParametreDlg::ParametreDlgInitDialog(wxInitDialogEvent& event)
     } else {
         ET_Rep_Sauvegarde->Disable();
     }
+    
+    // onglet Réseau
+    long valLong = 0;
+    param->GetOrSet("rech_internet", "PROXY", "UTILISE", valLong);
+    WxCheckBox_proxy->SetValue((bool)valLong);
+    change_etat_proxy();
+    
+    wxString str1 = "";
+    param->GetOrSet("rech_internet", "PROXY", "ADRESSE", str1);
+    WxEdit_proxy_adr->SetValue(str1);
+
+    valLong = 0;
+    param->GetOrSet("rech_internet", "PROXY", "PORT", valLong);
+    str1.Printf("%ld", valLong);
+    WxEdit_proxy_port->SetValue(str1);
+
+    str1 = "";
+    param->GetOrSet("rech_internet", "PROXY", "USER", str1);
+    WxEdit_proxy_util->SetValue(str1);
+
+    str1 = "";
+    param->GetOrSet("rech_internet", "PROXY", "PASS", str1);
+    WxEdit_proxy_pass->SetValue(str1);
+
+    BOOL verifVersion = true;
+    param->GetOrSet("config", "INIT", "VERIF_VERSION", verifVersion);
+    WxCheck_verifVersion->SetValue(verifVersion);
+
+    valLong = 10;
+    param->GetOrSet("rech_internet", "NETWORK", "TIMEOUT", valLong);
+    str1.Printf("%ld", valLong);
+    WxEdit_timeout->SetValue(str1);
 }
 
 /*
@@ -487,4 +586,21 @@ void ParametreDlg::BN_ParcourirSaveClick(wxCommandEvent& event)
 	wxString dir = wxDirSelector("Choisissez le répertoire de sauvegarde", ET_Rep_Sauvegarde->GetValue());
 	if (!dir.empty())  // si vide : utilisateur a fait "cancel" dans la fenêtre de sélection
     	ET_Rep_Sauvegarde->SetValue(dir);
+}
+
+void ParametreDlg::WxCheckBox_proxyClick(wxCommandEvent& event)
+{
+    change_etat_proxy();
+	// insert your code here
+	event.Skip();
+}
+
+void ParametreDlg::change_etat_proxy(){
+    bool etat_check;
+    
+    etat_check=WxCheckBox_proxy->IsChecked();
+    WxEdit_proxy_pass->Enable(etat_check);
+    WxEdit_proxy_util->Enable(etat_check);
+    WxEdit_proxy_port->Enable(etat_check);
+    WxEdit_proxy_adr->Enable(etat_check);
 }
