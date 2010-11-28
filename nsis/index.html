@@ -1,286 +1,192 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
-  
-  <title>Pr&eacute;sentation de Livrotheque</title>
-  <link rel="stylesheet" type="text/css" href="frameSimulate.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="livrotheque,gestion,bibliotheque,logiciel,gratuit,free,book,books,manage,library,free,open,source">
+  <meta name="robots" content="index,follow,all">
+  <meta name="revisit-after" content="7 day">
+<title>Livrotheque : Logiciel de gestion de bibliothèque</title>
+<link rel="stylesheet" href="css/livrotheque.css" />
+
 </head>
 
 <body>
 
-<!-- Top Header portion of page - remains unchanged -->
-<div id="mastHead">
-<h1 style="text-align: center;">Livroth&egrave;que</h1>
 
-</div>
 
-<!-- Left section of page - acts as link Index for pages,
-text in this section seldom changes. -->
-<div id="linkIndex"><a href="index.html">Mais
-qu'est ce?</a> <a href="screen.html">Mais
-&agrave; quoi?</a><a href="download.html">Mais
-ou?</a><a href="pourquoi.html">Mais
-pourquoi?</a><a href="comment.html">Mais comment?</a><a href="qui.html">Mais
-qui?</a><a href="punbb/index.php">forum</a>
-</div>
-
-<!-- Main content box of page - acts as the "frame" in this design -->
-<div id="contentsBox">
-<h2>News :</h2>
-
-<span style="font-weight: bold;">28/08/2007 :</span><br>
-
-
-Une nouvelle version est disponible&nbsp;(1.1.3.1)<br>
-Modification legere pour (re)faire fonctionner le chargement des images (suite a une modification des URLS sur alapage) <br>
-Passage en version 2.8.4 de wxwidgets du coup maintenant on peut mettre livrotheque (ou la base) dans un repertoire avec un accent sans que �a pose probleme. <br>
-<br>
-
-<span style="font-weight: bold;">30/07/2007 :</span><br>
-
-
-Une nouvelle version est disponible&nbsp;(1.1.2.1)<br>
-Remise en route de la fonction de recherche via ISBN. Celle ci ne marchait plus suite � la modification des pages sur le site Alapage. <br>
-(bis) en esperant que cette fois ci �a dure un peu plus longtemps <br>
-<br>
-
-<span style="font-weight: bold;">25/07/2007 :</span><br>
-
-
-
-Une nouvelle version est disponible&nbsp;(1.1.1.1)<br>
-Remise en route de la fonction de recherche via ISBN. Celle ci ne marchait plus suite � la modification des pages sur le site Alapage. <br>
-A noter que seule la recherche via ISBN refonctionne. <br>
-Passage de sqlite en version 3.4.0 <br>
-Refonte de l'architecture des sources pour qu'ils soient plus facile � g�rer -> du coup sqlite est integr� directement dans l'executable : plus besoin de dll externe. La seule dll encore utilis�e est celle pour libcurl. <br>
-<br>
-Et un grand merci � SL pour ses s�ances de debugging et son aide sur le forum! <br>
-<br>
-
-
-<span style="font-weight: bold;">13/02/2007 :</span><br>
-
-
-
-Une nouvelle version est disponible&nbsp;(1.1.0.0)<br>
-Ajout de la version full HTML dans l'export HTML. (permet d'utiliser l'export en local contrairement &agrave; la version AJAX)<br>
-Ajout de la version HTML pour PDA : cette version est identique
-&agrave; la version full HTML mais sans les images sur la page
-d'acceuil, ce qui permet une meilleure lisibilit&eacute; sur les petits
-&eacute;crans.<br>
-Ajout de l'export CSV.<br>
-Correction d'un probleme lorsque l'on fermait l'application et que
-celle ci &eacute;tait iconis&eacute;e dans la barre des t&acirc;ches.<br>
-<br>
-<span style="font-weight: bold;">10/01/2007 :</span><br>
-
-
-
-Une nouvelle version mineure est disponible aujourd'hui (1.0.7.2)<br>
-
-Elle ne corrige que quelques erreurs de typo dans les &eacute;crans HTML.<br>
-
-et utilisation d'un autre compresseur pour la version zip : il y avait
-quelques probl&egrave;mes avec certains logiciels de
-d&eacute;compression(cf forum) <br>
-
-<br>
-
-
-<span style="font-weight: bold;">29/12/2006 :</span><br>
-
-
-
-Une nouvelle version est disponible aujourd'hui (1.0.7)<br>
-
-
-quoi de neuf :<br>
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Correction du bug sur les dates (maintenant on peut ne rien mettre)<br>
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Passage &agrave; la version 2.8.0 de wxwidgets<br>
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Passage &agrave; la version 3.3.8 de sqlite<br>
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Passage &agrave; la version 1.2.2 de libcurl<br>
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Ajout de l'export HTML.<br>
-
-
-L'export HTML permet de g&eacute;n&eacute;rer un site contenant l'ensemble des livres de votre base de donn&eacute;e. <br>
-
-
-Ce site utilise le fonctionnalit&eacute;s AJAX, il ne fonctionnera donc
-pas en local. Pour fonctionner il doit &ecirc;tre install&eacute; sur
-un serveur WEB (apache ou autre).<br>
-
-
-<br>
-
-
-Pour voir ce que &ccedil;a donne ma base se trouve <a href="http://peepaillard.free.fr/mes_livres/">la</a><br>
-
-
-<br>
-
-
-<span style="font-weight: bold;">2/11/2006 :</span><br>
-
-
-
-Une nouvelle version est disponible aujourd'hui (1.0.6).<br>
-
-
-
-C'est une version mineure pour corriger/ajouter des fonctionalit&eacute;s demand&eacute;es via le forum.<br>
-
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - possibilit&eacute; d'inverser
-le nom/pr&eacute;nom de l'auteur lors de l'acquisition via internet<br>
-
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - possibilit&eacute; d'inverser
-le nom/pr&eacute;nom de l'auteur via liste-&gt;auteur (j'enleverai
-certainement &ccedil;a dans <br>
-
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;une prochaine
-release, &ccedil;a n'est utile que tant que tout le monde n'a pas mis
-&agrave; jour ses auteurs.<br>
-
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Passer le titre/genre en
-minuscule automatiquement lors de la r&eacute;cup&eacute;ration via
-internet<br>
-
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Sauvegarde de la taille de la
-fen&ecirc;tre lors de la fermeture et r&eacute;ouverture &agrave; cette
-taille. <br>
-
-
-
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Euuhh je crois que c'est tout.
-<h2>Mais qu'est-ce?</h2>
-
-
-
-
-
-Livrotheque est un logiciel de gestion de sa bibliotheque personnelle.
-En gros Ce logiciel permet d'enregistrer ses livres et de les classer
-suivant ses gouts.<br>
-
-
-
-
-
-<br>
-
-
-
-
-
-Une petite liste de ce qu'il peut faire :<br>
-
-
-
-
-
-<br>
-
-
-
-
-
-<div>
-<ul>
-
-
-
-
-
-  <li>Tri des livres par titre/auteur/s&eacute;rie ... tout
-ce qui vous passe par la tete</li>
-
-
-
-
-
-  <li>Insertion d'images de livres dans les fiches</li>
-
-
-
-
-
-  <li>Choix des colonnes affich&eacute;es dans la liste des
-livres</li>
-
-
-
-
-
-  <li>Statistiques diverses sur la base de livre.</li>
-
-
-
-
-  <li>Remplissage d'une partie des renseignements &agrave; partir d'internet (dont l'image de la couverture) </li>
-
-
-
-
-
-  <li>Importation d'une base exterieure &agrave; partir d'un
-fichier CVS</li>
-
-
-
-
-
-</ul>
-
-
-
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-
-
-<span style="font-style: italic;"><br>
-
-
-
-
-
-<br>
-
-
-
-
-
-</span>
+<table border=0 cellpadding=0 cellspacing=0 align="center">
+	<tr>
+		<td valign="top" align="left" background="images/ihm/template_book_1024_01611.png" width=124 rowspan="2">
+        	<div id="menu" >
+                <a href="index.html">Mais qu'est ce ?</a>
+                <a href="screen.html">Mais à quoi ?</a>
+                <a href="download.html">Mais où ?</a>
+                <a href="pourquoi.html">Mais pourquoi ?</a>
+                <a href="comment.html">Mais comment ?</a>
+                <a href="qui.html">Mais qui ?</a>
+                <a href="punbb/index.php">Forum</a>
+			</div>
+		</td>
+        
+        <td valign="bottom" bgcolor=#E5DECF  width=629 height=175 style="background:url(images/ihm/banniere.png) no-repeat; height:175px;"></td>
+        
+        <td valign="top" width=124 height=175 background="images/ihm/template_book_1024_051015.png" rowspan="2"></td>
+	</tr>
+    
+    <tr>
+        
+        <td align="top"  WIDTH=629 class="container">
+        	<h1>Mais qu'est-ce ?</h1>
+            <p>Livrotheque est un logiciel de gestion de sa bibliotheque personnelle. En gros ce logiciel permet d'enregistrer ses livres et de les classer suivant ses gouts.<br/><br/>Une petite liste de ce qu'il peut faire :
+				<ul>
+                    <li>Tri des livres par titre/auteur/série ... tout ce qui vous passe par la tete</li>
+                    <li>Insertion d'images de livres dans les fiches</li>
+                    <li>Choix des colonnes affichées dans la liste des livres</li>
+                    <li>Statistiques diverses sur la base de livre.</li>
+                    <li>Remplissage d'une partie des renseignements à partir d'internet (dont l'image de la couverture)</li>
+                    <li>Importation d'une base exterieure à partir d'un fichier CVS</li>
+				</ul>
+			</p>
+
+		<h1>News :</h1>
+		<p>
+			<span style="font-weight: bold;" valign="left">28/11/2010 :</span><br>
+			Une nouvelle version est disponible&nbsp;(1.4.0.0) faite par cubbiste (et y'a du boulot!) <a href="download.html">Ici</a>
+			<ul>
+				<li>Ajout d'une option pour dupliquer un livre</li>
+				<li>Mise en place d'un système de sauvegarde de la base de livres</li>
+				<li>Mise en place du système de surveillance des versions</li>
+				<li>Parametrage du proxy dans l'écran des options</li>
+				<li>La vérification de version est désactivable dans l'écran des options</li>
+			</ul>
+			</p>
+			<p>
+			<span style="font-weight: bold;" valign="left">21/10/2010 :</span><br>
+			Une nouvelle version est disponible&nbsp;(1.3.1.0) faite par moi (ça faisait longtemps!) <a href="download.html">Ici</a>
+			<ul>
+				<li>Correction de l'erreur Amazon lors de la récupération de l'ISBN. </li>
+			</ul>
+			</p>
+			<p>
+
+			<span style="font-weight: bold;" valign="left">12/10/2010 :</span><br>
+			Une nouvelle version est disponible&nbsp;(1.3.0.0) faite par cubbiste <a href="download.html">Ici</a>
+			<ul>
+				<li>Cette version à donc encore été faite complètement par cubbiste. La liste de modifications :</li>
+				<li>Ajout d'une option pour permettre de donner une largeur maximum aux colonnes. </li>
+				<li>Meilleure gestion du splash screen (pour pouvoir voir si il y a un pprobleme au lancement.</li>
+				<li>la possibilité de cliquer sur les entêtes de colonnes pour définir les critères de tri</li>
+				<li>un nouveau bouton "recherche internet" et la possibilité de retrouver les résultats d'une recherche précédente</li>
+				<li>le calcul de la valeur globale de la bibliothèque</li>
+			</ul>
+			</p>
+			<p>
+			<span style="font-weight: bold;" valign="left">26/01/2010 :</span><br>
+			Une nouvelle version est disponible&nbsp;(1.2.0.0) faite par cubbiste<a href="download.html">Ici</a>
+			<ul>
+				<li>Cette version à donc été faite complètement par l'excellent cubbiste. La (longue!) liste de modifications</li>
+				<li>Ajout d'un bouton "fusionner deux groupes" qui ouvre une nouvelle boîte. Dans cette boîte, vous pouvez sélectionner deux groupes (genres, auteurs, éditeurs, ...) et les fusionner. Tous les titres du premier groupe sont rattachés au second, et le premier est retiré de la base. </li>
+				<li>Ajout d'un bouton "insérer par l'ISBN" (raccourci associé : F3 ou INS) pour saisir un livre, en étant directement placé sur le champ de saisie de l'ISBN</li>
+				<li>Ajout d'un message d'avertissement si vous faites une recherche par ISBN sur un code barre déjà présent dans votre base </li>
+				<li>Ajout d'un message d'avertissement quand vous validez la création/modification d'une fiche, si l'éditeur est inconnu dans la base. </li>
+				<li>Ce comportement est également disponible pour toutes les listes associées à un livre : auteur, format, pays, ...</li>
+				<li>Ce comportement est désactivable, liste par liste (oui, il est plus fréquent de créer un nouvel auteur qu'un nouvel éditeur, par exemple)</li>
+				<li>Ajout d'un raccourci clavier F2 pour saisir un livre</li>
+				<li>Possibilité d'utiliser la touche tab ou entrée pour se déplacer dans l'ordre logique de lecture dans la fiche de saisie d'un livre</li>
+				<li>Pour les statistiques, possibilité de n'afficher que les premières valeurs d'une série, en précisant le nombre de valeurs à conserver. Supposant que vous ayez 35 genres dans votre base, et que vous décidiez de n'en afficher que 20, les graphiques par genre présenteront 21 barres (ou 21 parts de camembert).</li>
+				<li>Possibilité de trier par date (de lecture, de publication, de mise à jour, ...) dans la liste principale : le tri se fait dans l'ordre chronologique.</li>
+				<li>Dans les listes (d'auteurs, d'éditeurs, de format, ...), possibilité de changer l'ordre des lignes en cliquant sur un entête de colonne pour choisir le critère de tri. </li>
+				<li>Ajout d'un bouton "paramétrer l'application" pour saisir les paramètres de l'application.</li>
+			</ul>
+			Pour plus de détails (entre autre sur les paramètres disponibles) allez sur le  <a href="http://peepaillard.free.fr/punbb/viewtopic.php?id=265">forum</a>
+		</p>
+		<p>
+			<span style="font-weight: bold;" valign="left">08/09/2009 :</span><br>
+			Une nouvelle version est disponible&nbsp;(1.1.6.6) <a href="download.html">Ici</a>
+			<ul>
+				<li>Correction d'un bug sur l'export HTML.</li>
+				<li>Correction d'un bug sur le fuseau horaire (non testé).</li>
+				<li>La doc a été mise à jour par <b>Esilenna</b> .</li>
+			</ul>
+		</p>
+		<p>
+			<span style="font-weight: bold;" valign="left">08/09/2009 :</span><br>
+			Une nouvelle version est disponible&nbsp;(1.1.6.1) <a href="download.html">Ici</a>
+			<ul>
+				<li>Modification de la recherche sur internet suite aux modification d'Amazon.</li>
+				<li>Les répertoires avec des accents ne doivent plus poser de probleme.</li>
+				<li>passage à wxwidget 2.8.10 et sqlite 3.6.17 .</li>
+			</ul>
+		</p>
+		<p>
+			<span style="font-weight: bold;" valign="left">28/05/2009 :</span><br>
+			Une nouvelle version est disponible&nbsp;(1.1.5.1) <a href="download.html">Ici</a>
+			<ul>
+				<li>Modification de la skin suite aux probleme de droits.</li>
+				<li>Correction du probleme de la génération des sites avec des champs contenant des doubles quotes.</li>
+				<li>Correction du probleme sous vista relevé par Siltonde.</li>
+				<li>Apparition de la documentation faite par Esilenna dans la section download.</li>
+			</ul>
+		</p>
+		
+		<p>
+			<span style="font-weight: bold;" valign="left">19/05/2009 :</span><br>
+			Le site à été revisité, sur une initiative de Titouan, pour être plus joli. <br>
+			<br>
+			Il existe aussi une version alpha de <b>Jlivrotheque</b> : le futur de livrotheque.<br><br>
+			Jlivrotheque sera une version réécrite en JAVA de livrotheque.<br>
+			Actuellement la version actuelle permet d'ouvrir une base de livrotheque de base. Il permet de gérer les colonnes plus finement (nom des colonnes et gestion des écrans d'édition).
+			<br><br>
+			C'est, par contre, une version alpha livrée pour TEST uniquement. il ne doit pas être utilisé pour gérer sa base principale (si il casse tout je ne pourrais rien faire).
+			<br><br>
+			Il a été testé sous windows xp,vista et 7 ainsi que sous linux. (si une bonne âme est équipé de machines mac ça m'intéresse  aussi..)
+			<br><br>
+			Pour ceux qui sont intéressé de tester cette version c'est ici :<br>
+			<a href="http://peepaillard.free.fr/punbb/viewtopic.php?id=203">http://peepaillard.free.fr/punbb/viewtopic.php?id=203</a>
+		</p>
+
+		<p>
+			<span style="font-weight: bold;" valign="left">15/10/2007 :</span><br>
+
+			Une nouvelle version est disponible&nbsp;(1.1.4.1) <a href="download.html">Ici</a>
+			<ul>
+				<li>Ajout de la recherche par ISBN et mot clef via Amazon. La recherche par ISBN marche aussi par alapage. La recherche par mot clef fonctionne UNIQUEMENT par Amazon. </li>
+				<li>Recherche sur amazon us et uk possible aussi </li>
+				<li>Ajout de la possibilité de cliquer sur les images pour les voir dans leur taille d'origine. </li>
+				<li>Correction d'un bug sur l'ajout des images </li>
+				<li>Et un grand merci à tinba pour les tests! </li>
+			</ul>
+		</p>
+
+		<p>
+			<span style="font-weight: bold;">28/08/2007 :</span><br>
+
+			Une nouvelle version est disponible&nbsp;(1.1.3.1)
+			<ul>
+				<li>Modification legere pour (re)faire fonctionner le chargement des images (suite a une modification des URLS sur alapage) </li>
+				<li>Passage en version 2.8.4 de wxwidgets du coup maintenant on peut mettre livrotheque (ou la base) dans un repertoire avec un accent sans que ça pose probleme. </li>
+			</ul>
+		</p>
+
+		<p>
+			<span style="font-weight: bold;">30/07/2007 :</span><br>
+			Une nouvelle version est disponible&nbsp;(1.1.2.1)
+			<ul>
+				<li>Remise en route de la fonction de recherche via ISBN. Celle ci ne marchait plus suite à la modification des pages sur le site Alapage. <br>
+				(bis) en esperant que cette fois ci ça dure un peu plus longtemps <br></li>
+			</ul>
+		</p>
+
+
+        
+
+        </td>
+        
+      
+    
+    </tr>
+</table>
 
 <!-- phpmyvisites -->
 <a href="http://st.free.fr/" title="phpMyVisites | Open source web analytics"

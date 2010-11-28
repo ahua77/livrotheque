@@ -29,15 +29,17 @@ Remarques :
 	</message>
 
 	<derniereVersion>
-		<idVersion value="1.3.1.0" lien="http://peepaillard.free.fr/download.html"/>
-		<idVersionPreprod value="1.3.1.2" lien="http://peepaillard.free.fr/download.html"/>
+		<idVersion value="1.4.0.0" lien="http://peepaillard.free.fr/download.html"/>
+		<idVersionPreprod value="1.4.0.0" lien="http://peepaillard.free.fr/download.html"/>
 	</derniereVersion>
 
-	<version id="1.3.1.1" dateMad="21/11/2010">
+	<version id="1.4.0.0" dateMad="28/11/2010">
 		<description>
 			<item value="Ajout d'une option pour dupliquer un livre"/>
 			<item value="Mise en place d'un système de sauvegarde de la base de livres"/>
 			<item value="Mise en place du système de surveillance des versions"/>
+			<item value="Parametrage du proxy dans l'écran des options"/>
+			<item value="La vérification de version est désactivable dans l'écran des options"/>
 		</description>
 	</version>
 </descriptionVersions>

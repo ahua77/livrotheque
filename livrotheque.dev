@@ -553,9 +553,9 @@ BuildCmd=
 
 [VersionInfo]
 Major=1
-Minor=3
-Release=1
-Build=1
+Minor=4
+Release=0
+Build=0
 LanguageID=1036
 CharsetID=1252
 CompanyName=Fougnyland
