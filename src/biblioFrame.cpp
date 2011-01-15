@@ -56,7 +56,7 @@
  #include "biblioFrame.h"
 
 #include <wx/dir.h>
-
+#include <wx/regex.h>
 
 #include "star1.xpm" 
 #include "star2.xpm"
@@ -112,13 +112,11 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_DUPLIQUELIVRE , biblioFrame::dupliquelivre)
 	EVT_COMMAND  (ID_WXGRID_GRILLE, wxEVENT_SUPPRESSION, biblioFrame::OnSuppression)
 	EVT_HTML_LINK_CLICKED(ID_HTMLWINDOW,biblioFrame::image_click)
-
 	EVT_MENU(ID_MNU_VERIFIER_VERSION_SILENCIEUX, biblioFrame::OnVerifierVersionSilencieux)
-    EVT_TIMER(ID_TIMER_VERIFIER_VERSION, biblioFrame::OnTimerVerifierVersion)
+	EVT_TIMER(ID_TIMER_VERIFIER_VERSION, biblioFrame::OnTimerVerifierVersion)
 	////Manual Code End
 	
 	EVT_CLOSE(biblioFrame::biblioFrameClose)
-	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_MNU_OUVRIR_1022, biblioFrame::OuvrirClick)
 	EVT_MENU(ID_MNU_CREERUNEBASE_1023, biblioFrame::toolb_NouvClick)
 	EVT_MENU(ID_MNU_MENUITEM30_1058, biblioFrame::Mnuitem_imprimerlivre)
@@ -145,8 +143,10 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU_LISTE_SERIE_O, biblioFrame::Mnulistes)
 	EVT_MENU(ID_MNU_STATISTIQUE_1048, biblioFrame::Mnustatistique1048Click)
 	EVT_MENU(ID_MNU_AFFICHER_VALEUR_TOTALE, biblioFrame::OnAfficherValeurTotale)
+	EVT_MENU(ID_MNU_ANALYSER_SERIES, biblioFrame::OnMnuAnalyserSeries)
 	EVT_MENU(ID_MNU__APROPOS_1047, biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_MNU_VERIFIER_VERSION, biblioFrame::OnVerifierVersion)
+	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_WXTOOLBUTTON_ABOUT,biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_TOOLB_PARAM,biblioFrame::parametrer)
 	EVT_MENU(ID_WXTOOLBUTTON_STAT,biblioFrame::Mnustatistique1048Click)
@@ -165,7 +165,7 @@ END_EVENT_TABLE()
 
 
 biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
-    : wxFrame( parent, id, title, position, size, style)
+    : wxFrame( parent, id, title, position, size, style), imprimehtml("Livrothèque", this)
 {
     m_splash = NULL;
 
@@ -436,6 +436,8 @@ void biblioFrame::CreateGUIControls(void)
 
 	barre_statut = new wxStatusBar(this, ID_BARRE_STATUT);
 
+	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
+
 	monmenu = new wxMenuBar();
 	wxMenu *ID_MNU_FICHIER_QUIT_Mnu_Obj = new wxMenu(0);
 	ID_MNU_FICHIER_QUIT_Mnu_Obj->Append(ID_MNU_OUVRIR_1022, wxT("Ouvrir une Base"), wxT(""), wxITEM_NORMAL);
@@ -480,6 +482,7 @@ void biblioFrame::CreateGUIControls(void)
 	wxMenu *ID_MNU_STATISTIQUES_Mnu_Obj = new wxMenu(0);
 	ID_MNU_STATISTIQUES_Mnu_Obj->Append(ID_MNU_STATISTIQUE_1048, wxT("Afficher les statistiques"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_STATISTIQUES_Mnu_Obj->Append(ID_MNU_AFFICHER_VALEUR_TOTALE, wxT("Afficher la valeur totale"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_STATISTIQUES_Mnu_Obj->Append(ID_MNU_ANALYSER_SERIES, wxT("Analyser les séries"), wxT(""), wxITEM_NORMAL);
 	monmenu->Append(ID_MNU_STATISTIQUES_Mnu_Obj, wxT("Statistiques"));
 	
 	wxMenu *ID_MNU_APROPOS_1046_Mnu_Obj = new wxMenu(0);
@@ -487,8 +490,6 @@ void biblioFrame::CreateGUIControls(void)
 	ID_MNU_APROPOS_1046_Mnu_Obj->Append(ID_MNU_VERIFIER_VERSION, wxT("Vérifier la version"), wxT(""), wxITEM_NORMAL);
 	monmenu->Append(ID_MNU_APROPOS_1046_Mnu_Obj, wxT("Aide"));
 	SetMenuBar(monmenu);
-
-	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
 
 	SetStatusBar(barre_statut);
 	toolb_princ->SetToolBitmapSize(wxSize(16,16));
@@ -1649,6 +1650,9 @@ void biblioFrame::Mnumenuitem_imprimeliste(wxCommandEvent& event)
     laliste=grille->BuildHTML();
         //wxMessageBox(texteht,"probleme", wxOK | wxICON_EXCLAMATION, this);
 	//imprimehtml.PreviewText(texteht,gettempdir());
+	
+	imprimehtml.UpdateConfig();
+	
 	config_imp = imprimehtml.GetPrintData();
 	config_imp->SetOrientation(wxPORTRAIT);
 	imprimehtml.PreviewText(laliste);
@@ -1668,6 +1672,8 @@ void biblioFrame::Mnuitem_imprimerlivre(wxCommandEvent& event)
 	//imprimehtml.PreviewText(texteht,gettempdir());
 	config_imp = imprimehtml.GetPrintData();
 	config_imp->SetOrientation(wxLANDSCAPE);
+
+    imprimehtml.UpdateConfig();
 	imprimehtml.PreviewFile(texteht);
 	//event.Skip();
 }
@@ -2284,4 +2290,192 @@ void biblioFrame::OnTimerVerifierVersion(wxTimerEvent& event)
     verifierVersion(true);
     delete m_timerVerif;
     m_timerVerif = NULL;
+}
+
+/*
+ * OnMnuAnalyserSeries
+ */
+void biblioFrame::OnMnuAnalyserSeries(wxCommandEvent& event)
+{
+    wxString html;
+    
+    imprimehtml.UpdateConfig();
+    
+    html="<html><body>\n";
+    html += "<center>\n";
+    html += "<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\" width=\"100%\">\n";
+    
+    wxRegEx reTomeUnique ("^[0-9]*$");
+    wxRegEx reIntervalle ("^[0-9]*-[0-9]*$");
+    // wxLogMessage("vérification des RE : %d - %d", reTomeUnique.IsValid(), reIntervalle.IsValid());
+    
+    wxString mess;
+    int ret = 0;
+    int nSerie = 0;
+    
+    wxString rqSeries = "SELECT livre.titre, serie.nom, livre.no_serie, serie.rowid, genre.nom "
+                        "FROM livre "
+                        "LEFT JOIN serie ON serie.rowid=livre.id_serie "
+                        "LEFT JOIN genre ON genre.rowid=livre.id_genre "
+                        "WHERE serie.nom IS NOT NULL "
+                        "ORDER BY genre.nom, serie.nom, livre.no_serie";
+    ret=amoi.transac_prepare(rqSeries);
+    if (ret<0) {
+        amoi.get_erreur(mess);
+        wxMessageBox("OnMnuAnalyserSeries "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+        amoi.transac_fin();
+        return;
+    }    
+    ret=amoi.transac_step();
+    int serieEnCours = -1;
+    int nbSansNumero = 0;
+    int nbLivresSerie = 0;
+    wxString listeTomes;
+    wxString genreEnCours = "<<inconnu>>";
+    int nLigneResu = 0;
+    while(ret==SQLITE_ROW) {
+        wxString titreLivre;
+        wxString nomSerie;
+        wxString numSerie;
+        wxString nomGenre;
+        int idSerie;
+        int taille;
+        amoi.get_value_char(0, titreLivre, taille);
+        amoi.get_value_char(1, nomSerie, taille);
+        amoi.get_value_char(2, numSerie, taille);
+        amoi.get_value_int(3, idSerie);
+        amoi.get_value_char(4, nomGenre, taille);
+        nSerie++;
+
+        // bannière à chaque changement de genre
+        if (nomGenre != genreEnCours) {
+            genreEnCours = nomGenre;
+            html += wxString::Format("<tr bgcolor=\"#B0C7E2\"><td colspan=3>%s</td></tr>", nomGenre.c_str());
+        }
+
+        if (idSerie != serieEnCours) {
+            // wxLogMessage("--- nouvelle série ---");
+            serieEnCours = idSerie;
+            nbSansNumero = 0;
+            nbLivresSerie = 0;
+            listeTomes = "";
+        }
+
+        // wxLogMessage("[%02d] %s | %s | [%s]", nSerie, titreLivre.c_str(), nomSerie.c_str(), numSerie.c_str() );
+
+        nbLivresSerie ++;
+        // analyse du champ num_serie. formats reconnus : %d (tome unique) ou %d-%d (intervalle)
+        numSerie = numSerie.Strip(wxString::both);
+        if (numSerie == "") {
+            nbSansNumero ++;
+        } else if (reIntervalle.Matches(numSerie)) {
+            long debut = -1;
+            long fin = -1;
+            numSerie.BeforeFirst('-').ToLong(&debut);
+            numSerie.AfterLast('-').ToLong(&fin);
+            // wxLogMessage("   --> intervalle de %ld à %ld", debut, fin);
+            if ((long)(listeTomes.Len()) < fin+1)
+                listeTomes.Pad(fin - listeTomes.Len()+1, '-');
+            for (long ii = debut; ii <= fin; ii++)
+                listeTomes.GetWritableChar(ii) = '*';
+        } else if (reTomeUnique.Matches(numSerie)) {
+            long tome = -1;
+            numSerie.ToLong(&tome);
+            // wxLogMessage("   --> tome unique : %ld", tome);
+            if ((long)(listeTomes.Len()) < tome+1)
+                listeTomes.Pad(tome - listeTomes.Len()+1, '-');
+            listeTomes.GetWritableChar(tome) = '*';
+        } else {
+            nbSansNumero ++;
+        }
+
+
+
+        ret=amoi.transac_step();
+        int idSerieNext = -1;
+        if (ret == SQLITE_ROW) {
+            amoi.get_value_int(3, idSerieNext);
+        }
+
+        if (idSerie != idSerieNext) {
+            wxString bgcolor = "#FFFFB0";
+            nLigneResu++;
+            if (nLigneResu % 2 == 0) {
+               bgcolor = "#FFFFB0";
+            } else {
+               bgcolor = "#B0FFFF";
+            }
+            html += wxString::Format("<tr bgcolor = \"%s\"><td>%s</td>", bgcolor.c_str(), nomSerie.c_str());
+            html += wxString::Format("<td>%d volume%s", nbLivresSerie, (nbLivresSerie > 1 ? "s" : ""));
+            if (nbSansNumero > 0)
+                html += wxString::Format("<BR>dont %d sans numéro", nbSansNumero);
+            html += ("</td>");
+            // wxLogMessage("*** bilan de la série %s : ", nomSerie.c_str());
+            // wxLogMessage("   nombre de volumes %d, dont %d sans numéro", nbLivresSerie, nbSansNumero);
+            // wxLogMessage("   tabTome : [%s]", listeTomes.c_str());
+            
+            wxString tomesPresents;
+            wxString tomesAbsents;
+            if (listeTomes.Len() > 0) {
+                int debutSegment = -1;
+                int debutTrou = -1;
+                listeTomes += '-';  // pour forcer un passage final par le else ci-dessous
+                for (size_t iTome = 0; iTome < listeTomes.Len(); iTome++) {
+                    if (listeTomes.GetChar(iTome) == '*') {
+                        if (debutTrou > 0) {
+                            if (tomesAbsents != "")
+                                tomesAbsents += ", ";
+                            if (debutTrou != (int)(iTome-1))
+                                tomesAbsents += wxString::Format("%d-%d", debutTrou, iTome-1);
+                            else
+                                tomesAbsents += wxString::Format("%d", debutTrou);
+                        }
+                        if (debutSegment == -1)
+                            debutSegment = iTome;
+                        debutTrou = -1;
+                    } else {
+                        if (debutTrou <= 0)
+                            debutTrou = iTome;
+                        if (debutSegment != -1) {
+                            if (tomesPresents != "")
+                                tomesPresents += ", ";
+                            if (debutSegment != (int)(iTome-1))
+                                tomesPresents += wxString::Format("%d-%d", debutSegment, iTome-1);
+                            else
+                                tomesPresents += wxString::Format("%d", debutSegment);
+                        }
+                        debutSegment = -1;
+                    }
+                }
+            }
+            html += "<td>";
+            if (tomesPresents != "")
+                html += wxString::Format("tomes : %s<BR>", tomesPresents.c_str());
+            if (tomesAbsents != "")
+                html += wxString::Format("manquants : %s", tomesAbsents.c_str());
+            html += "</td></tr>\n";
+        }
+
+
+    }
+    amoi.transac_fin();
+
+    html += "</table>\n";
+    html += "</center>\n";
+    html += "</font>\n";
+    html += "</body></html>";
+
+	wxPrintData* config_imp = imprimehtml.GetPrintData();
+	config_imp->SetOrientation(wxPORTRAIT);
+	imprimehtml.GetPageSetupData()->SetMarginTopLeft(wxPoint(10,10));
+	imprimehtml.GetPageSetupData()->SetMarginBottomRight(wxPoint(10,10));
+	
+	// conserver une version en fichier pour debug
+	// wxFile fichier(gettempdir() + "\\stat_series.html", wxFile::write);
+	// fichier.Write(html);
+	
+	imprimehtml.PreviewText(html);
+
+    // wxLogMessage("biblioFrame::OnMnuAnalyserSeries() - sortie");
+    
 }

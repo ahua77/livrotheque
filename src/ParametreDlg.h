@@ -97,6 +97,24 @@ class ParametreDlg : public wxDialog
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
+		wxTextCtrl *ET_TailleCarImpression;
+		wxButton *BN_CANCEL;
+		wxButton *BN_OK;
+		wxStaticLine *WxStaticLine5;
+		wxStaticText *WxStaticText17;
+		wxStaticText *WxStaticText16;
+		wxStaticText *WxStaticText14;
+		wxStaticText *WxStaticText15;
+		wxStaticText *WxStaticText13;
+		wxTextCtrl *ET_PiedPageDroite;
+		wxTextCtrl *ET_PiedPageCentre;
+		wxTextCtrl *ET_PiedPageGauche;
+		wxStaticText *WxStaticText12;
+		wxTextCtrl *ET_EnteteDroite;
+		wxTextCtrl *ET_EnteteCentre;
+		wxTextCtrl *ET_EnteteGauche;
+		wxStaticText *WxStaticText10;
+		wxPanel *WxNoteBookPage5;
 		wxCheckBox *WxCheck_verifVersion;
 		wxStaticText *WxStaticText9;
 		wxTextCtrl *WxEdit_timeout;
@@ -111,8 +129,6 @@ class ParametreDlg : public wxDialog
 		wxStaticBox *WxStaticBox_proxy;
 		wxCheckBox *WxCheckBox_proxy;
 		wxPanel *WxNoteBookPage4;
-		wxButton *BN_CANCEL;
-		wxButton *BN_OK;
 		wxButton *BN_ParcourirSave;
 		wxTextCtrl *ET_Rep_Sauvegarde;
 		wxRadioButton *RB_SauveDossierSpecifie;
@@ -165,6 +181,24 @@ class ParametreDlg : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
+			ID_WX_ET_TAILLE_CAR_IMPRESSION = 1147,
+			ID_WX_BNCANCEL = 1009,
+			ID_WX_BNOK = 1008,
+			ID_WXSTATICLINE5 = 1146,
+			ID_WXSTATICTEXT17 = 1145,
+			ID_WXSTATICTEXT16 = 1144,
+			ID_WXSTATICTEXT14 = 1142,
+			ID_WXSTATICTEXT15 = 1141,
+			ID_WXSTATICTEXT13 = 1139,
+			ID_WX_ET_PIEDPAGE_DROITE = 1137,
+			ID_WX_ET_PIEDPAGE_CENTRE = 1136,
+			ID_WX_ET_PIEDPAGE_GAUCHE = 1135,
+			ID_WXSTATICTEXT12 = 1134,
+			ID_WX_ET_ENTETE_DROITE = 1127,
+			ID_WX_ET_ENTETE_CENTRE = 1126,
+			ID_WX_ET_ENTETE_GAUCHE = 1125,
+			ID_WXSTATICTEXT10 = 1124,
+			ID_WXNOTEBOOKPAGE5 = 1123,
 			ID_WXCHECKBOX1 = 1122,
 			ID_WXSTATICTEXT9 = 1121,
 			ID_WX_TIMEOUT = 1120,
@@ -179,8 +213,6 @@ class ParametreDlg : public wxDialog
 			ID_WXSTATICBOX_PROXY = 1111,
 			ID_WXCHECKBOX_PROXY = 1110,
 			ID_WXNOTEBOOKPAGE4 = 1064,
-			ID_WX_BNCANCEL = 1009,
-			ID_WX_BNOK = 1008,
 			ID_WX_BN_PARCOURIR_SAVE = 1063,
 			ID_WX_ET_REP_SAUVE = 1062,
 			ID_WX_RB_SAUVE_DOSSIER_SPECIFIE = 1061,

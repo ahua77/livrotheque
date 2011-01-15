@@ -63,9 +63,9 @@ BEGIN_EVENT_TABLE(ParametreDlg,wxDialog)
 	
 	EVT_CLOSE(ParametreDlg::OnClose)
 	EVT_INIT_DIALOG(ParametreDlg::ParametreDlgInitDialog)
-	EVT_CHECKBOX(ID_WXCHECKBOX_PROXY,ParametreDlg::WxCheckBox_proxyClick)
 	EVT_BUTTON(ID_WX_BNCANCEL,ParametreDlg::BN_CANCELClick)
 	EVT_BUTTON(ID_WX_BNOK,ParametreDlg::BN_OKClick)
+	EVT_CHECKBOX(ID_WXCHECKBOX_PROXY,ParametreDlg::WxCheckBox_proxyClick)
 	EVT_BUTTON(ID_WX_BN_PARCOURIR_SAVE,ParametreDlg::BN_ParcourirSaveClick)
 	EVT_RADIOBUTTON(ID_WX_RB_SAUVE_DOSSIER_SPECIFIE,ParametreDlg::RB_SauveDossierSpecifieClick)
 	EVT_RADIOBUTTON(ID_WX_RB_SAUVE_DOSSIER_BASE,ParametreDlg::RB_SauveDossierBaseClick)
@@ -189,10 +189,6 @@ void ParametreDlg::CreateGUIControls()
 
 	BN_ParcourirSave = new wxButton(WxNoteBookPage3, ID_WX_BN_PARCOURIR_SAVE, wxT("..."), wxPoint(381, 130), wxSize(31, 22), 0, wxDefaultValidator, wxT("BN_ParcourirSave"));
 
-	BN_OK = new wxButton(this, ID_WX_BNOK, wxT("OK"), wxPoint(102, 270), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_OK"));
-
-	BN_CANCEL = new wxButton(this, ID_WX_BNCANCEL, wxT("Annuler"), wxPoint(286, 270), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_CANCEL"));
-
 	WxNoteBookPage4 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE4, wxPoint(4, 26), wxSize(427, 235));
 	WxNotebook1->AddPage(WxNoteBookPage4, wxT("Réseau"));
 
@@ -227,6 +223,47 @@ void ParametreDlg::CreateGUIControls()
 	WxStaticText9 = new wxStaticText(WxNoteBookPage4, ID_WXSTATICTEXT9, wxT("Timeout (secondes)"), wxPoint(11, 126), wxDefaultSize, 0, wxT("WxStaticText9"));
 
 	WxCheck_verifVersion = new wxCheckBox(WxNoteBookPage4, ID_WXCHECKBOX1, wxT("Vérifier la dernière version au lancement du programme"), wxPoint(10, 159), wxSize(415, 17), 0, wxDefaultValidator, wxT("WxCheck_verifVersion"));
+
+	WxNoteBookPage5 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE5, wxPoint(4, 26), wxSize(427, 235));
+	WxNotebook1->AddPage(WxNoteBookPage5, wxT("Impressions"));
+
+	WxStaticText10 = new wxStaticText(WxNoteBookPage5, ID_WXSTATICTEXT10, wxT("En-tête"), wxPoint(6, 9), wxDefaultSize, 0, wxT("WxStaticText10"));
+
+	ET_EnteteGauche = new wxTextCtrl(WxNoteBookPage5, ID_WX_ET_ENTETE_GAUCHE, wxT("ET_EnteteGauche"), wxPoint(4, 27), wxSize(135, 19), 0, wxDefaultValidator, wxT("ET_EnteteGauche"));
+
+	ET_EnteteCentre = new wxTextCtrl(WxNoteBookPage5, ID_WX_ET_ENTETE_CENTRE, wxT("WxEdit1"), wxPoint(144, 27), wxSize(135, 19), wxTE_CENTRE, wxDefaultValidator, wxT("ET_EnteteCentre"));
+
+	ET_EnteteDroite = new wxTextCtrl(WxNoteBookPage5, ID_WX_ET_ENTETE_DROITE, wxT("WxEdit1"), wxPoint(284, 27), wxSize(135, 19), wxTE_RIGHT, wxDefaultValidator, wxT("ET_EnteteDroite"));
+
+	WxStaticText12 = new wxStaticText(WxNoteBookPage5, ID_WXSTATICTEXT12, wxT("pied de page"), wxPoint(6, 50), wxDefaultSize, 0, wxT("WxStaticText12"));
+
+	ET_PiedPageGauche = new wxTextCtrl(WxNoteBookPage5, ID_WX_ET_PIEDPAGE_GAUCHE, wxT("WxEdit1"), wxPoint(4, 68), wxSize(135, 19), 0, wxDefaultValidator, wxT("ET_PiedPageGauche"));
+
+	ET_PiedPageCentre = new wxTextCtrl(WxNoteBookPage5, ID_WX_ET_PIEDPAGE_CENTRE, wxT("WxEdit1"), wxPoint(144, 68), wxSize(135, 19), wxTE_CENTRE, wxDefaultValidator, wxT("ET_PiedPageCentre"));
+
+	ET_PiedPageDroite = new wxTextCtrl(WxNoteBookPage5, ID_WX_ET_PIEDPAGE_DROITE, wxT("WxEdit1"), wxPoint(284, 68), wxSize(135, 19), wxTE_RIGHT, wxDefaultValidator, wxT("ET_PiedPageDroite"));
+
+	WxStaticText13 = new wxStaticText(WxNoteBookPage5, ID_WXSTATICTEXT13, wxT("Taille des caractères pour l'impression :"), wxPoint(6, 156), wxDefaultSize, 0, wxT("WxStaticText13"));
+
+	WxStaticText15 = new wxStaticText(WxNoteBookPage5, ID_WXSTATICTEXT15, wxT("@DATE@ : date d'impression"), wxPoint(55, 95), wxDefaultSize, 0, wxT("WxStaticText15"));
+	WxStaticText15->SetFont(wxFont(9, wxSWISS, wxITALIC, wxNORMAL, false));
+
+	WxStaticText14 = new wxStaticText(WxNoteBookPage5, ID_WXSTATICTEXT14, wxT("@TIME@ : heure d'impression"), wxPoint(55, 114), wxDefaultSize, 0, wxT("WxStaticText14"));
+	WxStaticText14->SetFont(wxFont(9, wxSWISS, wxITALIC, wxNORMAL, false));
+
+	WxStaticText16 = new wxStaticText(WxNoteBookPage5, ID_WXSTATICTEXT16, wxT("@PAGENUM@ : numéro de page"), wxPoint(226, 94), wxDefaultSize, 0, wxT("WxStaticText16"));
+	WxStaticText16->SetFont(wxFont(9, wxSWISS, wxITALIC, wxNORMAL, false));
+
+	WxStaticText17 = new wxStaticText(WxNoteBookPage5, ID_WXSTATICTEXT17, wxT("@PAGESCNT@ : nombre de pages"), wxPoint(226, 114), wxDefaultSize, 0, wxT("WxStaticText17"));
+	WxStaticText17->SetFont(wxFont(9, wxSWISS, wxITALIC, wxNORMAL, false));
+
+	WxStaticLine5 = new wxStaticLine(WxNoteBookPage5, ID_WXSTATICLINE5, wxPoint(5, 136), wxSize(418, -1), wxLI_HORIZONTAL);
+
+	BN_OK = new wxButton(this, ID_WX_BNOK, wxT("OK"), wxPoint(102, 270), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_OK"));
+
+	BN_CANCEL = new wxButton(this, ID_WX_BNCANCEL, wxT("Annuler"), wxPoint(286, 270), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_CANCEL"));
+
+	ET_TailleCarImpression = new wxTextCtrl(WxNoteBookPage5, ID_WX_ET_TAILLE_CAR_IMPRESSION, wxT("ET_TailleCarImpression"), wxPoint(227, 153), wxSize(30, 23), 0, wxDefaultValidator, wxT("ET_TailleCarImpression"));
 
 	SetTitle(wxT("Paramètres"));
 	SetIcon(wxNullIcon);
@@ -326,6 +363,18 @@ void ParametreDlg::BN_OKClick(wxCommandEvent& event)
     wxLogMessage("ParametreDlg::BN_OKClick() - ligne VERIF_VERSION");
     param->Set("config", "INIT", "VERIF_VERSION", WxCheck_verifVersion->GetValue());
         
+    // lignes PRINT
+    wxLogMessage("ParametreDlg::BN_OKClick() - ligne PRINT");
+    param->Set("config", "PRINT", "LEFT", ET_EnteteGauche->GetValue(), ET_PiedPageGauche->GetValue());
+    param->Set("config", "PRINT", "CENTER", ET_EnteteCentre->GetValue(), ET_PiedPageCentre->GetValue());
+    param->Set("config", "PRINT", "RIGHT", ET_EnteteDroite->GetValue(), ET_PiedPageDroite->GetValue());
+
+    wxString str1 = "Arial";
+    str2 = ET_TailleCarImpression->GetValue();
+    long val2 = 8;
+    sscanf(str2, "%ld", &val2);
+    param->Set("config", "PRINT", "FONT", str1, val2);
+    
     // fermer la fenêtre
 	this->EndDialog(0);
 	this->Destroy();
@@ -519,6 +568,31 @@ void ParametreDlg::ParametreDlgInitDialog(wxInitDialogEvent& event)
     param->GetOrSet("rech_internet", "NETWORK", "TIMEOUT", valLong);
     str1.Printf("%ld", valLong);
     WxEdit_timeout->SetValue(str1);
+
+    // onglet impressions
+    str1 = "";
+    str2 = "@DATE@ @TIME@";
+    param->GetOrSet("config", "PRINT", "LEFT", str1, str2);
+    ET_EnteteGauche->SetValue(str1);
+    ET_PiedPageGauche->SetValue(str2);
+
+    str1 = "Livrothèque";
+    str2 = "";
+    param->GetOrSet("config", "PRINT", "CENTER", str1, str2);
+    ET_EnteteCentre->SetValue(str1);
+    ET_PiedPageCentre->SetValue(str2);
+
+    str1 = "";
+    str2 = "@PAGENUM@ / @PAGESCNT@";
+    param->GetOrSet("config", "PRINT", "RIGHT", str1, str2);
+    ET_EnteteDroite->SetValue(str1);
+    ET_PiedPageDroite->SetValue(str2);
+    
+    str1 = "Arial";
+    val2 = 8;
+    param->GetOrSet("config", "PRINT", "FONT", str1, val2);
+    str2.Printf("%ld", val2);
+    ET_TailleCarImpression->SetValue(str2);
 }
 
 /*

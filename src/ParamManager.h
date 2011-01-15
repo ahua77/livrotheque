@@ -68,6 +68,8 @@ public:
                   BOOL& val1);
     void GetOrSet(const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
                   BOOL& val1, wxString& val2);
+    void GetOrSet(const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
+                  wxString& val1, long& val2);
                   
     void Set     (const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
                   wxString val1, wxString val2="");
@@ -79,7 +81,8 @@ public:
                   long val1, long val2=0);
     void Set     (const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
                   BOOL val1, wxString val2);
-    
+    void Set     (const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
+                  wxString val1, long val2);
                   
 private:
     static MapParamManager tabInstance;  // toutes les instances créées, associées à une chaine de caractère utilisée comme clé

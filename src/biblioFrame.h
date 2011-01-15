@@ -59,6 +59,8 @@
 #include "export_html_dlg.h"
 #include "FusionDlg.h"
 
+#include "livroEasyPrinting.h"
+
 ////Header Include Start
 #include <wx/menu.h>
 #include <wx/statusbr.h>
@@ -125,8 +127,6 @@ private:
 public:
     enum {
     ////GUI Enum Control ID Start
-			ID_MNU_OUVRIR_1015 = 1015,
-			
 			ID_MNU_FICHIER_QUIT = 1010,
 			ID_MNU_OUVRIR_1022 = 1022,
 			ID_MNU_CREERUNEBASE_1023 = 1023,
@@ -161,9 +161,12 @@ public:
 			ID_MNU_STATISTIQUES = 1070,
 			ID_MNU_STATISTIQUE_1048 = 1048,
 			ID_MNU_AFFICHER_VALEUR_TOTALE = 1071,
+			ID_MNU_ANALYSER_SERIES = 1073,
 			ID_MNU_APROPOS_1046 = 1046,
 			ID_MNU__APROPOS_1047 = 1047,
 			ID_MNU_VERIFIER_VERSION = 1072,
+			
+			ID_MNU_OUVRIR_1015 = 1015,
 			
 			ID_BARRE_STATUT = 1009,
 			ID_WXTOOLBUTTON_ABOUT = 1055,
@@ -198,8 +201,8 @@ public:
     virtual ~biblioFrame();
 public:
   ////GUI Control Declaration Start
-		wxMenu *WxPopupMenu_grille;
 		wxMenuBar *monmenu;
+		wxMenu *WxPopupMenu_grille;
 		wxStatusBar *barre_statut;
 		wxToolBar *toolb_princ;
  ////GUI Control Declaration End
@@ -226,7 +229,7 @@ public:
     wxArrayString liste_choisis_nom_import;
     wxArrayString list_from;
     bool grille_ok;
-    wxHtmlEasyPrinting imprimehtml;
+    livroEasyPrinting imprimehtml;
 public:
 
     void biblioFrameClose(wxCloseEvent& event);
@@ -281,6 +284,7 @@ public:
 	void OnVerifierVersionSilencieux(wxCommandEvent& event);
     void OnTimerVerifierVersion(wxTimerEvent& event);
     void verifierVersion(bool silencieux);
+		void OnMnuAnalyserSeries(wxCommandEvent& event);
 		
 private:
     wxSplashScreen* m_splash;

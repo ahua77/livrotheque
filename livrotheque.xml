@@ -30,9 +30,16 @@ Remarques :
 
 	<derniereVersion>
 		<idVersion value="1.4.0.0" lien="http://peepaillard.free.fr/download.html"/>
-		<idVersionPreprod value="1.4.0.0" lien="http://peepaillard.free.fr/download.html"/>
+		<idVersionPreprod value="1.4.1.0" lien="http://peepaillard.free.fr/download.html"/>
 	</derniereVersion>
 
+	<version id="1.4.1.0" dateMad="15/01/2011">
+		<description>
+			<item value="Ajout d'un rapport d'analyse des séries, pour détecter des trous dans les séquences de numéros dans une même série"/>
+			<item value="Paramètrage des impressions dans l'écran des options"/>
+		</description>
+	</version>
+	
 	<version id="1.4.0.0" dateMad="28/11/2010">
 		<description>
 			<item value="Ajout d'une option pour dupliquer un livre"/>

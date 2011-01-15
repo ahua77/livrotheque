@@ -130,6 +130,15 @@ void ParamManager::GetOrSet(const wxString& tableParam, const wxString& typePara
 }
 
 void ParamManager::GetOrSet(const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
+                            wxString& val1, long& val2)
+{
+    wxString str2;
+    str2.Printf("%ld", val2);
+    GetOrSet(tableParam, typeParam, nomParam, val1, str2);
+    str2.ToLong(&val2);
+}
+
+void ParamManager::GetOrSet(const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
                             wxString& val1, wxString& val2)
 // pour le parametre (typeParam, nomParam) : 
 //    - s'il est présent en base : retourne les valeurs lues dans val1, val2
@@ -203,6 +212,14 @@ void ParamManager::Set(const wxString& tableParam, const wxString& typeParam, co
     str1.Printf("%ld", val1);
     str2.Printf("%ld", val2);
     Set(tableParam, typeParam, nomParam, str1, str2);
+}
+
+void ParamManager::Set(const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
+                       wxString val1, long val2)
+{
+    wxString str2;
+    str2.Printf("%ld", val2);
+    Set(tableParam, typeParam, nomParam, val1, str2);
 }
 
 void ParamManager::Set(const wxString& tableParam, const wxString& typeParam, const wxString& nomParam, 
