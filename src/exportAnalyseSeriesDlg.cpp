@@ -122,7 +122,7 @@ void exportAnalyseSeriesDlg::OnClose(wxCloseEvent& /*event*/)
 void exportAnalyseSeriesDlg::WxBnParcourirClick(wxCommandEvent& event)
 {
     wxFileDialog dlg (this, _("Choisir le fichier d'export"), "", WxEdFilename->GetValue(),
-                      "fichiers csv (*.csv)|*.csv", wxFD_SAVE);
+                      "fichiers d'export (*.txt)|*.txt", wxFD_SAVE);
 
     if (dlg.ShowModal() == wxID_CANCEL)
         return;     // the user changed idea...
