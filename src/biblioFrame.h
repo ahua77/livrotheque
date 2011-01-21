@@ -127,6 +127,8 @@ private:
 public:
     enum {
     ////GUI Enum Control ID Start
+			ID_MNU_OUVRIR_1015 = 1015,
+			
 			ID_MNU_FICHIER_QUIT = 1010,
 			ID_MNU_OUVRIR_1022 = 1022,
 			ID_MNU_CREERUNEBASE_1023 = 1023,
@@ -162,11 +164,10 @@ public:
 			ID_MNU_STATISTIQUE_1048 = 1048,
 			ID_MNU_AFFICHER_VALEUR_TOTALE = 1071,
 			ID_MNU_ANALYSER_SERIES = 1073,
+			ID_MNU_EXPORTER_ANALYSE_SERIES = 1074,
 			ID_MNU_APROPOS_1046 = 1046,
 			ID_MNU__APROPOS_1047 = 1047,
 			ID_MNU_VERIFIER_VERSION = 1072,
-			
-			ID_MNU_OUVRIR_1015 = 1015,
 			
 			ID_BARRE_STATUT = 1009,
 			ID_WXTOOLBUTTON_ABOUT = 1055,
@@ -201,8 +202,8 @@ public:
     virtual ~biblioFrame();
 public:
   ////GUI Control Declaration Start
-		wxMenuBar *monmenu;
 		wxMenu *WxPopupMenu_grille;
+		wxMenuBar *monmenu;
 		wxStatusBar *barre_statut;
 		wxToolBar *toolb_princ;
  ////GUI Control Declaration End
@@ -285,6 +286,7 @@ public:
     void OnTimerVerifierVersion(wxTimerEvent& event);
     void verifierVersion(bool silencieux);
 		void OnMnuAnalyserSeries(wxCommandEvent& event);
+		void OnMnuExporterAnalyseSeries(wxCommandEvent& event);
 		
 private:
     wxSplashScreen* m_splash;
@@ -292,6 +294,8 @@ private:
     void killSplash();
     void fermerBaseLivre();
     void modifieLivre(wxString id);
+    wxString AnalyserSeries(bool htmlMode, bool filtreManquants);
+
 };
 
 

@@ -84,6 +84,7 @@
 #include "VersionXml.h"
 #include "VersionDlg.h"
 #include "livrotheque_private.h"
+#include "exportAnalyseSeriesDlg.h"
 
 #define style_dialog_choix wxSYSTEM_MENU|wxCAPTION
 
@@ -117,6 +118,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	////Manual Code End
 	
 	EVT_CLOSE(biblioFrame::biblioFrameClose)
+	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_MNU_OUVRIR_1022, biblioFrame::OuvrirClick)
 	EVT_MENU(ID_MNU_CREERUNEBASE_1023, biblioFrame::toolb_NouvClick)
 	EVT_MENU(ID_MNU_MENUITEM30_1058, biblioFrame::Mnuitem_imprimerlivre)
@@ -144,9 +146,9 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU_STATISTIQUE_1048, biblioFrame::Mnustatistique1048Click)
 	EVT_MENU(ID_MNU_AFFICHER_VALEUR_TOTALE, biblioFrame::OnAfficherValeurTotale)
 	EVT_MENU(ID_MNU_ANALYSER_SERIES, biblioFrame::OnMnuAnalyserSeries)
+	EVT_MENU(ID_MNU_EXPORTER_ANALYSE_SERIES, biblioFrame::OnMnuExporterAnalyseSeries)
 	EVT_MENU(ID_MNU__APROPOS_1047, biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_MNU_VERIFIER_VERSION, biblioFrame::OnVerifierVersion)
-	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_WXTOOLBUTTON_ABOUT,biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_TOOLB_PARAM,biblioFrame::parametrer)
 	EVT_MENU(ID_WXTOOLBUTTON_STAT,biblioFrame::Mnustatistique1048Click)
@@ -436,8 +438,6 @@ void biblioFrame::CreateGUIControls(void)
 
 	barre_statut = new wxStatusBar(this, ID_BARRE_STATUT);
 
-	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
-
 	monmenu = new wxMenuBar();
 	wxMenu *ID_MNU_FICHIER_QUIT_Mnu_Obj = new wxMenu(0);
 	ID_MNU_FICHIER_QUIT_Mnu_Obj->Append(ID_MNU_OUVRIR_1022, wxT("Ouvrir une Base"), wxT(""), wxITEM_NORMAL);
@@ -483,6 +483,7 @@ void biblioFrame::CreateGUIControls(void)
 	ID_MNU_STATISTIQUES_Mnu_Obj->Append(ID_MNU_STATISTIQUE_1048, wxT("Afficher les statistiques"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_STATISTIQUES_Mnu_Obj->Append(ID_MNU_AFFICHER_VALEUR_TOTALE, wxT("Afficher la valeur totale"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_STATISTIQUES_Mnu_Obj->Append(ID_MNU_ANALYSER_SERIES, wxT("Analyser les séries"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_STATISTIQUES_Mnu_Obj->Append(ID_MNU_EXPORTER_ANALYSE_SERIES, wxT("Exporter l'analyse des séries"), wxT(""), wxITEM_NORMAL);
 	monmenu->Append(ID_MNU_STATISTIQUES_Mnu_Obj, wxT("Statistiques"));
 	
 	wxMenu *ID_MNU_APROPOS_1046_Mnu_Obj = new wxMenu(0);
@@ -490,6 +491,8 @@ void biblioFrame::CreateGUIControls(void)
 	ID_MNU_APROPOS_1046_Mnu_Obj->Append(ID_MNU_VERIFIER_VERSION, wxT("Vérifier la version"), wxT(""), wxITEM_NORMAL);
 	monmenu->Append(ID_MNU_APROPOS_1046_Mnu_Obj, wxT("Aide"));
 	SetMenuBar(monmenu);
+
+	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
 
 	SetStatusBar(barre_statut);
 	toolb_princ->SetToolBitmapSize(wxSize(16,16));
@@ -2297,14 +2300,59 @@ void biblioFrame::OnTimerVerifierVersion(wxTimerEvent& event)
  */
 void biblioFrame::OnMnuAnalyserSeries(wxCommandEvent& event)
 {
-    wxString html;
-    
     imprimehtml.UpdateConfig();
+    wxString html = AnalyserSeries (true, false);
+	wxPrintData* config_imp = imprimehtml.GetPrintData();
+	config_imp->SetOrientation(wxPORTRAIT);
+	imprimehtml.GetPageSetupData()->SetMarginTopLeft(wxPoint(10,10));
+	imprimehtml.GetPageSetupData()->SetMarginBottomRight(wxPoint(10,10));
+	
+	// conserver une version en fichier pour debug
+	// wxFile fichier(gettempdir() + "\\stat_series.html", wxFile::write);
+	// fichier.Write(html);
+	
+	imprimehtml.PreviewText(html);
+}
+
+/*
+ * OnMnuExporterAnalyseSeries
+ */
+void biblioFrame::OnMnuExporterAnalyseSeries(wxCommandEvent& event)
+{
+    exportAnalyseSeriesDlg dlg(this);
+    int retDlg = dlg.ShowModal();
     
-    html="<html><body>\n";
-    html += "<center>\n";
-    html += "<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\" width=\"100%\">\n";
+    if (retDlg == wxID_OK) {
+        wxString csv = AnalyserSeries(false, dlg.filtreManquants());
+        wxString filename = dlg.exportFilename();
+        wxFile fichier(filename, wxFile::write);
+        if (fichier.IsOpened()) {
+            fichier.Write(csv);
+            wxMessageBox(wxString::Format("analyse des séries exportées dans le fichier %s", filename.c_str()));
+        } else  {
+            wxMessageBox(wxString::Format("export impossible pour le fichier %s", filename.c_str()));
+        }
+    }
+}
+
+/**
+ * AnalyserSeries : analyse des séries. La chaine retournée dépend de htmlMode
+ * - si htmlMode == true : page html
+ * - si htmlMode == false : texte au format csv
+ * - filtreManquants : si TRUE : n'afficher les infos que pour les livres ayant un ou plusieurs tomes manquants
+ */
+wxString biblioFrame::AnalyserSeries(bool htmlMode, bool filtreManquants)
+{
+    wxString contenu;
     
+    if (htmlMode) {
+        contenu =  "<html><body>\n";
+        contenu += "<center>\n";
+        contenu += "<table border=\"0\" cellpadding=\"5\" cellspacing=\"0\" width=\"100%\">\n";
+    } else {
+        contenu = "genre\tsérie\tvolumes\tsans numéro\ttomes\tmanquants\n";
+    }
+        
     wxRegEx reTomeUnique ("^[0-9]*$");
     wxRegEx reIntervalle ("^[0-9]*-[0-9]*$");
     // wxLogMessage("vérification des RE : %d - %d", reTomeUnique.IsValid(), reIntervalle.IsValid());
@@ -2324,7 +2372,7 @@ void biblioFrame::OnMnuAnalyserSeries(wxCommandEvent& event)
         amoi.get_erreur(mess);
         wxMessageBox("OnMnuAnalyserSeries "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
         amoi.transac_fin();
-        return;
+        return "";
     }    
     ret=amoi.transac_step();
     int serieEnCours = -1;
@@ -2347,10 +2395,15 @@ void biblioFrame::OnMnuAnalyserSeries(wxCommandEvent& event)
         amoi.get_value_char(4, nomGenre, taille);
         nSerie++;
 
-        // bannière à chaque changement de genre
-        if (nomGenre != genreEnCours) {
-            genreEnCours = nomGenre;
-            html += wxString::Format("<tr bgcolor=\"#B0C7E2\"><td colspan=3>%s</td></tr>", nomGenre.c_str());
+        // bannière à chaque changement de genre (mode html seulement)
+        if (htmlMode) {
+            if (nomGenre != genreEnCours) {
+                genreEnCours = nomGenre;
+                wxString genreAffiche = nomGenre;
+                if (nomGenre == "")
+                    genreAffiche = "-- aucun genre --";
+                contenu += wxString::Format("<tr bgcolor=\"#B0C7E2\"><td colspan=3>%s</td></tr>", genreAffiche.c_str());
+            }
         }
 
         if (idSerie != serieEnCours) {
@@ -2398,18 +2451,23 @@ void biblioFrame::OnMnuAnalyserSeries(wxCommandEvent& event)
         }
 
         if (idSerie != idSerieNext) {
+            wxString ligne;
+            
             wxString bgcolor = "#FFFFB0";
-            nLigneResu++;
             if (nLigneResu % 2 == 0) {
                bgcolor = "#FFFFB0";
             } else {
                bgcolor = "#B0FFFF";
             }
-            html += wxString::Format("<tr bgcolor = \"%s\"><td>%s</td>", bgcolor.c_str(), nomSerie.c_str());
-            html += wxString::Format("<td>%d volume%s", nbLivresSerie, (nbLivresSerie > 1 ? "s" : ""));
-            if (nbSansNumero > 0)
-                html += wxString::Format("<BR>dont %d sans numéro", nbSansNumero);
-            html += ("</td>");
+            if (htmlMode) {
+                ligne += wxString::Format("<tr bgcolor = \"%s\"><td>%s</td>", bgcolor.c_str(), nomSerie.c_str());
+                ligne += wxString::Format("<td>%d volume%s", nbLivresSerie, (nbLivresSerie > 1 ? "s" : ""));
+                if (nbSansNumero > 0)
+                    ligne += wxString::Format("<BR>dont %d sans numéro", nbSansNumero);
+                ligne += ("</td>");
+            } else {
+                ligne += wxString::Format("%s\t%s\t%d\t%d\t", (nomGenre == "" ? "-- aucun genre --" : nomGenre.c_str()), nomSerie.c_str(), nbLivresSerie, nbSansNumero);
+            }
             // wxLogMessage("*** bilan de la série %s : ", nomSerie.c_str());
             // wxLogMessage("   nombre de volumes %d, dont %d sans numéro", nbLivresSerie, nbSansNumero);
             // wxLogMessage("   tabTome : [%s]", listeTomes.c_str());
@@ -2448,34 +2506,36 @@ void biblioFrame::OnMnuAnalyserSeries(wxCommandEvent& event)
                     }
                 }
             }
-            html += "<td>";
-            if (tomesPresents != "")
-                html += wxString::Format("tomes : %s<BR>", tomesPresents.c_str());
-            if (tomesAbsents != "")
-                html += wxString::Format("manquants : %s", tomesAbsents.c_str());
-            html += "</td></tr>\n";
+            if (htmlMode) {
+                ligne += "<td>";
+                if (tomesPresents != "")
+                    ligne += wxString::Format("tomes : %s<BR>", tomesPresents.c_str());
+                if (tomesAbsents != "")
+                    ligne += wxString::Format("manquants : %s", tomesAbsents.c_str());
+                ligne += "</td></tr>\n";
+            } else {
+                // contenu += wxString::Format("\"%s\"\t\"%s\"\n", tomesPresents.c_str(), tomesAbsents.c_str());
+                ligne += wxString::Format("%s\t%s\n", tomesPresents.c_str(), tomesAbsents.c_str());
+            }
+
+            if (filtreManquants == false || tomesAbsents != "") {
+                contenu += ligne;
+                nLigneResu++;
+            }
         }
 
 
     }
     amoi.transac_fin();
 
-    html += "</table>\n";
-    html += "</center>\n";
-    html += "</font>\n";
-    html += "</body></html>";
-
-	wxPrintData* config_imp = imprimehtml.GetPrintData();
-	config_imp->SetOrientation(wxPORTRAIT);
-	imprimehtml.GetPageSetupData()->SetMarginTopLeft(wxPoint(10,10));
-	imprimehtml.GetPageSetupData()->SetMarginBottomRight(wxPoint(10,10));
-	
-	// conserver une version en fichier pour debug
-	// wxFile fichier(gettempdir() + "\\stat_series.html", wxFile::write);
-	// fichier.Write(html);
-	
-	imprimehtml.PreviewText(html);
+    if (htmlMode) {
+        contenu += "</table>\n";
+        contenu += "</center>\n";
+        contenu += "</font>\n";
+        contenu += "</body></html>";
+    }
 
     // wxLogMessage("biblioFrame::OnMnuAnalyserSeries() - sortie");
     
+    return contenu;
 }
