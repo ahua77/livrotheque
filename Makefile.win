@@ -1,14 +1,14 @@
 # Project: livrotheque
 # Compiler: Default GCC compiler
 # Compiler Type: MingW 3
-# Makefile created by wxDev-C++ 7.3 on 28/11/10 16:21
+# Makefile created by wxDev-C++ 7.3 on 23/01/11 11:45
 
 WXLIBNAME = wxmsw28
 CPP       = g++.exe
 CC        = gcc.exe
 WINDRES   = "windres.exe"
-OBJ       = o/apropos.o o/biblioFrame.o o/biblioFrameApp.o o/choix_colonnes.o o/divers.o o/export_html_dlg.o o/export_html_images.o o/export_html_textes.o o/liste.o o/liste_champ.o o/livre_html.o o/mabase.o o/moncamembert.o o/myprintout.o o/nouv_autre.o o/Nouv_livre.o o/rech_internet.o o/rech_internet_gen.o o/recherche.o o/statistique.o o/sqlite3.o o/affiche_image.o o/hmac_sha2.o o/sha2.o o/base64.o o/FusionDlg.o o/ParametreDlg.o o/ParamManager.o o/VerifNouveauGroupeDlg.o o/curl_util.o o/VersionXml.o o/VersionDlg.o o/livrotheque_private.res
-LINKOBJ   = "o/apropos.o" "o/biblioFrame.o" "o/biblioFrameApp.o" "o/choix_colonnes.o" "o/divers.o" "o/export_html_dlg.o" "o/export_html_images.o" "o/export_html_textes.o" "o/liste.o" "o/liste_champ.o" "o/livre_html.o" "o/mabase.o" "o/moncamembert.o" "o/myprintout.o" "o/nouv_autre.o" "o/Nouv_livre.o" "o/rech_internet.o" "o/rech_internet_gen.o" "o/recherche.o" "o/statistique.o" "o/sqlite3.o" "o/affiche_image.o" "o/hmac_sha2.o" "o/sha2.o" "o/base64.o" "o/FusionDlg.o" "o/ParametreDlg.o" "o/ParamManager.o" "o/VerifNouveauGroupeDlg.o" "o/curl_util.o" "o/VersionXml.o" "o/VersionDlg.o" o/livrotheque_private.res
+OBJ       = o/apropos.o o/biblioFrame.o o/biblioFrameApp.o o/choix_colonnes.o o/divers.o o/export_html_dlg.o o/export_html_images.o o/export_html_textes.o o/liste.o o/liste_champ.o o/livre_html.o o/mabase.o o/moncamembert.o o/myprintout.o o/nouv_autre.o o/Nouv_livre.o o/rech_internet.o o/rech_internet_gen.o o/recherche.o o/statistique.o o/sqlite3.o o/affiche_image.o o/hmac_sha2.o o/sha2.o o/base64.o o/FusionDlg.o o/ParametreDlg.o o/ParamManager.o o/VerifNouveauGroupeDlg.o o/curl_util.o o/VersionXml.o o/VersionDlg.o o/livroEasyPrinting.o o/exportAnalyseSeriesDlg.o o/livrotheque_private.res
+LINKOBJ   = "o/apropos.o" "o/biblioFrame.o" "o/biblioFrameApp.o" "o/choix_colonnes.o" "o/divers.o" "o/export_html_dlg.o" "o/export_html_images.o" "o/export_html_textes.o" "o/liste.o" "o/liste_champ.o" "o/livre_html.o" "o/mabase.o" "o/moncamembert.o" "o/myprintout.o" "o/nouv_autre.o" "o/Nouv_livre.o" "o/rech_internet.o" "o/rech_internet_gen.o" "o/recherche.o" "o/statistique.o" "o/sqlite3.o" "o/affiche_image.o" "o/hmac_sha2.o" "o/sha2.o" "o/base64.o" "o/FusionDlg.o" "o/ParametreDlg.o" "o/ParamManager.o" "o/VerifNouveauGroupeDlg.o" "o/curl_util.o" "o/VersionXml.o" "o/VersionDlg.o" "o/livroEasyPrinting.o" "o/exportAnalyseSeriesDlg.o" o/livrotheque_private.res
 LIBS      = -L"D:/developpement/Dev-Cpp/Lib" -L"libcurl-7.16.4/lib"  -mwindows -lwxmsw28 -lwxmsw28_gl -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lodbc32 -lopengl32 -lcurl  
 INCS      = -I"D:/developpement/Dev-Cpp/Include" -I"include/images" -I"sqlite" -I"libcurl-7.16.4/include" -I"o" -I"sha" -I"libb64/src" -I"libb64/include" -I"src/images"
 CXXINCS   = -I"D:/developpement/Dev-Cpp/lib/gcc/mingw32/3.4.5/include" -I"D:/developpement/Dev-Cpp/include/c++/3.4.5/backward" -I"D:/developpement/Dev-Cpp/include/c++/3.4.5/mingw32" -I"D:/developpement/Dev-Cpp/include/c++/3.4.5" -I"D:/developpement/Dev-Cpp/include" -I"D:/developpement/Dev-Cpp/" -I"D:/developpement/Dev-Cpp/include/3rdparty/wx/plotctrl" -I"D:/developpement/Dev-Cpp/include/3rdparty/wx/sheet" -I"D:/developpement/Dev-Cpp/include/3rdparty/wx/treemultictrl" -I"D:/developpement/Dev-Cpp/include/3rdparty/wx/things" -I"D:/developpement/Dev-Cpp/include/3rdparty/wx" -I"D:/developpement/Dev-Cpp/include/3rdparty" -I"D:/developpement/Dev-Cpp/include/common/wx/msw" -I"D:/developpement/Dev-Cpp/include/common/wx/generic" -I"D:/developpement/Dev-Cpp/include/common/wx/fl" -I"D:/developpement/Dev-Cpp/include/common/wx/gizmos" -I"D:/developpement/Dev-Cpp/include/common/wx/html" -I"D:/developpement/Dev-Cpp/include/common/wx/mmedia" -I"D:/developpement/Dev-Cpp/include/common/wx/net" -I"D:/developpement/Dev-Cpp/include/common/wx/ogl" -I"D:/developpement/Dev-Cpp/include/common/wx/plot" -I"D:/developpement/Dev-Cpp/include/common/wx/protocol" -I"D:/developpement/Dev-Cpp/include/common/wx/stc" -I"D:/developpement/Dev-Cpp/include/common/wx/svg" -I"D:/developpement/Dev-Cpp/include/common/wx/xml" -I"D:/developpement/Dev-Cpp/include/common/wx/xrc" -I"D:/developpement/Dev-Cpp/include/common/wx" -I"D:/developpement/Dev-Cpp/include/common" -I"include/images" -I"sqlite" -I"libcurl-7.16.4/include" -I"o" -I"sha" -I"libb64/src" -I"libb64/include" -I"src/images"
@@ -125,6 +125,12 @@ o/VersionXml.o: $(GLOBALDEPS) src/VersionXml.cpp
 
 o/VersionDlg.o: $(GLOBALDEPS) src/VersionDlg.cpp
 	$(CPP) -c src/VersionDlg.cpp -o o/VersionDlg.o $(CXXFLAGS)
+
+o/livroEasyPrinting.o: $(GLOBALDEPS) src/livroEasyPrinting.cpp
+	$(CPP) -c src/livroEasyPrinting.cpp -o o/livroEasyPrinting.o $(CXXFLAGS)
+
+o/exportAnalyseSeriesDlg.o: $(GLOBALDEPS) src/exportAnalyseSeriesDlg.cpp
+	$(CPP) -c src/exportAnalyseSeriesDlg.cpp -o o/exportAnalyseSeriesDlg.o $(CXXFLAGS)
 
 o/livrotheque_private.res: o/livrotheque_private.rc 
 	$(WINDRES) --input-format=rc -o o/livrotheque_private.res $(RCINCS) o/LIVROT~1.RC -O coff
