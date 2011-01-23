@@ -1443,25 +1443,36 @@ void biblioFrame::sauve_config()
     wxString query, mess;
     int i, ret;
     if (amoi.ouverte()==true && param_modifie == true) {
+/*
         if (amoi.existe("config") == true) {
             query = "DROP TABLE config";
             amoi.exec_rapide(query);
         }
-        query="CREATE TABLE config (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)";
-        ret=amoi.exec_rapide(query);
-        if (ret<0) {
-            amoi.get_erreur(mess);
-            wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
-            return;
+*/
+
+        if (amoi.existe("config") == false) {
+            query="CREATE TABLE config (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)";
+            ret=amoi.exec_rapide(query);
+            if (ret<0) {
+                amoi.get_erreur(mess);
+                wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+                return;
+            }
+            query="CREATE INDEX ind_prim ON config (type_param , nom_param)";
+            ret=amoi.exec_rapide(query);
         }
-        query="CREATE INDEX ind_prim ON config (type_param , nom_param)";
-        ret=amoi.exec_rapide(query);
+
+        query = "DELETE FROM config WHERE type_param='INIT' AND nom_param='COLONNE'";
+        ret = amoi.exec_rapide(query);
 
        for (i=0;i<(int)liste_choisis.GetCount();i++) {
             mess.Printf("%d",liste_choisis.Item(i));
             query="INSERT INTO config (type_param, nom_param, val1, val2) VALUES ('INIT', 'COLONNE', '"+mess+"','"+liste_choisis_nom.Item(i)+"')";
             ret=amoi.exec_rapide(query);
        }    
+
+        query = "DELETE FROM config WHERE type_param='INIT' AND nom_param='TRI'";
+        ret = amoi.exec_rapide(query);
         for (i=0;i<(int)liste_tri.GetCount();i++) {
             mess.Printf("%d",liste_tri.Item(i));
             query="INSERT INTO config (type_param, nom_param, val1) VALUES ('INIT', 'TRI', '"+mess+"')";
@@ -1947,6 +1958,36 @@ void biblioFrame::Mnuexportcsv1062Click(wxCommandEvent& event)
         return;
     }
 
+
+    // relire en base les précédentes colonnes choisies pour l'export
+    if (amoi.existe("config") == false) {
+        query="CREATE TABLE config (type_param TEXT , nom_param TEXT, val1 TEXT, val2 TEXT)";
+        ret=amoi.exec_rapide(query);
+        if (ret<0) {
+            amoi.get_erreur(mess);
+            wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+            return;
+        }
+        query="CREATE INDEX ind_prim ON config (type_param , nom_param)";
+        ret=amoi.exec_rapide(query);
+    }
+
+    query = "SELECT val1, val2 FROM config WHERE type_param='INIT' AND nom_param='COLONNE_EXPORT'";
+    ret=amoi.transac_prepare(query);
+    if (ret>=0) {
+        ret=amoi.transac_step();
+    }    
+    while(ret==SQLITE_ROW) {
+        amoi.get_value_int(0,ret);
+        liste_choisis_export.Add(ret);
+        amoi.get_value_char(1,texte,taille);
+        //wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
+        liste_choisis_nom_export.Add(texte);
+        ret=amoi.transac_step();
+    }    
+    amoi.transac_fin();
+
+
     //liste_a_choisir_lim=liste_a_choisir;
     choisir=new choix_colonnes(liste_a_choisir, &liste_choisis_export, &liste_choisis_nom_export, this, -1, "choix des colonnes à exporter", wxDefaultPosition, wxDefaultSize, style_dialog_choix);
     ret=choisir->ShowModal();
@@ -1954,6 +1995,16 @@ void biblioFrame::Mnuexportcsv1062Click(wxCommandEvent& event)
     if (ret!=0) {
         return;
     }
+
+    // écrire en base les colonnes choisies pour l'export, pour une prochaine fois
+    query = "DELETE FROM config WHERE type_param='INIT' AND nom_param='COLONNE_EXPORT'";
+    ret = amoi.exec_rapide(query);
+    for (int i=0;i<(int)liste_choisis_export.GetCount();i++) {
+        mess.Printf("%d",liste_choisis_export.Item(i));
+        query="INSERT INTO config (type_param, nom_param, val1, val2) VALUES ('INIT', 'COLONNE_EXPORT', '"+mess+"','"+liste_choisis_nom_export.Item(i)+"')";
+        ret=amoi.exec_rapide(query);
+    }    
+
     wxString liste_separateur[]={";", "Tabulation"};
     
     separateur=";";
