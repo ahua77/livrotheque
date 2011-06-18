@@ -53,10 +53,12 @@
 #include "nouv_autre.h"
 #include "rech_internet_gen.h"
 #include "rech_internet.h"
+#include "attenteInsertion.h"
 
 ////Header Include Start
 #include <wx/bmpbuttn.h>
 #include <wx/slider.h>
+#include <wx/checkbox.h>
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
 #include <wx/combobox.h>
@@ -98,6 +100,7 @@
 #define THIS_DIALOG_STYLE wxWANTS_CHARS | wxCAPTION
 ////Dialog Style End
 
+
 class Nouv_livre : public wxDialog
 {
 public:
@@ -130,6 +133,10 @@ public:
 			ID_WXEDIT_TITRE_O = 1057,
 			ID_WXSTATICTEXT_TITRE_O = 1056,
 			ID_N_VO = 1043,
+			ID_WXCHECKBOX_PARTICULARITE = 1110,
+			ID_WXCHECKBOX_Note = 1109,
+			ID_WXCHECKBOX_LECTURE = 1108,
+			ID_WXCHECKBOX_ACHAT = 1107,
 			ID_WXDATEPICKERCTRL_LECTURE = 1105,
 			ID_WXSTATICTEXT_DATE_LECTURE = 1050,
 			ID_WXBUTTON_LOCALISATION = 1093,
@@ -152,6 +159,7 @@ public:
 			ID_WXDATEPICKERCTRL_ACHAT = 1104,
 			ID_WXSTATICTEXT_DATE_ACHAT = 1021,
 			ID_N_DETAIL = 1004,
+			ID_WXCHECKBOX_PUBLICATION = 1106,
 			ID_WXSTATICTEXT_DATE_MAJ_VAL = 1055,
 			ID_WXSTATICTEXT_DATE_MAJ = 1054,
 			ID_WXSTATICTEXTDATE_ENTREE_VAL = 1053,
@@ -232,6 +240,10 @@ public:
 		wxTextCtrl *WxEdit_titre_o;
 		wxStaticText *WxStaticText_titre_o;
 		wxPanel *n_vo;
+		wxCheckBox *WxCheckBox_particularite;
+		wxCheckBox *WxCheckBox_note;
+		wxCheckBox *WxCheckBox_lecture;
+		wxCheckBox *WxCheckBox_achat;
 		wxDatePickerCtrl *WxDatePickerCtrl_lecture;
 		wxStaticText *WxStaticText_date_lecture;
 		wxButton *WxButton_localisation;
@@ -254,6 +266,7 @@ public:
 		wxDatePickerCtrl *WxDatePickerCtrl_achat;
 		wxStaticText *WxStaticText_date_achat;
 		wxPanel *n_detail;
+		wxCheckBox *WxCheckBox_publication;
 		wxStaticText *WxStaticText_date_maj_val;
 		wxStaticText *WxStaticText_date_maj;
 		wxStaticText *WxStaticTextdate_entree_val;
@@ -327,19 +340,30 @@ private:
     DECLARE_EVENT_TABLE()
 
 public:
-     Nouv_livre( ma_base *pour_insere, wxWindow *parent, wxWindowID id = 1, const wxString &title = _T("Nouveau livre"),
+    Nouv_livre( ma_base *pour_insere, wxWindow *parent, wxWindowID id = 1, const wxString &title = _T("Nouveau livre"),
         const wxPoint& pos = wxDefaultPosition,
         const wxSize& size = wxDefaultSize,
         long style = THIS_DIALOG_STYLE);
-     Nouv_livre( ma_base *pour_modif,wxString id_modif, bool insert, wxWindow *parent, wxWindowID id = 1, const wxString &title = _T("Modification du livre"),
+    Nouv_livre( ma_base *pour_modif,wxString id_modif, bool insert, wxWindow *parent, wxWindowID id = 1, const wxString &title = _T("Modification du livre"),
         const wxPoint& pos = wxDefaultPosition,
         const wxSize& size = wxDefaultSize,
         long style = THIS_DIALOG_STYLE);
+    Nouv_livre (ma_base *pour_modif, wxArrayInt liste_id, bool insert, wxWindow *parent, wxWindowID id, 
+        const wxString &title = _T("Modification de livres en masse"),
+        const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize,
+        long style = THIS_DIALOG_STYLE);
+    Nouv_livre( ma_base *pour_insere, attenteInsertion* itemInsertion, wxWindow *parent, wxWindowID id = 1, 
+        const wxString &title = _T("Nouveau livre"),
+        const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize,
+        long style = THIS_DIALOG_STYLE);
+                
     void init_edit(wxString nom_champ, wxTextCtrl *zone);
-    void init_date(wxString nom_champ, wxDatePickerCtrl *zone);
-    void init_statictext(wxString nom_champ, wxStaticText *s_text);
-    void init_radiobox(wxString nom_champ, wxRadioBox *zone);
-    void init_slider(wxString nom_champ, wxSlider *slider);
+    void init_date(wxString nom_champ, wxDatePickerCtrl *zone, wxCheckBox* ckConserver = NULL);
+    void init_statictext(wxString nom_champ, wxStaticText *s_text, wxString texteSiVariable = "");
+    void init_radiobox(wxString nom_champ, wxRadioBox *zonen , wxCheckBox* ckConserver = NULL);
+    void init_slider(wxString nom_champ, wxSlider *slider, wxCheckBox* ckConserver = NULL);
     bool init_image(wxString nom_champ, ImageCanvas *moncavas);//, wxImage *monimage);
     void init_etoiles();
 	int init_combo(wxComboBox *lacombo, wxString nomtable);
@@ -352,7 +376,7 @@ public:
 	void wxCombo_remplir(wxCommandEvent& event);
 	void wxCombo_select(wxInitDialogEvent& event);
 	int insere_table_annexe(wxComboBox *donnee, wxString nom_table, wxString libelleGroupePluriel=_T(""));
-	void ajoute_champ(wxString &liste_champ, wxString &liste_valeur, wxString n_champ, wxString v_champ);
+	void ajoute_champ(wxString &liste_champ, wxString &liste_valeur, wxString n_champ, wxString v_champ, wxCheckBox* ckConserver = NULL);
 	void ajoute_image(wxString &liste_champ, wxString &liste_valeur, wxString n_champ, bool charge);
 	void create_radiobox();
 	void WxButtondate_pubClick(wxCommandEvent& event);
@@ -368,10 +392,12 @@ public:
 	void WxButton_internetClick(wxCommandEvent& event);
 	void WxButton_internet_gClick(wxCommandEvent& event);
     void mise_a_jour(rech_internet *rech);
+	void Nouv_livreInitDialog(wxInitDialogEvent& event);
 
 private:    
     static long s_nbInstances;
-
+    wxString m_listeIdRequete;
+    attenteInsertion* m_itemInsertion;
 };
 
 

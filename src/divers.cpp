@@ -301,6 +301,13 @@ void gestion_quote(wxString &chaine) {
     chaine.Replace("'", "''", true);    
 }
 
+wxString gestion_quote2(const wxString& chaine) 
+{
+    wxString tmp = chaine;
+    gestion_quote(tmp);
+    return tmp;
+}
+
 void resize_image(wxString nom_fichier,int larg,int haut,wxString nom_fichier_arrivee) {
     int largeur_img,hauteur_img;
     float multi; 

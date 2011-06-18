@@ -1,4 +1,4 @@
-object frmNewForm_3: TfrmNewForm
+object frmNewForm_1: TfrmNewForm
   Left = 8
   Top = 8
   AutoScroll = False
@@ -19,6 +19,7 @@ object frmNewForm_3: TfrmNewForm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
+  EVT_INIT_DIALOG = 'Nouv_livreInitDialog'
   EVT_CLOSE = 'Nouv_livreClose'
   Wx_ICON.Data = {07544269746D617000000000}
   Wx_Name = 'Nouv_livre'
@@ -1415,8 +1416,8 @@ object frmNewForm_3: TfrmNewForm
         Wx_Floating_Y_Pos = 0
       end
       object WxStaticText_date_maj: TWxStaticText
-        Left = 148
-        Top = 325
+        Left = 246
+        Top = 324
         Width = 142
         Height = 17
         Caption = 'Date de derni'#232're mise '#224' jour :'
@@ -1448,8 +1449,8 @@ object frmNewForm_3: TfrmNewForm
         Wx_Floating_Y_Pos = 0
       end
       object WxStaticText_date_maj_val: TWxStaticText
-        Left = 289
-        Top = 325
+        Left = 387
+        Top = 324
         Width = 62
         Height = 17
         Caption = '01/01/1980'
@@ -1465,6 +1466,39 @@ object frmNewForm_3: TfrmNewForm
         Wx_LabelStyle = []
         Wx_PaneCaption = 'WxStaticText_date_maj_val'
         Wx_PaneName = 'WxStaticText_date_maj_val_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object WxCheckBox_publication: TWxCheckBox
+        Left = 547
+        Top = 131
+        Width = 73
+        Height = 17
+        Caption = 'conserver'
+        TabOrder = 37
+        Wx_BGColor = clBlack
+        Wx_CheckBoxStyle = []
+        Wx_Class = 'wxCheckBox'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCHECKBOX_PUBLICATION'
+        Wx_IDValue = 1106
+        Wx_PaneCaption = 'WxCheckBox1'
+        Wx_PaneName = 'WxCheckBox1_Pane'
         Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
         Wx_Aui_Dockable_Direction = []
         Wx_Aui_Pane_Style = []
@@ -1532,7 +1566,7 @@ object frmNewForm_3: TfrmNewForm
         Top = 14
         Width = 148
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 19
         Text = '3/3/2006'
         Wx_BGColor = clBlack
@@ -1665,7 +1699,7 @@ object frmNewForm_3: TfrmNewForm
         Wx_Floating_Y_Pos = 0
       end
       object WxSlider_note: TWxSlider
-        Left = 395
+        Left = 396
         Top = 14
         Width = 150
         Height = 30
@@ -1981,7 +2015,7 @@ object frmNewForm_3: TfrmNewForm
         Top = 117
         Width = 236
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 12
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -2086,7 +2120,7 @@ object frmNewForm_3: TfrmNewForm
         Top = 142
         Width = 236
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 15
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -2189,9 +2223,9 @@ object frmNewForm_3: TfrmNewForm
       object WxDatePickerCtrl_lecture: TWxDatePickerCtrl
         Left = 80
         Top = 169
-        Width = 150
+        Width = 148
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 20
         Text = '3/3/2006'
         Wx_BGColor = clBlack
@@ -2206,6 +2240,138 @@ object frmNewForm_3: TfrmNewForm
         Wx_IDValue = 1105
         Wx_PaneCaption = 'WxDatePickerCtrl_lecture'
         Wx_PaneName = 'WxDatePickerCtrl_lecture_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object WxCheckBox_achat: TWxCheckBox
+        Left = 232
+        Top = 16
+        Width = 97
+        Height = 17
+        Caption = 'conserver'
+        TabOrder = 21
+        Wx_BGColor = clBlack
+        Wx_CheckBoxStyle = []
+        Wx_Class = 'wxCheckBox'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCHECKBOX_ACHAT'
+        Wx_IDValue = 1107
+        Wx_PaneCaption = 'WxCheckBox1'
+        Wx_PaneName = 'WxCheckBox1_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object WxCheckBox_lecture: TWxCheckBox
+        Left = 233
+        Top = 172
+        Width = 97
+        Height = 17
+        Caption = 'conserver'
+        TabOrder = 22
+        Wx_BGColor = clBlack
+        Wx_CheckBoxStyle = []
+        Wx_Class = 'wxCheckBox'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCHECKBOX_LECTURE'
+        Wx_IDValue = 1108
+        Wx_PaneCaption = 'WxCheckBox2'
+        Wx_PaneName = 'WxCheckBox2_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object WxCheckBox_note: TWxCheckBox
+        Left = 560
+        Top = 31
+        Width = 74
+        Height = 17
+        Caption = 'conserver'
+        TabOrder = 23
+        Wx_BGColor = clBlack
+        Wx_CheckBoxStyle = []
+        Wx_Class = 'wxCheckBox'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCHECKBOX_Note'
+        Wx_IDValue = 1109
+        Wx_PaneCaption = 'WxCheckBox1'
+        Wx_PaneName = 'WxCheckBox1_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object WxCheckBox_particularite: TWxCheckBox
+        Left = 560
+        Top = 108
+        Width = 97
+        Height = 17
+        Caption = 'conserver'
+        TabOrder = 24
+        Wx_BGColor = clBlack
+        Wx_CheckBoxStyle = []
+        Wx_Class = 'wxCheckBox'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXCHECKBOX_PARTICULARITE'
+        Wx_IDValue = 1110
+        Wx_PaneCaption = 'WxCheckBox1'
+        Wx_PaneName = 'WxCheckBox1_Pane'
         Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
         Wx_Aui_Dockable_Direction = []
         Wx_Aui_Pane_Style = []
@@ -2411,7 +2577,7 @@ object frmNewForm_3: TfrmNewForm
         Top = 80
         Width = 238
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 14
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -2516,7 +2682,7 @@ object frmNewForm_3: TfrmNewForm
         Top = 106
         Width = 238
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 3
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -2621,7 +2787,7 @@ object frmNewForm_3: TfrmNewForm
         Top = 133
         Width = 238
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 7
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -2726,7 +2892,7 @@ object frmNewForm_3: TfrmNewForm
         Top = 157
         Width = 238
         Height = 21
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 9
         Wx_BGColor = clBlack
         Wx_Class = 'wxComboBox'
@@ -2847,7 +3013,6 @@ object frmNewForm_3: TfrmNewForm
         Height = 159
         BevelInner = bvNone
         BevelOuter = bvNone
-        ScrollBars = ssVertical
         TabOrder = 2
         Wx_BGColor = clBlack
         Wx_Class = 'wxTextCtrl'
@@ -2915,7 +3080,6 @@ object frmNewForm_3: TfrmNewForm
         Height = 161
         BevelInner = bvNone
         BevelOuter = bvNone
-        ScrollBars = ssVertical
         TabOrder = 3
         Wx_BGColor = clBlack
         Wx_Class = 'wxTextCtrl'

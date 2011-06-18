@@ -3,7 +3,7 @@
 #ifndef LIVROEASYPRINTING_H
 #define LIVROEASYPRINTING_H
 
-#include <htmprint.h> // inheriting class's header file
+#include <wx/html/htmprint.h> // inheriting class's header file
 
 /*
  * No description

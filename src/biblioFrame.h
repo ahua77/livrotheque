@@ -116,6 +116,9 @@ private:
          : wxGrid(parent, id, pos, size, style, name) {
     }
     void OnKeyDown(wxKeyEvent &event);
+    void OnGridSelectCell(wxGridEvent& event);
+    wxArrayInt LignesSelectionnees();
+    wxArrayInt rowIdSelectionnes();
     wxString BuildHTML();
 
 };
@@ -127,8 +130,6 @@ private:
 public:
     enum {
     ////GUI Enum Control ID Start
-			ID_MNU_OUVRIR_1015 = 1015,
-			
 			ID_MNU_FICHIER_QUIT = 1010,
 			ID_MNU_OUVRIR_1022 = 1022,
 			ID_MNU_CREERUNEBASE_1023 = 1023,
@@ -147,6 +148,7 @@ public:
 			ID_MNU_CHOIXCOLONNES_1024 = 1024,
 			ID_MNU_EDITION_1043 = 1043,
 			ID_MNU_RECHERCHER_1045 = 1045,
+			ID_MNU_AFFICHER_ATTENTE_INSERTION = 1076,
 			ID_MNU_LISTES_1027 = 1027,
 			ID_MNU_LISTE_AUTEUR = 1028,
 			ID_MNU_LISTE_SERIE = 1030,
@@ -168,6 +170,8 @@ public:
 			ID_MNU_APROPOS_1046 = 1046,
 			ID_MNU__APROPOS_1047 = 1047,
 			ID_MNU_VERIFIER_VERSION = 1072,
+			
+			ID_MNU_OUVRIR_1015 = 1015,
 			
 			ID_BARRE_STATUT = 1009,
 			ID_WXTOOLBUTTON_ABOUT = 1055,
@@ -202,8 +206,8 @@ public:
     virtual ~biblioFrame();
 public:
   ////GUI Control Declaration Start
-		wxMenu *WxPopupMenu_grille;
 		wxMenuBar *monmenu;
+		wxMenu *WxPopupMenu_grille;
 		wxStatusBar *barre_statut;
 		wxToolBar *toolb_princ;
  ////GUI Control Declaration End
@@ -269,6 +273,7 @@ public:
 	void MnuimportercvsClick(wxCommandEvent& event);
 	void popup_effacelivre(wxCommandEvent& event);
 	void dupliquelivre(wxCommandEvent& event);
+	void modifielivre(wxCommandEvent& event);
 	//void OnKeyDown(wxKeyEvent &event);
 	void MnurechercherClick(wxCommandEvent& event);
 	void Mnuapropos1047Click(wxCommandEvent& event);
@@ -287,6 +292,7 @@ public:
     void verifierVersion(bool silencieux);
 		void OnMnuAnalyserSeries(wxCommandEvent& event);
 		void OnMnuExporterAnalyseSeries(wxCommandEvent& event);
+		void OnMnuAfficherAttenteInsertion(wxCommandEvent& event);
 		
 private:
     wxSplashScreen* m_splash;

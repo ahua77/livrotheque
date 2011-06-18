@@ -72,6 +72,8 @@
 
 long Nouv_livre::s_nbInstances = 0;
 
+const wxString str_nePasModifier = "<< ne pas modifier >>";
+
 //----------------------------------------------------------------------------
 // Nouv_livre
 //----------------------------------------------------------------------------
@@ -99,6 +101,7 @@ BEGIN_EVENT_TABLE(Nouv_livre,wxDialog)
 	////Manual Code End
 	
 	EVT_CLOSE(Nouv_livre::Nouv_livreClose)
+	EVT_INIT_DIALOG(Nouv_livre::Nouv_livreInitDialog)
 	EVT_BUTTON(ID_WXBITMAPBUTTON_SUP_IMAGE,Nouv_livre::WxBitmapButton_supp_image_faceClick)
 	EVT_BUTTON(ID_WXBITMAPBUTTON_IMAGE_OUVRIR,Nouv_livre::WxBitmapButton_face_ouvrirClick)
 	EVT_BUTTON(ID_WXBUTTON_TRADUCTEUR,Nouv_livre::WxButton_auteurClick)
@@ -133,7 +136,15 @@ Nouv_livre::Nouv_livre( wxWindow *parent, wxWindowID id, const wxString &title, 
     insertion=true;
     id_courant=_("-1");
     la_belle = NULL;
+    m_itemInsertion = NULL;
     CreateGUIControls();
+
+    // masquer toutes les CK "conserver"
+    WxCheckBox_particularite->Show(false);
+    WxCheckBox_note->Show(false);
+    WxCheckBox_lecture->Show(false);
+    WxCheckBox_achat->Show(false);
+    WxCheckBox_publication->Show(false);
 }
 
 Nouv_livre::Nouv_livre(ma_base *pour_insere, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
@@ -145,9 +156,38 @@ Nouv_livre::Nouv_livre(ma_base *pour_insere, wxWindow *parent, wxWindowID id, co
     insertion=true;
     id_courant=_("-1");
     la_belle=pour_insere;
+    m_itemInsertion = NULL;
     CreateGUIControls();
     
+    // masquer toutes les CK "conserver"
+    WxCheckBox_particularite->Show(false);
+    WxCheckBox_note->Show(false);
+    WxCheckBox_lecture->Show(false);
+    WxCheckBox_achat->Show(false);
+    WxCheckBox_publication->Show(false);
 }
+
+Nouv_livre::Nouv_livre(ma_base *pour_insere, attenteInsertion* itemInsertion, wxWindow *parent, wxWindowID id, 
+                       const wxString &title, const wxPoint &position, const wxSize& size, long style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    s_nbInstances++;
+    wxLogMessage("Nouv_livre::Nouv_livre() - nbInstances = %ld", s_nbInstances);
+
+    insertion=true;
+    id_courant=_("-1");
+    la_belle=pour_insere;
+    m_itemInsertion = itemInsertion;
+    CreateGUIControls();
+    
+    // masquer toutes les CK "conserver"
+    WxCheckBox_particularite->Show(false);
+    WxCheckBox_note->Show(false);
+    WxCheckBox_lecture->Show(false);
+    WxCheckBox_achat->Show(false);
+    WxCheckBox_publication->Show(false);
+}
+
 
 Nouv_livre::Nouv_livre(ma_base *pour_modif, wxString id_modif, bool insert, wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style )
     : wxDialog( parent, id, title, position, size, style)
@@ -158,7 +198,9 @@ Nouv_livre::Nouv_livre(ma_base *pour_modif, wxString id_modif, bool insert, wxWi
     insertion=insert;
     id_courant=id_modif;
     la_belle=pour_modif;
+    m_itemInsertion = NULL;
     CreateGUIControls();
+
     //wxMessageBox(id_modif,"coco", wxOK | wxICON_INFORMATION, this);
     // initialisation des données à partir de la table
     init_edit(_("titre"), WxEdit_titre);
@@ -196,8 +238,75 @@ Nouv_livre::Nouv_livre(ma_base *pour_modif, wxString id_modif, bool insert, wxWi
     init_image("image_dos", canvas_image_dos);//, &image_dos);
     init_image("image_tranche", canvas_image_divers);//, &image_divers);
     
-    // initialisation des étoiles
+    // masquer toutes les CK "conserver"
+    WxCheckBox_particularite->Show(false);
+    WxCheckBox_note->Show(false);
+    WxCheckBox_lecture->Show(false);
+    WxCheckBox_achat->Show(false);
+    WxCheckBox_publication->Show(false);
 }
+
+Nouv_livre::Nouv_livre(ma_base *pour_modif, wxArrayInt liste_id, bool insert, 
+                       wxWindow *parent, wxWindowID id, const wxString &title, 
+                       const wxPoint &position, const wxSize& size, long style )
+    : wxDialog( parent, id, title, position, size, style)
+{
+    s_nbInstances++;
+    wxLogMessage("Nouv_livre::Nouv_livre() - nbInstances = %ld", s_nbInstances);
+    
+    // construction de la liste des id au format (xx, xx, xx) pour requête where id in (xx, xx, xx)
+    m_listeIdRequete = "(";
+    for (int ii = 0; ii < liste_id.GetCount(); ii++) {
+        m_listeIdRequete += wxString::Format("%d", liste_id[ii]);
+        if (ii < liste_id.GetCount() - 1)
+            m_listeIdRequete += ", ";
+    }
+    m_listeIdRequete += ")";
+    id_courant = "-1";
+    
+    insertion=insert;
+    m_itemInsertion = NULL;
+    la_belle=pour_modif;
+    CreateGUIControls();
+
+    //wxMessageBox(id_modif,"coco", wxOK | wxICON_INFORMATION, this);
+    // initialisation des données à partir de la table
+    init_edit(_("titre"), WxEdit_titre);
+    init_edit("sous_titre", WxEdit_sous_titre);
+    init_edit("no_serie", WxEdit_no_serie);
+    init_edit("isbn", WxEdit_isbn);
+    init_date("date_publication", WxDatePickerCtrl_publication, WxCheckBox_publication);
+    init_edit("prix", WxEdit_prix);
+    init_edit("recompense", WxEdit_recompense);
+        
+    //init_edit("date_achat", WxEdit_date_achat);
+    init_date("date_achat", WxDatePickerCtrl_achat, WxCheckBox_achat);
+    init_edit("valeur", WxEdit_valeur);
+    init_edit("reference", WxEdit_reference);
+    init_edit("nb_pages", WxEdit_nb_pages);
+    //init_edit("date_lecture", WxEdit_date_lecture);
+    init_date("date_lecture", WxDatePickerCtrl_lecture, WxCheckBox_lecture);
+    init_slider("note", WxSlider_note, WxCheckBox_note);
+    init_etoiles();
+    init_radiobox("particularite", wxRadioBox_particularite, WxCheckBox_particularite);
+    init_statictext("date_maj", WxStaticText_date_maj_val, "plusieurs valeurs");
+    init_statictext("date_entree", WxStaticTextdate_entree_val, "plusieurs valeurs");
+    init_statictext("note",WxStaticText_val_note, "");
+
+        
+    init_edit("titre_original", WxEdit_titre_o);
+    init_edit("sous_titre_o", WxEdit_sous_titre_o);
+        
+    init_edit("commentaire", WxMemo_commentaire);
+    init_edit("resume", WxMemo_resume);
+    
+    // masquer les onglets images qui ne sont pas supposées être partagées entre plusieurs livres ...
+    // on supprime en fait les 3 derniers onglets, sans vérifier qu'il s'agit bien des images ...
+    WxNotebook_nouv->DeletePage(WxNotebook_nouv->GetPageCount()-1);
+    WxNotebook_nouv->DeletePage(WxNotebook_nouv->GetPageCount()-1);
+    WxNotebook_nouv->DeletePage(WxNotebook_nouv->GetPageCount()-1);
+}
+
 
 Nouv_livre::~Nouv_livre()
 {
@@ -253,109 +362,211 @@ bool Nouv_livre::init_image(wxString nom_champ, ImageCanvas *moncanvas) {//, wxI
     la_belle->transac_fin();
     return tt;
 }
-void Nouv_livre::init_statictext(wxString nom_champ, wxStaticText *s_text) {
+void Nouv_livre::init_statictext(wxString nom_champ, wxStaticText *s_text, wxString texteSiVariable) {
     wxString query;
     int ret, taille;
     wxString texte;
     
-    query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
-    //wxMessageBox(query,"coco", wxOK | wxICON_INFORMATION, this);
-   
-    ret=la_belle->transac_prepare(query);
-    if (ret<0) {
-        la_belle->get_erreur(texte);
-        wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
-        return;
+    if (m_listeIdRequete != "") {      // cas d'une liste d'id --> afficher la valeur commune, ou "<< ne pas modifier >>"
+        // query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
+        query = "SELECT DISTINCT " + nom_champ + " FROM livre WHERE rowid IN " + m_listeIdRequete;
+        // wxMessageBox(query);
+
+        int nbReponses = 0;
+        if (la_belle->transac_prepare(query) < 0) {
+            la_belle->get_erreur(texte);
+            wxMessageBox(texte, "probleme", wxOK | wxICON_EXCLAMATION, this);
+        }
+        while (la_belle->transac_step()==SQLITE_ROW) {
+            la_belle->get_value_char(0,texte,taille);
+            nbReponses ++;
+        }  
+        la_belle->transac_fin();
+        
+        if (nbReponses == 1) {
+            s_text->SetLabel(texte);
+        } else if (nbReponses > 1) {
+            s_text->SetLabel(texteSiVariable);
+        }
+    } else {    
+        query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
+        //wxMessageBox(query,"coco", wxOK | wxICON_INFORMATION, this);
+       
+        ret=la_belle->transac_prepare(query);
+        if (ret<0) {
+            la_belle->get_erreur(texte);
+            wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
+            return;
+        }
+    
+        ret=la_belle->transac_step();
+    
+        if(ret==SQLITE_ROW ) {
+            la_belle->get_value_char(0,texte,taille);
+            s_text->SetLabel(texte);
+        }  
+        la_belle->transac_fin();
     }
-
-    ret=la_belle->transac_step();
-
-    if(ret==SQLITE_ROW ) {
-        la_belle->get_value_char(0,texte,taille);
-        s_text->SetLabel(texte);
-    }  
-    la_belle->transac_fin();
 }    
 
-void Nouv_livre::init_radiobox(wxString nom_champ, wxRadioBox *radiobox) {
+void Nouv_livre::init_radiobox(wxString nom_champ, wxRadioBox *radiobox, wxCheckBox* ckConserver)
+{
     wxString query;
     int ret, taille;
     double val;
     wxString texte;
     
-    query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
-    //wxMessageBox(query,"coco", wxOK | wxICON_INFORMATION, this);
-   
-    ret=la_belle->transac_prepare(query);
-    if (ret<0) {
-        la_belle->get_erreur(texte);
-        wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
-        return;
+    if (m_listeIdRequete != "") {      // cas d'une liste d'id --> afficher la valeur commune, ou "<< ne pas modifier >>"
+        // query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
+        query = "SELECT DISTINCT " + nom_champ + " FROM livre WHERE rowid IN " + m_listeIdRequete;
+        // wxMessageBox(query);
+
+        int nbReponses = 0;
+        if (la_belle->transac_prepare(query) < 0) {
+            la_belle->get_erreur(texte);
+            wxMessageBox(texte, "probleme", wxOK | wxICON_EXCLAMATION, this);
+        }
+        while (la_belle->transac_step()==SQLITE_ROW) {
+            la_belle->get_value_char(0,texte,taille);
+            nbReponses ++;
+        }  
+        la_belle->transac_fin();
+        
+        if (nbReponses == 1) {
+            la_belle->get_value_char(0,texte,taille);
+            texte.ToDouble(&val);
+            radiobox->SetSelection((int)val);
+        } else if (nbReponses > 1) {
+            ckConserver->SetValue(true);
+            radiobox->SetSelection(-1);
+        }
+    } else {    
+        query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
+        //wxMessageBox(query,"coco", wxOK | wxICON_INFORMATION, this);
+       
+        ret=la_belle->transac_prepare(query);
+        if (ret<0) {
+            la_belle->get_erreur(texte);
+            wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
+            return;
+        }
+    
+        ret=la_belle->transac_step();
+    
+        if(ret==SQLITE_ROW ) {
+            la_belle->get_value_char(0,texte,taille);
+            texte.ToDouble(&val);
+            radiobox->SetSelection((int)val);
+        }  
+        la_belle->transac_fin();
     }
-
-    ret=la_belle->transac_step();
-
-    if(ret==SQLITE_ROW ) {
-        la_belle->get_value_char(0,texte,taille);
-        texte.ToDouble(&val);
-        radiobox->SetSelection((int)val);
-    }  
-    la_belle->transac_fin();
 }    
 
-void Nouv_livre::init_slider(wxString nom_champ, wxSlider *slider) {
+void Nouv_livre::init_slider(wxString nom_champ, wxSlider *slider, wxCheckBox* ckConserver) {
     wxString query;
     int ret, taille;
     double val;
     wxString texte;
     
-    query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
-    //wxMessageBox(query,"coco", wxOK | wxICON_INFORMATION, this);
-   
-    ret=la_belle->transac_prepare(query);
-    if (ret<0) {
-        la_belle->get_erreur(texte);
-        wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
-        return;
+    if (m_listeIdRequete != "") {      // cas d'une liste d'id --> afficher la valeur commune, ou "<< ne pas modifier >>"
+        // query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
+        query = "SELECT DISTINCT " + nom_champ + " FROM livre WHERE rowid IN " + m_listeIdRequete;
+        // wxMessageBox(query);
+
+        int nbReponses = 0;
+        if (la_belle->transac_prepare(query) < 0) {
+            la_belle->get_erreur(texte);
+            wxMessageBox(texte, "probleme", wxOK | wxICON_EXCLAMATION, this);
+        }
+        while (la_belle->transac_step()==SQLITE_ROW) {
+            la_belle->get_value_char(0,texte,taille);
+            nbReponses ++;
+        }  
+        la_belle->transac_fin();
+        
+        if (nbReponses == 1) {
+            texte.ToDouble(&val);
+            slider->SetValue((int)val);
+            if (ckConserver)
+                ckConserver->SetValue(false);
+        } else if (nbReponses > 1) {
+            ckConserver->SetValue(true);
+        }
+    } else {    
+        query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
+        //wxMessageBox(query,"coco", wxOK | wxICON_INFORMATION, this);
+       
+        ret=la_belle->transac_prepare(query);
+        if (ret<0) {
+            la_belle->get_erreur(texte);
+            wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
+            return;
+        }
+    
+        ret=la_belle->transac_step();
+    
+        if(ret==SQLITE_ROW ) {
+            la_belle->get_value_char(0,texte,taille);
+            texte.ToDouble(&val);
+            slider->SetValue((int)val);
+        }  
+        la_belle->transac_fin();
     }
-
-    ret=la_belle->transac_step();
-
-    if(ret==SQLITE_ROW ) {
-        la_belle->get_value_char(0,texte,taille);
-        texte.ToDouble(&val);
-        slider->SetValue((int)val);
-    }  
-    la_belle->transac_fin();
 }    
 
-void Nouv_livre::init_date(wxString nom_champ, wxDatePickerCtrl *zone) {
+void Nouv_livre::init_date(wxString nom_champ, wxDatePickerCtrl *zone, wxCheckBox* ckConserver) {
     wxString query;
     int ret, taille;
     wxString texte;
     wxDateTime madate;
-    
-    query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
-    //wxMessageBox(query,"coco", wxOK | wxICON_INFORMATION, this);
-   
-    ret=la_belle->transac_prepare(query);
-    if (ret<0) {
-        la_belle->get_erreur(texte);
-        wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
-        return;
-    }
 
-    ret=la_belle->transac_step();
+    if (m_listeIdRequete != "") {      // cas d'une liste d'id --> afficher la valeur commune, ou "<< ne pas modifier >>"
+        // query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
+        query = "SELECT DISTINCT " + nom_champ + " FROM livre WHERE rowid IN " + m_listeIdRequete;
+        // wxMessageBox(query);
 
-    if(ret==SQLITE_ROW ) {
-        la_belle->get_value_char(0,texte,taille);
-    }  
-    //wxMessageBox(texte,"date", wxOK | wxICON_EXCLAMATION, this);
-    la_belle->transac_fin();
-    madate.ParseFormat(texte,"%d/%m/%Y");
-    zone->SetValue(madate);
-    //wxMessageBox(madate.FormatISODate(),"date", wxOK | wxICON_EXCLAMATION, this);
+        int nbReponses = 0;
+        if (la_belle->transac_prepare(query) < 0) {
+            la_belle->get_erreur(texte);
+            wxMessageBox(texte, "probleme", wxOK | wxICON_EXCLAMATION, this);
+        }
+        while (la_belle->transac_step()==SQLITE_ROW) {
+            la_belle->get_value_char(0,texte,taille);
+            nbReponses ++;
+        }  
+        la_belle->transac_fin();
+        
+        if (nbReponses == 1) {
+            madate.ParseFormat(texte,"%d/%m/%Y");
+            zone->SetValue(madate);
+            if (ckConserver)
+                ckConserver->SetValue(false);
+        } else if (nbReponses > 1) {
+            zone->SetValue(wxInvalidDateTime);
+            ckConserver->SetValue(true);
+        }
+    } else {    
+        query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
+        //wxMessageBox(query,"coco", wxOK | wxICON_INFORMATION, this);
+       
+        ret=la_belle->transac_prepare(query);
+        if (ret<0) {
+            la_belle->get_erreur(texte);
+            wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
+            return;
+        }
     
+        ret=la_belle->transac_step();
+    
+        if(ret==SQLITE_ROW ) {
+            la_belle->get_value_char(0,texte,taille);
+        }  
+        //wxMessageBox(texte,"date", wxOK | wxICON_EXCLAMATION, this);
+        la_belle->transac_fin();
+        madate.ParseFormat(texte,"%d/%m/%Y");
+        zone->SetValue(madate);
+        //wxMessageBox(madate.FormatISODate(),"date", wxOK | wxICON_EXCLAMATION, this);
+    }    
 }    
 
 
@@ -364,25 +575,48 @@ void Nouv_livre::init_edit(wxString nom_champ, wxTextCtrl *zone) {
     wxString query;
     int ret, taille;
     wxString texte;
+
+    if (m_listeIdRequete != "") {      // cas d'une liste d'id --> afficher la valeur commune, ou "<< ne pas modifier >>"
+        // query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
+        query = "SELECT DISTINCT " + nom_champ + " FROM livre WHERE rowid IN " + m_listeIdRequete;
+        // wxMessageBox(query);
+
+        int nbReponses = 0;
+        if (la_belle->transac_prepare(query) < 0) {
+            la_belle->get_erreur(texte);
+            wxMessageBox(texte, "probleme", wxOK | wxICON_EXCLAMATION, this);
+        }
+        while (la_belle->transac_step()==SQLITE_ROW) {
+            la_belle->get_value_char(0,texte,taille);
+            nbReponses ++;
+        }  
+        la_belle->transac_fin();
+        
+        if (nbReponses == 1) {
+            zone->SetValue(texte);
+        } else if (nbReponses > 1) {
+            zone->SetValue(str_nePasModifier);
+        }
+    } else if (id_courant != "-1") {     // si id n'est pas nul on initialise la valeur du champ
+        query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
+        //wxMessageBox(query,"coco", wxOK | wxICON_INFORMATION, this);
+       
+        ret=la_belle->transac_prepare(query);
+        if (ret<0) {
+            la_belle->get_erreur(texte);
+            wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
+            return;
+        }
     
-    query="SELECT " + nom_champ +" FROM livre WHERE rowid=" + id_courant;
-    //wxMessageBox(query,"coco", wxOK | wxICON_INFORMATION, this);
-   
-    ret=la_belle->transac_prepare(query);
-    if (ret<0) {
-        la_belle->get_erreur(texte);
-        wxMessageBox(texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
-        return;
+        ret=la_belle->transac_step();
+    
+        if(ret==SQLITE_ROW ) {
+            la_belle->get_value_char(0,texte,taille);
+            zone->SetValue(texte);
+        }  
+        la_belle->transac_fin();
     }
-
-    ret=la_belle->transac_step();
-
-    if(ret==SQLITE_ROW ) {
-        la_belle->get_value_char(0,texte,taille);
-        zone->SetValue(texte);
-    }  
-    la_belle->transac_fin();
-}    
+}
 
 void Nouv_livre::CreateGUIControls(void)
 {
@@ -527,11 +761,14 @@ void Nouv_livre::CreateGUIControls(void)
 	WxStaticTextdate_entree_val = new wxStaticText(n_livre, ID_WXSTATICTEXTDATE_ENTREE_VAL, wxT("01/01/1980"), wxPoint(74, 326), wxDefaultSize, 0, wxT("WxStaticTextdate_entree_val"));
 	WxStaticTextdate_entree_val->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_date_maj = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_MAJ, wxT("Date de dernière mise à jour :"), wxPoint(148, 325), wxDefaultSize, 0, wxT("WxStaticText_date_maj"));
+	WxStaticText_date_maj = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_MAJ, wxT("Date de dernière mise à jour :"), wxPoint(246, 324), wxDefaultSize, 0, wxT("WxStaticText_date_maj"));
 	WxStaticText_date_maj->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxStaticText_date_maj_val = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_MAJ_VAL, wxT("01/01/1980"), wxPoint(289, 325), wxDefaultSize, 0, wxT("WxStaticText_date_maj_val"));
+	WxStaticText_date_maj_val = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_MAJ_VAL, wxT("01/01/1980"), wxPoint(387, 324), wxDefaultSize, 0, wxT("WxStaticText_date_maj_val"));
 	WxStaticText_date_maj_val->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+
+	WxCheckBox_publication = new wxCheckBox(n_livre, ID_WXCHECKBOX_PUBLICATION, wxT("conserver"), wxPoint(547, 131), wxSize(73, 17), 0, wxDefaultValidator, wxT("WxCheckBox_publication"));
+	WxCheckBox_publication->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
 	n_detail = new wxPanel(WxNotebook_nouv, ID_N_DETAIL, wxPoint(4, 24), wxSize(629, 353));
 	n_detail->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
@@ -553,7 +790,7 @@ void Nouv_livre::CreateGUIControls(void)
 	WxStaticText_note = new wxStaticText(n_detail, ID_WXSTATICTEXT_NOTE, wxT("Note :"), wxPoint(337, 20), wxDefaultSize, 0, wxT("WxStaticText_note"));
 	WxStaticText_note->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
-	WxSlider_note = new wxSlider(n_detail, ID_WXSLIDER_NOTE, 0, 0, 10, wxPoint(395, 14), wxSize(150, 30), wxSL_HORIZONTAL | wxSL_SELRANGE , wxDefaultValidator, wxT("WxSlider_note"));
+	WxSlider_note = new wxSlider(n_detail, ID_WXSLIDER_NOTE, 0, 0, 10, wxPoint(396, 14), wxSize(150, 30), wxSL_HORIZONTAL | wxSL_SELRANGE , wxDefaultValidator, wxT("WxSlider_note"));
 	WxSlider_note->SetToolTip(wxT("Note du livre (0 à 10)"));
 	WxSlider_note->SetRange(0,10);
 	WxSlider_note->SetValue(0);
@@ -604,8 +841,20 @@ void Nouv_livre::CreateGUIControls(void)
 	WxStaticText_date_lecture->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
 	wxDateTime WxDatePickerCtrl_lecture_Date(3,wxDateTime::Mar,2006,9,44,33,303);
-	WxDatePickerCtrl_lecture = new wxDatePickerCtrl(n_detail, ID_WXDATEPICKERCTRL_LECTURE, WxDatePickerCtrl_lecture_Date, wxPoint(80, 169), wxSize(150, 21) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_lecture"));
+	WxDatePickerCtrl_lecture = new wxDatePickerCtrl(n_detail, ID_WXDATEPICKERCTRL_LECTURE, WxDatePickerCtrl_lecture_Date, wxPoint(80, 169), wxSize(148, 21) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_lecture"));
 	WxDatePickerCtrl_lecture->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+
+	WxCheckBox_achat = new wxCheckBox(n_detail, ID_WXCHECKBOX_ACHAT, wxT("conserver"), wxPoint(232, 16), wxSize(97, 17), 0, wxDefaultValidator, wxT("WxCheckBox_achat"));
+	WxCheckBox_achat->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+
+	WxCheckBox_lecture = new wxCheckBox(n_detail, ID_WXCHECKBOX_LECTURE, wxT("conserver"), wxPoint(233, 172), wxSize(97, 17), 0, wxDefaultValidator, wxT("WxCheckBox_lecture"));
+	WxCheckBox_lecture->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+
+	WxCheckBox_note = new wxCheckBox(n_detail, ID_WXCHECKBOX_Note, wxT("conserver"), wxPoint(560, 31), wxSize(74, 17), 0, wxDefaultValidator, wxT("WxCheckBox_note"));
+	WxCheckBox_note->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+
+	WxCheckBox_particularite = new wxCheckBox(n_detail, ID_WXCHECKBOX_PARTICULARITE, wxT("conserver"), wxPoint(560, 108), wxSize(97, 17), 0, wxDefaultValidator, wxT("WxCheckBox_particularite"));
+	WxCheckBox_particularite->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 
 	n_vo = new wxPanel(WxNotebook_nouv, ID_N_VO, wxPoint(4, 24), wxSize(629, 353));
 	n_vo->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
@@ -853,100 +1102,110 @@ int Nouv_livre::inserer_livre() {
         wxMessageBox("Le titre et l'auteur du livre sont obligatoires","probleme", wxOK | wxICON_INFORMATION, this);
         return -1;
     }    
-    else {
-        //insertion des données dans les tables annexes
-        insere_table_annexe(WxComboBox_auteur, "auteur");
-        insere_table_annexe(WxComboBox_serie, "serie", "séries");
-        insere_table_annexe(WxComboBox_genre, "genre");
-        insere_table_annexe(WxComboBox_editeur, "editeur", "éditeurs");
-        insere_table_annexe(WxComboBox_format, "format");
-        insere_table_annexe(WxComboBox_artiste, "artiste");
-        insere_table_annexe(WxComboBox_etat, "etat", "états");
-        insere_table_annexe(WxComboBox_localisation, "localisation");
-        insere_table_annexe(WxComboBox_serie_o, "serie_o", "séries originales");
-        insere_table_annexe(WxComboBox_pays, "pays", "pays");
-        insere_table_annexe(WxComboBox_langue, "langue");
-        insere_table_annexe(WxComboBox_traducteur, "traducteur");
 
-        ajoute_champ(nom_champs, valeur_champs, "titre", WxEdit_titre->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_auteur", WxComboBox_auteur->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "sous_titre", WxEdit_sous_titre->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_serie", WxComboBox_serie->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "no_serie", WxEdit_no_serie->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_genre", WxComboBox_genre->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "isbn", WxEdit_isbn->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_editeur", WxComboBox_editeur->GetValue());
-        //ajoute_champ(nom_champs, valeur_champs, "date_publication", WxEdit_date_pub->GetValue());
-        if (WxDatePickerCtrl_publication->GetValue().IsValid() == true) {
-            ajoute_champ(nom_champs, valeur_champs, "date_publication", WxDatePickerCtrl_publication->GetValue().Format("%d/%m/%Y"));
-        } else {
-            ajoute_champ(nom_champs, valeur_champs, "date_publication", "");
-        }
-        ajoute_champ(nom_champs, valeur_champs, "id_format", WxComboBox_format->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_artiste", WxComboBox_artiste->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "prix", WxEdit_prix->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "recompense", WxEdit_recompense->GetValue());
-        
-        //ajoute_champ(nom_champs, valeur_champs, "date_achat", WxEdit_date_achat->GetValue());
-        if (WxDatePickerCtrl_achat->GetValue().IsValid() == true) {
-            ajoute_champ(nom_champs, valeur_champs, "date_achat", WxDatePickerCtrl_achat->GetValue().Format("%d/%m/%Y"));
-        } else {
-            ajoute_champ(nom_champs, valeur_champs, "date_achat", "");
-        }
-        ajoute_champ(nom_champs, valeur_champs, "valeur", WxEdit_valeur->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "reference", WxEdit_reference->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "nb_pages", WxEdit_nb_pages->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_etat", WxComboBox_etat->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_localisation", WxComboBox_localisation->GetValue());
-        //ajoute_champ(nom_champs, valeur_champs, "date_lecture", WxEdit_date_lecture->GetValue());
-        if (WxDatePickerCtrl_lecture->GetValue().IsValid() == true) {
-            ajoute_champ(nom_champs, valeur_champs, "date_lecture", WxDatePickerCtrl_lecture->GetValue().Format("%d/%m/%Y"));
-        } else {
-            ajoute_champ(nom_champs, valeur_champs, "date_lecture", "");
-        }
-        tempo.Printf("%d",WxSlider_note->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "note", tempo);
-        tempo.Printf("%d",wxRadioBox_particularite->GetSelection());
-        ajoute_champ(nom_champs, valeur_champs, "particularite", tempo);
+    //insertion des données dans les tables annexes
+    insere_table_annexe(WxComboBox_auteur, "auteur");
+    insere_table_annexe(WxComboBox_serie, "serie", "séries");
+    insere_table_annexe(WxComboBox_genre, "genre");
+    insere_table_annexe(WxComboBox_editeur, "editeur", "éditeurs");
+    insere_table_annexe(WxComboBox_format, "format");
+    insere_table_annexe(WxComboBox_artiste, "artiste");
+    insere_table_annexe(WxComboBox_etat, "etat", "états");
+    insere_table_annexe(WxComboBox_localisation, "localisation");
+    insere_table_annexe(WxComboBox_serie_o, "serie_o", "séries originales");
+    insere_table_annexe(WxComboBox_pays, "pays", "pays");
+    insere_table_annexe(WxComboBox_langue, "langue");
+    insere_table_annexe(WxComboBox_traducteur, "traducteur");
 
-        
-        ajoute_champ(nom_champs, valeur_champs, "titre_original", WxEdit_titre_o->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "sous_titre_o", WxEdit_sous_titre_o->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_serie_o", WxComboBox_serie_o->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_pays", WxComboBox_pays->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_langue", WxComboBox_langue->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "id_traducteur", WxComboBox_traducteur->GetValue());
-        
-        ajoute_champ(nom_champs, valeur_champs, "commentaire", WxMemo_commentaire->GetValue());
-        ajoute_champ(nom_champs, valeur_champs, "resume", WxMemo_resume->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "titre", WxEdit_titre->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_auteur", WxComboBox_auteur->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "sous_titre", WxEdit_sous_titre->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_serie", WxComboBox_serie->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "no_serie", WxEdit_no_serie->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_genre", WxComboBox_genre->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "isbn", WxEdit_isbn->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_editeur", WxComboBox_editeur->GetValue());
+    //ajoute_champ(nom_champs, valeur_champs, "date_publication", WxEdit_date_pub->GetValue());
+    if (WxDatePickerCtrl_publication->GetValue().IsValid() == true) {
+        ajoute_champ(nom_champs, valeur_champs, "date_publication", WxDatePickerCtrl_publication->GetValue().Format("%d/%m/%Y"), WxCheckBox_publication);
+    } else {
+        ajoute_champ(nom_champs, valeur_champs, "date_publication", "", WxCheckBox_publication);
+    }
+    ajoute_champ(nom_champs, valeur_champs, "id_format", WxComboBox_format->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_artiste", WxComboBox_artiste->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "prix", WxEdit_prix->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "recompense", WxEdit_recompense->GetValue());
+    
+    //ajoute_champ(nom_champs, valeur_champs, "date_achat", WxEdit_date_achat->GetValue());
+    if (WxDatePickerCtrl_achat->GetValue().IsValid() == true) {
+        ajoute_champ(nom_champs, valeur_champs, "date_achat", WxDatePickerCtrl_achat->GetValue().Format("%d/%m/%Y"), WxCheckBox_achat);
+    } else {
+        ajoute_champ(nom_champs, valeur_champs, "date_achat", "", WxCheckBox_achat);
+    }
+    ajoute_champ(nom_champs, valeur_champs, "valeur", WxEdit_valeur->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "reference", WxEdit_reference->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "nb_pages", WxEdit_nb_pages->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_etat", WxComboBox_etat->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_localisation", WxComboBox_localisation->GetValue());
+    //ajoute_champ(nom_champs, valeur_champs, "date_lecture", WxEdit_date_lecture->GetValue());
+    if (WxDatePickerCtrl_lecture->GetValue().IsValid() == true) {
+        ajoute_champ(nom_champs, valeur_champs, "date_lecture", WxDatePickerCtrl_lecture->GetValue().Format("%d/%m/%Y"), WxCheckBox_lecture);
+    } else {
+        ajoute_champ(nom_champs, valeur_champs, "date_lecture", "", WxCheckBox_lecture);
+    }
+    tempo.Printf("%d",WxSlider_note->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "note", tempo, WxCheckBox_note);
+    tempo.Printf("%d",wxRadioBox_particularite->GetSelection());
+    ajoute_champ(nom_champs, valeur_champs, "particularite", tempo, WxCheckBox_particularite);
 
-        wxDateTime madate = wxDateTime::Today();
-        if (insertion == true)
-            ajoute_champ(nom_champs, valeur_champs, "date_entree", madate.Format("%d/%m/%Y"));
-        ajoute_champ(nom_champs, valeur_champs, "date_maj", madate.Format("%d/%m/%Y"));
+    
+    ajoute_champ(nom_champs, valeur_champs, "titre_original", WxEdit_titre_o->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "sous_titre_o", WxEdit_sous_titre_o->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_serie_o", WxComboBox_serie_o->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_pays", WxComboBox_pays->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_langue", WxComboBox_langue->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "id_traducteur", WxComboBox_traducteur->GetValue());
+    
+    ajoute_champ(nom_champs, valeur_champs, "commentaire", WxMemo_commentaire->GetValue());
+    ajoute_champ(nom_champs, valeur_champs, "resume", WxMemo_resume->GetValue());
+
+    wxDateTime madate = wxDateTime::Today();
+    if (insertion == true)
+        ajoute_champ(nom_champs, valeur_champs, "date_entree", madate.Format("%d/%m/%Y"));
+    ajoute_champ(nom_champs, valeur_champs, "date_maj", madate.Format("%d/%m/%Y"));
 
 /*        ajoute_image(nom_champs, valeur_champs, "image_face", image_face_charge);
-        ajoute_image(nom_champs, valeur_champs, "image_dos", image_dos_charge);
-        ajoute_image(nom_champs, valeur_champs, "image_tranche", image_divers_charge);*/
+    ajoute_image(nom_champs, valeur_champs, "image_dos", image_dos_charge);
+    ajoute_image(nom_champs, valeur_champs, "image_tranche", image_divers_charge);*/
+    if (m_listeIdRequete == "") { 
         ajoute_image(nom_champs, valeur_champs, "image_face", canvas_image_face->charge);
         ajoute_image(nom_champs, valeur_champs, "image_dos", canvas_image_dos->charge);
         ajoute_image(nom_champs, valeur_champs, "image_tranche", canvas_image_divers->charge);
-        nom_champs.Truncate(nom_champs.Length()-2);
-        
-      // wxMessageBox(nom_champs,"nom_champs", wxOK | wxICON_EXCLAMATION, this);            
-        if (insertion == true) {
-            valeur_champs.Truncate(valeur_champs.Length()-2);
-            query="INSERT into livre (" + nom_champs + ") VALUES (" + valeur_champs + ")";
-        } else {
-            query="UPDATE livre SET " + nom_champs + " WHERE rowid=" +id_courant;
-        }    
-        //wxMessageBox(query,"query", wxOK | wxICON_EXCLAMATION, this);
-        ret=la_belle->transac_prepare(query);
-        if (ret<0) {
-            la_belle->get_erreur(mess);
-            wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
-            return -1;
-        }
+    }
+    nom_champs.Truncate(nom_champs.Length()-2);
+    
+  // wxMessageBox(nom_champs,"nom_champs", wxOK | wxICON_EXCLAMATION, this);            
+    if (insertion == true) {
+        valeur_champs.Truncate(valeur_champs.Length()-2);
+        query="INSERT into livre (" + nom_champs + ") VALUES (" + valeur_champs + ")";
+    } else {
+        query="UPDATE livre SET " + nom_champs;
+        if (m_listeIdRequete == "")
+            query += " WHERE rowid=" +id_courant;
+        else
+            query += " WHERE rowid IN " + m_listeIdRequete;
+    }    
+    // wxMessageBox(query,"query", wxOK | wxICON_EXCLAMATION, this);
+
+    ret=la_belle->transac_prepare(query);
+    if (ret<0) {
+        la_belle->get_erreur(mess);
+        wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+        return -1;
+    }
+
+
+    if (m_listeIdRequete == "") {  // la gestion des images est inutile si on est en modification groupée d'un ensemble de livres
         int n_blob=0;
         if (canvas_image_face->charge == true) {
             wxString chemin=gettempdir();
@@ -1011,6 +1270,7 @@ int Nouv_livre::inserer_livre() {
             monfichier.Close();
             //wxMessageBox(query,"probleme", wxOK | wxICON_EXCLAMATION, this);
         }    
+    }
         ret=la_belle->transac_step();
         if (ret<0) {
             la_belle->get_erreur(mess);
@@ -1023,24 +1283,36 @@ int Nouv_livre::inserer_livre() {
             wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
             return -1;
         }
-        /*ret=la_belle->exec_rapide(query);
-        if (ret<0) {
-            la_belle->get_erreur(mess);
-            wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
-            return -1;
-        }*/
-    }
+    
+    /*** fin de 'a rectiver' ***/
+    
+    /*ret=la_belle->exec_rapide(query);
+    if (ret<0) {
+        la_belle->get_erreur(mess);
+        wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+        return -1;
+    }*/
+
     return 0;
 }
 
 
 //ajouter les champ pour le select dans nom et valeur si la donnée n'est pas vide
-void Nouv_livre::ajoute_champ(wxString &liste_champ, wxString &liste_valeur, wxString n_champ, wxString v_champ)
+void Nouv_livre::ajoute_champ(wxString &liste_champ, wxString &liste_valeur, wxString n_champ, wxString v_champ, wxCheckBox* ckConserver)
 {
     wxString tempo;
     // on supprime les blancs à droite et à gauche
     /*v_champ.Trim(true);
     v_champ.Trim(false);*/
+ 
+    // si le champ est marqué "ne pas modifier", on sort sans rien modifier
+    if (v_champ == str_nePasModifier)
+        return;
+    if (ckConserver != NULL) {
+        if (ckConserver->GetValue() == true)
+            return;
+    }
+ 
     
     //wxMessageBox(v_champ,"probleme", wxOK | wxICON_EXCLAMATION, this);
     gestion_quote(v_champ);
@@ -1085,6 +1357,7 @@ void Nouv_livre::ajoute_image(wxString &liste_champ, wxString &liste_valeur, wxS
 }
 
 // insere la donnée dans la table si besoin est et met l'id dans la combobox
+// ne pas insérer la valeur spéciale "<< ne pas modifier >>"
 int Nouv_livre::insere_table_annexe(wxComboBox *donnee, wxString nom_table, wxString libelleGroupePluriel)
 {
     wxString query;
@@ -1093,6 +1366,9 @@ int Nouv_livre::insere_table_annexe(wxComboBox *donnee, wxString nom_table, wxSt
     wxString mess;
     
     valeur=donnee->GetValue();
+
+    if (valeur == str_nePasModifier)
+        return 0;
 
     /*valeur.Trim(true);
     valeur.Trim(false);*/
@@ -1208,10 +1484,32 @@ int Nouv_livre::init_combo(wxComboBox *lacombo, wxString nomtable)
      wxString texte;
 
     lacombo->Clear();
-// si id n'est pas nul on initialise la valeur de la combo   
-    if (id_courant != "-1") {
-        query="SELECT nom FROM  " + nomtable + " WHERE rowid"  
-              + "= (SELECT id_" + nomtable + " FROM livre where rowid=" + id_courant + ")";
+
+    if (m_listeIdRequete != "") {      // cas d'une liste d'id --> afficher la valeur commune, ou "<< ne pas modifier >>"
+        // SELECT nom FROM auteur where rowid in (SELECT distinct id_auteur FROM livre where rowid in (16, 17, 18))
+        query = "SELECT nom FROM " + nomtable + " WHERE rowid IN "
+                "(SELECT DISTINCT id_" + nomtable + " FROM livre WHERE rowid IN " + m_listeIdRequete + ")";
+        // wxMessageBox(query);
+
+        int nbReponses = 0;
+        if (la_belle->transac_prepare(query) < 0) {
+            la_belle->get_erreur(mess);
+            wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+        }
+        while (la_belle->transac_step()==SQLITE_ROW) {
+            la_belle->get_value_char(0,texte,taille);
+            nbReponses ++;
+        }  
+        la_belle->transac_fin();
+        
+        if (nbReponses == 1) {
+            lacombo->SetValue(texte);
+        } else if (nbReponses > 1) {
+            lacombo->SetValue(str_nePasModifier);
+        }
+    } else if (id_courant != "-1") {     // si id n'est pas nul on initialise la valeur de la combo
+        query = "SELECT nom FROM  " + nomtable + " WHERE rowid "
+                "= (SELECT id_" + nomtable + " FROM livre where rowid=" + id_courant + ")";
         //wxMessageBox(query, "test", wxOK | wxICON_EXCLAMATION, this);
 
         ret=la_belle->transac_prepare(query);
@@ -1747,6 +2045,12 @@ void Nouv_livre::WxButton_internet_gClick(wxCommandEvent& event)
 {
     rech_internet_gen* rech_gen = new rech_internet_gen(this, -1);
     
+    if (WxEdit_titre->GetValue() != "") {
+        rech_gen->WxEdit_recherche->SetValue(WxEdit_titre->GetValue());
+    } else if (WxComboBox_auteur->GetValue() != "") {
+        rech_gen->WxEdit_recherche->SetValue(WxComboBox_auteur->GetValue());
+    }
+    
     int ret = rech_gen->ShowModal();
     if (ret == 0) { 
         //wxMessageBox("popo","probleme", wxOK | wxICON_EXCLAMATION, this);
@@ -1754,4 +2058,25 @@ void Nouv_livre::WxButton_internet_gClick(wxCommandEvent& event)
     }
 	// insert your code here
 	event.Skip();
+}
+
+/*
+ * Nouv_livreInitDialog
+ */
+void Nouv_livre::Nouv_livreInitDialog(wxInitDialogEvent& event)
+{
+	wxLogMessage("Nouv_livre::Nouv_livreInitDialog() - m_itemInsertion = 0x%x", m_itemInsertion);
+
+    if (m_itemInsertion) {
+        if (m_itemInsertion->isbn() != "") {
+            WxEdit_isbn->SetValue(m_itemInsertion->isbn());
+        	wxDialog::EmulateButtonClickIfPresent(ID_WXBUTTON_INTERNET);
+        } else if (m_itemInsertion->titre() != "" || m_itemInsertion->auteur() != "") {
+            WxEdit_titre->SetValue(m_itemInsertion->titre());
+            WxComboBox_auteur->SetValue(m_itemInsertion->auteur());
+        	wxDialog::EmulateButtonClickIfPresent(ID_WXBUTTON_INTERNET_G);
+        }
+    } else {
+        event.Skip(false);
+    }
 }

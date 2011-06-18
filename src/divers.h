@@ -66,6 +66,7 @@ class ImageCanvas;
 wxString gettempdir();
 void resize_image(wxString nom_fichier,int larg,int haut,wxString nom_fichier_arrivee="");
 void gestion_quote(wxString &chaine);
+wxString gestion_quote2(const wxString& chaine); 
 wxString string_nettoie(wxString lachaine);
 void convert_html(wxString &texte);
 void convert_html_total(wxString &texte); 

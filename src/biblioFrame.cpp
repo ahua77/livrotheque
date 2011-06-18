@@ -85,8 +85,12 @@
 #include "VersionDlg.h"
 #include "livrotheque_private.h"
 #include "exportAnalyseSeriesDlg.h"
+#include "listeAttenteInsertionDlg.h"
+#include "attenteInsertion.h"
 
 #define style_dialog_choix wxSYSTEM_MENU|wxCAPTION
+
+const int ID_MODIFIELIVRE = wxNewId();
 
 //----------------------------------------------------------------------------
 // newProgramFrame
@@ -106,19 +110,19 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_GRID_CMD_CELL_LEFT_DCLICK(ID_WXGRID_GRILLE, biblioFrame::OnSelectLivre)
 	EVT_GRID_CMD_CELL_RIGHT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnGrilleClickDroit)
 	EVT_GRID_CMD_LABEL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnGrilleLabelLeftClick)
-	EVT_TREE_SEL_CHANGED(ID_TREE_ARBRE, biblioFrame::OnArbreSel)
-	//EVT_GRID_CMD_CELL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
 	EVT_GRID_CMD_SELECT_CELL(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
+	//EVT_GRID_CMD_CELL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
+	EVT_TREE_SEL_CHANGED(ID_TREE_ARBRE, biblioFrame::OnArbreSel)
 	EVT_MENU(ID_EFFACELIVRE , biblioFrame::popup_effacelivre)
 	EVT_MENU(ID_DUPLIQUELIVRE , biblioFrame::dupliquelivre)
+	EVT_MENU(ID_MODIFIELIVRE , biblioFrame::modifielivre)
+	EVT_MENU(ID_MNU_VERIFIER_VERSION_SILENCIEUX, biblioFrame::OnVerifierVersionSilencieux)
 	EVT_COMMAND  (ID_WXGRID_GRILLE, wxEVENT_SUPPRESSION, biblioFrame::OnSuppression)
 	EVT_HTML_LINK_CLICKED(ID_HTMLWINDOW,biblioFrame::image_click)
-	EVT_MENU(ID_MNU_VERIFIER_VERSION_SILENCIEUX, biblioFrame::OnVerifierVersionSilencieux)
 	EVT_TIMER(ID_TIMER_VERIFIER_VERSION, biblioFrame::OnTimerVerifierVersion)
 	////Manual Code End
 	
 	EVT_CLOSE(biblioFrame::biblioFrameClose)
-	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_MNU_OUVRIR_1022, biblioFrame::OuvrirClick)
 	EVT_MENU(ID_MNU_CREERUNEBASE_1023, biblioFrame::toolb_NouvClick)
 	EVT_MENU(ID_MNU_MENUITEM30_1058, biblioFrame::Mnuitem_imprimerlivre)
@@ -131,6 +135,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU_ORDREDETRI, biblioFrame::MnuordredetriClick)
 	EVT_MENU(ID_MNU_CHOIXCOLONNES_1024, biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_MNU_RECHERCHER_1045, biblioFrame::MnurechercherClick)
+	EVT_MENU(ID_MNU_AFFICHER_ATTENTE_INSERTION, biblioFrame::OnMnuAfficherAttenteInsertion)
 	EVT_MENU(ID_MNU_LISTE_AUTEUR, biblioFrame::Mnulistes)
 	EVT_MENU(ID_MNU_LISTE_SERIE, biblioFrame::Mnulistes)
 	EVT_MENU(ID_MNU_LISTE_GENRE, biblioFrame::Mnulistes)
@@ -149,6 +154,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU_EXPORTER_ANALYSE_SERIES, biblioFrame::OnMnuExporterAnalyseSeries)
 	EVT_MENU(ID_MNU__APROPOS_1047, biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_MNU_VERIFIER_VERSION, biblioFrame::OnVerifierVersion)
+	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_WXTOOLBUTTON_ABOUT,biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_TOOLB_PARAM,biblioFrame::parametrer)
 	EVT_MENU(ID_WXTOOLBUTTON_STAT,biblioFrame::Mnustatistique1048Click)
@@ -247,7 +253,7 @@ biblioFrame::~biblioFrame()
 } 
 
 void biblioFrame::init_arbre() {
-    // wxLogMessage("biblioFrame::init_arbre");
+    wxLogMessage("biblioFrame::init_arbre");
     wxTreeItemId root;
     wxTreeItemId branche;
     wxString query;
@@ -255,7 +261,9 @@ void biblioFrame::init_arbre() {
     char c;
     int ret, taille;
     
+    wxLogMessage("biblioFrame::init_arbre - avant DeleteAllItems()");
     arbre->DeleteAllItems();
+    wxLogMessage("biblioFrame::init_arbre - après DeleteAllItems()");
     
     root=arbre->AddRoot("tous");
    
@@ -290,9 +298,13 @@ void biblioFrame::init_arbre() {
         }    
         amoi.transac_fin();
     }  
+    wxLogMessage("biblioFrame::init_arbre - avant SelectItem(root)");
     arbre->SelectItem(root);
+    wxLogMessage("biblioFrame::init_arbre - après SelectItem(root)");
     arbre->Expand(root);
-    // wxLogMessage("biblioFrame::init_arbre - sortie");
+    wxLogMessage("biblioFrame::init_arbre - après Expand(root)");
+
+    wxLogMessage("biblioFrame::init_arbre - sortie");
 }
 
 void biblioFrame::init_colonnes() {
@@ -438,6 +450,8 @@ void biblioFrame::CreateGUIControls(void)
 
 	barre_statut = new wxStatusBar(this, ID_BARRE_STATUT);
 
+	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
+
 	monmenu = new wxMenuBar();
 	wxMenu *ID_MNU_FICHIER_QUIT_Mnu_Obj = new wxMenu(0);
 	ID_MNU_FICHIER_QUIT_Mnu_Obj->Append(ID_MNU_OUVRIR_1022, wxT("Ouvrir une Base"), wxT(""), wxITEM_NORMAL);
@@ -458,10 +472,12 @@ void biblioFrame::CreateGUIControls(void)
 	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_PARAMETRES, wxT("Paramètres"), wxT("Configurer l'application"), wxITEM_NORMAL);
 	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_ORDREDETRI, wxT("Ordre de tri"), wxT("Permet de Choisir les colonnes utilisées pour le tri"), wxITEM_NORMAL);
 	ID_MNU_OUTIL_1017_Mnu_Obj->Append(ID_MNU_CHOIXCOLONNES_1024, wxT("Choix des colonnes affichées"), wxT(""), wxITEM_NORMAL);
-	monmenu->Append(ID_MNU_OUTIL_1017_Mnu_Obj, wxT("Option"));
+	monmenu->Append(ID_MNU_OUTIL_1017_Mnu_Obj, wxT("Options"));
 	
 	wxMenu *ID_MNU_EDITION_1043_Mnu_Obj = new wxMenu(0);
 	ID_MNU_EDITION_1043_Mnu_Obj->Append(ID_MNU_RECHERCHER_1045, wxT("Rechercher"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_EDITION_1043_Mnu_Obj->AppendSeparator();
+	ID_MNU_EDITION_1043_Mnu_Obj->Append(ID_MNU_AFFICHER_ATTENTE_INSERTION, wxT("Afficher les livres en attente d'insertion"), wxT(""), wxITEM_NORMAL);
 	monmenu->Append(ID_MNU_EDITION_1043_Mnu_Obj, wxT("Edition"));
 	
 	wxMenu *ID_MNU_LISTES_1027_Mnu_Obj = new wxMenu(0);
@@ -491,8 +507,6 @@ void biblioFrame::CreateGUIControls(void)
 	ID_MNU_APROPOS_1046_Mnu_Obj->Append(ID_MNU_VERIFIER_VERSION, wxT("Vérifier la version"), wxT(""), wxITEM_NORMAL);
 	monmenu->Append(ID_MNU_APROPOS_1046_Mnu_Obj, wxT("Aide"));
 	SetMenuBar(monmenu);
-
-	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
 
 	SetStatusBar(barre_statut);
 	toolb_princ->SetToolBitmapSize(wxSize(16,16));
@@ -644,6 +658,7 @@ void biblioFrame::OuvrirClick(wxCommandEvent& event)
 }
 
 void biblioFrame::ouvrir_base(wxString filename) {
+    wxLogMessage("biblioFrame::ouvrir_base()");
     wxString mess, mess2;
     if (amoi.ouverte()==true) {
         fermerBaseLivre();
@@ -665,6 +680,7 @@ void biblioFrame::ouvrir_base(wxString filename) {
     init_arbre();
 	this->SetTitle(_("Livrotheque : "+filename));
 	mastat->definir_base(&amoi);
+    wxLogMessage("biblioFrame::ouvrir_base() - sortie");
 }    
 
 int biblioFrame::creer_base() {
@@ -749,12 +765,14 @@ void biblioFrame::insererClickIsbn(wxCommandEvent& event)
 
 void biblioFrame::parametrer(wxCommandEvent& event)
 {
+    wxLogMessage("biblioFrame::parametrer()");
     ParametreDlg* dlg = new ParametreDlg(this, 0);
     int retShow = dlg->ShowModal();
     
     if (retShow = wxID_OK) {
         remplir_grille("");
     }
+    wxLogMessage("biblioFrame::parametrer() - sortie");
 }
 
 /*
@@ -796,30 +814,17 @@ void biblioFrame::insererClick_interne(wxCommandEvent& event, BOOL isbnMode)
 
 void biblioFrame::OnSelectLivre( wxGridEvent &event ) 
 {
-    int nb_ligne, ret, numrow;
-    wxString id;
-    wxString mess;
+    wxLogMessage("biblioFrame::OnSelectLivre()");
     
-    nb_ligne=event.GetRow();
-    id=grille->GetRowLabelValue(nb_ligne);
-    Nouv_livre* insere_livre = new Nouv_livre(&amoi, id,false, this, -1, "Modification du livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
-    ret=insere_livre->ShowModal();
-    mess.Printf("%d", ret);
-        //si on a inserer un enregistrement un réaffiche la grille
-        if(ret>0) {
-            //wxMessageBox(mess+" "+id,"coco", wxOK | wxICON_INFORMATION, this);
-            init_arbre();
-            //remplir_grille("");
-            numrow=trouve_ligne(id);
-            grille->MakeCellVisible(numrow,1);
-            grille->SelectRow(numrow);
-            AfficheLivre(id);
-        }    
+    wxString id=grille->GetRowLabelValue(event.GetRow());
+    modifieLivre(id);
 
+    wxLogMessage("biblioFrame::OnSelectLivre() - sortie");
 }
 
 void biblioFrame::modifieLivre(wxString id)
 {
+    wxLogMessage("biblioFrame::modifieLivre()");
     Nouv_livre* insere_livre = new Nouv_livre(&amoi, id,false, this, -1, "Modification du livre", wxDefaultPosition, wxDefaultSize);//, style_dialog_choix);
     int ret=insere_livre->ShowModal();
     //si on a modifié un enregistrement on réaffiche la grille
@@ -827,13 +832,17 @@ void biblioFrame::modifieLivre(wxString id)
         wxString mess;
         mess.Printf("%d", ret);
         //wxMessageBox(mess+" "+id,"coco", wxOK | wxICON_INFORMATION, this);
+        wxLogMessage("biblioFrame::modifieLivre() - avant init_arbre()");
         init_arbre();
         //remplir_grille("");
+        wxLogMessage("biblioFrame::modifieLivre() - avant trouve_ligne()");
         int numrow=trouve_ligne(id);
         grille->MakeCellVisible(numrow,1);
         grille->SelectRow(numrow);
+        wxLogMessage("biblioFrame::modifieLivre() - avant AfficheLivre()");
         AfficheLivre(id);
     }
+    wxLogMessage("biblioFrame::modifieLivre() - sortie");
 }
 
 int biblioFrame::trouve_ligne(wxString Label){
@@ -849,7 +858,7 @@ int biblioFrame::trouve_ligne(wxString Label){
 
 void biblioFrame::remplir_grille(wxString where)
 {
-    // wxLogMessage("biblioFrame::remplir_grille");
+    wxLogMessage("biblioFrame::remplir_grille");
 
     // récupération du paramétrage : faut-il faire un word wrap dans les colonnes ?
     ParamManager* param = ParamManager::GetInstance("config");
@@ -977,7 +986,8 @@ void biblioFrame::remplir_grille(wxString where)
         AfficheLivre(grille->GetLabelValue(0,0));
         grille_ok=true;
     }    
-    // wxLogMessage("biblioFrame::remplir_grille - sortie");
+    
+    wxLogMessage("biblioFrame::remplir_grille - sortie");
 }
 
 void biblioFrame::creation_select_livre(wxString &select, wxString where, wxString order_by) {
@@ -1064,6 +1074,7 @@ void biblioFrame::creation_select_livre(wxString &select, wxString where, wxStri
     select.Truncate(select.Length()-2);
     select += " "+from+" "+join+" "+where+" "+order_by;
     // wxMessageBox(select,"coco", wxOK | wxICON_INFORMATION, this);
+    wxLogMessage("creation_select_livre() : select = [%s]", select.c_str());
 }    
 
 void biblioFrame::OnGrilleClickDroit( wxGridEvent& event ) {
@@ -1074,51 +1085,84 @@ void biblioFrame::OnGrilleClickDroit( wxGridEvent& event ) {
     nrow=event.GetRow();
     if (amoi.ouverte() == false)
         return;
-    id_l=grille->GetLabelValue(0,nrow);
-    AfficheLivre(id_l);
-    grille->SelectRow(nrow);
+//    id_l=grille->GetLabelValue(0,nrow);
+//    AfficheLivre(id_l);
+//    grille->SelectRow(nrow);
 	menu_efface=WxPopupMenu_grille->Insert(0, ID_DUPLIQUELIVRE,"dupliquer le livre sélectionné",_("Permet de dupliquer les livres selectionnés"), wxITEM_NORMAL);
-	menu_efface=WxPopupMenu_grille->Insert(0, ID_EFFACELIVRE,"effacer le livre sélectionné",_("Permet d'effacer les livres selectionnés"), wxITEM_NORMAL);
+	menu_efface=WxPopupMenu_grille->Insert(0, ID_EFFACELIVRE,"effacer les livres sélectionnés",_("Permet d'effacer les livres selectionnés"), wxITEM_NORMAL);
+	WxPopupMenu_grille->Insert(0, ID_MODIFIELIVRE,"modifier les livres sélectionnés",_("Permet de modifier les livres selectionnés"), wxITEM_NORMAL);
     PopupMenu(WxPopupMenu_grille);
     WxPopupMenu_grille->Delete(ID_EFFACELIVRE);
     WxPopupMenu_grille->Delete(ID_DUPLIQUELIVRE);
+    WxPopupMenu_grille->Delete(ID_MODIFIELIVRE);
 }    
 
 void biblioFrame::OnSelectlignegrille(wxGridEvent &event)
 {
-    int nrow;
-    wxString id_l;
-    wxString mess;
+    wxLogMessage("biblioFrame::OnSelectlignegrille()");
     
     if (grille_ok == false || grille->GetNumberRows() == 0)
         return;
-    mess.Printf("numb:%d ", grille->GetNumberRows());
-    nrow=event.GetRow();
     if (amoi.ouverte() == false)
         return;
-    id_l=grille->GetLabelValue(0,nrow);
-    /*if (grille_ok == true) 
-        wxMessageBox("OK"+mess+id_l,"coco", wxOK | wxICON_INFORMATION, this);
-    else
-        wxMessageBox("PAS OK"+mess+id_l,"coco", wxOK | wxICON_INFORMATION, this);*/
+
+    wxString id_l=grille->GetLabelValue(0, event.GetRow());
     AfficheLivre(id_l);
     
-    grille->SelectRow(nrow);
+    event.Skip(); // nécessaire pour que le cursor suive et donc que le shift-clic fonctionne
     
-    //event.Skip();    
+    wxLogMessage("biblioFrame::OnSelectlignegrille() - sortie");
 }    
 
-void biblioFrame::popup_effacelivre(wxCommandEvent& event){
-    wxArrayInt cell_select;
-    wxString query, mess, id;
-    int ret;
+void biblioFrame::modifielivre(wxCommandEvent& event)
+{
+    // wxMessageBox("modifielivre()");
+    
+    wxArrayInt cell_select = grille->rowIdSelectionnes();
+    
+    if (cell_select.GetCount() == 1) {
+        wxString id=wxString::Format("%d", cell_select[0]);
+        modifieLivre(id);
+    } else if (cell_select.GetCount() <= 50) {
+        Nouv_livre* insere_livre = new Nouv_livre(&amoi, cell_select, false, this, -1);
+        
+        int ret=insere_livre->ShowModal();
+        //si on a modifié un enregistrement on réaffiche la grille
+        if(ret>0) {
+            // wxString mess;
+            // mess.Printf("%d", ret);
+            //wxMessageBox(mess+" "+id,"coco", wxOK | wxICON_INFORMATION, this);
+            wxLogMessage("biblioFrame::modifieLivre() - avant init_arbre()");
+            init_arbre();
 
-    cell_select=grille->GetSelectedRows();
-    if (cell_select.GetCount()>0) {
+            /*** recaler la grille sur le premier livre modifié **/
+            wxLogMessage("biblioFrame::modifieLivre() - avant trouve_ligne()");
+            wxString id=wxString::Format("%d", cell_select[0]);
+            int numrow=trouve_ligne(id);
+            grille->MakeCellVisible(numrow,1);
+            grille->SelectRow(numrow);
+            wxLogMessage("biblioFrame::modifieLivre() - avant AfficheLivre()");
+            AfficheLivre(id);
+        }
+    } else if (cell_select.GetCount() > 50) {
+        wxMessageBox("Veuillez sélectionner au maximum 50 livres");
+    } else {
+        wxMessageBox("Ce cas ne devrait jamais se produire ...");
+    }
+}
+
+void biblioFrame::popup_effacelivre(wxCommandEvent& event)
+{
+    wxString mess, id;
+    int ret;
+    
+    wxArrayInt cell_select = grille->LignesSelectionnees();
+    
+    if (cell_select.GetCount() == 1) {
         ret=wxMessageBox("Etes vous sur de vouloir effacer le livre avec l'id n°"+grille->GetRowLabelValue(cell_select[0])+"?? \n(Attention cet effacement est DEFINITIF!)","Question", wxYES_NO|wxNO_DEFAULT | wxICON_EXCLAMATION, this);
         if (ret == wxYES) {
             id=grille->GetRowLabelValue(cell_select[0]);
-            query="DELETE FROM livre WHERE rowid="+id;
+            wxString query="DELETE FROM livre WHERE rowid="+id;
             ret=amoi.exec_rapide(query);
             if (ret<0) {
                 amoi.get_erreur(mess);
@@ -1128,10 +1172,37 @@ void biblioFrame::popup_effacelivre(wxCommandEvent& event){
             //remplir_grille("");
             //ret=wxMessageBox("effacement de "+id,"Question", wxYES_NO|wxNO_DEFAULT |wxICON_EXCLAMATION, this);
         }    
-    }    
+    } else if (cell_select.GetCount() <= 50) {
+        wxString mess;
+        mess.Printf("Etes vous sur de vouloir effacer ces %d livres\n(Attention cet effacement est DEFINITIF!)",
+                    cell_select.GetCount());
+        ret = wxMessageBox (mess, "Question", wxYES_NO|wxNO_DEFAULT|wxICON_EXCLAMATION, this);
+        if (ret == wxYES) {
+            wxString query = "DELETE FROM livre WHERE rowid IN (";
+            for (int iLivre = 0; iLivre < cell_select.GetCount(); iLivre++) {
+                query += grille->GetRowLabelValue(cell_select[iLivre]);
+                if (iLivre < cell_select.GetCount() - 1)
+                    query += ", ";
+            }
+            query += ")";
+            
+            // wxMessageBox("requete : " + query);
+            ret=amoi.exec_rapide(query);
+            if (ret<0) {
+                amoi.get_erreur(mess);
+                wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+            }    
+            init_arbre();
+        }
+    } else if (cell_select.GetCount() > 50) {
+        wxMessageBox("Veuillez sélectionner au maximum 50 livres");
+    } else {
+        wxMessageBox("Ce cas ne devrait jamais se produire ...");
+    }
 }    
 
-void biblioFrame::dupliquelivre(wxCommandEvent& event){
+void biblioFrame::dupliquelivre(wxCommandEvent& event)
+{
     wxArrayInt cell_select;
     wxString query, mess;
     int ret;
@@ -1150,7 +1221,7 @@ void biblioFrame::dupliquelivre(wxCommandEvent& event){
             }
             int idDuplique = (int)(amoi.last_insert());
             mess.Printf("%d", idDuplique);
-            wxMessageBox("last insert = " + mess);
+            // wxMessageBox("last insert = " + mess);
             
             init_arbre();
             int numrow=trouve_ligne(mess);
@@ -1160,7 +1231,6 @@ void biblioFrame::dupliquelivre(wxCommandEvent& event){
             modifieLivre(mess);
 
             //remplir_grille("");
-            //ret=wxMessageBox("effacement de "+id,"Question", wxYES_NO|wxNO_DEFAULT |wxICON_EXCLAMATION, this);
         }    
     }    
 }    
@@ -1194,6 +1264,7 @@ void biblioFrame::popup_MnuouvrirClick(wxCommandEvent& event)
 }
 
 void biblioFrame::OnArbreSel(wxTreeEvent &event) {
+    wxLogMessage("biblioFrame::OnArbreSel()");
     wxString val, ancienne_val;
     wxTreeItemId branche, ancienne_branche;
     wxTreeItemId root;
@@ -1218,6 +1289,7 @@ void biblioFrame::OnArbreSel(wxTreeEvent &event) {
             }                    
         }    
     }
+    wxLogMessage("biblioFrame::OnArbreSel() - sortie");
 }    
 
 /*
@@ -1604,6 +1676,7 @@ void biblioFrame::Mnulistes(wxCommandEvent& event)
  */
 void biblioFrame::MnurechercherClick(wxCommandEvent& event)
 {
+    wxLogMessage("biblioFrame::MnurechercherClick()");
     list_from.Clear();
     recherche* ma_recherche = new recherche(this, -1, "Recherche", wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
     
@@ -1616,6 +1689,7 @@ void biblioFrame::MnurechercherClick(wxCommandEvent& event)
     list_from.Remove(ma_recherche->table_liee);
 
     //event.Skip();
+    wxLogMessage("biblioFrame::MnurechercherClick() - sortie");
 }
 
 
@@ -1704,7 +1778,7 @@ void biblioFrame::Mnuitem_imprimerlivre(wxCommandEvent& event)
 }*/
 
 BEGIN_EVENT_TABLE(bellegrille, wxGrid)
-	EVT_KEY_DOWN(bellegrille::OnKeyDown)
+ 	EVT_KEY_DOWN(bellegrille::OnKeyDown)
 END_EVENT_TABLE()
 
 void bellegrille::OnKeyDown(wxKeyEvent &event){
@@ -1818,7 +1892,36 @@ wxString bellegrille::BuildHTML( )
     return strContent;
 } 
 
+wxArrayInt bellegrille::LignesSelectionnees()
+{
+    wxArrayInt liste = GetSelectedRows();
 
+    wxGridCellCoordsArray arr1 = GetSelectionBlockTopLeft();
+    wxGridCellCoordsArray arr2 = GetSelectionBlockBottomRight();
+    for (int ii = 0; ii < arr1.GetCount(); ii++) {
+        for (int jj = arr1[ii].GetRow(); jj <= arr2[ii].GetRow(); jj++)
+            liste.Add(jj);
+    }
+    
+    return liste;
+}
+
+wxArrayInt bellegrille::rowIdSelectionnes()
+{
+    wxArrayInt liste = GetSelectedRows();
+
+    wxGridCellCoordsArray arr1 = GetSelectionBlockTopLeft();
+    wxGridCellCoordsArray arr2 = GetSelectionBlockBottomRight();
+    for (int ii = 0; ii < arr1.GetCount(); ii++) {
+        for (int jj = arr1[ii].GetRow(); jj <= arr2[ii].GetRow(); jj++) {
+            long rowid = -1;
+            GetRowLabelValue(jj).ToLong(&rowid);
+            liste.Add(rowid);
+        }
+    }
+    
+    return liste;
+}
 /*
  * Mnuexporthtml1060Click
  */
@@ -2589,4 +2692,18 @@ wxString biblioFrame::AnalyserSeries(bool htmlMode, bool filtreManquants)
     // wxLogMessage("biblioFrame::OnMnuAnalyserSeries() - sortie");
     
     return contenu;
+}
+
+/*
+ * OnMnuAfficherAttenteInsertion
+ */
+void biblioFrame::OnMnuAfficherAttenteInsertion(wxCommandEvent& event)
+{
+    attenteInsertion::verifieFormatBase(&amoi);
+    
+	listeAttenteInsertionDlg* dlg = new listeAttenteInsertionDlg(this, &amoi);
+	int ret = dlg->ShowModal();
+	if (ret == wxID_OK) {
+        // wxMessageBox ("on a validé par OK");
+    }
 }

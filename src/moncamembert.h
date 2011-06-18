@@ -4,17 +4,17 @@
 // Author:      lootens
 // Created:     29/08/2005 17:15:49
 //
-//Copyright  PE Epaillard, 20/07/05 
+//Copyright  PE Epaillard, 20/07/05
 //
 //Fougny@gmail.com
 //
 //Ce logiciel est un programme informatique servant à [rappeler les
-//caractéristiques techniques de votre logiciel]. 
+//caractéristiques techniques de votre logiciel].
 //
 //Ce logiciel est régi par la licence CeCILL soumise au droit français et
 //respectant les principes de diffusion des logiciels libres. Vous pouvez
 //utiliser, modifier et/ou redistribuer ce programme sous les conditions
-//de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA 
+//de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 //sur le site "http://www.cecill.info".
 //
 //En contrepartie de l'accessibilité au code source et des droits de copie,
@@ -25,16 +25,16 @@
 //
 //A cet égard  l'attention de l'utilisateur est attirée sur les risques
 //associés au chargement,  à l'utilisation,  à la modification et/ou au
-//développement et à la reproduction du logiciel par l'utilisateur étant 
-//donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
+//développement et à la reproduction du logiciel par l'utilisateur étant
+//donné sa spécificité de logiciel libre, qui peut le rendre complexe à
 //manipuler et qui le réserve donc à des développeurs et des professionnels
 //avertis possédant  des  connaissances  informatiques approfondies.  Les
 //utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
 //logiciel à leurs besoins dans des conditions permettant d'assurer la
-//sécurité de leurs systèmes et ou de leurs données et, plus généralement, 
-//à l'utiliser et l'exploiter dans les mêmes conditions de sécurité. 
+//sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+//à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
 //
-//Le fait que vous puissiez accéder à cet en-tête signifie que vous avez 
+//Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
 //pris connaissance de la licence CeCILL, et que vous en avez accepté les
 //termes.
 //
@@ -91,24 +91,24 @@ class MonCamembert : public wxScrolledWindow
 {
     private:
         DECLARE_EVENT_TABLE()
-    
+
 	public:
 		// class constructor
 		MonCamembert(wxWindow* parent,wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxHSCROLL | wxVSCROLL, const wxString& name = "MonCamembert");
 		// class destructor
 		~MonCamembert();
-		
+
 	private:
-        
+
         void dessiner_portion(wxDC &dc,wxRealPoint ptCentre,double rayon,wxRealPoint& point1,double angle2,wxColour couleur);
         void OnMouseMove(wxMouseEvent &event);
         bool estDessine;
-        
+
         // pour le cercle
         wxRealPoint ptCentre;
         double rayon;
         wxArrayDouble listeAngle;
-        
+
         int hauteurTexteMin;
         int num_courant;
         wxArrayRect listeRect;
@@ -156,12 +156,12 @@ public:
         const wxString &title = _T("Gestion de liste de couleur"),
         const wxPoint& pos = wxDefaultPosition);
     virtual ~GestionCoul();
-    void GestionCoul::wxButtonOK(wxCommandEvent& event);
-    void GestionCoul::wxButtonCANCEL(wxCommandEvent& event);
+    void wxButtonOK(wxCommandEvent& event);
+    void wxButtonCANCEL(wxCommandEvent& event);
 public:
 
   //Do not add custom Control Declarations here.
-  //wx-devcpp will remove them. Try adding the custom code 
+  //wx-devcpp will remove them. Try adding the custom code
   //after the block.
   ////GUI Control Declaration Start
 	wxTextCtrl *TexteAxe;
@@ -179,7 +179,7 @@ public:
 	wxButton *BUTTONOK;
 	wxPanel *WxPanel1;
   ////GUI Control Declaration End
-  
+
 public:
     wxArrayColour mesCouleurs;
     wxFont maFont;
@@ -198,10 +198,10 @@ private:
     wxColour monTitreCouleurTmp;
     wxColour monAxeCouleurTmp;
     wxArrayString mesCommentaires;
-    
+
     wxArrayPtrCarreCouleur listeCarreCouleur;
     wxArrayPtrStaticText listeStaticText;
-        
+
 public:
     //Note: if you receive any error with these enums, then you need to
     //change your old form code that are based on the #define control ids.
@@ -237,7 +237,7 @@ public:
 	void wxButtonTexteClick(wxCommandEvent& event);
 	void wxButtonAxeClick(wxCommandEvent& event);
 
-private:    
+private:
     static long s_nbInstances;
 
 };
@@ -249,11 +249,11 @@ private:
 public:
     CarreCouleur(wxWindow *parent,wxPoint position,wxSize size,wxColour couleurFond,int id);
     ~CarreCouleur();
-    
+
     void DBClick(wxMouseEvent& event);
     wxColour couleurFond;
     int numero;
-    
+
 };
 
 enum
@@ -263,7 +263,7 @@ enum
 
 
 #endif
- 
- 
- 
- 
+
+
+
+

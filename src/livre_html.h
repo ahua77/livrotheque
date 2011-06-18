@@ -2,17 +2,17 @@
 // Author:      PE EPAILLARD
 // Created:     10/27/2004 12:22:10 AM
 //
-//Copyright PE Epaillard, 10/27/2004 
+//Copyright PE Epaillard, 10/27/2004
 //
 //Fougny@gmail.com
 //
 //Ce logiciel est un programme informatique servant à [rappeler les
-//caractéristiques techniques de votre logiciel]. 
+//caractéristiques techniques de votre logiciel].
 //
 //Ce logiciel est régi par la licence CeCILL soumise au droit français et
 //respectant les principes de diffusion des logiciels libres. Vous pouvez
 //utiliser, modifier et/ou redistribuer ce programme sous les conditions
-//de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA 
+//de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 //sur le site "http://www.cecill.info".
 //
 //En contrepartie de l'accessibilité au code source et des droits de copie,
@@ -23,16 +23,16 @@
 //
 //A cet égard  l'attention de l'utilisateur est attirée sur les risques
 //associés au chargement,  à l'utilisation,  à la modification et/ou au
-//développement et à la reproduction du logiciel par l'utilisateur étant 
-//donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
+//développement et à la reproduction du logiciel par l'utilisateur étant
+//donné sa spécificité de logiciel libre, qui peut le rendre complexe à
 //manipuler et qui le réserve donc à des développeurs et des professionnels
 //avertis possédant  des  connaissances  informatiques approfondies.  Les
 //utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
 //logiciel à leurs besoins dans des conditions permettant d'assurer la
-//sécurité de leurs systèmes et ou de leurs données et, plus généralement, 
-//à l'utiliser et l'exploiter dans les mêmes conditions de sécurité. 
+//sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+//à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
 //
-//Le fait que vous puissiez accéder à cet en-tête signifie que vous avez 
+//Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
 //pris connaissance de la licence CeCILL, et que vous en avez accepté les
 //termes.
 //
@@ -54,20 +54,20 @@
 #include <wx/file.h>
 #include <wx/xml/xml.h>
 #include <wx/listbox.h>
-#include "divers.h" 
+#include "divers.h"
 
 
-class caracteristiques 
+class caracteristiques
 {
 public:
        //constructor
        caracteristiques();
        //destructeur
        ~caracteristiques();
-       
+
        // affichage
        wxString Affiche();
-       
+
        wxString Titre;
        wxString Auteur;
        wxString Editeur;
@@ -94,8 +94,8 @@ private:
       int test;
 public:
       liste_caracteristiques();
-      ~liste_caracteristiques();  
-      
+      ~liste_caracteristiques();
+
       caracteristiques* Suivant();
       void Init_parcours();
       void Effacer();
@@ -129,7 +129,7 @@ private:
         int prox_port;
         wxString prox_user;
         wxString prox_pass;
-		
+
 	private:
 		// No description
 		wxString num_isbn;
@@ -148,7 +148,7 @@ private:
 		// chercher A
 		int chercher_A(wxString texte,wxString texte_a_chercher,wxString& texte_retour,int decalage,bool suppr_balise);
 		// nouvelle methode parce que alapage ils sont chiants!
-        wxString LIVRE_HTML::recup_donnee(wxString donnee, wxString debut, wxString fin, int type_recup=0);
+        wxString recup_donnee(wxString donnee, wxString debut, wxString fin, int type_recup=0);
 };
 
 #endif // LIVRE_HTML_H
