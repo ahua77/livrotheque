@@ -293,22 +293,7 @@ void listeAttenteInsertionDlg::OnImporterLigneSelectionnee(wxCommandEvent& event
  */
 void listeAttenteInsertionDlg::OnItemActivated(wxListEvent& event)
 {
-//    attenteInsertionDlg* dlg = new attenteInsertionDlg(this);
-    
-//    long rowid = event.GetData();
     editItem(event.GetData());
-/*
-    attenteInsertion item(rowid);
-    item.readDB(m_db);
-    dlg->initDialog(&item);
-
-    int ret = dlg->ShowModal();
-    if (ret == wxID_OK) {
-        dlg->updateItem(&item);
-        item.writeDB(m_db);
-        rafraichit();
-    }
-*/
 }
 
 /*

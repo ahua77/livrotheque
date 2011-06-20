@@ -1099,7 +1099,7 @@ void biblioFrame::OnGrilleClickDroit( wxGridEvent& event ) {
 
 void biblioFrame::OnSelectlignegrille(wxGridEvent &event)
 {
-    wxLogMessage("biblioFrame::OnSelectlignegrille()");
+//    wxLogMessage("biblioFrame::OnSelectlignegrille()");
     
     if (grille_ok == false || grille->GetNumberRows() == 0)
         return;
@@ -1124,7 +1124,8 @@ void biblioFrame::modifielivre(wxCommandEvent& event)
         wxString id=wxString::Format("%d", cell_select[0]);
         modifieLivre(id);
     } else if (cell_select.GetCount() <= 50) {
-        Nouv_livre* insere_livre = new Nouv_livre(&amoi, cell_select, false, this, -1);
+        wxString titreFenetre = wxString::Format("modification de %d livres", cell_select.GetCount());
+        Nouv_livre* insere_livre = new Nouv_livre(&amoi, cell_select, false, this, -1, titreFenetre);
         
         int ret=insere_livre->ShowModal();
         //si on a modifié un enregistrement on réaffiche la grille
@@ -1136,6 +1137,7 @@ void biblioFrame::modifielivre(wxCommandEvent& event)
             init_arbre();
 
             /*** recaler la grille sur le premier livre modifié **/
+/*
             wxLogMessage("biblioFrame::modifieLivre() - avant trouve_ligne()");
             wxString id=wxString::Format("%d", cell_select[0]);
             int numrow=trouve_ligne(id);
@@ -1143,6 +1145,26 @@ void biblioFrame::modifielivre(wxCommandEvent& event)
             grille->SelectRow(numrow);
             wxLogMessage("biblioFrame::modifieLivre() - avant AfficheLivre()");
             AfficheLivre(id);
+*/            
+            for (int ii = cell_select.GetCount() - 1; ii >= 0; ii--) {
+                wxLogMessage("biblioFrame::modifieLivre() - avant trouve_ligne()");
+                wxString id=wxString::Format("%d", cell_select[ii]);
+                int numrow=trouve_ligne(id);
+                if (ii == 0)
+                    grille->MakeCellVisible(numrow,1);
+                grille->SelectRow(numrow, (ii < cell_select.GetCount()-1));
+
+                
+                /*
+                wxLogMessage("ii = %d - id = %s - numrow = %d - rowlabelvalue : %s - rowlabel(0) : %s", 
+                             ii, id.c_str(), numrow, grille->GetRowLabelValue(numrow).c_str(), grille->GetLabelValue(0, numrow).c_str());
+                wxArrayInt cell_select_log = grille->rowIdSelectionnes();   // uniquement pour voir les sélections au fur et à mesure
+                */
+                
+                wxLogMessage("biblioFrame::modifieLivre() - avant AfficheLivre()");
+                if (ii == 0)
+                    AfficheLivre(id);
+            }
         }
     } else if (cell_select.GetCount() > 50) {
         wxMessageBox("Veuillez sélectionner au maximum 50 livres");
@@ -1908,17 +1930,35 @@ wxArrayInt bellegrille::LignesSelectionnees()
 
 wxArrayInt bellegrille::rowIdSelectionnes()
 {
-    wxArrayInt liste = GetSelectedRows();
+    wxArrayInt liste;
+    wxArrayInt listeRow = GetSelectedRows();
+    for (int ii = 0; ii < listeRow.GetCount(); ii++) {
+        long rowid = -1;
+        GetLabelValue(0, listeRow[ii]).ToLong(&rowid);
+        liste.Add(rowid);
+    }
 
     wxGridCellCoordsArray arr1 = GetSelectionBlockTopLeft();
     wxGridCellCoordsArray arr2 = GetSelectionBlockBottomRight();
     for (int ii = 0; ii < arr1.GetCount(); ii++) {
         for (int jj = arr1[ii].GetRow(); jj <= arr2[ii].GetRow(); jj++) {
             long rowid = -1;
-            GetRowLabelValue(jj).ToLong(&rowid);
+            GetLabelValue(0, jj).ToLong(&rowid);
             liste.Add(rowid);
         }
     }
+    
+    
+    wxString listeStr = "(";
+    for (int ii = 0; ii < liste.GetCount(); ii++) {
+        listeStr += wxString::Format("%d, ", liste[ii]);
+    }
+    if (liste.GetCount() == 0) 
+        listeStr = "<vide>";
+    else {
+        listeStr = listeStr.Left(listeStr.Len() - 2) + ")";
+    }
+    wxLogMessage("rowIdSelectionnees() --> %s", listeStr.c_str());
     
     return liste;
 }

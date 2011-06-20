@@ -138,6 +138,7 @@ Nouv_livre::Nouv_livre( wxWindow *parent, wxWindowID id, const wxString &title, 
     la_belle = NULL;
     m_itemInsertion = NULL;
     CreateGUIControls();
+    SetTitle(title);
 
     // masquer toutes les CK "conserver"
     WxCheckBox_particularite->Show(false);
@@ -158,6 +159,7 @@ Nouv_livre::Nouv_livre(ma_base *pour_insere, wxWindow *parent, wxWindowID id, co
     la_belle=pour_insere;
     m_itemInsertion = NULL;
     CreateGUIControls();
+    SetTitle(title);
     
     // masquer toutes les CK "conserver"
     WxCheckBox_particularite->Show(false);
@@ -179,6 +181,7 @@ Nouv_livre::Nouv_livre(ma_base *pour_insere, attenteInsertion* itemInsertion, wx
     la_belle=pour_insere;
     m_itemInsertion = itemInsertion;
     CreateGUIControls();
+    SetTitle(title);
     
     // masquer toutes les CK "conserver"
     WxCheckBox_particularite->Show(false);
@@ -200,6 +203,8 @@ Nouv_livre::Nouv_livre(ma_base *pour_modif, wxString id_modif, bool insert, wxWi
     la_belle=pour_modif;
     m_itemInsertion = NULL;
     CreateGUIControls();
+    SetTitle(title);
+
 
     //wxMessageBox(id_modif,"coco", wxOK | wxICON_INFORMATION, this);
     // initialisation des données à partir de la table
@@ -268,6 +273,7 @@ Nouv_livre::Nouv_livre(ma_base *pour_modif, wxArrayInt liste_id, bool insert,
     m_itemInsertion = NULL;
     la_belle=pour_modif;
     CreateGUIControls();
+    SetTitle(title);
 
     //wxMessageBox(id_modif,"coco", wxOK | wxICON_INFORMATION, this);
     // initialisation des données à partir de la table
