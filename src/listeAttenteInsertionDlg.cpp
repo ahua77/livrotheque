@@ -158,6 +158,9 @@ void listeAttenteInsertionDlg::OnImporterListe(wxCommandEvent& event)
             wxString ligne = fichier[iLigne];
             if (ligne.IsEmpty()) // ignorer les lignes vides
                 continue;
+            if (ligne.StartsWith("#")) // ignorer les lignes de commentaire
+                continue;
+                
             wxLogMessage ("ligne de contenu %d : [%s]", iLigne, fichier.GetLine(iLigne).c_str());
     
             wxArrayString fields = wxStringTokenize(ligne, "\t", wxTOKEN_RET_EMPTY_ALL);

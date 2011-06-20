@@ -1,0 +1,13 @@
+# exemple de fichier pour l'import dans la liste des livres en attente d'insertion
+# format du fichier :
+# - les lignes commençant par # en premier caractères sont des lignes de commentaire
+# - les lignes de données comprennent 1 à 4 colonnes, séparées par la caractère tabulation :
+#      * isbn
+#      * titre
+#      * auteur
+#      * commentaire
+9782203011014	Tintin au pays des Soviets	Hergé	la recherche se fera sur l'isbn
+9782203001015			la recherche se fera sur l'isbn
+	Tintin en Amérique	Hergé	la recherche se fera sur le titre
+		Hergé	la recherche se fera sur l'auteur
+			ligne avec seulement un commentaire qui ne sert à rien !

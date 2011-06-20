@@ -1,6 +1,6 @@
 [Editors]
-Focused=38
-Order=4,38,40,39,1
+Focused=89
+Order=4,38,40,39,1,89
 [Editor_0]
 Open=0
 Top=0
@@ -165,7 +165,7 @@ Open=0
 Top=0
 [Editor_38]
 Open=1
-Top=1
+Top=0
 CursorCol=38
 CursorRow=2074
 TopLine=2058
@@ -345,11 +345,11 @@ Top=0
 Open=0
 Top=0
 [Editor_89]
-Open=0
-Top=0
-CursorCol=1
-CursorRow=288
-TopLine=260
+Open=1
+Top=1
+CursorCol=17
+CursorRow=163
+TopLine=147
 LeftChar=1
 [Editor_90]
 Open=0
