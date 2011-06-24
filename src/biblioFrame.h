@@ -216,6 +216,10 @@ public:
     wxSplitterWindow* split_gauche;
     wxComboBox* choix_arbre;
     wxTreeCtrl* arbre;
+    bool m_arbreLettreOuverte[26];
+    long m_idAuteurSelection;
+    int m_lettreSelection;
+    
     wxSplitterWindow* split_droit;
     bellegrille* grille;
     wxHtmlWindow* visuhtml;
@@ -262,6 +266,8 @@ public:
 	void init_arbre();
 	void creation_select_livre(wxString &select, wxString where, wxString order_by);
 	void OnArbreSel(wxTreeEvent &event);
+	void OnArbreCollapseNode(wxTreeEvent& event);
+	void OnArbreExpandNode(wxTreeEvent& event);
 	void MnuordredetriClick(wxCommandEvent& event);
 	void OnSelectlignegrille(wxGridEvent &event);
 	void get_colonne(wxString nomchamp, wxString idlivre, wxString &nomaffich, wxString &valeur);

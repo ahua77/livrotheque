@@ -1,7 +1,7 @@
 [Project]
 FileName=livrotheque.dev
 Name=livrotheque
-UnitCount=97
+UnitCount=98
 PchHead=-1
 PchSource=-1
 Ver=3
@@ -553,8 +553,8 @@ BuildCmd=
 
 [VersionInfo]
 Major=1
-Minor=4
-Release=2
+Minor=5
+Release=0
 Build=1
 LanguageID=1036
 CharsetID=1252
@@ -1034,6 +1034,16 @@ FileName=src\attenteInsertionDlg.wxform
 Folder=livrotheque
 Compile=0
 Link=0
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit98]
+FileName=src\treeItemDataLong.h
+CompileCpp=1
+Folder=livrotheque
+Compile=1
+Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=

@@ -261,7 +261,7 @@ Nouv_livre::Nouv_livre(ma_base *pour_modif, wxArrayInt liste_id, bool insert,
     
     // construction de la liste des id au format (xx, xx, xx) pour requête where id in (xx, xx, xx)
     m_listeIdRequete = "(";
-    for (int ii = 0; ii < liste_id.GetCount(); ii++) {
+    for (size_t ii = 0; ii < liste_id.GetCount(); ii++) {
         m_listeIdRequete += wxString::Format("%d", liste_id[ii]);
         if (ii < liste_id.GetCount() - 1)
             m_listeIdRequete += ", ";
@@ -2062,7 +2062,7 @@ void Nouv_livre::WxButton_internet_gClick(wxCommandEvent& event)
         //wxMessageBox("popo","probleme", wxOK | wxICON_EXCLAMATION, this);
         mise_a_jour(rech_gen->ma_recherche);
     }
-	// insert your code here
+
 	event.Skip();
 }
 
