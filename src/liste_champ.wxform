@@ -4,8 +4,8 @@ object frmNewForm_1: TfrmNewForm
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'liste'
-  ClientHeight = 347
-  ClientWidth = 402
+  ClientHeight = 462
+  ClientWidth = 505
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -35,108 +35,59 @@ object frmNewForm_1: TfrmNewForm
   isAuimanagerAvailable = False
   PixelsPerInch = 96
   TextHeight = 13
-  object WxBoxSizer_top: TWxBoxSizer
+  object WxBoxSizer_general: TWxBoxSizer
     Left = 0
     Top = 0
-    Width = 402
-    Height = 347
+    Width = 505
+    Height = 462
     Align = alClient
     TabOrder = 0
-    Orientation = wxVertical
     Wx_Class = 'wxBoxSizer'
     Wx_ControlOrientation = wxControlVertical
-    Wx_IDName = 'ID_WXBOXSIZER_TOP'
-    Wx_IDValue = 1002
-    object grille: TWxGrid
+    Wx_IDName = 'ID_WXBOXSIZER_GENERAL'
+    Wx_IDValue = 1012
+    object WxBoxSizer_top: TWxBoxSizer
       Left = 5
       Top = 5
-      Width = 400
-      Height = 300
-      ColCount = 6
-      DefaultColWidth = 50
-      DefaultRowHeight = 25
-      RowCount = 6
+      Width = 410
+      Height = 358
       TabOrder = 0
-      EVT_GRID_CELL_LEFT_CLICK = 'grilleCellLeftClick'
-      EVT_GRID_CELL_LEFT_DCLICK = 'grilleCellLeftDoubleClick'
-      EVT_GRID_LABEL_LEFT_CLICK = 'grilleLabelLeftClick'
-      Wx_LabelColSize = 50
-      Wx_LabelRowSize = 25
-      Wx_BGColor = clBlack
-      Wx_Class = 'wxGrid'
-      Wx_ControlOrientation = wxControlVertical
-      Wx_EditStyle = []
-      Wx_FGColor = clBlack
-      Wx_GeneralStyle = []
-      Wx_Hidden = False
-      Wx_IDName = 'ID_GRILLE_LISTE'
-      Wx_IDValue = 1004
-      Wx_GridSelection = wxGridSelectRows
-      Wx_StretchFactor = 1
-      Wx_PaneCaption = 'grille'
-      Wx_PaneName = 'grille_Pane'
-      Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
-      Wx_Aui_Dockable_Direction = []
-      Wx_Aui_Pane_Style = []
-      Wx_Aui_Pane_Buttons = []
-      Wx_BestSize_Height = 0
-      Wx_BestSize_Width = 0
-      Wx_MinSize_Height = 0
-      Wx_MinSize_Width = 0
-      Wx_MaxSize_Height = 0
-      Wx_MaxSize_Width = 0
-      Wx_Floating_Height = 0
-      Wx_Floating_Width = 0
-      Wx_Floating_X_Pos = 0
-      Wx_Floating_Y_Pos = 0
-      ColWidths = (
-        50
-        50
-        50
-        50
-        50
-        50)
-      RowHeights = (
-        25
-        25
-        25
-        25
-        25
-        25)
-    end
-    object WxBoxSizer_button: TWxBoxSizer
-      Left = 115
-      Top = 315
-      Width = 180
-      Height = 38
-      TabOrder = 1
+      Orientation = wxVertical
       Wx_Class = 'wxBoxSizer'
       Wx_ControlOrientation = wxControlVertical
-      Wx_IDName = 'ID_WXBOXSIZER_BUTTON'
-      Wx_IDValue = 1005
-      object WxButton_ok: TWxButton
+      Wx_IDName = 'ID_WXBOXSIZER_TOP'
+      Wx_IDValue = 1002
+      Wx_Alignment = [wxALIGN_CENTER, wxEXPAND]
+      Wx_StretchFactor = 1
+      object grille: TWxGrid
         Left = 5
         Top = 5
-        Width = 80
-        Height = 28
-        Caption = 'OK'
+        Width = 400
+        Height = 300
+        ColCount = 6
+        DefaultColWidth = 50
+        DefaultRowHeight = 25
+        RowCount = 6
         TabOrder = 0
-        EVT_BUTTON = 'WxButton_okClick'
-        Wx_BKColor = clBlack
-        Wx_ButtonStyle = []
-        Wx_Class = 'wxButton'
+        EVT_GRID_CELL_LEFT_CLICK = 'grilleCellLeftClick'
+        EVT_GRID_CELL_LEFT_DCLICK = 'grilleCellLeftDoubleClick'
+        EVT_GRID_LABEL_LEFT_CLICK = 'grilleLabelLeftClick'
+        Wx_LabelColSize = 50
+        Wx_LabelRowSize = 25
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxGrid'
         Wx_ControlOrientation = wxControlVertical
-        Wx_Default = False
-        Wx_EventList.Strings = (
-          'EVT_BUTTON:OnClick'
-          'EVT_UPDATE_UI:OnUpdateUI')
+        Wx_EditStyle = []
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
-        Wx_IDName = 'wxID_CANCEL'
-        Wx_IDValue = 1006
-        Wx_PaneCaption = 'WxButton_ok'
-        Wx_PaneName = 'WxButton_ok_Pane'
+        Wx_IDName = 'ID_GRILLE_LISTE'
+        Wx_IDValue = 1004
+        Wx_GridSelection = wxGridSelectRows
+        Wx_Alignment = [wxALIGN_CENTER, wxEXPAND]
+        Wx_StretchFactor = 1
+        Wx_PaneCaption = 'grille'
+        Wx_PaneName = 'grille_Pane'
         Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
         Wx_Aui_Dockable_Direction = []
         Wx_Aui_Pane_Style = []
@@ -151,44 +102,107 @@ object frmNewForm_1: TfrmNewForm
         Wx_Floating_Width = 0
         Wx_Floating_X_Pos = 0
         Wx_Floating_Y_Pos = 0
+        ColWidths = (
+          50
+          50
+          50
+          50
+          50
+          50)
+        RowHeights = (
+          25
+          25
+          25
+          25
+          25
+          25)
       end
-      object WxButton_inserer: TWxButton
-        Left = 95
-        Top = 5
-        Width = 80
-        Height = 28
-        Caption = 'Inserer'
+      object WxBoxSizer_button: TWxBoxSizer
+        Left = 115
+        Top = 315
+        Width = 180
+        Height = 38
         TabOrder = 1
-        EVT_BUTTON = 'WxButton_insererClick'
-        Wx_BKColor = clBlack
-        Wx_ButtonStyle = []
-        Wx_Class = 'wxButton'
+        Wx_Class = 'wxBoxSizer'
         Wx_ControlOrientation = wxControlVertical
-        Wx_Default = False
-        Wx_EventList.Strings = (
-          'EVT_BUTTON:OnClick'
-          'EVT_UPDATE_UI:OnUpdateUI')
-        Wx_FGColor = clBlack
-        Wx_GeneralStyle = []
-        Wx_Hidden = False
-        Wx_IDName = 'ID_WXBUTTON_INSERER'
-        Wx_IDValue = 1007
-        Wx_PaneCaption = 'WxButton_inserer'
-        Wx_PaneName = 'WxButton_inserer_Pane'
-        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
-        Wx_Aui_Dockable_Direction = []
-        Wx_Aui_Pane_Style = []
-        Wx_Aui_Pane_Buttons = []
-        Wx_BestSize_Height = 0
-        Wx_BestSize_Width = 0
-        Wx_MinSize_Height = 0
-        Wx_MinSize_Width = 0
-        Wx_MaxSize_Height = 0
-        Wx_MaxSize_Width = 0
-        Wx_Floating_Height = 0
-        Wx_Floating_Width = 0
-        Wx_Floating_X_Pos = 0
-        Wx_Floating_Y_Pos = 0
+        Wx_IDName = 'ID_WXBOXSIZER_BUTTON'
+        Wx_IDValue = 1005
+        object WxButton_ok: TWxButton
+          Left = 5
+          Top = 5
+          Width = 80
+          Height = 28
+          Caption = 'OK'
+          TabOrder = 0
+          EVT_BUTTON = 'WxButton_okClick'
+          Wx_BKColor = clBlack
+          Wx_ButtonStyle = []
+          Wx_Class = 'wxButton'
+          Wx_ControlOrientation = wxControlVertical
+          Wx_Default = False
+          Wx_EventList.Strings = (
+            'EVT_BUTTON:OnClick'
+            'EVT_UPDATE_UI:OnUpdateUI')
+          Wx_FGColor = clBlack
+          Wx_GeneralStyle = []
+          Wx_Hidden = False
+          Wx_IDName = 'wxID_CANCEL'
+          Wx_IDValue = 1006
+          Wx_PaneCaption = 'WxButton_ok'
+          Wx_PaneName = 'WxButton_ok_Pane'
+          Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+          Wx_Aui_Dockable_Direction = []
+          Wx_Aui_Pane_Style = []
+          Wx_Aui_Pane_Buttons = []
+          Wx_BestSize_Height = 0
+          Wx_BestSize_Width = 0
+          Wx_MinSize_Height = 0
+          Wx_MinSize_Width = 0
+          Wx_MaxSize_Height = 0
+          Wx_MaxSize_Width = 0
+          Wx_Floating_Height = 0
+          Wx_Floating_Width = 0
+          Wx_Floating_X_Pos = 0
+          Wx_Floating_Y_Pos = 0
+        end
+        object WxButton_inserer: TWxButton
+          Left = 95
+          Top = 5
+          Width = 80
+          Height = 28
+          Caption = 'Inserer'
+          TabOrder = 1
+          EVT_BUTTON = 'WxButton_insererClick'
+          Wx_BKColor = clBlack
+          Wx_ButtonStyle = []
+          Wx_Class = 'wxButton'
+          Wx_ControlOrientation = wxControlVertical
+          Wx_Default = False
+          Wx_EventList.Strings = (
+            'EVT_BUTTON:OnClick'
+            'EVT_UPDATE_UI:OnUpdateUI')
+          Wx_FGColor = clBlack
+          Wx_GeneralStyle = []
+          Wx_Hidden = False
+          Wx_IDName = 'ID_WXBUTTON_INSERER'
+          Wx_IDValue = 1007
+          Wx_PaneCaption = 'WxButton_inserer'
+          Wx_PaneName = 'WxButton_inserer_Pane'
+          Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+          Wx_Aui_Dockable_Direction = []
+          Wx_Aui_Pane_Style = []
+          Wx_Aui_Pane_Buttons = []
+          Wx_BestSize_Height = 0
+          Wx_BestSize_Width = 0
+          Wx_MinSize_Height = 0
+          Wx_MinSize_Width = 0
+          Wx_MaxSize_Height = 0
+          Wx_MaxSize_Width = 0
+          Wx_Floating_Height = 0
+          Wx_Floating_Width = 0
+          Wx_Floating_X_Pos = 0
+          Wx_Floating_Y_Pos = 0
+        end
       end
     end
   end

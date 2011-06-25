@@ -101,6 +101,7 @@ public:
 		wxBoxSizer *WxBoxSizer_button;
 		wxGrid *grille;
 		wxBoxSizer *WxBoxSizer_top;
+		wxBoxSizer *WxBoxSizer_general;
   ////GUI Control Declaration End
     wxString nom_table;
     ma_base *la_belle;

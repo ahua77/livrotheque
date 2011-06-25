@@ -123,9 +123,12 @@ void liste_champ::CreateGUIControls(void)
 {
     ////GUI Items Creation Start
 
-	WxBoxSizer_top = new wxBoxSizer(wxVERTICAL);
-	this->SetSizer(WxBoxSizer_top);
+	WxBoxSizer_general = new wxBoxSizer(wxHORIZONTAL);
+	this->SetSizer(WxBoxSizer_general);
 	this->SetAutoLayout(true);
+
+	WxBoxSizer_top = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer_general->Add(WxBoxSizer_top, 1, wxALIGN_CENTER | wxEXPAND | wxALL, 5);
 
 	grille = new wxGrid(this, ID_GRILLE_LISTE, wxPoint(5, 5), wxSize(400, 300));
 	grille->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
@@ -134,7 +137,7 @@ void liste_champ::CreateGUIControls(void)
 	grille->SetRowLabelSize(50);
 	grille->SetColLabelSize(25);
 	grille->CreateGrid(5,5,wxGrid::wxGridSelectRows);
-	WxBoxSizer_top->Add(grille,1,wxALIGN_CENTER | wxALL,5);
+	WxBoxSizer_top->Add(grille,1,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
 	WxBoxSizer_button = new wxBoxSizer(wxHORIZONTAL);
 	WxBoxSizer_top->Add(WxBoxSizer_button, 0, wxALIGN_CENTER | wxALL, 5);
