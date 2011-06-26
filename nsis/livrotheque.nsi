@@ -56,6 +56,7 @@ SectionIn RO
   ;ADD YOUR OWN FILES HERE...
   File  "${LIVRODIR}\exe\livrotheque.exe"
   File  "${LIVRODIR}\exe\libcurl-4.dll"
+  File  "${LIVRODIR}\liste_a_importer_exemple.txt"
   
   ;Store installation folder
   WriteRegStr HKCU "Software\livrotheque" "" $INSTDIR
@@ -106,6 +107,7 @@ Section "Uninstall"
   ;ADD YOUR OWN FILES HERE...
  	Delete "$INSTDIR\livrotheque.exe"
  	Delete "$INSTDIR\libcurl-4.dll"
+ 	Delete "$INSTDIR\liste_a_importer_exemple.txt"
 	RMDir $INSTDIR
 
   Delete "$INSTDIR\Uninstall.exe"
