@@ -327,10 +327,16 @@ void biblioFrame::init_arbre()
         }    
         amoi.transac_fin();
         
+        // trier les fils
+        arbre->SortChildren(branche);
+        
         // déplier les branches qui l'étaient précédemment
         if (m_arbreLettreOuverte[c - 'A'] == true)
             arbre->Expand(branche);
     }  
+
+    arbre->Expand(root);
+    wxLogMessage("biblioFrame::init_arbre - après Expand(root)");
 
     wxLogMessage("biblioFrame::init_arbre - avant SelectItem(root) / m_idAuteurSelection = %ld", m_idAuteurSelection);
 
@@ -338,8 +344,6 @@ void biblioFrame::init_arbre()
     arbre->EnsureVisible(noeudSelection);
 
     wxLogMessage("biblioFrame::init_arbre - après SelectItem(root)");
-    arbre->Expand(root);
-    wxLogMessage("biblioFrame::init_arbre - après Expand(root)");
 
     arbre->Thaw();  // débloque l'affichage du treeCtrl
 
