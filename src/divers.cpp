@@ -632,3 +632,21 @@ void convert_html_total(wxString &texte) {
     texte.Replace(wxT("ı"),wxT("&yacute;")); // y accent aigu minuscule
     texte.Replace(wxT("ÿ"),wxT("&yuml;")); // y tréma minuscule
 }
+int tri_sans_accent(void *foo, int len, const void * data1, int len2, const void *data2)
+{
+    wxString accent = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÌÍÎÏìíîïÙÚÛÜùúûüÿÑñÇç";
+    wxString sansAccent = "AAAAAAAAAAAAOOOOOOOOOOOOEEEEEEEEIIIIIIIIUUUUUUUUYNNCC";
+
+    wxString wxdata1=wxString((const char *)data1);
+    wxString wxdata2=wxString((const char *)data2);
+    
+    for(int i=0; i<accent.Length(); i++)
+    {
+        // Remplacement de l'accent par son équivalent sans accent dans la chaîne de caractères
+        wxdata1.Replace(accent.Mid(i,1), sansAccent.Mid(i,1));
+        wxdata2.Replace(accent.Mid(i,1), sansAccent.Mid(i,1));
+    }
+    
+	return wxdata1.compare(wxdata2);
+}
+

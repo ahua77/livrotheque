@@ -283,7 +283,7 @@ void biblioFrame::init_arbre()
     
     
     for (c='A';c<='Z';c++) {
-        query.Printf("SELECT nom, rowid FROM auteur WHERE nom LIKE '%c%%' ORDER BY upper(nom)", c);
+        query.Printf("SELECT nom, rowid FROM auteur WHERE nom LIKE '%c%%' ORDER BY upper(nom) COLLATE tri_sans_accent", c);
         
         // conserver le rowid en data dans l'arbre + conserver l'id de l'auteur sélectionné (le cas échéant) pour le resélectionner en sortie
         
@@ -1052,7 +1052,7 @@ void biblioFrame::creation_select_livre(wxString &select, wxString where, wxStri
             //join_list.Add(liste_tri[i]);
             join_list.Add(texte);
             sansid=texte.Mid(3);
-            order_by+="upper("+sansid+".nom)"+", ";
+            order_by+="upper("+sansid+".nom)  COLLATE tri_sans_accent"+", ";
         } else if (texte.Left(5) == "date_") {
              order_by +=  "substr("+texte+", 7,4)||'/'||substr("+texte+",4,2)||'/'||substr("+texte+", 1,2)"+", ";   
         }
@@ -1060,7 +1060,7 @@ void biblioFrame::creation_select_livre(wxString &select, wxString where, wxStri
             if (texte == "rowid")
                 texte="livre.rowid";
             else if (texte == "titre" || texte == "sous_titre" || texte == "recompense" || texte == "titre_original" || texte == "sous_titre_o")
-                texte = "upper("+texte+")";
+                texte = "upper("+texte+")  COLLATE tri_sans_accent";
             order_by+=texte+", ";
         }        
     }    
@@ -2609,7 +2609,7 @@ wxString biblioFrame::AnalyserSeries(bool htmlMode, bool filtreManquants)
                         "LEFT JOIN serie ON serie.rowid=livre.id_serie "
                         "LEFT JOIN genre ON genre.rowid=livre.id_genre "
                         "WHERE serie.nom IS NOT NULL "
-                        "ORDER BY genre.nom, serie.nom, livre.no_serie";
+                        "ORDER BY genre.nom, serie.nom, livre.no_serie COLLATE tri_sans_accent";
     ret=amoi.transac_prepare(rqSeries);
     if (ret<0) {
         amoi.get_erreur(mess);

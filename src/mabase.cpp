@@ -42,6 +42,7 @@
 #include <string.h>
 #include <wx/log.h>
 #include "mabase.h"
+#include "divers.h"
 
 ma_base::ma_base(void) {
     //db=NULL;
@@ -108,6 +109,7 @@ int ma_base::ouvrir(wxString nom) {
         sqlite3_close(db);
         return (-1);
     }
+	sqlite3_create_collation(db, "tri_sans_accent", SQLITE_UTF8,  NULL, tri_sans_accent);
     ouvert=true;
     return 0; 
 }     

@@ -242,7 +242,7 @@ void statistique::init_tableaux(wxString nom_table) {
     param->GetOrSet("config", "STAT", "USE_TOP_N", useTopN, seuil);
     query= "SELECT a.nom, count(l.rowid) nn from "+nom_table
           +" a, livre l where l.id_"+nom_table
-          +" = a.rowid group by a.rowid order by nn desc";
+          +" = a.rowid group by a.rowid order by nn  desc";
     ret=la_belle->transac_prepare(query);
     if (ret<0) {
         la_belle->get_erreur(mess);

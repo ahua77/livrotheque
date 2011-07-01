@@ -313,7 +313,7 @@ void nouv_autre::init_tout() {
     //saloperie de left join de merde
     if (nom_table!="auteur")
         join= "LEFT JOIN "+nom_table+" ON livre.id_"+nom_table+"="+nom_table+".rowid ";
-    query="SELECT livre.rowid, auteur.nom, livre.titre FROM livre LEFT JOIN auteur ON livre.id_auteur=auteur.rowid "+join+" where livre.id_"+nom_table+"="+id_courant+" order by upper(auteur.nom)";
+    query="SELECT livre.rowid, auteur.nom, livre.titre FROM livre LEFT JOIN auteur ON livre.id_auteur=auteur.rowid "+join+" where livre.id_"+nom_table+"="+id_courant+" order by upper(auteur.nom) COLLATE tri_sans_accent";
     ret=la_belle->transac_prepare(query);
     if (ret<0) {
         la_belle->get_erreur(mess);

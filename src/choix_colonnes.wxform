@@ -15,11 +15,9 @@ object frmNewForm: TfrmNewForm
   OldCreateOrder = True
   PopupMenu = MainForm.DesignerPopup
   Visible = True
-  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnKeyDown = FormKeyDown
-  OnResize = NewFormResize
+OnResize = FormResize
   EVT_CLOSE = 'choix_colonnesClose'
   Wx_ICON.Data = {07544269746D617000000000}
   Wx_Name = 'choix_colonnes'
@@ -43,7 +41,6 @@ object frmNewForm: TfrmNewForm
     Align = alClient
     TabOrder = 0
     Wx_Class = 'wxSplitterWindow'
-    Wx_ControlOrientation = wxControlVertical
     Wx_EventList.Strings = (
       'EVT_SPLITTER_SASH_POS_CHANGING : OnSashPosChanging'
       'EVT_SPLITTER_SASH_POS_CHANGED : OnSashPosChanged'
@@ -66,7 +63,6 @@ object frmNewForm: TfrmNewForm
       EVT_LISTBOX_DCLICK = 'Wxlist_ajouteClick'
       Wx_BGColor = clBlack
       Wx_Class = 'wxListBox'
-      Wx_ControlOrientation = wxControlHorizontal
       Wx_FGColor = clBlack
       Wx_GeneralStyle = []
       Wx_Hidden = False
@@ -82,7 +78,6 @@ object frmNewForm: TfrmNewForm
       Height = 497
       TabOrder = 1
       Wx_Class = 'wxSplitterWindow'
-      Wx_ControlOrientation = wxControlHorizontal
       Wx_EventList.Strings = (
         'EVT_SPLITTER_SASH_POS_CHANGING : OnSashPosChanging'
         'EVT_SPLITTER_SASH_POS_CHANGED : OnSashPosChanged'
@@ -103,7 +98,6 @@ object frmNewForm: TfrmNewForm
         TabOrder = 0
         Wx_BKColor = clBlack
         Wx_Class = 'wxPanel'
-        Wx_ControlOrientation = wxControlHorizontal
         Wx_Default = False
         Wx_EventList.Strings = (
           'EVT_UPDATE_UI:OnUpdateUI')
@@ -123,7 +117,6 @@ object frmNewForm: TfrmNewForm
           Wx_BKColor = clBlack
           Wx_ButtonStyle = []
           Wx_Class = 'wxButton'
-          Wx_ControlOrientation = wxControlVertical
           Wx_Default = False
           Wx_EventList.Strings = (
             'EVT_BUTTON:OnClick'
@@ -133,8 +126,6 @@ object frmNewForm: TfrmNewForm
           Wx_Hidden = False
           Wx_IDName = 'ID_WXBUTTON_OK'
           Wx_IDValue = 1006
-          Wx_Height = 20
-          Wx_Width = 50
         end
         object wxButton_annuler: TWxButton
           Left = 2
@@ -147,7 +138,6 @@ object frmNewForm: TfrmNewForm
           Wx_BKColor = clBlack
           Wx_ButtonStyle = []
           Wx_Class = 'wxButton'
-          Wx_ControlOrientation = wxControlVertical
           Wx_Default = False
           Wx_EventList.Strings = (
             'EVT_BUTTON:OnClick'
@@ -157,8 +147,6 @@ object frmNewForm: TfrmNewForm
           Wx_Hidden = False
           Wx_IDName = 'ID_WXBUTTON_ANNULER'
           Wx_IDValue = 1007
-          Wx_Height = 20
-          Wx_Width = 50
         end
         object wxButton_enleve: TWxBitmapButton
           Left = 3
@@ -252,7 +240,6 @@ object frmNewForm: TfrmNewForm
           Wx_BKColor = clBlack
           Wx_ButtonStyle = [wxBU_AUTODRAW]
           Wx_Class = 'wxBitmapButton'
-          Wx_ControlOrientation = wxControlVertical
           Wx_Default = False
           Wx_EventList.Strings = (
             'EVT_BUTTON:OnClick'
@@ -439,7 +426,6 @@ object frmNewForm: TfrmNewForm
           Wx_BKColor = clBlack
           Wx_ButtonStyle = [wxBU_AUTODRAW]
           Wx_Class = 'wxBitmapButton'
-          Wx_ControlOrientation = wxControlVertical
           Wx_Default = False
           Wx_EventList.Strings = (
             'EVT_BUTTON:OnClick'
@@ -626,7 +612,6 @@ object frmNewForm: TfrmNewForm
           Wx_BKColor = clBlack
           Wx_ButtonStyle = [wxBU_AUTODRAW]
           Wx_Class = 'wxBitmapButton'
-          Wx_ControlOrientation = wxControlVertical
           Wx_Default = False
           Wx_EventList.Strings = (
             'EVT_BUTTON:OnClick'
@@ -813,7 +798,6 @@ object frmNewForm: TfrmNewForm
           Wx_BKColor = clBlack
           Wx_ButtonStyle = [wxBU_AUTODRAW]
           Wx_Class = 'wxBitmapButton'
-          Wx_ControlOrientation = wxControlVertical
           Wx_Default = False
           Wx_EventList.Strings = (
             'EVT_BUTTON:OnClick'
@@ -916,7 +900,6 @@ object frmNewForm: TfrmNewForm
         TabOrder = 1
         Wx_BGColor = clBlack
         Wx_Class = 'wxListBox'
-        Wx_ControlOrientation = wxControlHorizontal
         Wx_FGColor = clBlack
         Wx_GeneralStyle = []
         Wx_Hidden = False
