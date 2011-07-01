@@ -311,6 +311,8 @@ Nouv_livre::Nouv_livre(ma_base *pour_modif, wxArrayInt liste_id, bool insert,
     WxNotebook_nouv->DeletePage(WxNotebook_nouv->GetPageCount()-1);
     WxNotebook_nouv->DeletePage(WxNotebook_nouv->GetPageCount()-1);
     WxNotebook_nouv->DeletePage(WxNotebook_nouv->GetPageCount()-1);
+
+    wxLogMessage("Nouv_livre::Nouv_livre() - sortie");
 }
 
 
@@ -321,6 +323,7 @@ Nouv_livre::~Nouv_livre()
 } 
 
 bool Nouv_livre::init_image(wxString nom_champ, ImageCanvas *moncanvas) {//, wxImage *monimage) {
+    wxLogMessage("init_image(%s)", nom_champ.c_str());
     wxString query;
     int ret, taille;
     wxString texte;
@@ -369,6 +372,7 @@ bool Nouv_livre::init_image(wxString nom_champ, ImageCanvas *moncanvas) {//, wxI
     return tt;
 }
 void Nouv_livre::init_statictext(wxString nom_champ, wxStaticText *s_text, wxString texteSiVariable) {
+    wxLogMessage("init_statictext(%s)", nom_champ.c_str());
     wxString query;
     int ret, taille;
     wxString texte;
@@ -417,6 +421,7 @@ void Nouv_livre::init_statictext(wxString nom_champ, wxStaticText *s_text, wxStr
 
 void Nouv_livre::init_radiobox(wxString nom_champ, wxRadioBox *radiobox, wxCheckBox* ckConserver)
 {
+    wxLogMessage("init_radiobox(%s)", nom_champ.c_str());
     wxString query;
     int ret, taille;
     double val;
@@ -439,7 +444,6 @@ void Nouv_livre::init_radiobox(wxString nom_champ, wxRadioBox *radiobox, wxCheck
         la_belle->transac_fin();
         
         if (nbReponses == 1) {
-            la_belle->get_value_char(0,texte,taille);
             texte.ToDouble(&val);
             radiobox->SetSelection((int)val);
         } else if (nbReponses > 1) {
@@ -466,9 +470,11 @@ void Nouv_livre::init_radiobox(wxString nom_champ, wxRadioBox *radiobox, wxCheck
         }  
         la_belle->transac_fin();
     }
+    wxLogMessage("init_radiobox(%s) - sortie", nom_champ.c_str());
 }    
 
 void Nouv_livre::init_slider(wxString nom_champ, wxSlider *slider, wxCheckBox* ckConserver) {
+    wxLogMessage("init_slider(%s)", nom_champ.c_str());
     wxString query;
     int ret, taille;
     double val;
@@ -521,6 +527,7 @@ void Nouv_livre::init_slider(wxString nom_champ, wxSlider *slider, wxCheckBox* c
 }    
 
 void Nouv_livre::init_date(wxString nom_champ, wxDatePickerCtrl *zone, wxCheckBox* ckConserver) {
+    wxLogMessage("init_date(%s)", nom_champ.c_str());
     wxString query;
     int ret, taille;
     wxString texte;
@@ -577,7 +584,9 @@ void Nouv_livre::init_date(wxString nom_champ, wxDatePickerCtrl *zone, wxCheckBo
 
 
 
-void Nouv_livre::init_edit(wxString nom_champ, wxTextCtrl *zone) {
+void Nouv_livre::init_edit(wxString nom_champ, wxTextCtrl *zone)
+{
+    wxLogMessage("init_edit(%s)", nom_champ.c_str());
     wxString query;
     int ret, taille;
     wxString texte;
@@ -1454,6 +1463,7 @@ void Nouv_livre::WxSlider_noteScroll(wxScrollEvent& event)
 }
 
 void Nouv_livre::init_etoiles() {
+    wxLogMessage("init_etoiles()");
     int note,i ;
     div_t divresult;
     wxImage star1(star1_XPM);
@@ -1483,6 +1493,7 @@ void Nouv_livre::init_etoiles() {
 }    
 int Nouv_livre::init_combo(wxComboBox *lacombo, wxString nomtable)
 {
+    wxLogMessage("init_combo(%s)", nomtable.c_str());
     wxString query;
     wxString mess;
     int ret, taille;
@@ -1826,6 +1837,7 @@ void Nouv_livre::WxButton_auteurClick(wxCommandEvent& event)
 }
 
 void Nouv_livre::init_champ(wxString nom_champ, wxString valeur){
+    wxLogMessage("init_champ(%s)", nom_champ.c_str());
     long val;
     wxDateTime madate;
 

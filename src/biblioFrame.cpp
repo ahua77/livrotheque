@@ -913,7 +913,7 @@ void biblioFrame::remplir_grille(wxString where)
     grille_ok=false;
     
     wxString query;
-    creation_select_livre(query,where, "order by id_auteur");
+    creation_select_livre(query, where, "order by id_auteur");
     int ret=amoi.transac_prepare(query);
         //wxMessageBox(query,"test", wxOK | wxICON_EXCLAMATION, this);
     if (ret<0) {
@@ -1021,6 +1021,7 @@ void biblioFrame::remplir_grille(wxString where)
     amoi.transac_fin();
     if (grille->GetNumberRows()>0) {
         grille->SelectRow(0);
+        grille->MakeCellVisible(0, 1);
         AfficheLivre(grille->GetLabelValue(0,0));
         grille_ok=true;
     }    
