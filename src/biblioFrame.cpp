@@ -327,9 +327,6 @@ void biblioFrame::init_arbre()
         }    
         amoi.transac_fin();
         
-        // trier les fils
-        arbre->SortChildren(branche);
-        
         // déplier les branches qui l'étaient précédemment
         if (m_arbreLettreOuverte[c - 'A'] == true)
             arbre->Expand(branche);
