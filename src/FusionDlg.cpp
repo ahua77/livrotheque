@@ -175,7 +175,7 @@ void FusionDlg::InitListeGroupes()
         
     // remplir les listes à partir de la base
     wxString nom_table = CB_typeGroupe->GetStringSelection();
-    wxString orderBy = "nn COLLATE tri_sans_accent DESC";
+    wxString orderBy = "nn DESC";
     if (CB_typeTri->GetSelection() == 1) {
         orderBy = "upper(a.nom) COLLATE tri_sans_accent ASC";
     }   

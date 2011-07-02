@@ -2606,7 +2606,8 @@ wxString biblioFrame::AnalyserSeries(bool htmlMode, bool filtreManquants)
                         "LEFT JOIN serie ON serie.rowid=livre.id_serie "
                         "LEFT JOIN genre ON genre.rowid=livre.id_genre "
                         "WHERE serie.nom IS NOT NULL "
-                        "ORDER BY genre.nom, serie.nom, livre.no_serie COLLATE tri_sans_accent";
+                        "ORDER BY upper(genre.nom) COLLATE tri_sans_accent, upper(serie.nom) COLLATE tri_sans_accent, livre.no_serie";
+                        
     ret=amoi.transac_prepare(rqSeries);
     if (ret<0) {
         amoi.get_erreur(mess);
@@ -2634,7 +2635,7 @@ wxString biblioFrame::AnalyserSeries(bool htmlMode, bool filtreManquants)
         amoi.get_value_int(3, idSerie);
         amoi.get_value_char(4, nomGenre, taille);
         nSerie++;
-
+        
         // bannière à chaque changement de genre (mode html seulement)
         if (htmlMode) {
             if (nomGenre != genreEnCours) {

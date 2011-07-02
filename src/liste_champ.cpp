@@ -185,7 +185,7 @@ void liste_champ::init_grille() {
         
     query= "SELECT a.rowid, a.nom, count(l.rowid) nn from "+nom_table
           +" a left outer join livre l on l.id_"+nom_table
-          +" = a.rowid group by a.rowid order by "+critere_tri + +" COLLATE tri_sans_accent " + ordre_tri ;
+          +" = a.rowid group by a.rowid order by "+critere_tri + " COLLATE tri_sans_accent " + ordre_tri ;
 //        wxMessageBox(query,"probleme", wxOK | wxICON_EXCLAMATION, this);
 
         
