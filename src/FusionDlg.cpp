@@ -163,6 +163,9 @@ void FusionDlg::FusionDlgInitDialog(wxInitDialogEvent& event)
 void FusionDlg::InitListeGroupes()
 {
 //    wxMessageBox("InitListeGroupes");
+
+    // figer les affichages
+    Freeze();
     
     // vider les deux listes
     while (!CB_listeGroupes1->IsEmpty())
@@ -172,13 +175,13 @@ void FusionDlg::InitListeGroupes()
         
     // remplir les listes à partir de la base
     wxString nom_table = CB_typeGroupe->GetStringSelection();
-    wxString orderBy = "nn DESC";
+    wxString orderBy = "nn COLLATE tri_sans_accent DESC";
     if (CB_typeTri->GetSelection() == 1) {
-        orderBy = "upper(a.nom)  COLLATE tri_sans_accent ASC"; 
+        orderBy = "upper(a.nom) COLLATE tri_sans_accent ASC";
     }   
 	wxString query = "SELECT a.rowid, a.nom, count(l.rowid) nn from "+nom_table
           +" a, livre l where l.id_"+nom_table
-          +" = a.rowid group by a.rowid order by " + orderBy + " COLLATE tri_sans_accent";
+          +" = a.rowid group by a.rowid order by " + orderBy;
 	wxString mess;
 	int ret = baseLivre.transac_prepare(query);
 	if (ret<0) {
@@ -186,6 +189,8 @@ void FusionDlg::InitListeGroupes()
         mess=query+"\n"+mess;
         wxMessageBox("InitListeGroupes "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
         // baseLivre.fermer();
+
+        Thaw();
         return;
     }
     ret=SQLITE_ROW;
@@ -217,6 +222,8 @@ void FusionDlg::InitListeGroupes()
     // vider les listes de livres car aucun groupe n'est sélectionné
     remplirListeLivres(LB_listeLivres1, -1);
     remplirListeLivres(LB_listeLivres2, -1);
+
+    Thaw();
 }
 
 /*
@@ -239,6 +246,8 @@ void FusionDlg::CB_listeGroupes2Selected(wxCommandEvent& event )
 
 void FusionDlg::remplirListeLivres(wxListBox* listeLivres, int idGroupe)
 {
+    Freeze();
+    
 	// vider la liste et insérer à la place la liste des livres du groupe sélectionné
     while (!listeLivres->IsEmpty())
     	listeLivres->Delete(0);
@@ -256,6 +265,8 @@ void FusionDlg::remplirListeLivres(wxListBox* listeLivres, int idGroupe)
             baseLivre.get_erreur(mess);
             mess=query+"\n"+mess;
             wxMessageBox("FusionDlgInitDialog "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+
+            Thaw();
             return;
         }
         ret=SQLITE_ROW;
@@ -276,6 +287,8 @@ void FusionDlg::remplirListeLivres(wxListBox* listeLivres, int idGroupe)
         }  
         baseLivre.transac_fin();
     }
+
+    Thaw();
 }
 
 
