@@ -1092,6 +1092,7 @@ void biblioFrame::creation_select_livre(wxString &select, wxString where, wxStri
     }    
     // Ajout dans join list de la list_from si il y a quelque chose dedans
     for (i=0;i<(int)list_from.GetCount();i++) {
+        // wxLogMessage("creation_select_livre : list_from[%d] = %s", i, list_from[i].c_str());
         present=join_list.Index(list_from[i],false);
         if (present == wxNOT_FOUND ) {
             join_list.Add(list_from[i]);
@@ -1346,6 +1347,8 @@ void biblioFrame::OnArbreSel(wxTreeEvent &event) {
                 m_idAuteurSelection = -1;
                 m_lettreSelection = -1 * ((treeItemDataLong*)(arbre->GetItemData(branche)))->val();
                 where="WHERE auteur.nom LIKE '"+val+"%%' ";
+                list_from.Clear();
+                list_from.Add("id_auteur");
                 remplir_grille(where);
             } else {
                 wxLogMessage("avant lecture de GetItemData()");
@@ -1353,6 +1356,8 @@ void biblioFrame::OnArbreSel(wxTreeEvent &event) {
                 m_lettreSelection = -1;
                 wxLogMessage("m_idAuteurSelection = %ld", m_idAuteurSelection);
                 where="WHERE auteur.nom='"+val+"' ";
+                list_from.Clear();
+                list_from.Add("id_auteur");
                 remplir_grille(where);
             }                    
         }    
