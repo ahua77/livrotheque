@@ -805,7 +805,7 @@ void biblioFrame::parametrer(wxCommandEvent& event)
     ParametreDlg* dlg = new ParametreDlg(this, 0);
     int retShow = dlg->ShowModal();
     
-    if (retShow = wxID_OK) {
+    if (retShow == wxID_OK) {
         remplir_grille("");
     }
     wxLogMessage("biblioFrame::parametrer() - sortie");
