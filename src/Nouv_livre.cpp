@@ -1502,6 +1502,27 @@ int Nouv_livre::init_combo(wxComboBox *lacombo, wxString nomtable)
 
     lacombo->Clear();
 
+    query="SELECT nom from " + nomtable + " order by upper(nom) COLLATE tri_sans_accent";
+    // query = "SELECT nom from " + nomtable + " order by upper(nom)";
+         //wxMessageBox(query,"probleme", wxOK | wxICON_EXCLAMATION, this);
+   
+    ret=la_belle->transac_prepare(query);
+    if (ret<0) {
+        la_belle->get_erreur(mess);
+        wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
+    }
+
+    ret=la_belle->transac_step();
+
+    while(ret==SQLITE_ROW) {
+        la_belle->get_value_char(0,texte,taille);
+        lacombo->Append(texte);
+        ret=la_belle->transac_step();
+    }  
+    la_belle->transac_fin();
+
+
+
     if (m_listeIdRequete != "") {      // cas d'une liste d'id --> afficher la valeur commune, ou "<< ne pas modifier >>"
         // SELECT nom FROM auteur where rowid in (SELECT distinct id_auteur FROM livre where rowid in (16, 17, 18))
         query = "SELECT nom FROM " + nomtable + " WHERE rowid IN "
@@ -1543,25 +1564,13 @@ int Nouv_livre::init_combo(wxComboBox *lacombo, wxString nomtable)
         }  
         la_belle->transac_fin();
 
-    }    
-    query="SELECT nom from " + nomtable + " order by upper(nom) COLLATE tri_sans_accent";
-         //wxMessageBox(query,"probleme", wxOK | wxICON_EXCLAMATION, this);
-   
-    ret=la_belle->transac_prepare(query);
-    if (ret<0) {
-        la_belle->get_erreur(mess);
-        wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
     }
+    
+    
 
-    ret=la_belle->transac_step();
 
-    while(ret==SQLITE_ROW) {
-        la_belle->get_value_char(0,texte,taille);
-        lacombo->Append(texte);
-        ret=la_belle->transac_step();
-    }  
-    la_belle->transac_fin();
-     lacombo->SetSelection(0, 0);
+    lacombo->SetSelection(0, 0);
+
     return 0;
 }    
 
