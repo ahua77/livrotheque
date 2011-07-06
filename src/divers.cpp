@@ -637,8 +637,8 @@ int tri_sans_accent(void *foo, int len, const void * data1, int len2, const void
     wxString accent = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÌÍÎÏìíîïÙÚÛÜùúûüÿÑñÇç";
     wxString sansAccent = "AAAAAAAAAAAAOOOOOOOOOOOOEEEEEEEEIIIIIIIIUUUUUUUUYNNCC";
 
-    wxString wxdata1=wxString((const char *)data1);
-    wxString wxdata2=wxString((const char *)data2);
+    wxString wxdata1=wxString((const char *)data1,len);
+    wxString wxdata2=wxString((const char *)data2,len2);
     
     for(int i=0; i<accent.Length(); i++)
     {
