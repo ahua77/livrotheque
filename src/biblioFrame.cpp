@@ -88,6 +88,7 @@
 #include "listeAttenteInsertionDlg.h"
 #include "attenteInsertion.h"
 #include "treeItemDataLong.h"
+#include "arboCtrl.h"
 
 #define style_dialog_choix wxSYSTEM_MENU|wxCAPTION
 
@@ -104,7 +105,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	//EVT_KEY_DOWN(biblioFrame::OnKeyDown)
 	//EVT_SPLITTER_SASH_POS_CHANGED( ID_SPLITTERWINDOW, biblioFrame::OnSplitterwindowSashPosChanged )
 	EVT_SPLITTER_SASH_POS_CHANGED( ID_SPLITTERWINDOW1, biblioFrame::OnSplitterwindowSashPosChanged )
-	//EVT_SPLITTER_SASH_POS_CHANGED( ID_SPLITTERWINDOW2, biblioFrame::OnSplitterwindowSashPosChanged )
+	EVT_SPLITTER_SASH_POS_CHANGED( ID_SPLITTERWINDOW2, biblioFrame::OnSplitterdroitSashPosChanged )
 	EVT_SPLITTER_DCLICK( ID_SPLITTERWINDOW1, biblioFrame::OnSplitterwindowDclick )
 	EVT_SPLITTER_DCLICK( ID_SPLITTERWINDOW2, biblioFrame::OnSplitterwindowDclick )
 	EVT_SPLITTER_DCLICK( ID_SPLITTERWINDOW, biblioFrame::OnSplitterwindowDclick )
@@ -113,9 +114,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_GRID_CMD_LABEL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnGrilleLabelLeftClick)
 	EVT_GRID_CMD_SELECT_CELL(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
 	//EVT_GRID_CMD_CELL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
-	EVT_TREE_SEL_CHANGED(ID_TREE_ARBRE, biblioFrame::OnArbreSel)
-	EVT_TREE_ITEM_COLLAPSED(ID_TREE_ARBRE, biblioFrame::OnArbreCollapseNode)
-	EVT_TREE_ITEM_EXPANDED(ID_TREE_ARBRE, biblioFrame::OnArbreExpandNode)
+    EVT_COMBOBOX(ID_COMBOBOX, biblioFrame::OnComboboxSelected)
 	EVT_MENU(ID_EFFACELIVRE , biblioFrame::popup_effacelivre)
 	EVT_MENU(ID_DUPLIQUELIVRE , biblioFrame::dupliquelivre)
 	EVT_MENU(ID_MODIFIELIVRE , biblioFrame::modifielivre)
@@ -199,14 +198,6 @@ biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title
         }
     }
   
-    // m_arbreLettreOuverte contient TRUE pour chaque lettre de l'arbre des auteurs ouverte, et FALSE pour les autres
-    // par défaut : tout est plié
-    for (int iLettre = 0; iLettre < 26; iLettre++) {
-        m_arbreLettreOuverte[iLettre] = false;
-    }
-    m_idAuteurSelection = -1;   // pas d'auteur sélectionné au démarrage
-    m_lettreSelection = -1;     // pas de lettre sélectionnée au démarrage
-
     CreateGUIControls();
     if (useSplash) {
         wxBitmap WxStaticBitmap_splash(splash_xpm);
@@ -265,86 +256,12 @@ biblioFrame::~biblioFrame()
 
 void biblioFrame::init_arbre()
 {
-    arbre->Freeze();   // bloque l'affichage du treeCtrl pendant sa modification / évite de percevoir les effets de vidage / remplissage
-    
-    wxLogMessage("biblioFrame::init_arbre");
-    wxTreeItemId branche;
-    wxString query;
-    wxString texte, mess;
-    char c;
-    int ret, taille;
-    
-    wxLogMessage("biblioFrame::init_arbre - avant DeleteAllItems()");
-    arbre->DeleteAllItems();
-    wxLogMessage("biblioFrame::init_arbre - après DeleteAllItems()");
-    
-    wxTreeItemId root=arbre->AddRoot("tous");
-    wxTreeItemId noeudSelection = root;
-    
-    
-    for (c='A';c<='Z';c++) {
-        query.Printf("SELECT nom, rowid FROM auteur WHERE nom LIKE '%c%%' ORDER BY upper(nom) COLLATE tri_sans_accent", c);
-        
-        // conserver le rowid en data dans l'arbre + conserver l'id de l'auteur sélectionné (le cas échéant) pour le resélectionner en sortie
-        
-
-        ret=amoi.transac_prepare(query);
-        if (ret<0) {
-            amoi.get_erreur(mess);
-            killSplash();
-            wxMessageBox("init_arbre "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
-            fermerBaseLivre();
-            
-            arbre->Thaw();  // débloque l'affichage du treeCtrl
-            return;
-        }    
-        ret=amoi.transac_step();
-        if (ret == SQLITE_ROW) {
-            texte.Printf("%c",c);
-            branche=arbre->AppendItem(root, texte);
-            arbre->SetItemData(branche, new treeItemDataLong(-c));
-            
-            if (c == m_lettreSelection)
-                noeudSelection = branche;
-        }    
-        while(ret==SQLITE_ROW) {
-
-            if (ret<0) {
-                amoi.get_erreur(mess);
-                killSplash();
-                wxMessageBox(mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
-            } else {
-                int rowid;
-                amoi.get_value_char(0, texte, taille);
-                amoi.get_value_int(1, rowid);
-                wxTreeItemId item = arbre->AppendItem(branche, texte);
-                arbre->SetItemData(item, new treeItemDataLong(rowid));
-                
-                if (rowid == m_idAuteurSelection)
-                    noeudSelection = item;
-            }     
-            ret=amoi.transac_step();
-        }    
-        amoi.transac_fin();
-        
-        // déplier les branches qui l'étaient précédemment
-        if (m_arbreLettreOuverte[c - 'A'] == true)
-            arbre->Expand(branche);
-    }  
-
-    arbre->Expand(root);
-    wxLogMessage("biblioFrame::init_arbre - après Expand(root)");
-
-    wxLogMessage("biblioFrame::init_arbre - avant SelectItem(root) / m_idAuteurSelection = %ld", m_idAuteurSelection);
-
-    arbre->SelectItem(noeudSelection);
-    arbre->EnsureVisible(noeudSelection);
-
-    wxLogMessage("biblioFrame::init_arbre - après SelectItem(root)");
-
-    arbre->Thaw();  // débloque l'affichage du treeCtrl
-
-    wxLogMessage("biblioFrame::init_arbre - sortie");
+    int ret = arbre->init();
+    if (ret < 0) {
+        killSplash();
+        wxMessageBox("init_arbre " + arbre->messageErreur(), "probleme", wxOK | wxICON_EXCLAMATION, this);
+        fermerBaseLivre();
+    }
 }
 
 void biblioFrame::init_colonnes()
@@ -566,13 +483,23 @@ void biblioFrame::CreateGUIControls(void)
     split_gauche = new wxSplitterWindow( split_princip, ID_SPLITTERWINDOW1, wxDefaultPosition, wxSize(100, 100), wxWANTS_CHARS|wxNO_BORDER );
 
     wxString* choix_arbreStrings = NULL;
-    choix_arbre = new wxComboBox( split_gauche, ID_COMBOBOX, _T(""), wxDefaultPosition, wxDefaultSize, 0, choix_arbreStrings, wxWANTS_CHARS|wxCB_DROPDOWN );
+    choix_arbre = new wxComboBox( split_gauche, ID_COMBOBOX, _T(""), wxDefaultPosition, wxDefaultSize, 0, choix_arbreStrings, 
+                                 wxWANTS_CHARS|wxCB_DROPDOWN|wxCB_READONLY );
+    for (int typeArbo = 0; typeArbo < E_TAC_LASTVALUE; typeArbo++) {
+        choix_arbre->Append(arboCtrl::typeArboCtrlStr((E_typeArboCtrl)typeArbo), (void*)(typeArbo));
+    }
 
+    arbre = new arboCtrl (split_gauche, ID_TREE_ARBRE, this, amoi);
+
+    // reprendre le type d'arbo sauvegardé dans la config - après la création de arbre pour pouvoir le mettre aussi à jour
+    ParamManager* param = ParamManager::GetInstance("config");
+    long indexTypeArbo = E_TAC_auteurParLettre;
+    param->GetOrSet("config", "INIT", "TYPE_ARBO_CTRL", indexTypeArbo);
+    choix_arbre->Select(indexTypeArbo);
+    OnComboboxSelected_interne();   // déclenchement explicite de l'événement
     
-    arbre = new wxTreeCtrl( split_gauche, ID_TREE_ARBRE, wxDefaultPosition, wxSize(100, 100), wxWANTS_CHARS|wxTR_DEFAULT_STYLE );
-
     split_gauche->SplitHorizontally(choix_arbre, arbre, 20);
-    split_gauche->Unsplit(choix_arbre);
+//    split_gauche->Unsplit(choix_arbre);
     
     split_droit = new wxSplitterWindow( split_princip, ID_SPLITTERWINDOW2, wxDefaultPosition, wxSize(100, 500), wxWANTS_CHARS|wxNO_BORDER );
     split_droit->SetMinimumPaneSize(10);
@@ -598,7 +525,7 @@ void biblioFrame::CreateGUIControls(void)
 
     split_princip->SplitVertically(split_gauche, split_droit, 120);
 
-    split_droit-> SetSashPosition(400);
+    split_droit->SetSashPosition(400);
     
     //image handler
     wxImage::AddHandler( new wxBMPHandler );
@@ -627,6 +554,8 @@ void biblioFrame::CreateGUIControls(void)
         SetAcceleratorTable(table);
     } else {
     }
+    
+    grille->SetFocus();
 }
 
 void biblioFrame::biblioFrameClose(wxCloseEvent& event)
@@ -652,8 +581,16 @@ void biblioFrame::OnSplitterwindowSashPosChanged( wxSplitterEvent& event )
         event.SetSashPosition(10);
     }
     split_gauche->SetSashPosition(18,false);
+
+    wxLogMessage("biblioFrame::OnSplitterwindowSashPosChanged()");
+
     //event.Skip();
 //@end wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING event handler for ID_SPLITTERWINDOW1 in biblioframe. 
+}
+
+void biblioFrame::OnSplitterdroitSashPosChanged( wxSplitterEvent& event )
+{
+    wxLogMessage("biblioFrame::OnSplitterdroitSashPosChanged() - pos = %d", event.GetSashPosition());
 }
 
 void biblioFrame::OnSplitterwindowDclick( wxSplitterEvent& event )
@@ -712,7 +649,7 @@ void biblioFrame::ouvrir_base(wxString filename) {
     
     init_colonnes();
     /* TODO (#1#): ajout de verification version base */
-    remplir_grille("");
+    remplir_grille();
     init_arbre();
 	this->SetTitle(_("Livrotheque : "+filename));
 	mastat->definir_base(&amoi);
@@ -806,7 +743,7 @@ void biblioFrame::parametrer(wxCommandEvent& event)
     int retShow = dlg->ShowModal();
     
     if (retShow == wxID_OK) {
-        remplir_grille("");
+        remplir_grille();
     }
     wxLogMessage("biblioFrame::parametrer() - sortie");
 }
@@ -892,7 +829,13 @@ int biblioFrame::trouve_ligne(wxString Label){
     return 0;        
 }    
 
-void biblioFrame::remplir_grille(wxString where)
+void biblioFrame::remplir_grille()
+{
+    wxArrayString listFrom;
+    remplir_grille("", listFrom);
+}
+
+void biblioFrame::remplir_grille(wxString where, wxArrayString list_from)
 {
     wxLogMessage("biblioFrame::remplir_grille");
 
@@ -910,7 +853,7 @@ void biblioFrame::remplir_grille(wxString where)
     grille_ok=false;
     
     wxString query;
-    creation_select_livre(query, where, "order by id_auteur");
+    creation_select_livre(query, where, list_from/*, "order by id_auteur"*/);
     int ret=amoi.transac_prepare(query);
         //wxMessageBox(query,"test", wxOK | wxICON_EXCLAMATION, this);
     if (ret<0) {
@@ -992,7 +935,7 @@ void biblioFrame::remplir_grille(wxString where)
         iLivre++;
         ret=amoi.transac_step();
     }  
-    mess.Printf("%d livres", iLivre);
+    mess.Printf("%d livre%s", iLivre, (iLivre >1 ? "s" : ""));
     SetStatusText(mess,1);
 
     for (int iCol=0; iCol<(int)liste_choisis_nom.GetCount(); iCol++) {
@@ -1028,7 +971,8 @@ void biblioFrame::remplir_grille(wxString where)
     wxLogMessage("biblioFrame::remplir_grille - sortie");
 }
 
-void biblioFrame::creation_select_livre(wxString &select, wxString where, wxString order_by) {
+void biblioFrame::creation_select_livre(wxString &select, wxString where, wxArrayString list_from/*, wxString order_by*/)
+{
     int i,present;
 //    wxArrayInt join_list;
     wxArrayString join_list;
@@ -1038,9 +982,8 @@ void biblioFrame::creation_select_livre(wxString &select, wxString where, wxStri
     wxString join=" ";
     /* TODO (#1#): select livre.rowid,livre.titre, serie.nom from livre LEFT 
                    JOIN serie ON livre.id_serie=serie.rowid  */
-    if (liste_tri.GetCount() == 0)
-        order_by="";
-    else
+    wxString order_by;
+    if (liste_tri.GetCount() != 0)
         order_by="ORDER BY ";
     
     for (i=0;i<(int)liste_tri.GetCount();i++) {
@@ -1175,23 +1118,14 @@ void biblioFrame::modifielivre(wxCommandEvent& event)
             wxLogMessage("biblioFrame::modifieLivre() - avant init_arbre()");
             init_arbre();
 
-            /*** recaler la grille sur le premier livre modifié **/
-/*
-            wxLogMessage("biblioFrame::modifieLivre() - avant trouve_ligne()");
-            wxString id=wxString::Format("%d", cell_select[0]);
-            int numrow=trouve_ligne(id);
-            grille->MakeCellVisible(numrow,1);
-            grille->SelectRow(numrow);
-            wxLogMessage("biblioFrame::modifieLivre() - avant AfficheLivre()");
-            AfficheLivre(id);
-*/            
+            // re-sélectionner les livres modifiés et afficher le premier de la sélection
             for (int ii = cell_select.GetCount() - 1; ii >= 0; ii--) {
                 wxLogMessage("biblioFrame::modifieLivre() - avant trouve_ligne()");
                 wxString id=wxString::Format("%d", cell_select[ii]);
                 int numrow=trouve_ligne(id);
                 if (ii == 0)
                     grille->MakeCellVisible(numrow,1);
-                grille->SelectRow(numrow, (ii < cell_select.GetCount()-1));
+                grille->SelectRow(numrow, (ii < (int)(cell_select.GetCount())-1));
 
                 
                 /*
@@ -1240,7 +1174,7 @@ void biblioFrame::popup_effacelivre(wxCommandEvent& event)
         ret = wxMessageBox (mess, "Question", wxYES_NO|wxNO_DEFAULT|wxICON_EXCLAMATION, this);
         if (ret == wxYES) {
             wxString query = "DELETE FROM livre WHERE rowid IN (";
-            for (int iLivre = 0; iLivre < cell_select.GetCount(); iLivre++) {
+            for (size_t iLivre = 0; iLivre < cell_select.GetCount(); iLivre++) {
                 query += grille->GetRowLabelValue(cell_select[iLivre]);
                 if (iLivre < cell_select.GetCount() - 1)
                     query += ", ";
@@ -1324,46 +1258,6 @@ void biblioFrame::popup_MnuouvrirClick(wxCommandEvent& event)
     //event.Skip();
 }
 
-void biblioFrame::OnArbreSel(wxTreeEvent &event) {
-    wxLogMessage("biblioFrame::OnArbreSel()");
-    wxString val, ancienne_val;
-    wxTreeItemId branche, ancienne_branche;
-    wxTreeItemId root;
-    wxString where;
-    
-    ancienne_branche=event.GetOldItem();
-    branche=event.GetItem();
-    root=arbre->GetRootItem();
-    val=arbre->GetItemText(branche);
-    if (ancienne_branche != branche ) {
-        if (branche == root) {
-            m_idAuteurSelection = -1;
-            m_lettreSelection = -1;
-            remplir_grille("");
-        }
-        else {
-            gestion_quote(val);
-            if (val.Length() == 1) {
-                m_idAuteurSelection = -1;
-                m_lettreSelection = -1 * ((treeItemDataLong*)(arbre->GetItemData(branche)))->val();
-                where="WHERE auteur.nom LIKE '"+val+"%%' ";
-                list_from.Clear();
-                list_from.Add("id_auteur");
-                remplir_grille(where);
-            } else {
-                wxLogMessage("avant lecture de GetItemData()");
-                m_idAuteurSelection = ((treeItemDataLong*)(arbre->GetItemData(branche)))->val();
-                m_lettreSelection = -1;
-                wxLogMessage("m_idAuteurSelection = %ld", m_idAuteurSelection);
-                where="WHERE auteur.nom='"+val+"' ";
-                list_from.Clear();
-                list_from.Add("id_auteur");
-                remplir_grille(where);
-            }                    
-        }    
-    }
-    wxLogMessage("biblioFrame::OnArbreSel() - sortie");
-}    
 
 /*
  * MnuordredetriClick
@@ -1577,10 +1471,14 @@ void biblioFrame::sauve_config()
     {
         int x, y;
         this->GetSize(&x,&y);
-        param->Set("config", "INIT", "TAILLE", x, y);
+        param->Set("config", "INIT", "TAILLE", (long)x, (long)y);
         this->GetPosition(&x,&y);
-        param->Set("config", "INIT", "POSITION", x, y);
+        param->Set("config", "INIT", "POSITION", (long)x, (long)y);
+
+        wxLogMessage("param->Set('config', 'INIT', 'SPLIT_P', %ld)", (long)(split_princip->GetSashPosition()));
         param->Set("config", "INIT", "SPLIT_P", (long)(split_princip->GetSashPosition()));
+
+        wxLogMessage("param->Set('config', 'INIT', 'SPLIT_D', %ld)", (long)(split_droit->GetSashPosition()));
         param->Set("config", "INIT", "SPLIT_D", (long)(split_droit->GetSashPosition()));
     }
     
@@ -1652,18 +1550,19 @@ void biblioFrame::load_config() {
     }
 
     // récupération de la taille de la fenêtre
-    long x = 800, y = 600;
-    param->GetOrSet("config", "INIT", "TAILLE", x, y);
-    if (x>0 && y>0) {
-       this->SetSize(x,y);
+    long tailleX = 800, tailleY = 600;
+    param->GetOrSet("config", "INIT", "TAILLE", tailleX, tailleY);
+    if (tailleX > 0 && tailleY > 0) {
+       this->SetSize(tailleX, tailleY);
+        wxLogMessage("biblioFrame::load_config() : this->SetSize(%ld, %ld)", tailleX, tailleY);
     }
 
     //récupération de la position de la fenêtre
-    x = 50;
-    y = 50;    
-    param->GetOrSet("config", "INIT", "POSITION", x, y);
-    if (x>0 && y>0) {
-        this->Move(x,y);
+    long posX = 50, posY = 50;
+    param->GetOrSet("config", "INIT", "POSITION", posX, posY);
+    if ( (posX >= 0 || posX + tailleX >= 0) && (posY >= 0 || posY + tailleY >= 0) ) {
+        this->Move(posX, posY);
+        wxLogMessage("biblioFrame::load_config() : this->Move(%ld, %ld)", posX, posY);
     }
     
     //récupération pour savoir si la fenêtre est maximisée
@@ -1674,7 +1573,7 @@ void biblioFrame::load_config() {
     }
 
     // récupération de la position du spliter principal
-    x = 100;
+    long x = 100;
     param->GetOrSet("config", "INIT", "SPLIT_P", x);
     if (x>0) {
         split_princip->SetSashPosition(x);
@@ -1685,6 +1584,7 @@ void biblioFrame::load_config() {
     param->GetOrSet("config", "INIT", "SPLIT_D", x);
     if (x>0) {
         split_droit->SetSashPosition(x);
+        // wxMessageBox(wxString::Format("SPLIT_D = %ld", x));
     }  
 }    
 
@@ -1750,16 +1650,16 @@ void biblioFrame::Mnulistes(wxCommandEvent& event)
 void biblioFrame::MnurechercherClick(wxCommandEvent& event)
 {
     wxLogMessage("biblioFrame::MnurechercherClick()");
-    list_from.Clear();
+    wxArrayString list_from;
     recherche* ma_recherche = new recherche(this, -1, "Recherche", wxDefaultPosition, wxDefaultSize, wxSYSTEM_MENU|wxCAPTION| wxRESIZE_BORDER);
     
     ma_recherche->ShowModal();
     if (ma_recherche->table_liee.Len() > 0) {
         list_from.Add(ma_recherche->table_liee);
     }
-    remplir_grille(ma_recherche->where);
+    remplir_grille(ma_recherche->where, list_from);
 
-    list_from.Remove(ma_recherche->table_liee);
+//    list_from.Remove(ma_recherche->table_liee);
 
     //event.Skip();
     wxLogMessage("biblioFrame::MnurechercherClick() - sortie");
@@ -1971,7 +1871,7 @@ wxArrayInt bellegrille::LignesSelectionnees()
 
     wxGridCellCoordsArray arr1 = GetSelectionBlockTopLeft();
     wxGridCellCoordsArray arr2 = GetSelectionBlockBottomRight();
-    for (int ii = 0; ii < arr1.GetCount(); ii++) {
+    for (size_t ii = 0; ii < arr1.GetCount(); ii++) {
         for (int jj = arr1[ii].GetRow(); jj <= arr2[ii].GetRow(); jj++)
             liste.Add(jj);
     }
@@ -1983,7 +1883,7 @@ wxArrayInt bellegrille::rowIdSelectionnes()
 {
     wxArrayInt liste;
     wxArrayInt listeRow = GetSelectedRows();
-    for (int ii = 0; ii < listeRow.GetCount(); ii++) {
+    for (size_t ii = 0; ii < listeRow.GetCount(); ii++) {
         long rowid = -1;
         GetLabelValue(0, listeRow[ii]).ToLong(&rowid);
         liste.Add(rowid);
@@ -1991,7 +1891,7 @@ wxArrayInt bellegrille::rowIdSelectionnes()
 
     wxGridCellCoordsArray arr1 = GetSelectionBlockTopLeft();
     wxGridCellCoordsArray arr2 = GetSelectionBlockBottomRight();
-    for (int ii = 0; ii < arr1.GetCount(); ii++) {
+    for (size_t ii = 0; ii < arr1.GetCount(); ii++) {
         for (int jj = arr1[ii].GetRow(); jj <= arr2[ii].GetRow(); jj++) {
             long rowid = -1;
             GetLabelValue(0, jj).ToLong(&rowid);
@@ -2001,7 +1901,7 @@ wxArrayInt bellegrille::rowIdSelectionnes()
     
     
     wxString listeStr = "(";
-    for (int ii = 0; ii < liste.GetCount(); ii++) {
+    for (size_t ii = 0; ii < liste.GetCount(); ii++) {
         listeStr += wxString::Format("%d, ", liste[ii]);
     }
     if (liste.GetCount() == 0) 
@@ -2224,7 +2124,8 @@ void biblioFrame::Mnuexportcsv1062Click(wxCommandEvent& event)
     liste_choisis=liste_choisis_export;
     liste_choisis_nom=liste_choisis_nom_export;
     
-    creation_select_livre(query,"","");
+    wxArrayString listFrom;
+    creation_select_livre(query, "", listFrom /*,""*/);
     
     liste_choisis=liste_choisis_sauve;
     liste_choisis_nom=liste_choisis_nom_sauve;
@@ -2515,7 +2416,7 @@ void biblioFrame::verifierVersion(bool silencieux)
     param->GetOrSet("config", "INIT", "VERIF_VERSION_PREPROD", usePreprod, urlSpecifique);
     if (urlSpecifique != "")
         urlFichierVersion = urlSpecifique;
-    
+
     VersionXml version(urlFichierVersion, gettempdir(), VER_STRING, usePreprod);
     
     bool aJour = version.aJour();
@@ -2800,28 +2701,26 @@ void biblioFrame::OnMnuAfficherAttenteInsertion(wxCommandEvent& event)
     }
 }
 
-void biblioFrame::OnArbreCollapseNode(wxTreeEvent& event)
+void biblioFrame::OnComboboxSelected(wxCommandEvent& event)
 {
-    wxTreeItemId itemId = event.GetItem();
-    wxString label = arbre->GetItemText(itemId);
-    if (label.Len() == 1) {
-        char lettre = label[0];
-        if (lettre >= 'A' && lettre <= 'Z')
-            m_arbreLettreOuverte[lettre-'A'] = false;
-    }
-    // wxLogMessage("biblioFrame::OnArbreCollapseNode() - label = [%s]", arbre->GetItemText(itemId).c_str());
-    
+    OnComboboxSelected_interne();
 }
 
-void biblioFrame::OnArbreExpandNode(wxTreeEvent& event)
+void biblioFrame::OnComboboxSelected_interne()
 {
-    wxTreeItemId itemId = event.GetItem();
-    wxString label = arbre->GetItemText(itemId);
-    if (label.Len() == 1) {
-        char lettre = label[0];
-        if (lettre >= 'A' && lettre <= 'Z')
-            m_arbreLettreOuverte[lettre-'A'] = true;
+    if (!choix_arbre)
+        return;
+    int index = choix_arbre->GetSelection();
+    if (index != wxNOT_FOUND) {
+        int id = (int)(choix_arbre->GetClientData(index));
+        wxLogMessage("OnComboboxSelected() - index : %d - id : %d", index, id);
+        arbre->typeArbo((E_typeArboCtrl)(id));
+        init_arbre();
+    } else {
+        wxLogMessage("OnComboboxSelected() - index : %d (wxNOT_FOUND)", index);
     }
-    // wxLogMessage("biblioFrame::OnArbreExpandNode() - label = [%s]", arbre->GetItemText(itemId).c_str());
-    
+
+    // sauvegarder le type d'arbo sauvegardé dans la config
+    ParamManager* param = ParamManager::GetInstance("config");
+    param->Set("config", "INIT", "TYPE_ARBO_CTRL", (long)index);
 }

@@ -14,11 +14,9 @@ object frmNewForm_1: TfrmNewForm
   OldCreateOrder = True
   PopupMenu = MainForm.DesignerPopup
   Visible = True
-  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnKeyDown = FormKeyDown
-  OnResize = NewFormResize
+OnResize = FormResize
   Wx_ICON.Data = {07544269746D617000000000}
   Wx_Name = 'recherche'
   Wx_IDName = 'ID_DIALOG1'

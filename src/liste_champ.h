@@ -81,6 +81,7 @@ class liste_champ : public wxDialog
 public:
  enum {
 ////GUI Enum Control ID Start
+			ID_WXBUTTON_NETTOYER = 1013,
 			ID_MNU_SUPPRIME_1008 = 1008,
 			
 			ID_WXBUTTON_INSERER = 1007,
@@ -95,6 +96,7 @@ ID_DUMMY_VALUE_ //Dont Delete this DummyValue
     virtual ~liste_champ();
 public:
   ////GUI Control Declaration Start
+		wxButton *WxButton_nettoyer;
 		wxMenu *WxPopupMenu_grille;
 		wxButton *WxButton_inserer;
 		wxButton *WxButton_ok;
@@ -125,6 +127,7 @@ public:
 	void grilleCellLeftClick(wxGridEvent& event);
     wxString inverse_texte (wxString texte);
 		void grilleLabelLeftClick(wxGridEvent& event);
+		void WxButton_nettoyerClick(wxCommandEvent& event);
 
 private:
     wxString critere_tri;

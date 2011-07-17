@@ -73,6 +73,7 @@ BEGIN_EVENT_TABLE(liste_champ,wxDialog)
 	////Manual Code End
 	
 	EVT_CLOSE(liste_champ::liste_champClose)
+	EVT_BUTTON(ID_WXBUTTON_NETTOYER,liste_champ::WxButton_nettoyerClick)
 	EVT_MENU(ID_MNU_SUPPRIME_1008 , liste_champ::Mnusupprime1008Click)
 	EVT_BUTTON(ID_WXBUTTON_INSERER,liste_champ::WxButton_insererClick)
 	EVT_BUTTON(wxID_CANCEL,liste_champ::WxButton_okClick)
@@ -151,6 +152,11 @@ void liste_champ::CreateGUIControls(void)
 	WxBoxSizer_button->Add(WxButton_inserer,0,wxALIGN_CENTER | wxALL,5);
 
 	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_SUPPRIME_1008, wxT("Supprimer la ligne courante"), wxT(""), wxITEM_NORMAL);
+
+	WxButton_nettoyer = new wxButton(this, ID_WXBUTTON_NETTOYER, wxT("Nettoyer"), wxPoint(185, 5), wxSize(80, 28), 0, wxDefaultValidator, wxT("WxButton_nettoyer"));
+	WxButton_nettoyer->SetToolTip(wxT("Supprimer tous les éléments sans aucun livre"));
+	WxButton_nettoyer->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer_button->Add(WxButton_nettoyer,0,wxALIGN_CENTER | wxALL,5);
 
 	SetTitle(wxT("liste"));
 	SetIcon(wxNullIcon);
@@ -421,4 +427,48 @@ void liste_champ::grilleLabelLeftClick(wxGridEvent& event)
 	   
 	
 	init_grille();
+}
+
+/*
+ * WxButton_nettoyerClick
+ */
+void liste_champ::WxButton_nettoyerClick(wxCommandEvent& event)
+{
+    wxString listeLibelles;
+    wxArrayInt listeRowId;
+    for (int iRow=0; iRow < grille->GetNumberRows(); iRow++) {
+        wxString nb_enr = grille->GetCellValue(iRow, 2);
+        if (nb_enr == "0") {
+            long rowid;
+            grille->GetCellValue(iRow, 0).ToLong(&rowid);
+            listeRowId.Add(rowid);
+            listeLibelles += "\t" + grille->GetCellValue(iRow, 1) + "\n ";
+        }        
+    }
+    
+    if (listeRowId.GetCount() == 0) {
+        wxMessageBox("Il n'y a aucun élément sans livre associé");
+        return;
+    }
+    
+    int continuer = wxMessageBox("Voulez-vous vraiment supprimer les éléments suivants ?\n" + listeLibelles.BeforeLast('\n'), "Livrothèque", wxYES_NO);
+    if (continuer == wxYES) {
+        for (size_t ii=0; ii < listeRowId.GetCount(); ii++) {
+            wxString query = "DELETE FROM " + nom_table + " WHERE rowid = " + wxString::Format("%d", listeRowId[ii]);
+            wxLogMessage(query);
+            int ret=la_belle->exec_rapide(query);
+            if (ret<0) {
+                wxString texte;
+                la_belle->get_erreur(texte);
+                wxMessageBox(query+"\n"+texte,"probleme", wxOK | wxICON_EXCLAMATION, this);
+            } else {
+                modifie=true;
+            }
+        }
+
+        if (modifie)
+            init_grille();
+    } else {
+        // wxMessageBox("on arrête");
+    }
 }

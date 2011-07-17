@@ -60,21 +60,25 @@ BEGIN_EVENT_TABLE(FusionDlg,wxDialog)
 	
 	EVT_CLOSE(FusionDlg::OnClose)
 	EVT_INIT_DIALOG(FusionDlg::FusionDlgInitDialog)
-	EVT_COMBOBOX(ID_CB_TYPE_GROUPE,FusionDlg::CB_typeGroupeSelected)
-	EVT_COMBOBOX(ID_CB_TYPE_TRI,FusionDlg::CB_typeTriSelected)
-	EVT_COMBOBOX(ID_WXCOMBOBOX1,FusionDlg::CB_listeGroupes1Selected)
-	EVT_COMBOBOX(ID_WXCOMBOBOX2,FusionDlg::CB_listeGroupes2Selected)
-	EVT_BUTTON(ID_WXBUTTON1,FusionDlg::BN_FusionnerClick)
 	EVT_BUTTON(ID_WXBUTTON2,FusionDlg::BN_AnnulerClick)
+	EVT_BUTTON(ID_WXBUTTON1,FusionDlg::BN_FusionnerClick)
+	EVT_COMBOBOX(ID_WXCOMBOBOX2,FusionDlg::CB_listeGroupes2Selected)
+	EVT_BUTTON(ID_WXBN_PERMUTER,FusionDlg::m_btn_permuterClick)
+	EVT_COMBOBOX(ID_WXCOMBOBOX1,FusionDlg::CB_listeGroupes1Selected)
+	EVT_COMBOBOX(ID_CB_TYPE_TRI,FusionDlg::CB_typeTriSelected)
+	EVT_COMBOBOX(ID_CB_TYPE_GROUPE,FusionDlg::CB_typeGroupeSelected)
 END_EVENT_TABLE()
 ////Event Table End
 
-FusionDlg::FusionDlg(wxWindow *parent, ma_base& p_baseLivre, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
+FusionDlg::FusionDlg(wxWindow *parent, ma_base& p_baseLivre, wxString table, long itemId, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style), baseLivre(p_baseLivre)
 {
     s_nbInstances++;
     wxLogMessage("FusionDlg::FusionDlg() - nbInstances = %ld", s_nbInstances);
 	CreateGUIControls();
+
+    m_table = table;
+    m_itemId = itemId;
 }
 
 FusionDlg::~FusionDlg()
@@ -91,42 +95,107 @@ void FusionDlg::CreateGUIControls()
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
+	WxBoxSizer1 = new wxBoxSizer(wxVERTICAL);
+	this->SetSizer(WxBoxSizer1);
+	this->SetAutoLayout(true);
+
+	WxBoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer1->Add(WxBoxSizer2, 0, wxALIGN_LEFT | wxALL, 5);
+
+	WxStaticText3 = new wxStaticText(this, ID_WXSTATICTEXT3, wxT("Type de groupe :"), wxPoint(5, 7), wxDefaultSize, 0, wxT("WxStaticText3"));
+	WxBoxSizer2->Add(WxStaticText3,0,wxALIGN_CENTER | wxALL,5);
+
 	wxArrayString arrayStringFor_CB_typeGroupe;
-	CB_typeGroupe = new wxComboBox(this, ID_CB_TYPE_GROUPE, wxT("CB_typeGroupe"), wxPoint(136, 6), wxSize(145, 23), arrayStringFor_CB_typeGroupe, wxCB_READONLY, wxDefaultValidator, wxT("CB_typeGroupe"));
+	CB_typeGroupe = new wxComboBox(this, ID_CB_TYPE_GROUPE, wxT("CB_typeGroupe"), wxPoint(108, 5), wxSize(145, 23), arrayStringFor_CB_typeGroupe, wxCB_READONLY, wxDefaultValidator, wxT("CB_typeGroupe"));
+	WxBoxSizer2->Add(CB_typeGroupe,0,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticText4 = new wxStaticText(this, ID_WXSTATICTEXT4, wxT("Ordre des listes :"), wxPoint(263, 7), wxSize(130, 19), wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxT("WxStaticText4"));
+	WxBoxSizer2->Add(WxStaticText4,0,wxALIGN_CENTER | wxALL,5);
 
 	wxArrayString arrayStringFor_CB_typeTri;
-	CB_typeTri = new wxComboBox(this, ID_CB_TYPE_TRI, wxT("CB_typeTri"), wxPoint(368, 6), wxSize(241, 23), arrayStringFor_CB_typeTri, wxCB_READONLY, wxDefaultValidator, wxT("CB_typeTri"));
+	CB_typeTri = new wxComboBox(this, ID_CB_TYPE_TRI, wxT("CB_typeTri"), wxPoint(403, 5), wxSize(241, 23), arrayStringFor_CB_typeTri, wxCB_READONLY, wxDefaultValidator, wxT("CB_typeTri"));
+	WxBoxSizer2->Add(CB_typeTri,0,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticLine1 = new wxStaticLine(this, ID_WXSTATICLINE1, wxPoint(79, 48), wxSize(500, -1), wxLI_HORIZONTAL);
+	WxBoxSizer1->Add(WxStaticLine1,0,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer1->Add(WxBoxSizer3, 1, wxALIGN_CENTER | wxEXPAND | wxALL, 5);
+
+	WxBoxSizer4 = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer3->Add(WxBoxSizer4, 1, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxBoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer4->Add(WxBoxSizer5, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxStaticText1 = new wxStaticText(this, ID_WXSTATICTEXT1, wxT("Fusionner :"), wxPoint(5, 7), wxDefaultSize, 0, wxT("WxStaticText1"));
+	WxBoxSizer5->Add(WxStaticText1,0,wxALIGN_CENTER | wxALL,5);
 
 	wxArrayString arrayStringFor_CB_listeGroupes1;
-	CB_listeGroupes1 = new wxComboBox(this, ID_WXCOMBOBOX1, wxT("Choisir un groupe"), wxPoint(77, 57), wxSize(466, 23), arrayStringFor_CB_listeGroupes1, wxCB_READONLY, wxDefaultValidator, wxT("CB_listeGroupes1"));
+	CB_listeGroupes1 = new wxComboBox(this, ID_WXCOMBOBOX1, wxT("Choisir un groupe"), wxPoint(77, 5), wxSize(200, 23), arrayStringFor_CB_listeGroupes1, wxCB_READONLY, wxDefaultValidator, wxT("CB_listeGroupes1"));
+	WxBoxSizer5->Add(CB_listeGroupes1,1,wxALIGN_CENTER | wxEXPAND | wxALL,5);
+
+	WxBoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer4->Add(WxBoxSizer8, 1, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
 
 	wxArrayString arrayStringFor_LB_listeLivres1;
-	LB_listeLivres1 = new wxListBox(this, ID_WXLISTBOX1, wxPoint(18, 86), wxSize(527, 235), arrayStringFor_LB_listeLivres1, wxLB_SINGLE);
+	LB_listeLivres1 = new wxListBox(this, ID_WXLISTBOX1, wxPoint(5, 5), wxSize(250, 172), arrayStringFor_LB_listeLivres1, wxLB_SINGLE);
+	WxBoxSizer8->Add(LB_listeLivres1,1,wxALIGN_CENTER | wxEXPAND | wxALL,5);
+
+	m_btn_permuter = new wxButton(this, ID_WXBN_PERMUTER, wxT("Permuter"), wxPoint(287, 95), wxSize(75, 25), 0, wxDefaultValidator, wxT("m_btn_permuter"));
+	m_btn_permuter->SetToolTip(wxT("Permuter les deux groupes sélectionnés"));
+	m_btn_permuter->SetHelpText(wxT("Permuter les deux groupes sélectionnés"));
+	WxBoxSizer3->Add(m_btn_permuter,0,wxALIGN_TOP | wxALL,5);
+
+	WxBoxSizer6 = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer3->Add(WxBoxSizer6, 1, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxBoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer6->Add(WxBoxSizer7, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxStaticText2 = new wxStaticText(this, ID_WXSTATICTEXT2, wxT("dans :"), wxPoint(5, 7), wxDefaultSize, 0, wxT("WxStaticText2"));
+	WxBoxSizer7->Add(WxStaticText2,0,wxALIGN_CENTER | wxALL,5);
 
 	wxArrayString arrayStringFor_CB_listeGroupes2;
-	CB_listeGroupes2 = new wxComboBox(this, ID_WXCOMBOBOX2, wxT("Choisir un groupe"), wxPoint(636, 57), wxSize(466, 23), arrayStringFor_CB_listeGroupes2, wxCB_READONLY, wxDefaultValidator, wxT("CB_listeGroupes2"));
+	CB_listeGroupes2 = new wxComboBox(this, ID_WXCOMBOBOX2, wxT("Choisir un groupe"), wxPoint(50, 5), wxSize(200, 23), arrayStringFor_CB_listeGroupes2, wxCB_READONLY, wxDefaultValidator, wxT("CB_listeGroupes2"));
+	WxBoxSizer7->Add(CB_listeGroupes2,1,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer6->Add(WxBoxSizer9, 1, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
 
 	wxArrayString arrayStringFor_LB_listeLivres2;
-	LB_listeLivres2 = new wxListBox(this, ID_WXLISTBOX2, wxPoint(575, 86), wxSize(527, 235), arrayStringFor_LB_listeLivres2, wxLB_SINGLE);
+	LB_listeLivres2 = new wxListBox(this, ID_WXLISTBOX2, wxPoint(5, 5), wxSize(250, 172), arrayStringFor_LB_listeLivres2, wxLB_SINGLE);
+	WxBoxSizer9->Add(LB_listeLivres2,1,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	BN_Fusionner = new wxButton(this, ID_WXBUTTON1, wxT("Fusionner >>"), wxPoint(455, 329), wxSize(91, 25), 0, wxDefaultValidator, wxT("BN_Fusionner"));
+	WxBoxSizer10 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer1->Add(WxBoxSizer10, 0, wxALIGN_CENTER_HORIZONTAL | wxEXPAND | wxALL, 5);
 
-	BN_Annuler = new wxButton(this, ID_WXBUTTON2, wxT("Fermer"), wxPoint(577, 329), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_Annuler"));
+	WxBoxSizer11 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer10->Add(WxBoxSizer11, 1, wxALIGN_CENTER | wxALL, 0);
 
-	WxStaticText3 = new wxStaticText(this, ID_WXSTATICTEXT3, wxT("Type de groupe :"), wxPoint(24, 8), wxDefaultSize, 0, wxT("WxStaticText3"));
+	BN_Fusionner = new wxButton(this, ID_WXBUTTON1, wxT("Fusionner >>"), wxPoint(25, 5), wxSize(91, 25), 0, wxDefaultValidator, wxT("BN_Fusionner"));
+	WxBoxSizer10->Add(BN_Fusionner,0,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticLine1 = new wxStaticLine(this, ID_WXSTATICLINE1, wxPoint(0, 40), wxSize(1118, -1), wxLI_HORIZONTAL);
+	BN_Annuler = new wxButton(this, ID_WXBUTTON2, wxT("Fermer"), wxPoint(126, 5), wxSize(75, 25), 0, wxDefaultValidator, wxT("BN_Annuler"));
+	WxBoxSizer10->Add(BN_Annuler,0,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText2 = new wxStaticText(this, ID_WXSTATICTEXT2, wxT("dans :"), wxPoint(577, 59), wxDefaultSize, 0, wxT("WxStaticText2"));
-
-	WxStaticText1 = new wxStaticText(this, ID_WXSTATICTEXT1, wxT("Fusionner :"), wxPoint(14, 59), wxDefaultSize, 0, wxT("WxStaticText1"));
+	WxBoxSizer12 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer10->Add(WxBoxSizer12, 1, wxALIGN_CENTER | wxALL, 0);
 
 	SetTitle(wxT("Fusion"));
 	SetIcon(wxNullIcon);
-	SetSize(8,8,1135,402);
+	
+	GetSizer()->Layout();
+	GetSizer()->Fit(this);
+	GetSizer()->SetSizeHints(this);
 	Center();
 	
 	////GUI Items Creation End
+	
+	// la taille définie dans le wxform est la taille minimale de la fenêtre
+	// définir ici la taille initiale de la fenêtre
+    SetSize(900, 500);
+	Center();
 }
 
 void FusionDlg::OnClose(wxCloseEvent& /*event*/)
@@ -156,8 +225,26 @@ void FusionDlg::FusionDlgInitDialog(wxInitDialogEvent& event)
     CB_typeTri->AppendString("trier par nombre de titres");
     CB_typeTri->AppendString("trier par ordre alphabétique");
     CB_typeTri->Select(0);      // sélection par nombre de titres par défaut
+
+	// utilisation des valeurs table et itemId, si passées par l'appelant
+	if (m_table != "") {
+        for (size_t iGroup = 0; iGroup < CB_typeGroupe->GetCount(); iGroup++) {
+            if (CB_typeGroupe->GetString(iGroup) == m_table) {
+                CB_typeGroupe->Select(iGroup);
+            }
+        }
+    }
     
     InitListeGroupes();
+
+    if (m_itemId != -1) {
+        for (size_t iTitre = 0; iTitre < CB_listeGroupes1->GetCount(); iTitre++) {
+            if ((int)(CB_listeGroupes1->GetClientData(iTitre)) == m_itemId) {
+                CB_listeGroupes1->Select(iTitre);
+                remplirListeLivres(LB_listeLivres1, m_itemId);
+            }
+        }
+    }
 }
 
 void FusionDlg::InitListeGroupes()
@@ -309,8 +396,7 @@ void FusionDlg::BN_FusionnerClick(wxCommandEvent& event)
     int idGroupeFrom = (int)CB_listeGroupes1->GetClientData(CB_listeGroupes1->GetSelection());
     int idGroupeTo = (int)CB_listeGroupes2->GetClientData(CB_listeGroupes2->GetSelection());
 
-    if (idGroupeTo == 0 || idGroupeFrom == 0 || idGroupeTo == idGroupeFrom)
-    {
+    if (idGroupeTo == 0 || idGroupeFrom == 0 || idGroupeTo == idGroupeFrom) {
         wxMessageBox("Sélectionnez deux groupes différents à fusionner");
         return;
     }
@@ -335,8 +421,7 @@ void FusionDlg::BN_FusionnerClick(wxCommandEvent& event)
             wxMessageBox("problème à l'exécution de " + query + "\n" + texte);
         }
     }
-    if (ret >= 0)
-    {
+    if (ret >= 0) {
         InitListeGroupes();
     }
 }
@@ -355,4 +440,24 @@ void FusionDlg::CB_typeGroupeSelected(wxCommandEvent& event )
 void FusionDlg::CB_typeTriSelected(wxCommandEvent& event )
 {
 	InitListeGroupes();
+}
+
+/*
+ * m_btn_permuterClick
+ */
+void FusionDlg::m_btn_permuterClick(wxCommandEvent& event)
+{
+    int selection1 = CB_listeGroupes1->GetSelection();
+    CB_listeGroupes1->Select(CB_listeGroupes2->GetSelection());
+    CB_listeGroupes2->Select(selection1);
+    
+    Freeze();
+    
+    int idGroupe = (int)CB_listeGroupes1->GetClientData(CB_listeGroupes1->GetSelection());
+    remplirListeLivres(LB_listeLivres1, idGroupe);
+
+    idGroupe = (int)CB_listeGroupes2->GetClientData(CB_listeGroupes2->GetSelection());
+    remplirListeLivres(LB_listeLivres2, idGroupe);
+
+    Thaw();
 }

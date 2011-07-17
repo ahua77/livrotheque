@@ -650,3 +650,18 @@ int tri_sans_accent(void *foo, int len, const void * data1, int len2, const void
 	return wxdata1.compare(wxdata2);
 }
 
+char supprimeAccent(char val)
+{
+    wxString accent = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÌÍÎÏìíîïÙÚÛÜùúûüÿÑñÇç";
+    wxString sansAccent = "AAAAAAAAAAAAOOOOOOOOOOOOEEEEEEEEIIIIIIIIUUUUUUUUYNNCC";
+
+    char val2 = val;
+    int index = accent.find(val);
+    if (index != wxNOT_FOUND) {
+        val2 = sansAccent[index];
+    }
+    
+//    wxLogMessage("supprimeAccent : %c --> %c", val, val2);
+    return val2;
+}
+

@@ -262,7 +262,7 @@ void ParamManager::Set(const wxString& tableParam, const wxString& typeParam, co
                     wxMessageBox("probleme avec la requete " + query);
                 }
             } else {
-                // wxLogMessage("pas de changement pour %s/%s : ('%s', '%s')", tableParam.c_str(), nomParam.c_str(), val1.c_str(), val2.c_str());
+                wxLogMessage("pas de changement pour %s/%s : ('%s', '%s')", tableParam.c_str(), nomParam.c_str(), val1.c_str(), val2.c_str());
             }
         } else {
             // la ligne typeParam / nomParam n'existe pas : on en profite pour l'insérer

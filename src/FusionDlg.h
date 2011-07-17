@@ -57,11 +57,12 @@
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
-#include <wx/combobox.h>
-#include <wx/listbox.h>
 #include <wx/button.h>
+#include <wx/listbox.h>
 #include <wx/statline.h>
+#include <wx/combobox.h>
 #include <wx/stattext.h>
+#include <wx/sizer.h>
 ////Header Include End
 
 #include "mabase.h"
@@ -77,7 +78,7 @@ class FusionDlg : public wxDialog
 		DECLARE_EVENT_TABLE();
 		
 	public:
-		FusionDlg(wxWindow *parent, ma_base& p_baseLivre, wxWindowID id = 1, const wxString &title = wxT("Fusion"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = FusionDlg_STYLE);
+		FusionDlg(wxWindow *parent, ma_base& p_baseLivre, wxString table = "", long itemId = -1, wxWindowID id = 1, const wxString &title = wxT("Fusion"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = FusionDlg_STYLE);
 		virtual ~FusionDlg();
 		void FusionDlgInitDialog(wxInitDialogEvent& event);
 		void CB_listeGroupes1Selected(wxCommandEvent& event );
@@ -86,24 +87,39 @@ class FusionDlg : public wxDialog
 		void CB_typeGroupeSelected(wxCommandEvent& event );
 		void BN_FusionnerClick(wxCommandEvent& event);
 		void CB_typeTriSelected(wxCommandEvent& event );
+		void m_btn_permuterClick(wxCommandEvent& event);
 	
 	private:
 		//Do not add custom control declarations between 
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
-		wxComboBox *CB_typeGroupe;
-		wxComboBox *CB_typeTri;
-		wxComboBox *CB_listeGroupes1;
-		wxListBox *LB_listeLivres1;
-		wxComboBox *CB_listeGroupes2;
-		wxListBox *LB_listeLivres2;
-		wxButton *BN_Fusionner;
+		wxBoxSizer *WxBoxSizer12;
 		wxButton *BN_Annuler;
-		wxStaticText *WxStaticText3;
-		wxStaticLine *WxStaticLine1;
+		wxButton *BN_Fusionner;
+		wxBoxSizer *WxBoxSizer11;
+		wxBoxSizer *WxBoxSizer10;
+		wxListBox *LB_listeLivres2;
+		wxBoxSizer *WxBoxSizer9;
+		wxComboBox *CB_listeGroupes2;
 		wxStaticText *WxStaticText2;
+		wxBoxSizer *WxBoxSizer7;
+		wxBoxSizer *WxBoxSizer6;
+		wxButton *m_btn_permuter;
+		wxListBox *LB_listeLivres1;
+		wxBoxSizer *WxBoxSizer8;
+		wxComboBox *CB_listeGroupes1;
 		wxStaticText *WxStaticText1;
+		wxBoxSizer *WxBoxSizer5;
+		wxBoxSizer *WxBoxSizer4;
+		wxBoxSizer *WxBoxSizer3;
+		wxStaticLine *WxStaticLine1;
+		wxComboBox *CB_typeTri;
+		wxStaticText *WxStaticText4;
+		wxComboBox *CB_typeGroupe;
+		wxStaticText *WxStaticText3;
+		wxBoxSizer *WxBoxSizer2;
+		wxBoxSizer *WxBoxSizer1;
 		////GUI Control Declaration End
 		
 	private:
@@ -114,18 +130,20 @@ class FusionDlg : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
-			ID_CB_TYPE_GROUPE = 1012,
-			ID_CB_TYPE_TRI = 1015,
-			ID_WXCOMBOBOX1 = 1001,
-			ID_WXLISTBOX1 = 1009,
-			ID_WXCOMBOBOX2 = 1002,
-			ID_WXLISTBOX2 = 1010,
-			ID_WXBUTTON1 = 1007,
 			ID_WXBUTTON2 = 1008,
-			ID_WXSTATICTEXT3 = 1013,
-			ID_WXSTATICLINE1 = 1011,
+			ID_WXBUTTON1 = 1007,
+			ID_WXLISTBOX2 = 1010,
+			ID_WXCOMBOBOX2 = 1002,
 			ID_WXSTATICTEXT2 = 1004,
+			ID_WXBN_PERMUTER = 1029,
+			ID_WXLISTBOX1 = 1009,
+			ID_WXCOMBOBOX1 = 1001,
 			ID_WXSTATICTEXT1 = 1003,
+			ID_WXSTATICLINE1 = 1011,
+			ID_CB_TYPE_TRI = 1015,
+			ID_WXSTATICTEXT4 = 1030,
+			ID_CB_TYPE_GROUPE = 1012,
+			ID_WXSTATICTEXT3 = 1013,
 			////GUI Enum Control ID End
 			ID_DUMMY_VALUE_ //don't remove this value unless you have other enum values
 		};
@@ -140,6 +158,9 @@ class FusionDlg : public wxDialog
         ma_base& baseLivre;
     
         static long s_nbInstances;
+
+        long m_itemId;
+        wxString m_table;
 };
 
 #endif

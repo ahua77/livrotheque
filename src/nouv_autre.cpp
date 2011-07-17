@@ -134,7 +134,7 @@ nouv_autre::nouv_autre( ma_base *pour_modif, wxString id_champ, wxWindow *parent
 nouv_autre::~nouv_autre()
 {
     s_nbInstances--;
-    wxLogMessage("FusionDlg::~FusionDlg() - nbInstances = %ld", s_nbInstances);    
+    wxLogMessage("nouv_autre::~nouv_autre() - nbInstances = %ld", s_nbInstances);    
 } 
 
 void nouv_autre::CreateGUIControls(void)
@@ -144,13 +144,16 @@ void nouv_autre::CreateGUIControls(void)
 
 	wxInitAllImageHandlers();   //Initialize graphic format handlers
 
-	WxBoxSizer1 = new wxBoxSizer(wxVERTICAL);
-	this->SetSizer(WxBoxSizer1);
+	WxBoxSizer_h = new wxBoxSizer(wxHORIZONTAL);
+	this->SetSizer(WxBoxSizer_h);
 	this->SetAutoLayout(true);
+
+	WxBoxSizer1 = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer_h->Add(WxBoxSizer1, 1, wxALIGN_CENTER | wxEXPAND | wxALL, 5);
 
 	WxScrolledWindow1 = new wxScrolledWindow(this, ID_WXSCROLLEDWINDOW1, wxPoint(5, 0), wxSize(500, 167));
 	WxScrolledWindow1->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
-	WxBoxSizer1->Add(WxScrolledWindow1,0,wxALIGN_CENTER | wxALL,0);
+	WxBoxSizer1->Add(WxScrolledWindow1,0,wxALIGN_CENTER | wxEXPAND | wxALL,0);
 
 	WxStaticText_nom = new wxStaticText(WxScrolledWindow1, ID_WXSTATICTEXT_NOM, wxT("Nom :"), wxPoint(7, 8), wxDefaultSize, 0, wxT("WxStaticText_nom"));
 	WxStaticText_nom->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
@@ -194,7 +197,7 @@ void nouv_autre::CreateGUIControls(void)
 	WxMemo_commentaire->SetFocus();
 	WxMemo_commentaire->SetInsertionPointEnd();
 	WxMemo_commentaire->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
-	WxBoxSizer1->Add(WxMemo_commentaire,1,wxALIGN_CENTER | wxALL,0);
+	WxBoxSizer1->Add(WxMemo_commentaire,1,wxALIGN_CENTER | wxEXPAND | wxALL,0);
 
 	WxGrid_liste = new wxGrid(this, ID_WXGRID_LISTE, wxPoint(5, 310), wxSize(501, 100));
 	WxGrid_liste->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
@@ -203,7 +206,7 @@ void nouv_autre::CreateGUIControls(void)
 	WxGrid_liste->SetRowLabelSize(25);
 	WxGrid_liste->SetColLabelSize(15);
 	WxGrid_liste->CreateGrid(5,3,wxGrid::wxGridSelectRows);
-	WxBoxSizer1->Add(WxGrid_liste,1,wxALIGN_CENTER | wxALL,5);
+	WxBoxSizer1->Add(WxGrid_liste,1,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
 	WxBoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
 	WxBoxSizer1->Add(WxBoxSizer2, 0, wxALIGN_CENTER | wxALL, 5);
@@ -256,17 +259,12 @@ void nouv_autre::init_tout() {
 	int ir = WxGrid_liste->GetNumberRows();
 	if (ir)
 		WxGrid_liste->DeleteRows(0, ir);
-/*	ir = WxGrid_liste->GetNumberCols();
-	if (ir)
-		WxGrid_liste->DeleteCols(0, ir);*/
     
     // initialisation de la grille
 	WxGrid_liste->SetSelectionMode(wxGrid::wxGridSelectRows);
     WxGrid_liste->SetColLabelValue(0,"id");
     WxGrid_liste->SetColLabelValue(1,"Auteur");
     WxGrid_liste->SetColLabelValue(2,"Titre");
-    
-
 
     if (ret!=SQLITE_ROW) {
         la_belle->transac_fin();
@@ -279,14 +277,16 @@ void nouv_autre::init_tout() {
     WxMemo_commentaire->SetValue(mess);
     if (type_table == "_P") {
         la_belle->get_value_char(2,mess,taille);
-        madate.ParseFormat(mess,"%d/%m/%Y");
-        WxDatePickerCtrl_naissance->SetValue(madate);
-        //WxEdit_date_naissance->SetValue(mess);
+        if (madate.ParseFormat(mess,"%d/%m/%Y"))
+            WxDatePickerCtrl_naissance->SetValue(madate);
+        else
+            WxDatePickerCtrl_naissance->SetValue(wxInvalidDateTime);
         
         la_belle->get_value_char(3,mess,taille);
-        madate.ParseFormat(mess,"%d/%m/%Y");
-        WxDatePickerCtrl_mort->SetValue(madate);
-        //WxEdit_date_mort->SetValue(mess);
+        if (madate.ParseFormat(mess,"%d/%m/%Y"))
+            WxDatePickerCtrl_mort->SetValue(madate);
+        else
+            WxDatePickerCtrl_mort->SetValue(wxInvalidDateTime);
         
         wxString chemin=gettempdir();
         chemin+="\\a1.jpg";
@@ -389,14 +389,23 @@ void nouv_autre::enregistrer() {
         gestion_quote(mess);
         query+=mess+"'";
         if (type_table == "_P") {
-            mess=WxDatePickerCtrl_naissance->GetValue().Format("%d/%m/%Y");
-            //mess=WxEdit_date_naissance->GetValue();
-            gestion_quote(mess);
-            query+=",'"+mess;
-            mess=WxDatePickerCtrl_mort->GetValue().Format("%d/%m/%Y");
-            //mess=WxEdit_date_mort->GetValue();
-            gestion_quote(mess);
-            query+="','"+mess+"',?";
+            if (WxDatePickerCtrl_naissance->GetValue() == wxInvalidDateTime)
+                mess = "NULL";
+            else {
+                mess=WxDatePickerCtrl_naissance->GetValue().Format("%d/%m/%Y");
+                gestion_quote(mess);
+                mess = "'" + mess + "'";
+            }
+            query+=","+mess;
+
+            if (WxDatePickerCtrl_mort->GetValue() == wxInvalidDateTime)
+                mess = "NULL";
+            else {
+                mess=WxDatePickerCtrl_mort->GetValue().Format("%d/%m/%Y");
+                gestion_quote(mess);
+                mess = "'" + mess + "'";
+            }    
+            query+=","+mess+",?";
         }    
         query+=")";
     } else {
@@ -407,14 +416,23 @@ void nouv_autre::enregistrer() {
         gestion_quote(mess);
         query+="', commentaire='"+mess+"'";
         if (type_table == "_P") {
-            mess=WxDatePickerCtrl_naissance->GetValue().Format("%d/%m/%Y");
-            //mess=WxEdit_date_naissance->GetValue();
-            gestion_quote(mess);
-            query+=",date_naissance='"+mess+"',date_mort='";
-            mess=WxDatePickerCtrl_mort->GetValue().Format("%d/%m/%Y");
-            //mess=WxEdit_date_mort->GetValue();
-            gestion_quote(mess);
-            query+=mess+"',image_auteur=?";
+            if (WxDatePickerCtrl_naissance->GetValue() == wxInvalidDateTime)
+                mess = "NULL";
+            else {
+                mess=WxDatePickerCtrl_naissance->GetValue().Format("%d/%m/%Y");
+                gestion_quote(mess);
+                mess = "'" + mess + "'";
+            }
+            query+=",date_naissance="+mess+",date_mort=";
+
+            if (WxDatePickerCtrl_mort->GetValue() == wxInvalidDateTime)
+                mess = "NULL";
+            else {
+                mess=WxDatePickerCtrl_mort->GetValue().Format("%d/%m/%Y");
+                gestion_quote(mess);
+                mess = "'" + mess + "'";
+            }    
+            query+=mess+",image_auteur=?";
         }    
         query+=" WHERE rowid="+id_courant;
     }    

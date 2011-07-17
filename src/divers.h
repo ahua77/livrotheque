@@ -72,6 +72,8 @@ void convert_html(wxString &texte);
 void convert_html_total(wxString &texte); 
 void convert_quote(wxString &texte);
 int tri_sans_accent(void *foo, int len, const void * data1, int len2, const void *data2);
+char supprimeAccent(char val);
+
 //void rempli_canvas(ImageCanvas *lecanvas, wxImage *image);
     
 class livre

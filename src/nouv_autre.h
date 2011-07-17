@@ -133,6 +133,7 @@ public:
 		wxStaticText *WxStaticText_nom;
 		wxScrolledWindow *WxScrolledWindow1;
 		wxBoxSizer *WxBoxSizer1;
+		wxBoxSizer *WxBoxSizer_h;
   ////GUI Control Declaration End
     ma_base *la_belle;
     wxString id_courant;

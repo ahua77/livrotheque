@@ -123,6 +123,8 @@ private:
 
 };
 
+class arboCtrl;
+
 class biblioFrame : public wxFrame
 {
 private:
@@ -215,7 +217,7 @@ public:
     wxSplitterWindow* split_princip;
     wxSplitterWindow* split_gauche;
     wxComboBox* choix_arbre;
-    wxTreeCtrl* arbre;
+    arboCtrl* arbre;
     bool m_arbreLettreOuverte[26];
     long m_idAuteurSelection;
     int m_lettreSelection;
@@ -236,7 +238,7 @@ public:
     // import csv
     wxArrayInt liste_choisis_import;
     wxArrayString liste_choisis_nom_import;
-    wxArrayString list_from;
+    // wxArrayString list_from;
     bool grille_ok;
     livroEasyPrinting imprimehtml;
 public:
@@ -246,6 +248,7 @@ public:
 	void toolb_quitClick(wxCommandEvent& event);
 
     void OnSplitterwindowSashPosChanged( wxSplitterEvent& event );
+    void OnSplitterdroitSashPosChanged( wxSplitterEvent& event );
     void OnSplitterwindowDclick( wxSplitterEvent& event );
 	void Mnuquitter1011Click(wxCommandEvent& event);
 	void OuvrirClick(wxCommandEvent& event);
@@ -259,15 +262,16 @@ public:
     void OnSelectLivre( wxGridEvent& event );
     void OnGrilleClickDroit( wxGridEvent& event );
 	void OnGrilleLabelLeftClick(wxGridEvent& event);
-	void remplir_grille(wxString where);
+	void remplir_grille();
+	void remplir_grille(wxString where, wxArrayString list_from);
 	int creer_base();
 	void popup_MnuouvrirClick(wxCommandEvent& event);
 	void init_colonnes();
 	void init_arbre();
-	void creation_select_livre(wxString &select, wxString where, wxString order_by);
-	void OnArbreSel(wxTreeEvent &event);
-	void OnArbreCollapseNode(wxTreeEvent& event);
-	void OnArbreExpandNode(wxTreeEvent& event);
+	void creation_select_livre(wxString &select, wxString where, wxArrayString list_from/*, wxString order_by*/);
+	void OnComboboxSelected(wxCommandEvent& event);
+	void OnComboboxSelected_interne();
+
 	void MnuordredetriClick(wxCommandEvent& event);
 	void OnSelectlignegrille(wxGridEvent &event);
 	void get_colonne(wxString nomchamp, wxString idlivre, wxString &nomaffich, wxString &valeur);
@@ -296,14 +300,15 @@ public:
 	void OnVerifierVersionSilencieux(wxCommandEvent& event);
     void OnTimerVerifierVersion(wxTimerEvent& event);
     void verifierVersion(bool silencieux);
-		void OnMnuAnalyserSeries(wxCommandEvent& event);
-		void OnMnuExporterAnalyseSeries(wxCommandEvent& event);
-		void OnMnuAfficherAttenteInsertion(wxCommandEvent& event);
+	void OnMnuAnalyserSeries(wxCommandEvent& event);
+	void OnMnuExporterAnalyseSeries(wxCommandEvent& event);
+	void OnMnuAfficherAttenteInsertion(wxCommandEvent& event);
+
+    void killSplash();
 		
 private:
     wxSplashScreen* m_splash;
     wxTimer* m_timerVerif;
-    void killSplash();
     void fermerBaseLivre();
     void modifieLivre(wxString id);
     wxString AnalyserSeries(bool htmlMode, bool filtreManquants);

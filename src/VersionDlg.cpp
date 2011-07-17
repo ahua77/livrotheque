@@ -114,7 +114,9 @@ void VersionDlg::CreateGUIControls()
         WxMemo2->Show(false);
     } else if (m_version.aJour()) {
         WxStaticText1->SetLabel("Vous utilisez la dernière version");
-        WxStaticText2->Show(false);
+        wxString tmpStr;
+        tmpStr.Printf("Vous utilisez actuellement la version %s.", m_version.versionCourante().c_str());
+        WxStaticText2->SetLabel(tmpStr);
         WxStaticText3->Show(false);
         WxStaticText4->Show(false);
         WxHyperLinkCtrl1->Show(false);
