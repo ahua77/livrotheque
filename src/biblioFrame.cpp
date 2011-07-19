@@ -105,7 +105,6 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	//EVT_KEY_DOWN(biblioFrame::OnKeyDown)
 	//EVT_SPLITTER_SASH_POS_CHANGED( ID_SPLITTERWINDOW, biblioFrame::OnSplitterwindowSashPosChanged )
 	EVT_SPLITTER_SASH_POS_CHANGED( ID_SPLITTERWINDOW1, biblioFrame::OnSplitterwindowSashPosChanged )
-	EVT_SPLITTER_SASH_POS_CHANGED( ID_SPLITTERWINDOW2, biblioFrame::OnSplitterdroitSashPosChanged )
 	EVT_SPLITTER_DCLICK( ID_SPLITTERWINDOW1, biblioFrame::OnSplitterwindowDclick )
 	EVT_SPLITTER_DCLICK( ID_SPLITTERWINDOW2, biblioFrame::OnSplitterwindowDclick )
 	EVT_SPLITTER_DCLICK( ID_SPLITTERWINDOW, biblioFrame::OnSplitterwindowDclick )
@@ -588,10 +587,6 @@ void biblioFrame::OnSplitterwindowSashPosChanged( wxSplitterEvent& event )
 //@end wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING event handler for ID_SPLITTERWINDOW1 in biblioframe. 
 }
 
-void biblioFrame::OnSplitterdroitSashPosChanged( wxSplitterEvent& event )
-{
-    wxLogMessage("biblioFrame::OnSplitterdroitSashPosChanged() - pos = %d", event.GetSashPosition());
-}
 
 void biblioFrame::OnSplitterwindowDclick( wxSplitterEvent& event )
 {
@@ -1466,6 +1461,16 @@ void biblioFrame::sauve_config()
 
     // sauvegarde de la position/taille...
     param->Set("config", "INIT", "MAXIMISED", this->IsMaximized());
+    
+    if (!IsIconized())
+    {
+        wxLogMessage("param->Set('config', 'INIT', 'SPLIT_P', %d)", split_princip->GetSashPosition());
+        param->Set("config", "INIT", "SPLIT_P", (long)(split_princip->GetSashPosition()));
+
+        wxLogMessage("param->Set('config', 'INIT', 'SPLIT_D', %d)", split_droit->GetSashPosition());
+        param->Set("config", "INIT", "SPLIT_D", (long)(split_droit->GetSashPosition()));
+    }
+    
     this->Maximize(false);  // pour pouvoir récupérer taille et position
     if (!IsIconized())
     {
@@ -1475,11 +1480,6 @@ void biblioFrame::sauve_config()
         this->GetPosition(&x,&y);
         param->Set("config", "INIT", "POSITION", (long)x, (long)y);
 
-        wxLogMessage("param->Set('config', 'INIT', 'SPLIT_P', %ld)", (long)(split_princip->GetSashPosition()));
-        param->Set("config", "INIT", "SPLIT_P", (long)(split_princip->GetSashPosition()));
-
-        wxLogMessage("param->Set('config', 'INIT', 'SPLIT_D', %ld)", (long)(split_droit->GetSashPosition()));
-        param->Set("config", "INIT", "SPLIT_D", (long)(split_droit->GetSashPosition()));
     }
     
     //sauvegarde des parametres de la base en cours (tri, colonnes affichées)
@@ -1522,7 +1522,6 @@ void biblioFrame::sauve_config()
             amoi.exec_rapide(query);
        }    
     }
-    
     // wxLogMessage("biblioFrame::sauve_config() - sortie");
 }    
 

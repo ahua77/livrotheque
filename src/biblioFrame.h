@@ -248,7 +248,6 @@ public:
 	void toolb_quitClick(wxCommandEvent& event);
 
     void OnSplitterwindowSashPosChanged( wxSplitterEvent& event );
-    void OnSplitterdroitSashPosChanged( wxSplitterEvent& event );
     void OnSplitterwindowDclick( wxSplitterEvent& event );
 	void Mnuquitter1011Click(wxCommandEvent& event);
 	void OuvrirClick(wxCommandEvent& event);
