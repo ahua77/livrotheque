@@ -50,6 +50,7 @@ private:
     static const int ID_MNU_RAFRAICHIR;
     static const int ID_MNU_PROPRIETES;
     static const int ID_MNU_FUSIONNER;
+    static const int ID_MNU_AFFICHER_NON_RENSEIGNE;
 
 
     DECLARE_EVENT_TABLE()
@@ -61,6 +62,7 @@ private:
     void OnRafraichir(wxCommandEvent& event);
     void OnProprietes(wxCommandEvent& event);
     void OnFusionner(wxCommandEvent& event);
+    void OnAfficherNonRenseigne(wxCommandEvent& event);
 
     wxString construitRequeteNoeud(wxTreeItemId noeud, wxArrayString& listeFrom);
     void prepareInitTableLettre(wxString table, wxString& query, 
@@ -79,6 +81,7 @@ private:
     wxString m_msgErreur;       // dernier message d'erreur
     hashStringBool m_mapNoeudsDeplies;      // contient les clés complètes des noeuds dépliés
     wxString m_cleNoeudSelection;
+    bool m_afficherNonRenseignes;   // true pour afficher les noeuds <non renseigné>
 };
 
 #endif // ARBOCTRL_H

@@ -13,6 +13,7 @@
 const int arboCtrl::ID_MNU_RAFRAICHIR = wxNewId();
 const int arboCtrl::ID_MNU_PROPRIETES = wxNewId();
 const int arboCtrl::ID_MNU_FUSIONNER = wxNewId();
+const int arboCtrl::ID_MNU_AFFICHER_NON_RENSEIGNE = wxNewId();
 
 BEGIN_EVENT_TABLE(arboCtrl, wxTreeCtrl)
 	EVT_TREE_SEL_CHANGED(-1, arboCtrl::OnSelChanged)
@@ -23,6 +24,7 @@ BEGIN_EVENT_TABLE(arboCtrl, wxTreeCtrl)
 	EVT_MENU(ID_MNU_RAFRAICHIR, arboCtrl::OnRafraichir)
 	EVT_MENU(ID_MNU_PROPRIETES, arboCtrl::OnProprietes)
 	EVT_MENU(ID_MNU_FUSIONNER, arboCtrl::OnFusionner)
+	EVT_MENU(ID_MNU_AFFICHER_NON_RENSEIGNE, arboCtrl::OnAfficherNonRenseigne)
 END_EVENT_TABLE()
 
 wxString arboCtrl::typeArboCtrlStr(E_typeArboCtrl val)
@@ -56,6 +58,7 @@ arboCtrl::arboCtrl(wxWindow* parent, wxWindowID id, biblioFrame* frame, ma_base&
     : wxTreeCtrl(parent, id, wxDefaultPosition, wxSize(100, 100), wxWANTS_CHARS|wxTR_DEFAULT_STYLE), m_baseLivre(baseLivre)
 {
     m_frame = frame;
+    m_afficherNonRenseignes = true;
 }
 
 // class destructor
@@ -76,11 +79,13 @@ void arboCtrl::prepareInitTableLettre(wxString table, wxString& query,
                                       E_typeNoeudArboCtrl& typeNoeudNiv1, E_typeNoeudArboCtrl& typeNoeudNiv2,
                                       wxString& tableNiv1, wxString& tableNiv2 )
 {
+    wxLogMessage("arboCtrl::prepareInitTableLettre() - m_afficherNonRenseignes = %d", m_afficherNonRenseignes);
     query = "SELECT upper(substr(" + table + ".nom, 1,1)), -1, " + table + ".nom nom_" + table + ", " + table + ".rowid id_" + table + ", count(livre.rowid) "
             "FROM livre "
-            "LEFT JOIN " + table + " ON " + table + ".rowid = livre.id_" + table + " "
-            "WHERE id_" + table + " <> '' "
-            "GROUP BY " + table + ".rowid "
+            "LEFT JOIN " + table + " ON " + table + ".rowid = livre.id_" + table + " ";
+    if (!m_afficherNonRenseignes)
+            query += "WHERE id_" + table + " <> '' ";
+    query += "GROUP BY " + table + ".rowid "
             "ORDER BY upper(nom_" + table + ") COLLATE tri_sans_accent";
     typeNoeudNiv1 = E_TNAC_lettre;
     tableNiv1 = table;
@@ -96,13 +101,15 @@ void arboCtrl::prepareInitTableTable(wxString table1, wxString table2, wxString&
                                       E_typeNoeudArboCtrl& typeNoeudNiv1, E_typeNoeudArboCtrl& typeNoeudNiv2,
                                       wxString& tableNiv1, wxString& tableNiv2 )
 {
+    wxLogMessage("arboCtrl::prepareInitTableTable() - m_afficherNonRenseignes = %d", m_afficherNonRenseignes);
     query = "SELECT " + table2 + ".nom nom_" + table2 + ", " + table2 + ".rowid id_" + table2 + ", "
             + table1 + ".nom nom_" + table1 + ", " + table1 + ".rowid id_" + table1 + ", count(livre.rowid) "
-            "FROM " + table1 + " "
-            "LEFT JOIN livre ON " + table1 + ".rowid=livre.id_" + table1 + " "
-            "LEFT JOIN " + table2 + " ON " + table2 + ".rowid=livre.id_" + table2 + " "
-            "WHERE " + table1 + ".nom IS NOT NULL "
-            "GROUP BY " + table1 + ".rowid, " + table2 + ".rowid "
+            "FROM livre "
+            "LEFT JOIN " + table1 + " ON " + table1 + ".rowid=livre.id_" + table1 + " "
+            "LEFT JOIN " + table2 + " ON " + table2 + ".rowid=livre.id_" + table2 + " ";
+    if (!m_afficherNonRenseignes)
+        query += "WHERE " + table1 + ".nom IS NOT NULL "; // AND " + table2 + ".nom IS NOT NULL ";
+    query += "GROUP BY " + table1 + ".rowid, " + table2 + ".rowid "
             "ORDER BY upper(" + table2 + ".nom) COLLATE tri_sans_accent, upper(" + table1 + ".nom) COLLATE tri_sans_accent";
     typeNoeudNiv1 = E_TNAC_table;
     tableNiv1 = table2;
@@ -209,13 +216,16 @@ int arboCtrl::init()
         if (libelleNiv1 == "") {
             libelleNiv1 = "<non renseigné>";
             codeNiv1 = -2;
-        }
-        
-        if (typeNoeudNiv1 == E_TNAC_lettre) {
+        } else if (typeNoeudNiv1 == E_TNAC_lettre) {
             // on conserve l'initiale non accentuée pour éviter de se retrouver avec ... - D - E - É - E - F - ... dans l'arbo
             libelleNiv1 = supprimeAccent(libelleNiv1[0]);
         }
 
+        if (libelleNiv2 == "") {
+            libelleNiv2 = "<non renseigné>";
+            codeNiv2 = -2;
+        }
+        
         // texte.Printf("%s [%d] - %s [%d] : (%d)", libelleNiv1.c_str(), codeNiv1, libelleNiv2.c_str(), codeNiv2, nbLivres);
         // wxLogMessage("\t%s", texte.c_str());
 
@@ -282,8 +292,12 @@ wxString arboCtrl::construitRequeteNoeud(wxTreeItemId noeud, wxArrayString& list
             // wxLogMessage("itemData : %s", itemData->cle().c_str());
             switch(itemData->typeNoeud()) {
                 case E_TNAC_lettre:
-                    requete += itemData->table() + ".nom LIKE '" + wxString::Format("%c", (char)(itemData->valeurNoeud())) + "%' AND ";
-                    listeFrom.Add("id_" + itemData->table());
+                    if (itemData->valeurNoeud() == -2) 
+                        requete += "id_" + itemData->table() +" = '' AND ";
+                    else {
+                        requete += itemData->table() + ".nom LIKE '" + wxString::Format("%c", (char)(itemData->valeurNoeud())) + "%' AND ";
+                        listeFrom.Add("id_" + itemData->table());
+                    }
                     break;
                 case E_TNAC_table:
                     if (itemData->valeurNoeud() == -2) 
@@ -292,7 +306,8 @@ wxString arboCtrl::construitRequeteNoeud(wxTreeItemId noeud, wxArrayString& list
                         requete += "id_" + itemData->table() +" = " + wxString::Format("%ld", itemData->valeurNoeud()) + " AND ";
                     break;
                 case E_TNAC_racine:
-                    requete += "NOT id_" + itemData->table() + " = '' AND ";
+                    if (!m_afficherNonRenseignes)
+                        requete += "NOT id_" + itemData->table() + " = '' AND ";
                     break;
             }
         }
@@ -359,6 +374,7 @@ void arboCtrl::OnItemMenu(wxTreeEvent& event)
    wxMenu* menu = new wxMenu();
 
     menu->Append(ID_MNU_RAFRAICHIR, wxT("rafraichir"));
+    menu->Append(ID_MNU_AFFICHER_NON_RENSEIGNE, (m_afficherNonRenseignes ? wxT("masquer les <non renseigné>") : wxT("afficher les <non renseigné>")) );
     if (itemData->typeNoeud() == E_TNAC_table) {
         menu->AppendSeparator();
         menu->Append(ID_MNU_PROPRIETES, wxT("propriétés"));
@@ -420,4 +436,10 @@ void arboCtrl::OnFusionner(wxCommandEvent& event)
 
     FusionDlg* dlg = new FusionDlg(m_frame, m_baseLivre, nom_table, groupeId);
     dlg->ShowModal();
+}
+
+void arboCtrl::OnAfficherNonRenseigne(wxCommandEvent& event)
+{
+    m_afficherNonRenseignes = !m_afficherNonRenseignes;
+    init();
 }
