@@ -1193,11 +1193,12 @@ void biblioFrame::popup_effacelivre(wxCommandEvent& event)
 
 void biblioFrame::dupliquelivre(wxCommandEvent& event)
 {
-    wxArrayInt cell_select;
     wxString query, mess;
     int ret;
     
-    cell_select=grille->GetSelectedRows();
+    wxArrayInt cell_select = grille->LignesSelectionnees();
+    wxLogMessage("biblioFrame::dupliquelivre() - nb cell select = %d", cell_select.GetCount());
+
     if (cell_select.GetCount()>0) {
         wxString id=grille->GetRowLabelValue(cell_select[0]);
         ret=wxMessageBox("Etes vous sur de vouloir dupliquer le livre avec l'id n°"+id+"?","Question", wxYES_NO|wxNO_DEFAULT | wxICON_EXCLAMATION, this);
