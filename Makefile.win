@@ -1,7 +1,7 @@
 # Project: livrotheque
 # Compiler: Default GCC compiler
 # Compiler Type: MingW 3
-# Makefile created by wxDev-C++ 7.3 on 17/07/11 18:26
+# Makefile created by wxDev-C++ 7.3 on 20/07/11 22:29
 
 WXLIBNAME = wxmsw28
 CPP       = g++.exe

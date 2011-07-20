@@ -374,7 +374,9 @@ void arboCtrl::OnItemMenu(wxTreeEvent& event)
    wxMenu* menu = new wxMenu();
 
     menu->Append(ID_MNU_RAFRAICHIR, wxT("rafraichir"));
-    menu->Append(ID_MNU_AFFICHER_NON_RENSEIGNE, (m_afficherNonRenseignes ? wxT("masquer les <non renseigné>") : wxT("afficher les <non renseigné>")) );
+    wxMenuItem* item = menu->AppendCheckItem(ID_MNU_AFFICHER_NON_RENSEIGNE, wxT("afficher les <non renseigné>"));
+    item->Check(m_afficherNonRenseignes);
+    
     if (itemData->typeNoeud() == E_TNAC_table) {
         menu->AppendSeparator();
         menu->Append(ID_MNU_PROPRIETES, wxT("propriétés"));

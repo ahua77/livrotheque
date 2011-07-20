@@ -773,7 +773,7 @@ void biblioFrame::insererClick_interne(wxCommandEvent& event, BOOL isbnMode)
             mess.Printf("%d", (int) id_ins);
             //wxMessageBox( mess,"probleme", wxOK | wxICON_EXCLAMATION, this);
             numrow=trouve_ligne(mess);
-            grille->MakeCellVisible(numrow,1);
+            grille->MakeCellVisible(numrow, 0);
             grille->SelectRow(numrow);
             AfficheLivre(mess);
          }    
@@ -805,7 +805,7 @@ void biblioFrame::modifieLivre(wxString id)
         //remplir_grille("");
         wxLogMessage("biblioFrame::modifieLivre() - avant trouve_ligne()");
         int numrow=trouve_ligne(id);
-        grille->MakeCellVisible(numrow,1);
+        grille->MakeCellVisible(numrow, 0);
         grille->SelectRow(numrow);
         wxLogMessage("biblioFrame::modifieLivre() - avant AfficheLivre()");
         AfficheLivre(id);
@@ -956,7 +956,7 @@ void biblioFrame::remplir_grille(wxString where, wxArrayString list_from)
     amoi.transac_fin();
     if (grille->GetNumberRows()>0) {
         grille->SelectRow(0);
-        grille->MakeCellVisible(0, 1);
+        grille->MakeCellVisible(0, 0);
         AfficheLivre(grille->GetLabelValue(0,0));
         grille_ok=true;
     }    
@@ -1119,7 +1119,7 @@ void biblioFrame::modifielivre(wxCommandEvent& event)
                 wxString id=wxString::Format("%d", cell_select[ii]);
                 int numrow=trouve_ligne(id);
                 if (ii == 0)
-                    grille->MakeCellVisible(numrow,1);
+                    grille->MakeCellVisible(numrow, 0);
                 grille->SelectRow(numrow, (ii < (int)(cell_select.GetCount())-1));
 
                 
@@ -1215,7 +1215,7 @@ void biblioFrame::dupliquelivre(wxCommandEvent& event)
             
             init_arbre();
             int numrow=trouve_ligne(mess);
-            grille->MakeCellVisible(numrow,1);
+            grille->MakeCellVisible(numrow, 0);
             grille->SelectRow(numrow);
             AfficheLivre(mess);
             modifieLivre(mess);
@@ -1771,7 +1771,7 @@ void bellegrille::OnKeyDown(wxKeyEvent &event){
         if (sel<(GetNumberRows()-1)) {
             SelectRow(sel+1);
             SetGridCursor(sel+1,0);
-            MakeCellVisible(sel+1,0);
+            MakeCellVisible(sel+1, 0);
         }
         event.Skip(false);
         return;
@@ -1779,7 +1779,7 @@ void bellegrille::OnKeyDown(wxKeyEvent &event){
         if (sel > 0) {
             SelectRow(sel-1);
             SetGridCursor(sel-1,0);
-            MakeCellVisible(sel-1,0);
+            MakeCellVisible(sel-1, 0);
         }
         event.Skip(false);
         return;
@@ -2212,7 +2212,7 @@ void biblioFrame::toolb_recherche_internetClick(wxCommandEvent& event)
             // wxLogMessage("avant trouve_ligne()");
             int numrow=trouve_ligne(mess);
             // wxLogMessage("avant MakeCellVisible()");
-            grille->MakeCellVisible(numrow,1);
+            grille->MakeCellVisible(numrow, 0);
             // wxLogMessage("avant SelectRow()");
             grille->SelectRow(numrow);
             // wxLogMessage("avant AfficheLivre()");
