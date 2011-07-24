@@ -987,15 +987,16 @@ void biblioFrame::creation_select_livre(wxString &select, wxString where, wxArra
             //join_list.Add(liste_tri[i]);
             join_list.Add(texte);
             sansid=texte.Mid(3);
-            order_by+="upper("+sansid+".nom)  COLLATE tri_sans_accent"+", ";
+            order_by+="upper("+sansid+".nom) COLLATE tri_sans_accent"+", ";
         } else if (texte.Left(5) == "date_") {
              order_by +=  "substr("+texte+", 7,4)||'/'||substr("+texte+",4,2)||'/'||substr("+texte+", 1,2)"+", ";   
         }
         else {
             if (texte == "rowid")
                 texte="livre.rowid";
-            else if (texte == "titre" || texte == "sous_titre" || texte == "recompense" || texte == "titre_original" || texte == "sous_titre_o")
-                texte = "upper("+texte+")  COLLATE tri_sans_accent";
+            else if (texte == "titre" || texte == "sous_titre" || texte == "recompense" || texte == "titre_original" || 
+                     texte == "sous_titre_o" || texte == "commentaire" || texte == "resume" )
+                texte = "upper(livre." + texte + ") COLLATE tri_sans_accent";
             order_by+=texte+", ";
         }        
     }    
@@ -2699,6 +2700,8 @@ void biblioFrame::OnMnuAfficherAttenteInsertion(wxCommandEvent& event)
 	if (ret == wxID_OK) {
         // wxMessageBox ("on a validé par OK");
     }
+    
+    dlg->Destroy();
 }
 
 void biblioFrame::OnComboboxSelected(wxCommandEvent& event)
