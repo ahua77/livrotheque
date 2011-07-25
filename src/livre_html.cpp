@@ -489,7 +489,9 @@ aka :
             if (caract.Commentaires.Len()<10) {
                 caract.Commentaires=recup_donnee(page_html, "Pr&#233;sentation de l&#146;&#233;diteur</b>", "</div>", 1);
             }
-            
+            if (caract.Commentaires.Len()<10) {
+                 caract.Commentaires=recup_donnee(page_html, "<div class=\"productDescriptionWrapper\">", "<div class=\"emptyClear\">", 1);
+            }
             //wxMessageBox(caract.Commentaires,"comm", wxOK | wxICON_EXCLAMATION);
         } else {
             //wxMessageBox("POUET","url", wxOK | wxICON_EXCLAMATION);
