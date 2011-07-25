@@ -122,6 +122,7 @@ public:
 		//
 		void setproxy(bool utiliser, wxString adresse, wxString port, wxString user, wxString pass);
 		wxString interieur(wxString sTexte,wxString debut,wxString fin);
+        wxString recode_caract(wxString chaine);
 
 private:
         bool prox_utilise;

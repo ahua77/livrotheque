@@ -492,6 +492,10 @@ aka :
             if (caract.Commentaires.Len()<10) {
                  caract.Commentaires=recup_donnee(page_html, "<div class=\"productDescriptionWrapper\">", "<div class=\"emptyClear\">", 1);
             }
+            if (caract.Commentaires.Len()>10) {
+                caract.Commentaires=recode_caract(caract.Commentaires);
+            }
+
             //wxMessageBox(caract.Commentaires,"comm", wxOK | wxICON_EXCLAMATION);
         } else {
             //wxMessageBox("POUET","url", wxOK | wxICON_EXCLAMATION);
@@ -524,6 +528,17 @@ aka :
     return 0;
 }
 
+wxString LIVRE_HTML::recode_caract(wxString chaine) {
+    wxString tempo;
+    tempo=chaine;
+    wxString hexa;
+    for (int i=32;i<255;i++) {
+        hexa.Printf("&#x%X;",i);
+        //wxLogMessage(hexa);
+        tempo.Replace(hexa,wxString::FromAscii(i));
+    }
+    return tempo;
+}
 // No description
 int LIVRE_HTML::traiter_isbn(wxString ws_isbn,wxString img_recto,wxString img_verso,caracteristiques& caract, int type_recherche)
 {
