@@ -57,6 +57,7 @@
 
 #include <wx/dir.h>
 #include <wx/regex.h>
+#include <wx/fs_mem.h>
 
 #include "star1.xpm" 
 #include "star2.xpm"
@@ -536,6 +537,9 @@ void biblioFrame::CreateGUIControls(void)
     wxImage::AddHandler( new wxTIFFHandler );
     wxImage::AddHandler( new wxXPMHandler ); 	
     
+    // permettre l'utilisation de wxMemoryFSHandler dans les wxHtmlWindow
+    wxFileSystem::AddHandler(new wxMemoryFSHandler);
+
     barre_statut->SetFieldsCount(2);
     
     param_modifie=false;
@@ -1407,11 +1411,20 @@ void biblioFrame::AfficheLivre(wxString id_l){
    }    
     html_tout=html_deb+html_fin;
     //visuhtml->SetPage(html_tout);
+
+
+/*
     fichier.Open(gettempdir()+"\\"+id_l+".htm",wxFile::write);
     fichier.Write(html_tout);
     fichier.Close();
     visuhtml->LoadPage(gettempdir()+"\\"+id_l+".htm");
-
+*/
+    // supprimer un éventuel fichier précédent, pour pouvoir le remplacer par le nouveau
+    wxMemoryFSHandler::RemoveFile("fiche.htm");
+    wxMemoryFSHandler::AddFileWithMimeType ("fiche.htm", html_tout, "text/html");
+    visuhtml->LoadPage("memory:fiche.htm");
+    // wxMemoryFSHandler::RemoveFile("fiche.htm"); - si on supprime immédiatement le fichier, fichier/imprimer le livre ne fonctionne plus !
+    
     //wxMessageBox(html_tout,"coco", wxOK | wxICON_INFORMATION, this);
     
 }    
