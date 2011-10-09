@@ -1,7 +1,7 @@
 [Project]
 FileName=livrotheque.dev
 Name=livrotheque
-UnitCount=101
+UnitCount=100
 PchHead=-1
 PchSource=-1
 Ver=3
@@ -554,8 +554,8 @@ BuildCmd=
 [VersionInfo]
 Major=1
 Minor=6
-Release=0
-Build=0
+Release=1
+Build=2
 LanguageID=1036
 CharsetID=1252
 CompanyName=Fougnyland
@@ -685,11 +685,11 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit64]
-FileName=src\secret_key.h
+FileName=src\apropos_bis.wxform
 CompileCpp=1
-Folder=
-Compile=1
-Link=1
+Folder=livrotheque
+Compile=0
+Link=0
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
@@ -715,16 +715,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit68]
-FileName=src\FusionDlg.wxform
-CompileCpp=1
-Folder=livrotheque
-Compile=0
-Link=0
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit69]
 FileName=src\ParametreDlg.wxform
 CompileCpp=1
 Folder=livrotheque
@@ -734,27 +724,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit70]
+[Unit69]
 FileName=src\ParametreDlg.cpp
-Folder=livrotheque
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-CompileCpp=1
-
-[Unit65]
-FileName=src\apropos_bis.wxform
-Folder=livrotheque
-Compile=0
-Link=0
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit66]
-FileName=src\FusionDlg.cpp
 CompileCpp=1
 Folder=livrotheque
 Compile=1
@@ -763,17 +734,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit67]
-FileName=src\FusionDlg.h
-CompileCpp=1
-Folder=livrotheque
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit71]
+[Unit70]
 FileName=src\ParametreDlg.h
 Folder=livrotheque
 Compile=1
@@ -783,17 +744,47 @@ OverrideBuildCmd=0
 BuildCmd=
 CompileCpp=1
 
-[Unit72]
-FileName=src\ParamManager.cpp
+[Unit65]
+FileName=src\FusionDlg.cpp
+Folder=livrotheque
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 CompileCpp=1
-Folder=
+
+[Unit66]
+FileName=src\FusionDlg.h
+CompileCpp=1
+Folder=livrotheque
 Compile=1
 Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit73]
+[Unit67]
+FileName=src\FusionDlg.wxform
+CompileCpp=1
+Folder=livrotheque
+Compile=0
+Link=0
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit71]
+FileName=src\ParamManager.cpp
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+CompileCpp=1
+
+[Unit72]
 FileName=src\ParamManager.h
 CompileCpp=1
 Folder=
@@ -803,7 +794,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit74]
+[Unit73]
 FileName=src\VerifNouveauGroupeDlg.h
 CompileCpp=1
 Folder=livrotheque
@@ -813,7 +804,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit75]
+[Unit74]
 FileName=src\VerifNouveauGroupeDlg.cpp
 CompileCpp=1
 Folder=livrotheque
@@ -823,8 +814,9 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit76]
+[Unit75]
 FileName=src\VerifNouveauGroupeDlg.wxform
+CompileCpp=1
 Folder=livrotheque
 Compile=0
 Link=0
@@ -832,17 +824,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit77]
+[Unit76]
 FileName=src\curl_util.h
-CompileCpp=1
 Folder=
 Compile=1
 Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
+CompileCpp=1
 
-[Unit78]
+[Unit77]
 FileName=src\curl_util.cpp
 CompileCpp=1
 Folder=
@@ -852,7 +844,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit79]
+[Unit78]
 FileName=src\VersionXml.h
 CompileCpp=1
 Folder=
@@ -862,7 +854,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit80]
+[Unit79]
 FileName=src\VersionXml.cpp
 CompileCpp=1
 Folder=
@@ -872,7 +864,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit81]
+[Unit80]
 FileName=o\livrotheque_private.h
 CompileCpp=1
 Folder=livrotheque
@@ -882,7 +874,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit82]
+[Unit81]
 FileName=src\VersionDlg.h
 CompileCpp=1
 Folder=livrotheque
@@ -892,7 +884,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit83]
+[Unit82]
 FileName=src\VersionDlg.cpp
 CompileCpp=1
 Folder=livrotheque
@@ -902,8 +894,9 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit84]
+[Unit83]
 FileName=src\VersionDlg.wxform
+CompileCpp=1
 Folder=livrotheque
 Compile=0
 Link=0
@@ -911,27 +904,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit86]
-FileName=src\livroEasyPrinting.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit85]
+[Unit84]
 FileName=src\livroEasyPrinting.h
-CompileCpp=1
 Folder=
 Compile=1
 Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
+CompileCpp=1
 
-[Unit87]
+[Unit86]
 FileName=src\exportAnalyseSeriesDlg.h
 CompileCpp=1
 Folder=livrotheque
@@ -941,7 +924,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit88]
+[Unit85]
+FileName=src\livroEasyPrinting.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit87]
 FileName=src\exportAnalyseSeriesDlg.cpp
 CompileCpp=1
 Folder=livrotheque
@@ -951,8 +944,9 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit89]
+[Unit88]
 FileName=src\exportAnalyseSeriesDlg.wxform
+CompileCpp=1
 Folder=livrotheque
 Compile=0
 Link=0
@@ -960,17 +954,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit90]
+[Unit89]
 FileName=src\listeAttenteInsertionDlg.cpp
-CompileCpp=1
 Folder=livrotheque
 Compile=1
 Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
+CompileCpp=1
 
-[Unit91]
+[Unit90]
 FileName=src\listeAttenteInsertionDlg.h
 CompileCpp=1
 Folder=livrotheque
@@ -980,8 +974,9 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit92]
+[Unit91]
 FileName=src\listeAttenteInsertionDlg.wxform
+CompileCpp=1
 Folder=livrotheque
 Compile=0
 Link=0
@@ -989,27 +984,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit94]
-FileName=src\attenteInsertion.h
-CompileCpp=1
-Folder=livrotheque
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit93]
+[Unit92]
 FileName=src\attenteInsertion.cpp
-CompileCpp=1
 Folder=
 Compile=1
 Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
+CompileCpp=1
 
-[Unit95]
+[Unit94]
 FileName=src\attenteInsertionDlg.h
 CompileCpp=1
 Folder=livrotheque
@@ -1019,7 +1004,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit96]
+[Unit93]
+FileName=src\attenteInsertion.h
+CompileCpp=1
+Folder=livrotheque
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit95]
 FileName=src\attenteInsertionDlg.cpp
 CompileCpp=1
 Folder=livrotheque
@@ -1029,8 +1024,9 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit97]
+[Unit96]
 FileName=src\attenteInsertionDlg.wxform
+CompileCpp=1
 Folder=livrotheque
 Compile=0
 Link=0
@@ -1038,8 +1034,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+[Unit97]
+FileName=src\arboCtrl.h
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+CompileCpp=1
+
 [Unit99]
-FileName=src\arboCtrl.cpp
+FileName=src\arboCtrlItemData.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -1049,7 +1055,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit98]
-FileName=src\arboCtrl.h
+FileName=src\arboCtrl.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -1069,7 +1075,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit100]
-FileName=src\arboCtrlItemData.h
+FileName=src\arboCtrlItemData.cpp
 CompileCpp=1
 Folder=
 Compile=1

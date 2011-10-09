@@ -53,6 +53,7 @@
 #include <wx/calctrl.h>
 #include <wx/datetime.h>
 #include <wx/stream.h>
+#include <wx/regex.h>
 #include <stdlib.h>
 #ifdef __BORLANDC__
     #pragma hdrstop
@@ -101,17 +102,21 @@ BEGIN_EVENT_TABLE(Nouv_livre,wxDialog)
 	////Manual Code End
 	
 	EVT_CLOSE(Nouv_livre::Nouv_livreClose)
+	EVT_SIZE(Nouv_livre::Nouv_livreSize)
 	EVT_INIT_DIALOG(Nouv_livre::Nouv_livreInitDialog)
-	EVT_BUTTON(ID_WXBITMAPBUTTON_SUP_IMAGE,Nouv_livre::WxBitmapButton_supp_image_faceClick)
-	EVT_BUTTON(ID_WXBITMAPBUTTON_IMAGE_OUVRIR,Nouv_livre::WxBitmapButton_face_ouvrirClick)
+	EVT_BUTTON(ID_WXBUTTON_INTERNET_G,Nouv_livre::WxButton_internet_gClick)
+	EVT_BUTTON(ID_WXBUTTON_NOUV_ANNUL,Nouv_livre::WxButton_nouv_annulClick)
+	EVT_BUTTON(ID_WXBUTTON_NOUV_OK,Nouv_livre::WxButton_nouv_okClick)
+	EVT_BUTTON(ID_WXBITMAPBUTTON_SUPP_IMAGE_FACE,Nouv_livre::WxBitmapButton_supp_image_faceClick)
+	EVT_BUTTON(ID_WXBITMAPBUTTON_FACE_OUVRIR,Nouv_livre::WxBitmapButton_face_ouvrirClick)
 	EVT_BUTTON(ID_WXBUTTON_TRADUCTEUR,Nouv_livre::WxButton_auteurClick)
 	EVT_BUTTON(ID_WXBUTTON_LANGUE,Nouv_livre::WxButton_auteurClick)
 	EVT_BUTTON(ID_WXBUTTON_PAYS,Nouv_livre::WxButton_auteurClick)
 	EVT_BUTTON(ID_WXBUTTON_SERIE_O,Nouv_livre::WxButton_auteurClick)
-	EVT_BUTTON(ID_WXBUTTON_LOCALISATION,Nouv_livre::WxButton_auteurClick)
-	EVT_BUTTON(ID_WXBUTTON_ETAT,Nouv_livre::WxButton_auteurClick)
 	
 	EVT_COMMAND_SCROLL(ID_WXSLIDER_NOTE,Nouv_livre::WxSlider_noteScroll)
+	EVT_BUTTON(ID_WXBUTTON_LOCALISATION,Nouv_livre::WxButton_auteurClick)
+	EVT_BUTTON(ID_WXBUTTON_ETAT,Nouv_livre::WxButton_auteurClick)
 	EVT_BUTTON(ID_WXBUTTON_ARTISTE,Nouv_livre::WxButton_auteurClick)
 	EVT_BUTTON(ID_WXBUTTON_FORMAT,Nouv_livre::WxButton_auteurClick)
 	EVT_BUTTON(ID_WXBUTTON_EDITEUR,Nouv_livre::WxButton_auteurClick)
@@ -119,9 +124,6 @@ BEGIN_EVENT_TABLE(Nouv_livre,wxDialog)
 	EVT_BUTTON(ID_WXBUTTON_GENRE,Nouv_livre::WxButton_auteurClick)
 	EVT_BUTTON(ID_WXBUTTON_SERIE,Nouv_livre::WxButton_auteurClick)
 	EVT_BUTTON(ID_WXBUTTON_AUTEUR,Nouv_livre::WxButton_auteurClick)
-	EVT_BUTTON(ID_WXBUTTON_INTERNET_G,Nouv_livre::WxButton_internet_gClick)
-	EVT_BUTTON(wxID_CANCEL ,Nouv_livre::WxButton_nouv_annulClick)
-	EVT_BUTTON(ID_WXBUTTON_NOUV_OK,Nouv_livre::WxButton_nouv_okClick)
 END_EVENT_TABLE()
     ////Event Table End
 
@@ -635,6 +637,14 @@ void Nouv_livre::init_edit(wxString nom_champ, wxTextCtrl *zone)
 
 void Nouv_livre::CreateGUIControls(void)
 {
+	ParamManager* param = ParamManager::GetInstance("config");
+    long taillePolice = 10;
+    param->GetOrSet("config", "INIT", "TAILLE_POLICE", taillePolice);
+    wxFont fonte = GetFont();
+    fonte.SetPointSize(taillePolice);
+    SetFont(fonte);
+    
+    
     int largeur_obj, hauteur_obj;
     anc_combo=NULL;
     taille_entree=0;
@@ -644,361 +654,634 @@ void Nouv_livre::CreateGUIControls(void)
     int i, x, y; 
     //image_face=NULL;
 	//n_livre =  new myBitmapPanel(WxNotebook_nouv, ID_N_LIVRE,wxPoint(4,24),wxSize(629,353) );
+
     ////GUI Items Creation Start
 
 	wxInitAllImageHandlers();   //Initialize graphic format handlers
 
-	WxButton_nouv_ok = new wxButton(this, ID_WXBUTTON_NOUV_OK, wxT("OK"), wxPoint(181, 383), wxSize(83, 28), 0, wxDefaultValidator, wxT("WxButton_nouv_ok"));
-	WxButton_nouv_ok->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer1 = new wxBoxSizer(wxVERTICAL);
+	this->SetSizer(WxBoxSizer1);
+	this->SetAutoLayout(true);
 
-	WxButton_nouv_annul = new wxButton(this, wxID_CANCEL , wxT("Annuler"), wxPoint(367, 383), wxSize(79, 28), 0, wxDefaultValidator, wxT("WxButton_nouv_annul"));
-	WxButton_nouv_annul->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer1->Add(WxBoxSizer2, 1, wxALIGN_CENTER | wxEXPAND | wxALL, 5);
 
-	WxButton_internet_g = new wxButton(this, ID_WXBUTTON_INTERNET_G, wxT("Recherche internet"), wxPoint(530, 383), wxSize(101, 28), 0, wxDefaultValidator, wxT("WxButton_internet_g"));
-	WxButton_internet_g->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxNotebook_nouv = new wxNotebook(this, ID_WXNOTEBOOK_NOUV, wxPoint(5, 5), wxSize(750, 348), wxNB_DEFAULT | wxNB_MULTILINE);
+	WxBoxSizer2->Add(WxNotebook_nouv,1,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxNotebook_nouv = new wxNotebook(this, ID_WXNOTEBOOK_NOUV, wxPoint(2, 0), wxSize(637, 381), wxNB_DEFAULT);
-	WxNotebook_nouv->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
-
-	n_livre = new wxPanel(WxNotebook_nouv, ID_N_LIVRE, wxPoint(4, 24), wxSize(629, 353));
-	n_livre->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	n_livre = new wxPanel(WxNotebook_nouv, ID_N_LIVRE, wxPoint(4, 26), wxSize(742, 318));
 	WxNotebook_nouv->AddPage(n_livre, wxT("Livre"));
 
-	WxStaticText_titre = new wxStaticText(n_livre, ID_WXSTATICTEXT_TITRE, wxT("Titre :"), wxPoint(3, 23), wxDefaultSize, 0, wxT("WxStaticText_titre"));
-	WxStaticText_titre->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer5 = new wxBoxSizer(wxVERTICAL);
+	n_livre->SetSizer(WxBoxSizer5);
+	n_livre->SetAutoLayout(true);
 
-	WxEdit_titre = new wxTextCtrl(n_livre, ID_WXEDIT_TITRE, wxT(""), wxPoint(52, 21), wxSize(236, 21), 0, wxDefaultValidator, wxT("WxEdit_titre"));
-	WxEdit_titre->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer6 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer5->Add(WxBoxSizer6, 0, wxALIGN_LEFT | wxEXPAND | wxALL, 0);
 
-	WxStaticText_auteur = new wxStaticText(n_livre, ID_WXSTATICTEXT_AUTEUR, wxT("Auteur :"), wxPoint(319, 22), wxDefaultSize, 0, wxT("WxStaticText_auteur"));
-	WxStaticText_auteur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_titre = new wxStaticText(n_livre, ID_WXSTATICTEXT_TITRE, wxT("Titre :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_titre"));
+	WxBoxSizer6->Add(WxStaticText_titre,10,wxALIGN_RIGHT | wxALIGN_BOTTOM | wxEXPAND | wxALL,5);
+
+	WxEdit_titre = new wxTextCtrl(n_livre, ID_WXEDIT_TITRE, wxT(""), wxPoint(49, 5), wxSize(242, 24), 0, wxDefaultValidator, wxT("WxEdit_titre"));
+	WxBoxSizer6->Add(WxEdit_titre,35,wxALIGN_CENTER | wxEXPAND | wxALL,5);
+
+	WxStaticText1 = new wxStaticText(n_livre, ID_WXSTATICTEXT1, wxT(" "), wxPoint(301, 7), wxDefaultSize, 0, wxT("WxStaticText1"));
+	WxBoxSizer6->Add(WxStaticText1,5,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticText_auteur = new wxStaticText(n_livre, ID_WXSTATICTEXT_AUTEUR, wxT("Auteur :"), wxPoint(318, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_auteur"));
+	WxBoxSizer6->Add(WxStaticText_auteur,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
 	wxArrayString arrayStringFor_WxComboBox_auteur;
-	WxComboBox_auteur = new wxComboBox(n_livre, ID_WXCOMBOBOX_AUTEUR, wxT(""), wxPoint(365, 19), wxSize(232, 21), arrayStringFor_WxComboBox_auteur, 0, wxDefaultValidator, wxT("WxComboBox_auteur"));
-	WxComboBox_auteur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxComboBox_auteur = new wxComboBox(n_livre, ID_WXCOMBOBOX_AUTEUR, wxT(""), wxPoint(374, 5), wxSize(242, 23), arrayStringFor_WxComboBox_auteur, 0, wxDefaultValidator, wxT("WxComboBox_auteur"));
+	WxBoxSizer6->Add(WxComboBox_auteur,35,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxButton_auteur = new wxButton(n_livre, ID_WXBUTTON_AUTEUR, wxT("..."), wxPoint(598, 20), wxSize(16, 20), 0, wxDefaultValidator, wxT("WxButton_auteur"));
-	WxButton_auteur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_auteur = new wxButton(n_livre, ID_WXBUTTON_AUTEUR, wxT(" ... "), wxPoint(626, 5), wxSize(18, 23), wxBU_EXACTFIT, wxDefaultValidator, wxT("WxButton_auteur"));
+	WxBoxSizer6->Add(WxButton_auteur,5,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxALL,5);
 
-	WxStaticText_sous_titre = new wxStaticText(n_livre, ID_WXSTATICTEXT8, wxT("sous titre :"), wxPoint(0, 47), wxDefaultSize, 0, wxT("WxStaticText_sous_titre"));
-	WxStaticText_sous_titre->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer5->Add(WxBoxSizer8, 0, wxALIGN_RIGHT | wxEXPAND | wxALL, 0);
 
-	WxEdit_sous_titre = new wxTextCtrl(n_livre, ID_WXEDIT_SOUS_TITRE, wxT(""), wxPoint(52, 45), wxSize(236, 21), 0, wxDefaultValidator, wxT("WxEdit_sous_titre"));
-	WxEdit_sous_titre->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_sous_titre = new wxStaticText(n_livre, ID_WXSTATICTEXT_SOUS_TITRE, wxT("sous titre :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_sous_titre"));
+	WxBoxSizer8->Add(WxStaticText_sous_titre,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxStaticText_serie = new wxStaticText(n_livre, ID_WXSTATICTEXT_SERIE, wxT("Série :"), wxPoint(2, 73), wxDefaultSize, 0, wxT("WxStaticText_serie"));
-	WxStaticText_serie->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxEdit_sous_titre = new wxTextCtrl(n_livre, ID_WXEDIT_SOUS_TITRE, wxT(""), wxPoint(73, 5), wxSize(242, 24), 0, wxDefaultValidator, wxT("WxEdit_sous_titre"));
+	WxBoxSizer8->Add(WxEdit_sous_titre,35,wxALIGN_CENTER | wxEXPAND | wxALL,5);
+
+	WxStaticText2 = new wxStaticText(n_livre, ID_WXSTATICTEXT2, wxT(" "), wxPoint(325, 7), wxDefaultSize, 0, wxT("WxStaticText2"));
+	WxBoxSizer8->Add(WxStaticText2,55,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer5->Add(WxBoxSizer7, 0, wxALIGN_LEFT | wxEXPAND | wxALL, 0);
+
+	WxStaticText_serie = new wxStaticText(n_livre, ID_WXSTATICTEXT_SERIE, wxT("Série :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_serie"));
+	WxBoxSizer7->Add(WxStaticText_serie,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
 	wxArrayString arrayStringFor_WxComboBox_serie;
-	WxComboBox_serie = new wxComboBox(n_livre, ID_WXCOMBOBOX_SERIE, wxT(""), wxPoint(52, 71), wxSize(236, 21), arrayStringFor_WxComboBox_serie, wxCB_SORT, wxDefaultValidator, wxT("WxComboBox_serie"));
-	WxComboBox_serie->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxComboBox_serie = new wxComboBox(n_livre, ID_WXCOMBOBOX_SERIE, wxT(""), wxPoint(50, 5), wxSize(242, 23), arrayStringFor_WxComboBox_serie, wxCB_SORT, wxDefaultValidator, wxT("WxComboBox_serie"));
+	WxBoxSizer7->Add(WxComboBox_serie,35,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxButton_serie = new wxButton(n_livre, ID_WXBUTTON_SERIE, wxT("..."), wxPoint(290, 72), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_serie"));
-	WxButton_serie->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_serie = new wxButton(n_livre, ID_WXBUTTON_SERIE, wxT(" ... "), wxPoint(302, 6), wxSize(17, 22), wxBU_EXACTFIT, wxDefaultValidator, wxT("WxButton_serie"));
+	WxBoxSizer7->Add(WxButton_serie,5,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxStaticText_no_serie = new wxStaticText(n_livre, ID_WXSTATICTEXT_NO_SERIE, wxT("N° Serie :"), wxPoint(313, 73), wxDefaultSize, 0, wxT("WxStaticText_no_serie"));
-	WxStaticText_no_serie->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_no_serie = new wxStaticText(n_livre, ID_WXSTATICTEXT_NO_SERIE, wxT("N° Série :"), wxPoint(329, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_no_serie"));
+	WxBoxSizer7->Add(WxStaticText_no_serie,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxEdit_no_serie = new wxTextCtrl(n_livre, ID_WXEDIT_NO_SERIE, wxT(""), wxPoint(364, 71), wxSize(52, 21), 0, wxDefaultValidator, wxT("WxEdit_no_serie"));
-	WxEdit_no_serie->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxEdit_no_serie = new wxTextCtrl(n_livre, ID_WXEDIT_NO_SERIE, wxT(""), wxPoint(391, 5), wxSize(60, 24), 0, wxDefaultValidator, wxT("WxEdit_no_serie"));
+	WxBoxSizer7->Add(WxEdit_no_serie,20,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxStaticText_genre = new wxStaticText(n_livre, ID_WXSTATICTEXT_GENRE, wxT("Genre :"), wxPoint(4, 103), wxDefaultSize, 0, wxT("WxStaticText_genre"));
-	WxStaticText_genre->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText4 = new wxStaticText(n_livre, ID_WXSTATICTEXT4, wxT(" "), wxPoint(461, 7), wxDefaultSize, 0, wxT("WxStaticText4"));
+	WxBoxSizer7->Add(WxStaticText4,20,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer5->Add(WxBoxSizer9, 0, wxALIGN_LEFT | wxEXPAND | wxALL, 0);
+
+	WxStaticText_genre = new wxStaticText(n_livre, ID_WXSTATICTEXT_GENRE, wxT("Genre :"), wxPoint(5, 8), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_genre"));
+	WxBoxSizer9->Add(WxStaticText_genre,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
 	wxArrayString arrayStringFor_WxComboBox_genre;
-	WxComboBox_genre = new wxComboBox(n_livre, ID_WXCOMBOBOX_GENRE, wxT(""), wxPoint(52, 100), wxSize(236, 21), arrayStringFor_WxComboBox_genre, 0, wxDefaultValidator, wxT("WxComboBox_genre"));
-	WxComboBox_genre->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxComboBox_genre = new wxComboBox(n_livre, ID_WXCOMBOBOX_GENRE, wxT(""), wxPoint(56, 6), wxSize(242, 23), arrayStringFor_WxComboBox_genre, 0, wxDefaultValidator, wxT("WxComboBox_genre"));
+	WxBoxSizer9->Add(WxComboBox_genre,35,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxButton_genre = new wxButton(n_livre, ID_WXBUTTON_GENRE, wxT("..."), wxPoint(290, 101), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_genre"));
-	WxButton_genre->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_genre = new wxButton(n_livre, ID_WXBUTTON_GENRE, wxT(" ... "), wxPoint(308, 7), wxSize(17, 21), wxBU_EXACTFIT, wxDefaultValidator, wxT("WxButton_genre"));
+	WxBoxSizer9->Add(WxButton_genre,5,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxStaticText_isbn = new wxStaticText(n_livre, ID_WXSTATICTEXT_ISBN, wxT("I.S.B.N :"), wxPoint(314, 105), wxDefaultSize, 0, wxT("WxStaticText_isbn"));
-	WxStaticText_isbn->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_isbn = new wxStaticText(n_livre, ID_WXSTATICTEXT_ISBN, wxT("I.S.B.N :"), wxPoint(335, 8), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_isbn"));
+	WxBoxSizer9->Add(WxStaticText_isbn,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxEdit_isbn = new wxTextCtrl(n_livre, ID_WXEDIT_ISBN, wxT(""), wxPoint(363, 100), wxSize(121, 21), 0, wxDefaultValidator, wxT("WxEdit_isbn"));
-	WxEdit_isbn->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxEdit_isbn = new wxTextCtrl(n_livre, ID_WXEDIT_ISBN, wxT(""), wxPoint(389, 5), wxSize(171, 25), 0, wxDefaultValidator, wxT("WxEdit_isbn"));
+	WxBoxSizer9->Add(WxEdit_isbn,15,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxButton_internet = new wxButton(n_livre, ID_WXBUTTON_INTERNET, wxT("Recherche internet (ISBN)"), wxPoint(489, 101), wxSize(131, 19), 0, wxDefaultValidator, wxT("WxButton_internet"));
-	WxButton_internet->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_internet = new wxButton(n_livre, ID_WXBUTTON_INTERNET, wxT("Recherche internet (ISBN)"), wxPoint(570, 7), wxSize(156, 21), wxBU_EXACTFIT, wxDefaultValidator, wxT("WxButton_internet"));
+	WxBoxSizer9->Add(WxButton_internet,25,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxALL,5);
 
-	WxStaticText_editeur = new wxStaticText(n_livre, ID_WXSTATICTEXT_EDITEUR, wxT("Editeur :"), wxPoint(3, 132), wxDefaultSize, 0, wxT("WxStaticText_editeur"));
-	WxStaticText_editeur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer10 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer5->Add(WxBoxSizer10, 0, wxALIGN_RIGHT | wxEXPAND | wxALL, 0);
+
+	WxStaticText_editeur = new wxStaticText(n_livre, ID_WXSTATICTEXT_EDITEUR, wxT("Editeur :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_editeur"));
+	WxBoxSizer10->Add(WxStaticText_editeur,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
 	wxArrayString arrayStringFor_WxComboBox_editeur;
-	WxComboBox_editeur = new wxComboBox(n_livre, ID_WXCOMBOBOX_EDITEUR, wxT(""), wxPoint(52, 129), wxSize(236, 21), arrayStringFor_WxComboBox_editeur, 0, wxDefaultValidator, wxT("WxComboBox_editeur"));
-	WxComboBox_editeur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxComboBox_editeur = new wxComboBox(n_livre, ID_WXCOMBOBOX_EDITEUR, wxT(""), wxPoint(62, 5), wxSize(242, 23), arrayStringFor_WxComboBox_editeur, 0, wxDefaultValidator, wxT("WxComboBox_editeur"));
+	WxBoxSizer10->Add(WxComboBox_editeur,35,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxButton_editeur = new wxButton(n_livre, ID_WXBUTTON_EDITEUR, wxT("..."), wxPoint(290, 130), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_editeur"));
-	WxButton_editeur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_editeur = new wxButton(n_livre, ID_WXBUTTON_EDITEUR, wxT(" ... "), wxPoint(314, 5), wxSize(17, 22), wxBU_EXACTFIT, wxDefaultValidator, wxT("WxButton_editeur"));
+	WxBoxSizer10->Add(WxButton_editeur,5,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxStaticText_date_pub = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_PUB, wxT("Date de publication :"), wxPoint(316, 132), wxDefaultSize, 0, wxT("WxStaticText_date_pub"));
-	WxStaticText_date_pub->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_date_pub = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_PUB, wxT("Publication :"), wxPoint(341, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_date_pub"));
+	WxBoxSizer10->Add(WxStaticText_date_pub,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
 	wxDateTime WxDatePickerCtrl_publication_Date(1,wxDateTime::Mar,2006,15,30,9,783);
-	WxDatePickerCtrl_publication = new wxDatePickerCtrl(n_livre, ID_WXDATEPICKERCTRL_PUBLICATION, WxDatePickerCtrl_publication_Date, wxPoint(421, 129), wxSize(123, 21) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_publication"));
-	WxDatePickerCtrl_publication->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxDatePickerCtrl_publication = new wxDatePickerCtrl(n_livre, ID_WXDATEPICKERCTRL_PUBLICATION, WxDatePickerCtrl_publication_Date, wxPoint(421, 5), wxSize(142, 23) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_publication"));
+	WxBoxSizer10->Add(WxDatePickerCtrl_publication,20,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxStaticText_format = new wxStaticText(n_livre, ID_WXSTATICTEXT_FORMAT, wxT("Format :"), wxPoint(2, 162), wxDefaultSize, 0, wxT("WxStaticText_format"));
-	WxStaticText_format->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer13 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer10->Add(WxBoxSizer13, 20, wxALIGN_CENTER | wxALL, 0);
+
+	WxCheckBox_publication = new wxCheckBox(n_livre, ID_WXCHECKBOX_PUBLICATION, wxT("conserver"), wxPoint(5, 5), wxSize(104, 20), 0, wxDefaultValidator, wxT("WxCheckBox_publication"));
+	WxBoxSizer13->Add(WxCheckBox_publication,10,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
+
+	WxStaticText7 = new wxStaticText(n_livre, ID_WXSTATICTEXT7, wxT(" "), wxPoint(119, 5), wxDefaultSize, 0, wxT("WxStaticText7"));
+	WxBoxSizer13->Add(WxStaticText7,1,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer11 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer5->Add(WxBoxSizer11, 0, wxALIGN_RIGHT | wxEXPAND | wxALL, 0);
+
+	WxStaticText_format = new wxStaticText(n_livre, ID_WXSTATICTEXT_FORMAT, wxT("Format :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_format"));
+	WxBoxSizer11->Add(WxStaticText_format,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
 	wxArrayString arrayStringFor_WxComboBox_format;
-	WxComboBox_format = new wxComboBox(n_livre, ID_WXCOMBOBOX_FORMAT, wxT(""), wxPoint(52, 158), wxSize(236, 21), arrayStringFor_WxComboBox_format, 0, wxDefaultValidator, wxT("WxComboBox_format"));
-	WxComboBox_format->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxComboBox_format = new wxComboBox(n_livre, ID_WXCOMBOBOX_FORMAT, wxT(""), wxPoint(63, 5), wxSize(242, 23), arrayStringFor_WxComboBox_format, 0, wxDefaultValidator, wxT("WxComboBox_format"));
+	WxBoxSizer11->Add(WxComboBox_format,35,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxButton_format = new wxButton(n_livre, ID_WXBUTTON_FORMAT, wxT("..."), wxPoint(290, 158), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_format"));
-	WxButton_format->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_format = new wxButton(n_livre, ID_WXBUTTON_FORMAT, wxT(" ... "), wxPoint(315, 5), wxSize(17, 22), wxBU_EXACTFIT, wxDefaultValidator, wxT("WxButton_format"));
+	WxBoxSizer11->Add(WxButton_format,5,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxStaticText_artiste = new wxStaticText(n_livre, ID_WXSTATICTEXT_ARTISTE, wxT("Artiste :"), wxPoint(315, 159), wxDefaultSize, 0, wxT("WxStaticText_artiste"));
-	WxStaticText_artiste->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_artiste = new wxStaticText(n_livre, ID_WXSTATICTEXT_ARTISTE, wxT("Artiste :"), wxPoint(342, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_artiste"));
+	WxBoxSizer11->Add(WxStaticText_artiste,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
 	wxArrayString arrayStringFor_WxComboBox_artiste;
-	WxComboBox_artiste = new wxComboBox(n_livre, ID_WXCOMBOBOX_ARTISTE, wxT(""), wxPoint(357, 157), wxSize(238, 21), arrayStringFor_WxComboBox_artiste, 0, wxDefaultValidator, wxT("WxComboBox_artiste"));
-	WxComboBox_artiste->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxComboBox_artiste = new wxComboBox(n_livre, ID_WXCOMBOBOX_ARTISTE, wxT(""), wxPoint(396, 5), wxSize(242, 23), arrayStringFor_WxComboBox_artiste, 0, wxDefaultValidator, wxT("WxComboBox_artiste"));
+	WxBoxSizer11->Add(WxComboBox_artiste,35,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxButton_artiste = new wxButton(n_livre, ID_WXBUTTON_ARTISTE, wxT("..."), wxPoint(597, 157), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_artiste"));
-	WxButton_artiste->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_artiste = new wxButton(n_livre, ID_WXBUTTON_ARTISTE, wxT(" ... "), wxPoint(648, 5), wxSize(17, 22), wxBU_EXACTFIT, wxDefaultValidator, wxT("WxButton_artiste"));
+	WxBoxSizer11->Add(WxButton_artiste,5,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxALL,5);
 
-	WxStaticText_prix = new wxStaticText(n_livre, ID_WXSTATICTEXT_PRIX, wxT("Prix :"), wxPoint(4, 188), wxDefaultSize, 0, wxT("WxStaticText_prix"));
-	WxStaticText_prix->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer12 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer5->Add(WxBoxSizer12, 0, wxALIGN_RIGHT | wxEXPAND | wxALL, 0);
 
-	WxEdit_prix = new wxTextCtrl(n_livre, ID_WXEDIT_PRIX, wxT(""), wxPoint(52, 187), wxSize(106, 21), 0, wxDefaultValidator, wxT("WxEdit_prix"));
-	WxEdit_prix->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_prix = new wxStaticText(n_livre, ID_WXSTATICTEXT_PRIX, wxT("Prix :"), wxPoint(5, 8), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_prix"));
+	WxBoxSizer12->Add(WxStaticText_prix,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxEdit_recompense = new wxTextCtrl(n_livre, ID_WXEDIT_RECOMPENSE, wxT(""), wxPoint(357, 185), wxSize(236, 21), 0, wxDefaultValidator, wxT("WxEdit_recompense"));
-	WxEdit_recompense->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxEdit_prix = new wxTextCtrl(n_livre, ID_WXEDIT_PRIX, wxT(""), wxPoint(44, 5), wxSize(121, 24), 0, wxDefaultValidator, wxT("WxEdit_prix"));
+	WxBoxSizer12->Add(WxEdit_prix,20,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxStaticText_recompense = new wxStaticText(n_livre, ID_WXSTATICTEXT_RECOMPENSE, wxT("Recompense :"), wxPoint(281, 186), wxDefaultSize, 0, wxT("WxStaticText_recompense"));
-	WxStaticText_recompense->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText5 = new wxStaticText(n_livre, ID_WXSTATICTEXT5, wxT(" "), wxPoint(175, 8), wxDefaultSize, 0, wxT("WxStaticText5"));
+	WxBoxSizer12->Add(WxStaticText5,20,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_date_entree = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_ENTREE, wxT("Date entree :"), wxPoint(9, 326), wxDefaultSize, 0, wxT("WxStaticText_date_entree"));
-	WxStaticText_date_entree->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_recompense = new wxStaticText(n_livre, ID_WXSTATICTEXT_RECOMPENSE, wxT("Récompense :"), wxPoint(192, 8), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_recompense"));
+	WxBoxSizer12->Add(WxStaticText_recompense,10,wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxStaticTextdate_entree_val = new wxStaticText(n_livre, ID_WXSTATICTEXTDATE_ENTREE_VAL, wxT("01/01/1980"), wxPoint(74, 326), wxDefaultSize, 0, wxT("WxStaticTextdate_entree_val"));
-	WxStaticTextdate_entree_val->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxEdit_recompense = new wxTextCtrl(n_livre, ID_WXEDIT_RECOMPENSE, wxT(""), wxPoint(280, 5), wxSize(242, 25), 0, wxDefaultValidator, wxT("WxEdit_recompense"));
+	WxBoxSizer12->Add(WxEdit_recompense,35,wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxEXPAND | wxALL,5);
 
-	WxStaticText_date_maj = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_MAJ, wxT("Date de dernière mise à jour :"), wxPoint(246, 324), wxDefaultSize, 0, wxT("WxStaticText_date_maj"));
-	WxStaticText_date_maj->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText6 = new wxStaticText(n_livre, ID_WXSTATICTEXT6, wxT(" "), wxPoint(532, 8), wxDefaultSize, 0, wxT("WxStaticText6"));
+	WxBoxSizer12->Add(WxStaticText6,5,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_date_maj_val = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_MAJ_VAL, wxT("01/01/1980"), wxPoint(387, 324), wxDefaultSize, 0, wxT("WxStaticText_date_maj_val"));
-	WxStaticText_date_maj_val->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxFlexGridSizer2 = new wxFlexGridSizer(0, 5, 0, 0);
+	WxBoxSizer5->Add(WxFlexGridSizer2, 1, wxALIGN_BOTTOM | wxEXPAND | wxALL, 5);
 
-	WxCheckBox_publication = new wxCheckBox(n_livre, ID_WXCHECKBOX_PUBLICATION, wxT("conserver"), wxPoint(547, 131), wxSize(73, 17), 0, wxDefaultValidator, wxT("WxCheckBox_publication"));
-	WxCheckBox_publication->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_date_entree = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_ENTREE, wxT("Date entrée :"), wxPoint(5, 5), wxDefaultSize, 0, wxT("WxStaticText_date_entree"));
+	WxFlexGridSizer2->Add(WxStaticText_date_entree,0,wxALIGN_CENTER | wxALL,5);
 
-	n_detail = new wxPanel(WxNotebook_nouv, ID_N_DETAIL, wxPoint(4, 24), wxSize(629, 353));
-	n_detail->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticTextdate_entree_val = new wxStaticText(n_livre, ID_WXSTATICTEXTDATE_ENTREE_VAL, wxT("01/01/1980"), wxPoint(85, 5), wxDefaultSize, 0, wxT("WxStaticTextdate_entree_val"));
+	WxFlexGridSizer2->Add(WxStaticTextdate_entree_val,0,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticText3 = new wxStaticText(n_livre, ID_WXSTATICTEXT3, wxT(" "), wxPoint(157, 5), wxDefaultSize, 0, wxT("WxStaticText3"));
+	WxFlexGridSizer2->Add(WxStaticText3,0,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticText_date_maj = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_MAJ, wxT("Date de dernière mise à jour :"), wxPoint(174, 5), wxDefaultSize, 0, wxT("WxStaticText_date_maj"));
+	WxFlexGridSizer2->Add(WxStaticText_date_maj,0,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticText_date_maj_val = new wxStaticText(n_livre, ID_WXSTATICTEXT_DATE_MAJ_VAL, wxT("01/01/1980"), wxPoint(341, 5), wxDefaultSize, 0, wxT("WxStaticText_date_maj_val"));
+	WxFlexGridSizer2->Add(WxStaticText_date_maj_val,0,wxALIGN_CENTER | wxALL,5);
+
+	n_detail = new wxPanel(WxNotebook_nouv, ID_N_DETAIL, wxPoint(4, 26), wxSize(742, 318));
 	WxNotebook_nouv->AddPage(n_detail, wxT("Détails"));
 
-	WxStaticText_date_achat = new wxStaticText(n_detail, ID_WXSTATICTEXT_DATE_ACHAT, wxT("Date d'achat :"), wxPoint(2, 18), wxDefaultSize, 0, wxT("WxStaticText_date_achat"));
-	WxStaticText_date_achat->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer21 = new wxBoxSizer(wxHORIZONTAL);
+	n_detail->SetSizer(WxBoxSizer21);
+	n_detail->SetAutoLayout(true);
+
+	WxBoxSizer22 = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer21->Add(WxBoxSizer22, 1, wxALIGN_CENTER | wxEXPAND | wxALL, 5);
+
+	WxBoxSizer24 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer22->Add(WxBoxSizer24, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxStaticText_date_achat = new wxStaticText(n_detail, ID_WXSTATICTEXT_DATE_ACHAT, wxT("Date d'achat :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_date_achat"));
+	WxBoxSizer24->Add(WxStaticText_date_achat,20,wxALIGN_CENTER | wxALL,5);
 
 	wxDateTime WxDatePickerCtrl_achat_Date(3,wxDateTime::Mar,2006,9,42,43,852);
-	WxDatePickerCtrl_achat = new wxDatePickerCtrl(n_detail, ID_WXDATEPICKERCTRL_ACHAT, WxDatePickerCtrl_achat_Date, wxPoint(79, 14), wxSize(148, 21) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_achat"));
-	WxDatePickerCtrl_achat->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxDatePickerCtrl_achat = new wxDatePickerCtrl(n_detail, ID_WXDATEPICKERCTRL_ACHAT, WxDatePickerCtrl_achat_Date, wxPoint(91, 5), wxSize(171, 23) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_achat"));
+	WxBoxSizer24->Add(WxDatePickerCtrl_achat,40,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_valeur = new wxStaticText(n_detail, ID_WXSTATICTEXT_VALEUR, wxT("Valeur :"), wxPoint(28, 42), wxDefaultSize, 0, wxT("WxStaticText_valeur"));
-	WxStaticText_valeur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer31 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer24->Add(WxBoxSizer31, 40, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
 
-	WxEdit_valeur = new wxTextCtrl(n_detail, ID_WXEDIT_VALEUR, wxT(""), wxPoint(80, 39), wxSize(236, 21), 0, wxDefaultValidator, wxT("WxEdit_valeur"));
-	WxEdit_valeur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxCheckBox_achat = new wxCheckBox(n_detail, ID_WXCHECKBOX_ACHAT, wxT("conserver"), wxPoint(5, 5), wxSize(78, 20), 0, wxDefaultValidator, wxT("WxCheckBox_achat"));
+	WxBoxSizer31->Add(WxCheckBox_achat,10,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxStaticText_note = new wxStaticText(n_detail, ID_WXSTATICTEXT_NOTE, wxT("Note :"), wxPoint(337, 20), wxDefaultSize, 0, wxT("WxStaticText_note"));
-	WxStaticText_note->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText14 = new wxStaticText(n_detail, ID_WXSTATICTEXT14, wxT(" "), wxPoint(93, 5), wxDefaultSize, 0, wxT("WxStaticText14"));
+	WxBoxSizer31->Add(WxStaticText14,1,wxALIGN_CENTER | wxALL,5);
 
-	WxSlider_note = new wxSlider(n_detail, ID_WXSLIDER_NOTE, 0, 0, 10, wxPoint(396, 14), wxSize(150, 30), wxSL_HORIZONTAL | wxSL_SELRANGE , wxDefaultValidator, wxT("WxSlider_note"));
+	WxBoxSizer25 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer22->Add(WxBoxSizer25, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxStaticText_valeur = new wxStaticText(n_detail, ID_WXSTATICTEXT_VALEUR, wxT("Valeur :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_valeur"));
+	WxBoxSizer25->Add(WxStaticText_valeur,20,wxALIGN_CENTER | wxALL,5);
+
+	WxEdit_valeur = new wxTextCtrl(n_detail, ID_WXEDIT_VALEUR, wxT(""), wxPoint(58, 5), wxSize(273, 24), 0, wxDefaultValidator, wxT("WxEdit_valeur"));
+	WxBoxSizer25->Add(WxEdit_valeur,70,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticText15 = new wxStaticText(n_detail, ID_WXSTATICTEXT15, wxT(" "), wxPoint(341, 7), wxDefaultSize, 0, wxT("WxStaticText15"));
+	WxBoxSizer25->Add(WxStaticText15,10,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer26 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer22->Add(WxBoxSizer26, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxStaticText_reference = new wxStaticText(n_detail, ID_WXSTATICTEXT_REFERENCE, wxT("Référence :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_reference"));
+	WxBoxSizer26->Add(WxStaticText_reference,20,wxALIGN_CENTER | wxALL,5);
+
+	WxEdit_reference = new wxTextCtrl(n_detail, ID_WXEDIT_REFERENCE, wxT(""), wxPoint(77, 5), wxSize(273, 24), 0, wxDefaultValidator, wxT("WxEdit_reference"));
+	WxBoxSizer26->Add(WxEdit_reference,70,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticText16 = new wxStaticText(n_detail, ID_WXSTATICTEXT16, wxT(" "), wxPoint(360, 7), wxDefaultSize, 0, wxT("WxStaticText16"));
+	WxBoxSizer26->Add(WxStaticText16,10,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer27 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer22->Add(WxBoxSizer27, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxStaticText_nb_pages = new wxStaticText(n_detail, ID_WXSTATICTEXT_NB_PAGES, wxT("Nb de pages :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_nb_pages"));
+	WxBoxSizer27->Add(WxStaticText_nb_pages,20,wxALIGN_CENTER | wxALL,5);
+
+	WxEdit_nb_pages = new wxTextCtrl(n_detail, ID_WXEDIT_NB_PAGES, wxT(""), wxPoint(91, 5), wxSize(104, 24), 0, wxDefaultValidator, wxT("WxEdit_nb_pages"));
+	WxBoxSizer27->Add(WxEdit_nb_pages,35,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticText17 = new wxStaticText(n_detail, ID_WXSTATICTEXT17, wxT(" "), wxPoint(205, 7), wxDefaultSize, 0, wxT("WxStaticText17"));
+	WxBoxSizer27->Add(WxStaticText17,45,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer28 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer22->Add(WxBoxSizer28, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxStaticText_etat = new wxStaticText(n_detail, ID_WXSTATICTEXT_ETAT, wxT("Etat :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_etat"));
+	WxBoxSizer28->Add(WxStaticText_etat,20,wxALIGN_CENTER | wxALL,5);
+
+	wxArrayString arrayStringFor_WxComboBox_etat;
+	WxComboBox_etat = new wxComboBox(n_detail, ID_WXCOMBOBOX_ETAT, wxT(""), wxPoint(45, 5), wxSize(273, 23), arrayStringFor_WxComboBox_etat, 0, wxDefaultValidator, wxT("WxComboBox_etat"));
+	WxBoxSizer28->Add(WxComboBox_etat,70,wxALIGN_CENTER | wxALL,5);
+
+	WxButton_etat = new wxButton(n_detail, ID_WXBUTTON_ETAT, wxT("..."), wxPoint(328, 5), wxSize(17, 22), 0, wxDefaultValidator, wxT("WxButton_etat"));
+	WxBoxSizer28->Add(WxButton_etat,10,wxALIGN_CENTER | wxEXPAND | wxALL,5);
+
+	WxBoxSizer29 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer22->Add(WxBoxSizer29, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxStaticText_condition = new wxStaticText(n_detail, ID_WXSTATICTEXT_CONDITION, wxT("Localisation :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_condition"));
+	WxBoxSizer29->Add(WxStaticText_condition,20,wxALIGN_CENTER | wxALL,5);
+
+	wxArrayString arrayStringFor_WxComboBox_localisation;
+	WxComboBox_localisation = new wxComboBox(n_detail, ID_WXCOMBOBOX_LOCALISATION, wxT(""), wxPoint(88, 5), wxSize(273, 23), arrayStringFor_WxComboBox_localisation, 0, wxDefaultValidator, wxT("WxComboBox_localisation"));
+	WxBoxSizer29->Add(WxComboBox_localisation,70,wxALIGN_CENTER | wxALL,5);
+
+	WxButton_localisation = new wxButton(n_detail, ID_WXBUTTON_LOCALISATION, wxT("..."), wxPoint(371, 5), wxSize(17, 22), 0, wxDefaultValidator, wxT("WxButton_localisation"));
+	WxBoxSizer29->Add(WxButton_localisation,10,wxALIGN_CENTER | wxEXPAND | wxALL,5);
+
+	WxBoxSizer30 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer22->Add(WxBoxSizer30, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxStaticText_date_lecture = new wxStaticText(n_detail, ID_WXSTATICTEXT_DATE_LECTURE, wxT("Date de lecture :"), wxPoint(5, 7), wxDefaultSize, 0, wxT("WxStaticText_date_lecture"));
+	WxBoxSizer30->Add(WxStaticText_date_lecture,20,wxALIGN_CENTER | wxALL,5);
+
+	wxDateTime WxDatePickerCtrl_lecture_Date(3,wxDateTime::Mar,2006,9,44,33,303);
+	WxDatePickerCtrl_lecture = new wxDatePickerCtrl(n_detail, ID_WXDATEPICKERCTRL_LECTURE, WxDatePickerCtrl_lecture_Date, wxPoint(104, 5), wxSize(171, 23) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_lecture"));
+	WxBoxSizer30->Add(WxDatePickerCtrl_lecture,40,wxALIGN_CENTER | wxEXPAND | wxALL,5);
+
+	WxBoxSizer32 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer30->Add(WxBoxSizer32, 40, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxCheckBox_lecture = new wxCheckBox(n_detail, ID_WXCHECKBOX_LECTURE, wxT("conserver"), wxPoint(5, 5), wxSize(72, 20), 0, wxDefaultValidator, wxT("WxCheckBox_lecture"));
+	WxBoxSizer32->Add(WxCheckBox_lecture,0,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticText18 = new wxStaticText(n_detail, ID_WXSTATICTEXT18, wxT(" "), wxPoint(87, 5), wxDefaultSize, 0, wxT("WxStaticText18"));
+	WxBoxSizer32->Add(WxStaticText18,1,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer23 = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer21->Add(WxBoxSizer23, 1, wxALIGN_CENTER | wxEXPAND | wxALL, 5);
+
+	WxBoxSizer33 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer23->Add(WxBoxSizer33, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
+
+	WxStaticText_note = new wxStaticText(n_detail, ID_WXSTATICTEXT_NOTE, wxT("Note :"), wxPoint(5, 13), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_note"));
+	WxBoxSizer33->Add(WxStaticText_note,20,wxALIGN_CENTER | wxALL,5);
+
+	WxSlider_note = new wxSlider(n_detail, ID_WXSLIDER_NOTE, 0, 0, 10, wxPoint(51, 5), wxSize(173, 35), wxSL_HORIZONTAL | wxSL_SELRANGE , wxDefaultValidator, wxT("WxSlider_note"));
 	WxSlider_note->SetToolTip(wxT("Note du livre (0 à 10)"));
 	WxSlider_note->SetRange(0,10);
 	WxSlider_note->SetValue(0);
-	WxSlider_note->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer33->Add(WxSlider_note,40,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_val_note = new wxStaticText(n_detail, ID_WXSTATICTEXT_VAL_NOTE, wxT("0"), wxPoint(550, 18), wxDefaultSize, 0, wxT("WxStaticText_val_note"));
-	WxStaticText_val_note->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_val_note = new wxStaticText(n_detail, ID_WXSTATICTEXT_VAL_NOTE, wxT("0"), wxPoint(234, 13), wxDefaultSize, 0, wxT("WxStaticText_val_note"));
+	WxBoxSizer33->Add(WxStaticText_val_note,10,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_nul = new wxStaticText(n_detail, ID_WXSTATICTEXT_NUL, wxT("Nul"), wxPoint(395, 48), wxDefaultSize, 0, wxT("WxStaticText_nul"));
-	WxStaticText_nul->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer36 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer33->Add(WxBoxSizer36, 30, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
 
-	WxStaticText_genial = new wxStaticText(n_detail, ID_WXSTATICTEXT_GENIAL, wxT("Génial"), wxPoint(521, 48), wxDefaultSize, 0, wxT("WxStaticText_genial"));
-	WxStaticText_genial->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxCheckBox_note = new wxCheckBox(n_detail, ID_WXCHECKBOX_NOTE, wxT("conserver"), wxPoint(5, 5), wxSize(86, 19), 0, wxDefaultValidator, wxT("WxCheckBox_note"));
+	WxBoxSizer36->Add(WxCheckBox_note,10,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_reference = new wxStaticText(n_detail, ID_WXSTATICTEXT_REFERENCE, wxT("Reference :"), wxPoint(8, 65), wxDefaultSize, 0, wxT("WxStaticText_reference"));
-	WxStaticText_reference->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText19 = new wxStaticText(n_detail, ID_WXSTATICTEXT19, wxT(" "), wxPoint(101, 5), wxDefaultSize, 0, wxT("WxStaticText19"));
+	WxBoxSizer36->Add(WxStaticText19,1,wxALIGN_CENTER | wxALL,5);
 
-	WxEdit_reference = new wxTextCtrl(n_detail, ID_WXEDIT_REFERENCE, wxT(""), wxPoint(80, 65), wxSize(236, 21), 0, wxDefaultValidator, wxT("WxEdit_reference"));
-	WxEdit_reference->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer34 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer23->Add(WxBoxSizer34, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
 
-	WxStaticText_nb_pages = new wxStaticText(n_detail, ID_WXSTATICTEXT_NB_PAGES, wxT("Nb de pages :"), wxPoint(1, 94), wxDefaultSize, 0, wxT("WxStaticText_nb_pages"));
-	WxStaticText_nb_pages->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText21 = new wxStaticText(n_detail, ID_WXSTATICTEXT21, wxT(" "), wxPoint(5, 5), wxDefaultSize, 0, wxT("WxStaticText21"));
+	WxBoxSizer34->Add(WxStaticText21,20,wxALIGN_CENTER | wxALL,5);
 
-	WxEdit_nb_pages = new wxTextCtrl(n_detail, ID_WXEDIT_NB_PAGES, wxT(""), wxPoint(80, 90), wxSize(90, 21), 0, wxDefaultValidator, wxT("WxEdit_nb_pages"));
-	WxEdit_nb_pages->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_nul = new wxStaticText(n_detail, ID_WXSTATICTEXT_NUL, wxT("Nul"), wxPoint(22, 5), wxDefaultSize, wxALIGN_LEFT, wxT("WxStaticText_nul"));
+	WxBoxSizer34->Add(WxStaticText_nul,10,wxALIGN_LEFT | wxALL,5);
 
-	WxStaticText_etat = new wxStaticText(n_detail, ID_WXSTATICTEXT_ETAT, wxT("Etat :"), wxPoint(38, 118), wxDefaultSize, 0, wxT("WxStaticText_etat"));
-	WxStaticText_etat->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxSize_canvasNote = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer34->Add(WxSize_canvasNote, 10, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
 
-	wxArrayString arrayStringFor_WxComboBox_etat;
-	WxComboBox_etat = new wxComboBox(n_detail, ID_WXCOMBOBOX_ETAT, wxT(""), wxPoint(80, 117), wxSize(236, 21), arrayStringFor_WxComboBox_etat, 0, wxDefaultValidator, wxT("WxComboBox_etat"));
-	WxComboBox_etat->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_genial = new wxStaticText(n_detail, ID_WXSTATICTEXT_GENIAL, wxT("Génial"), wxPoint(75, 5), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_genial"));
+	WxBoxSizer34->Add(WxStaticText_genial,20,wxALIGN_RIGHT | wxALL,5);
 
-	WxButton_etat = new wxButton(n_detail, ID_WXBUTTON_ETAT, wxT("..."), wxPoint(318, 117), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_etat"));
-	WxButton_etat->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText23 = new wxStaticText(n_detail, ID_WXSTATICTEXT23, wxT(" "), wxPoint(122, 5), wxDefaultSize, 0, wxT("WxStaticText23"));
+	WxBoxSizer34->Add(WxStaticText23,40,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_condition = new wxStaticText(n_detail, ID_WXSTATICTEXT_CONDITION, wxT("Localisation :"), wxPoint(13, 144), wxDefaultSize, 0, wxT("WxStaticText_condition"));
-	WxStaticText_condition->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer35 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer23->Add(WxBoxSizer35, 0, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
 
-	wxArrayString arrayStringFor_WxComboBox_localisation;
-	WxComboBox_localisation = new wxComboBox(n_detail, ID_WXCOMBOBOX_LOCALISATION, wxT(""), wxPoint(80, 142), wxSize(236, 21), arrayStringFor_WxComboBox_localisation, 0, wxDefaultValidator, wxT("WxComboBox_localisation"));
-	WxComboBox_localisation->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxSizer_particularite = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer35->Add(WxSizer_particularite, 60, wxALIGN_CENTER | wxALL, 0);
 
-	WxButton_localisation = new wxButton(n_detail, ID_WXBUTTON_LOCALISATION, wxT("..."), wxPoint(318, 142), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_localisation"));
-	WxButton_localisation->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer37 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer35->Add(WxBoxSizer37, 40, wxALIGN_CENTER | wxEXPAND | wxALL, 0);
 
-	WxStaticText_date_lecture = new wxStaticText(n_detail, ID_WXSTATICTEXT_DATE_LECTURE, wxT("Date de lecture :"), wxPoint(-1, 171), wxDefaultSize, 0, wxT("WxStaticText_date_lecture"));
-	WxStaticText_date_lecture->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxCheckBox_particularite = new wxCheckBox(n_detail, ID_WXCHECKBOX_PARTICULARITE, wxT("conserver"), wxPoint(5, 5), wxSize(112, 19), 0, wxDefaultValidator, wxT("WxCheckBox_particularite"));
+	WxBoxSizer37->Add(WxCheckBox_particularite,10,wxALIGN_CENTER | wxALL,5);
 
-	wxDateTime WxDatePickerCtrl_lecture_Date(3,wxDateTime::Mar,2006,9,44,33,303);
-	WxDatePickerCtrl_lecture = new wxDatePickerCtrl(n_detail, ID_WXDATEPICKERCTRL_LECTURE, WxDatePickerCtrl_lecture_Date, wxPoint(80, 169), wxSize(148, 21) , wxDP_DROPDOWN | wxDP_ALLOWNONE, wxDefaultValidator, wxT("WxDatePickerCtrl_lecture"));
-	WxDatePickerCtrl_lecture->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText20 = new wxStaticText(n_detail, ID_WXSTATICTEXT20, wxT(" "), wxPoint(127, 5), wxDefaultSize, 0, wxT("WxStaticText20"));
+	WxBoxSizer37->Add(WxStaticText20,1,wxALIGN_CENTER | wxALL,5);
 
-	WxCheckBox_achat = new wxCheckBox(n_detail, ID_WXCHECKBOX_ACHAT, wxT("conserver"), wxPoint(232, 16), wxSize(97, 17), 0, wxDefaultValidator, wxT("WxCheckBox_achat"));
-	WxCheckBox_achat->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
-
-	WxCheckBox_lecture = new wxCheckBox(n_detail, ID_WXCHECKBOX_LECTURE, wxT("conserver"), wxPoint(233, 172), wxSize(97, 17), 0, wxDefaultValidator, wxT("WxCheckBox_lecture"));
-	WxCheckBox_lecture->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
-
-	WxCheckBox_note = new wxCheckBox(n_detail, ID_WXCHECKBOX_Note, wxT("conserver"), wxPoint(560, 31), wxSize(74, 17), 0, wxDefaultValidator, wxT("WxCheckBox_note"));
-	WxCheckBox_note->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
-
-	WxCheckBox_particularite = new wxCheckBox(n_detail, ID_WXCHECKBOX_PARTICULARITE, wxT("conserver"), wxPoint(560, 108), wxSize(97, 17), 0, wxDefaultValidator, wxT("WxCheckBox_particularite"));
-	WxCheckBox_particularite->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
-
-	n_vo = new wxPanel(WxNotebook_nouv, ID_N_VO, wxPoint(4, 24), wxSize(629, 353));
-	n_vo->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	n_vo = new wxPanel(WxNotebook_nouv, ID_N_VO, wxPoint(4, 26), wxSize(742, 318));
 	WxNotebook_nouv->AddPage(n_vo, wxT("Version originale"));
 
-	WxStaticText_titre_o = new wxStaticText(n_vo, ID_WXSTATICTEXT_TITRE_O, wxT("Titre original :"), wxPoint(23, 33), wxDefaultSize, 0, wxT("WxStaticText_titre_o"));
-	WxStaticText_titre_o->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer14 = new wxBoxSizer(wxVERTICAL);
+	n_vo->SetSizer(WxBoxSizer14);
+	n_vo->SetAutoLayout(true);
 
-	WxEdit_titre_o = new wxTextCtrl(n_vo, ID_WXEDIT_TITRE_O, wxT(""), wxPoint(95, 28), wxSize(238, 21), 0, wxDefaultValidator, wxT("WxEdit_titre_o"));
-	WxEdit_titre_o->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer15 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer14->Add(WxBoxSizer15, 0, wxALIGN_LEFT | wxEXPAND | wxALL, 0);
 
-	WxStaticText_sous_titre_o = new wxStaticText(n_vo, ID_WXSTATICTEXT_SOUS_TITRE_O, wxT("Sous titre original :"), wxPoint(5, 60), wxDefaultSize, 0, wxT("WxStaticText_sous_titre_o"));
-	WxStaticText_sous_titre_o->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_titre_o = new wxStaticText(n_vo, ID_WXSTATICTEXT_TITRE_O, wxT("Titre original :"), wxPoint(5, 8), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_titre_o"));
+	WxBoxSizer15->Add(WxStaticText_titre_o,20,wxALIGN_CENTER | wxALL,5);
 
-	WxEdit_sous_titre_o = new wxTextCtrl(n_vo, ID_WXEDIT_SOUS_TITRE_O, wxT(""), wxPoint(95, 55), wxSize(238, 21), 0, wxDefaultValidator, wxT("WxEdit_sous_titre_o"));
-	WxEdit_sous_titre_o->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxEdit_titre_o = new wxTextCtrl(n_vo, ID_WXEDIT_TITRE_O, wxT(""), wxPoint(92, 5), wxSize(274, 25), 0, wxDefaultValidator, wxT("WxEdit_titre_o"));
+	WxBoxSizer15->Add(WxEdit_titre_o,35,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_serie_o = new wxStaticText(n_vo, ID_WXSTATICTEXT_SERIE_O, wxT("serie originale :"), wxPoint(6, 84), wxDefaultSize, 0, wxT("WxStaticText_serie_o"));
-	WxStaticText_serie_o->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText8 = new wxStaticText(n_vo, ID_WXSTATICTEXT8, wxT(" "), wxPoint(376, 8), wxDefaultSize, 0, wxT("WxStaticText8"));
+	WxBoxSizer15->Add(WxStaticText8,45,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer16 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer14->Add(WxBoxSizer16, 0, wxALIGN_LEFT | wxEXPAND | wxALL, 0);
+
+	WxStaticText_sous_titre_o = new wxStaticText(n_vo, ID_WXSTATICTEXT_SOUS_TITRE_O, wxT("Sous titre original :"), wxPoint(5, 8), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_sous_titre_o"));
+	WxBoxSizer16->Add(WxStaticText_sous_titre_o,20,wxALIGN_CENTER | wxALL,5);
+
+	WxEdit_sous_titre_o = new wxTextCtrl(n_vo, ID_WXEDIT_SOUS_TITRE_O, wxT(""), wxPoint(117, 5), wxSize(274, 25), 0, wxDefaultValidator, wxT("WxEdit_sous_titre_o"));
+	WxBoxSizer16->Add(WxEdit_sous_titre_o,35,wxALIGN_CENTER | wxALL,5);
+
+	WxStaticText9 = new wxStaticText(n_vo, ID_WXSTATICTEXT9, wxT(" "), wxPoint(401, 8), wxDefaultSize, 0, wxT("WxStaticText9"));
+	WxBoxSizer16->Add(WxStaticText9,45,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer14->Add(WxBoxSizer17, 0, wxALIGN_LEFT | wxEXPAND | wxALL, 0);
+
+	WxStaticText_serie_o = new wxStaticText(n_vo, ID_WXSTATICTEXT_SERIE_O, wxT("serie originale :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_serie_o"));
+	WxBoxSizer17->Add(WxStaticText_serie_o,20,wxALIGN_CENTER | wxALL,5);
 
 	wxArrayString arrayStringFor_WxComboBox_serie_o;
-	WxComboBox_serie_o = new wxComboBox(n_vo, ID_WXCOMBOBOX_SERIE_O, wxT(""), wxPoint(95, 80), wxSize(238, 21), arrayStringFor_WxComboBox_serie_o, 0, wxDefaultValidator, wxT("WxComboBox_serie_o"));
-	WxComboBox_serie_o->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxComboBox_serie_o = new wxComboBox(n_vo, ID_WXCOMBOBOX_SERIE_O, wxT(""), wxPoint(98, 5), wxSize(274, 23), arrayStringFor_WxComboBox_serie_o, 0, wxDefaultValidator, wxT("WxComboBox_serie_o"));
+	WxBoxSizer17->Add(WxComboBox_serie_o,35,wxALIGN_CENTER | wxALL,5);
 
-	WxButton_serie_o = new wxButton(n_vo, ID_WXBUTTON_SERIE_O, wxT("..."), wxPoint(335, 80), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_serie_o"));
-	WxButton_serie_o->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_serie_o = new wxButton(n_vo, ID_WXBUTTON_SERIE_O, wxT("..."), wxPoint(382, 5), wxSize(17, 22), 0, wxDefaultValidator, wxT("WxButton_serie_o"));
+	WxBoxSizer17->Add(WxButton_serie_o,5,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_pays = new wxStaticText(n_vo, ID_WXSTATICTEXT_PAYS, wxT("Pays d'origine :"), wxPoint(9, 108), wxDefaultSize, 0, wxT("WxStaticText_pays"));
-	WxStaticText_pays->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText10 = new wxStaticText(n_vo, ID_WXSTATICTEXT10, wxT(" "), wxPoint(409, 7), wxDefaultSize, 0, wxT("WxStaticText10"));
+	WxBoxSizer17->Add(WxStaticText10,40,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer18 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer14->Add(WxBoxSizer18, 0, wxALIGN_LEFT | wxEXPAND | wxALL, 0);
+
+	WxStaticText_pays = new wxStaticText(n_vo, ID_WXSTATICTEXT_PAYS, wxT("Pays d'origine :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_pays"));
+	WxBoxSizer18->Add(WxStaticText_pays,20,wxALIGN_CENTER | wxALL,5);
 
 	wxArrayString arrayStringFor_WxComboBox_pays;
-	WxComboBox_pays = new wxComboBox(n_vo, ID_WXCOMBOBOX_PAYS, wxT(""), wxPoint(95, 106), wxSize(238, 21), arrayStringFor_WxComboBox_pays, 0, wxDefaultValidator, wxT("WxComboBox_pays"));
-	WxComboBox_pays->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxComboBox_pays = new wxComboBox(n_vo, ID_WXCOMBOBOX_PAYS, wxT(""), wxPoint(99, 5), wxSize(274, 23), arrayStringFor_WxComboBox_pays, 0, wxDefaultValidator, wxT("WxComboBox_pays"));
+	WxBoxSizer18->Add(WxComboBox_pays,35,wxALIGN_CENTER | wxALL,5);
 
-	WxButton_pays = new wxButton(n_vo, ID_WXBUTTON_PAYS, wxT("..."), wxPoint(335, 107), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_pays"));
-	WxButton_pays->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_pays = new wxButton(n_vo, ID_WXBUTTON_PAYS, wxT("..."), wxPoint(383, 5), wxSize(17, 22), 0, wxDefaultValidator, wxT("WxButton_pays"));
+	WxBoxSizer18->Add(WxButton_pays,5,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_langue = new wxStaticText(n_vo, ID_WXSTATICTEXT_LANGUE_O, wxT("Langue d'origine :"), wxPoint(0, 136), wxDefaultSize, 0, wxT("WxStaticText_langue"));
-	WxStaticText_langue->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText11 = new wxStaticText(n_vo, ID_WXSTATICTEXT11, wxT(" "), wxPoint(410, 7), wxDefaultSize, 0, wxT("WxStaticText11"));
+	WxBoxSizer18->Add(WxStaticText11,40,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer19 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer14->Add(WxBoxSizer19, 0, wxALIGN_LEFT | wxEXPAND | wxALL, 0);
+
+	WxStaticText_langue = new wxStaticText(n_vo, ID_WXSTATICTEXT_LANGUE, wxT("Langue d'origine :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_langue"));
+	WxBoxSizer19->Add(WxStaticText_langue,20,wxALIGN_CENTER | wxALL,5);
 
 	wxArrayString arrayStringFor_WxComboBox_langue;
-	WxComboBox_langue = new wxComboBox(n_vo, ID_WXCOMBOBOX_LANGUE, wxT(""), wxPoint(95, 133), wxSize(238, 21), arrayStringFor_WxComboBox_langue, 0, wxDefaultValidator, wxT("WxComboBox_langue"));
-	WxComboBox_langue->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxComboBox_langue = new wxComboBox(n_vo, ID_WXCOMBOBOX_LANGUE, wxT(""), wxPoint(114, 5), wxSize(274, 23), arrayStringFor_WxComboBox_langue, 0, wxDefaultValidator, wxT("WxComboBox_langue"));
+	WxBoxSizer19->Add(WxComboBox_langue,35,wxALIGN_CENTER | wxALL,5);
 
-	WxButton_langue = new wxButton(n_vo, ID_WXBUTTON_LANGUE, wxT("..."), wxPoint(335, 133), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_langue"));
-	WxButton_langue->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_langue = new wxButton(n_vo, ID_WXBUTTON_LANGUE, wxT("..."), wxPoint(398, 5), wxSize(17, 22), 0, wxDefaultValidator, wxT("WxButton_langue"));
+	WxBoxSizer19->Add(WxButton_langue,5,wxALIGN_CENTER | wxALL,5);
 
-	WxStaticText_traducteur = new wxStaticText(n_vo, ID_WXSTATICTEXT_TRADUCTEUR, wxT("Traducteur :"), wxPoint(22, 160), wxDefaultSize, 0, wxT("WxStaticText_traducteur"));
-	WxStaticText_traducteur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText12 = new wxStaticText(n_vo, ID_WXSTATICTEXT12, wxT(" "), wxPoint(425, 7), wxDefaultSize, 0, wxT("WxStaticText12"));
+	WxBoxSizer19->Add(WxStaticText12,40,wxALIGN_CENTER | wxALL,5);
+
+	WxBoxSizer20 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer14->Add(WxBoxSizer20, 0, wxALIGN_LEFT | wxEXPAND | wxALL, 0);
+
+	WxStaticText_traducteur = new wxStaticText(n_vo, ID_WXSTATICTEXT_TRADUCTEUR, wxT("Traducteur :"), wxPoint(5, 7), wxDefaultSize, wxALIGN_RIGHT, wxT("WxStaticText_traducteur"));
+	WxBoxSizer20->Add(WxStaticText_traducteur,20,wxALIGN_CENTER | wxALL,5);
 
 	wxArrayString arrayStringFor_WxComboBox_traducteur;
-	WxComboBox_traducteur = new wxComboBox(n_vo, ID_WXCOMBOBOX_TRADUCTEUR, wxT(""), wxPoint(95, 157), wxSize(238, 21), arrayStringFor_WxComboBox_traducteur, 0, wxDefaultValidator, wxT("WxComboBox_traducteur"));
-	WxComboBox_traducteur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxComboBox_traducteur = new wxComboBox(n_vo, ID_WXCOMBOBOX_TRADUCTEUR, wxT(""), wxPoint(83, 5), wxSize(274, 23), arrayStringFor_WxComboBox_traducteur, 0, wxDefaultValidator, wxT("WxComboBox_traducteur"));
+	WxBoxSizer20->Add(WxComboBox_traducteur,35,wxALIGN_CENTER | wxALL,5);
 
-	WxButton_traducteur = new wxButton(n_vo, ID_WXBUTTON_TRADUCTEUR, wxT("..."), wxPoint(335, 158), wxSize(15, 19), 0, wxDefaultValidator, wxT("WxButton_traducteur"));
-	WxButton_traducteur->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxButton_traducteur = new wxButton(n_vo, ID_WXBUTTON_TRADUCTEUR, wxT("..."), wxPoint(367, 5), wxSize(17, 22), 0, wxDefaultValidator, wxT("WxButton_traducteur"));
+	WxBoxSizer20->Add(WxButton_traducteur,5,wxALIGN_CENTER | wxALL,5);
 
-	n_resume = new wxPanel(WxNotebook_nouv, ID_N_RESUME, wxPoint(4, 24), wxSize(629, 353));
-	n_resume->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText13 = new wxStaticText(n_vo, ID_WXSTATICTEXT13, wxT(" "), wxPoint(394, 7), wxDefaultSize, 0, wxT("WxStaticText13"));
+	WxBoxSizer20->Add(WxStaticText13,40,wxALIGN_CENTER | wxALL,5);
+
+	n_resume = new wxPanel(WxNotebook_nouv, ID_N_RESUME, wxPoint(4, 26), wxSize(742, 318));
 	WxNotebook_nouv->AddPage(n_resume, wxT("resumé"));
 
-	WxStaticText_commentaire = new wxStaticText(n_resume, ID_WXSTATICTEXT_COMMENTAIRE, wxT("Commentaire :"), wxPoint(3, -2), wxDefaultSize, 0, wxT("WxStaticText_commentaire"));
-	WxStaticText_commentaire->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer4 = new wxBoxSizer(wxVERTICAL);
+	n_resume->SetSizer(WxBoxSizer4);
+	n_resume->SetAutoLayout(true);
 
-	WxMemo_commentaire = new wxTextCtrl(n_resume, ID_WXMEMO_COMMENTAIRE, wxEmptyString, wxPoint(0, 15), wxSize(629, 159), wxTE_MULTILINE, wxDefaultValidator, wxT("WxMemo_commentaire"));
+	WxStaticText_commentaire = new wxStaticText(n_resume, ID_WXSTATICTEXT_COMMENTAIRE, wxT("Commentaire :"), wxPoint(326, 5), wxDefaultSize, 0, wxT("WxStaticText_commentaire"));
+	WxBoxSizer4->Add(WxStaticText_commentaire,0,wxALIGN_LEFT | wxALL,5);
+
+	WxMemo_commentaire = new wxTextCtrl(n_resume, ID_WXMEMO_COMMENTAIRE, wxEmptyString, wxPoint(5, 34), wxSize(726, 110), wxTE_MULTILINE, wxDefaultValidator, wxT("WxMemo_commentaire"));
 	WxMemo_commentaire->SetMaxLength(0);
 	WxMemo_commentaire->SetFocus();
 	WxMemo_commentaire->SetInsertionPointEnd();
-	WxMemo_commentaire->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer4->Add(WxMemo_commentaire,1,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	WxStaticText_resume = new wxStaticText(n_resume, ID_WXSTATICTEXT_RESUME, wxT("Résumé :"), wxPoint(3, 175), wxDefaultSize, 0, wxT("WxStaticText_resume"));
-	WxStaticText_resume->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxStaticText_resume = new wxStaticText(n_resume, ID_WXSTATICTEXT_RESUME, wxT("Résumé :"), wxPoint(342, 154), wxDefaultSize, 0, wxT("WxStaticText_resume"));
+	WxBoxSizer4->Add(WxStaticText_resume,0,wxALIGN_LEFT | wxALL,5);
 
-	WxMemo_resume = new wxTextCtrl(n_resume, ID_WXMEMO_RESUME, wxEmptyString, wxPoint(0, 192), wxSize(629, 161), wxTE_MULTILINE, wxDefaultValidator, wxT("WxMemo_resume"));
+	WxMemo_resume = new wxTextCtrl(n_resume, ID_WXMEMO_RESUME, wxEmptyString, wxPoint(5, 183), wxSize(726, 185), wxTE_MULTILINE, wxDefaultValidator, wxT("WxMemo_resume"));
 	WxMemo_resume->SetMaxLength(0);
 	WxMemo_resume->SetFocus();
 	WxMemo_resume->SetInsertionPointEnd();
-	WxMemo_resume->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer4->Add(WxMemo_resume,1,wxALIGN_CENTER | wxEXPAND | wxALL,5);
 
-	n_image_face = new wxPanel(WxNotebook_nouv, ID_N_IMAGE_FACE, wxPoint(4, 24), wxSize(629, 353));
-	n_image_face->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	n_image_face = new wxPanel(WxNotebook_nouv, ID_N_IMAGE_FACE, wxPoint(4, 26), wxSize(742, 318));
 	WxNotebook_nouv->AddPage(n_image_face, wxT("image face"));
 
+	WxBoxSizer38 = new wxBoxSizer(wxHORIZONTAL);
+	n_image_face->SetSizer(WxBoxSizer38);
+	n_image_face->SetAutoLayout(true);
+
+	WxBoxSizer_canvasImageFace = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer38->Add(WxBoxSizer_canvasImageFace, 1, wxALIGN_LEFT | wxALIGN_TOP | wxEXPAND | wxALL, 5);
+
+	WxBoxSizer_boutonsImageFace = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer38->Add(WxBoxSizer_boutonsImageFace, 0, wxALIGN_RIGHT | wxALIGN_TOP | wxALL, 5);
+
 	wxBitmap WxBitmapButton_face_ouvrir_BITMAP (Nouv_livre_WxBitmapButton_face_ouvrir_XPM);
-	WxBitmapButton_face_ouvrir = new wxBitmapButton(n_image_face, ID_WXBITMAPBUTTON_IMAGE_OUVRIR, WxBitmapButton_face_ouvrir_BITMAP, wxPoint(605, 0), wxSize(20, 20), wxBU_AUTODRAW, wxDefaultValidator, wxT("WxBitmapButton_face_ouvrir"));
+	WxBitmapButton_face_ouvrir = new wxBitmapButton(n_image_face, ID_WXBITMAPBUTTON_FACE_OUVRIR, WxBitmapButton_face_ouvrir_BITMAP, wxPoint(5, 5), wxSize(23, 23), wxBU_AUTODRAW, wxDefaultValidator, wxT("WxBitmapButton_face_ouvrir"));
 	WxBitmapButton_face_ouvrir->SetToolTip(wxT("charger une image"));
-	WxBitmapButton_face_ouvrir->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer_boutonsImageFace->Add(WxBitmapButton_face_ouvrir, 0, wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
 
 	wxBitmap WxBitmapButton_supp_image_face_BITMAP (Nouv_livre_WxBitmapButton_supp_image_face_XPM);
-	WxBitmapButton_supp_image_face = new wxBitmapButton(n_image_face, ID_WXBITMAPBUTTON_SUP_IMAGE, WxBitmapButton_supp_image_face_BITMAP, wxPoint(605, 22), wxSize(20, 20), wxBU_AUTODRAW, wxDefaultValidator, wxT("WxBitmapButton_supp_image_face"));
+	WxBitmapButton_supp_image_face = new wxBitmapButton(n_image_face, ID_WXBITMAPBUTTON_SUPP_IMAGE_FACE, WxBitmapButton_supp_image_face_BITMAP, wxPoint(5, 38), wxSize(23, 23), wxBU_AUTODRAW, wxDefaultValidator, wxT("WxBitmapButton_supp_image_face"));
 	WxBitmapButton_supp_image_face->SetToolTip(wxT("Supprimer l'image"));
-	WxBitmapButton_supp_image_face->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer_boutonsImageFace->Add(WxBitmapButton_supp_image_face, 0, wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
 
-	n_image_dos = new wxPanel(WxNotebook_nouv, ID_WXNOTEBOOKPAGE1, wxPoint(4, 24), wxSize(629, 353));
-	n_image_dos->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	n_image_dos = new wxPanel(WxNotebook_nouv, ID_WXNOTEBOOKPAGE1, wxPoint(4, 26), wxSize(742, 318));
 	WxNotebook_nouv->AddPage(n_image_dos, wxT("image dos"));
 
-	n_image_divers = new wxPanel(WxNotebook_nouv, ID_N_IMAGE_DIVERS, wxPoint(4, 24), wxSize(629, 353));
-	n_image_divers->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	WxBoxSizer39 = new wxBoxSizer(wxHORIZONTAL);
+	n_image_dos->SetSizer(WxBoxSizer39);
+	n_image_dos->SetAutoLayout(true);
+
+	WxBoxSizer_canvasImageDos = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer39->Add(WxBoxSizer_canvasImageDos, 1, wxALIGN_LEFT | wxALIGN_TOP | wxEXPAND | wxALL, 5);
+
+	WxBoxSizer_boutonsImageDos = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer39->Add(WxBoxSizer_boutonsImageDos, 0, wxALIGN_RIGHT | wxALIGN_TOP | wxALL, 5);
+
+	n_image_divers = new wxPanel(WxNotebook_nouv, ID_N_IMAGE_DIVERS, wxPoint(4, 26), wxSize(742, 318));
 	WxNotebook_nouv->AddPage(n_image_divers, wxT("image divers"));
+
+	WxBoxSizer40 = new wxBoxSizer(wxHORIZONTAL);
+	n_image_divers->SetSizer(WxBoxSizer40);
+	n_image_divers->SetAutoLayout(true);
+
+	WxBoxSizer_canvasImageDivers = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer40->Add(WxBoxSizer_canvasImageDivers, 1, wxALIGN_LEFT | wxALIGN_TOP | wxEXPAND | wxALL, 5);
+
+	WxBoxSizer_boutonsImageDivers = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer40->Add(WxBoxSizer_boutonsImageDivers, 0, wxALIGN_RIGHT | wxALIGN_TOP | wxALL, 5);
+
+	WxBoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
+	WxBoxSizer1->Add(WxBoxSizer3, 0, wxALIGN_RIGHT | wxALIGN_BOTTOM | wxALIGN_CENTER | wxEXPAND | wxALL, 5);
+
+	WxButton_nouv_ok = new wxButton(this, ID_WXBUTTON_NOUV_OK, wxT("OK"), wxPoint(20, 0), wxSize(96, 32), 0, wxDefaultValidator, wxT("WxButton_nouv_ok"));
+	WxBoxSizer3->Add(WxButton_nouv_ok,1,wxALIGN_CENTER | wxEXPAND | wxLEFT | wxRIGHT,20);
+
+	WxButton_nouv_annul = new wxButton(this, ID_WXBUTTON_NOUV_ANNUL, wxT("Annuler"), wxPoint(156, 0), wxSize(92, 32), 0, wxDefaultValidator, wxT("WxButton_nouv_annul"));
+	WxBoxSizer3->Add(WxButton_nouv_annul,1,wxALIGN_CENTER | wxEXPAND | wxLEFT | wxRIGHT,20);
+
+	WxButton_internet_g = new wxButton(this, ID_WXBUTTON_INTERNET_G, wxT("Recherche internet"), wxPoint(288, 0), wxSize(116, 32), 0, wxDefaultValidator, wxT("WxButton_internet_g"));
+	WxBoxSizer3->Add(WxButton_internet_g,2,wxALIGN_CENTER | wxEXPAND | wxLEFT | wxRIGHT,20);
 
 	SetTitle(wxT("Nouveau livre"));
 	SetIcon(wxNullIcon);
-	SetSize(8,8,664,455);
+	
+	GetSizer()->Layout();
+	GetSizer()->Fit(this);
+	GetSizer()->SetSizeHints(this);
 	Center();
 	
     ////GUI Items Creation End
+	
     // initialisation des dates  
     WxDatePickerCtrl_publication->SetValue(wxDateTime::Now());
     WxDatePickerCtrl_achat->SetValue(wxDateTime::Now());
     WxDatePickerCtrl_lecture->SetValue(wxDateTime::Now());
     // boutons identiques sur les 3 panels 
-	WxBitmapButton_dos_ouvrir =  new wxBitmapButton(n_image_dos, ID_WXBITMAPBUTTON_IMAGE_OUVRIR, WxBitmapButton_face_ouvrir_BITMAP, wxPoint(605,0),wxSize(20,20) );
+	WxBitmapButton_dos_ouvrir =  new wxBitmapButton(n_image_dos, ID_WXBITMAPBUTTON_FACE_OUVRIR, WxBitmapButton_face_ouvrir_BITMAP, wxPoint(605,0),wxSize(20,20) );
 	WxBitmapButton_dos_ouvrir->SetToolTip(wxT(_("charger une image")));
-
-	WxBitmapButton_supp_image_dos =  new wxBitmapButton(n_image_dos, ID_WXBITMAPBUTTON_SUP_IMAGE, WxBitmapButton_supp_image_face_BITMAP, wxPoint(605,22),wxSize(20,20) );
+    WxBoxSizer_boutonsImageDos->Add(WxBitmapButton_dos_ouvrir, 0, wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
+    
+	WxBitmapButton_supp_image_dos =  new wxBitmapButton(n_image_dos, ID_WXBITMAPBUTTON_SUPP_IMAGE_FACE, WxBitmapButton_supp_image_face_BITMAP, wxPoint(605,22),wxSize(20,20) );
 	WxBitmapButton_supp_image_dos->SetToolTip(wxT(_("Supprimer l'image")));
+    WxBoxSizer_boutonsImageDos->Add(WxBitmapButton_supp_image_dos, 0, wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
 
-	WxBitmapButton_divers_ouvrir =  new wxBitmapButton(n_image_divers, ID_WXBITMAPBUTTON_IMAGE_OUVRIR, WxBitmapButton_face_ouvrir_BITMAP, wxPoint(605,0),wxSize(20,20) );
+	WxBitmapButton_divers_ouvrir =  new wxBitmapButton(n_image_divers, ID_WXBITMAPBUTTON_FACE_OUVRIR, WxBitmapButton_face_ouvrir_BITMAP, wxPoint(605,0),wxSize(20,20) );
 	WxBitmapButton_divers_ouvrir->SetToolTip(wxT(_("charger une image")));
+    WxBoxSizer_boutonsImageDivers->Add(WxBitmapButton_divers_ouvrir, 0, wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
 
-	WxBitmapButton_supp_image_divers =  new wxBitmapButton(n_image_divers, ID_WXBITMAPBUTTON_SUP_IMAGE, WxBitmapButton_supp_image_face_BITMAP, wxPoint(605,22),wxSize(20,20) );
+	WxBitmapButton_supp_image_divers =  new wxBitmapButton(n_image_divers, ID_WXBITMAPBUTTON_SUPP_IMAGE_FACE, WxBitmapButton_supp_image_face_BITMAP, wxPoint(605,22),wxSize(20,20) );
 	WxBitmapButton_supp_image_divers->SetToolTip(wxT(_("Supprimer l'image")));
+    WxBoxSizer_boutonsImageDivers->Add(WxBitmapButton_supp_image_divers, 0, wxALIGN_TOP | wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
 
     
+
     n_image_face->GetSize(&largeur_obj,&hauteur_obj);
+
     canvas_image_face = new ImageCanvas(n_image_face, ID_IMAGECANVAS_IMAGE_FACE, wxPoint(0,0),wxSize(largeur_obj-50,hauteur_obj) );
+    WxBoxSizer_canvasImageFace->Add(canvas_image_face, 0, wxALIGN_TOP | wxALL, 5);
     canvas_image_dos = new ImageCanvas(n_image_dos, ID_IMAGECANVAS_IMAGE_DOS, wxPoint(0,0),wxSize(largeur_obj-50,hauteur_obj) );
+    WxBoxSizer_canvasImageDos->Add(canvas_image_dos, 0, wxALIGN_TOP | wxALL, 5);
     canvas_image_divers = new ImageCanvas(n_image_divers, ID_IMAGECANVAS_IMAGE_DIVERS, wxPoint(0,0),wxSize(largeur_obj-50,hauteur_obj) );
+    WxBoxSizer_canvasImageDivers->Add(canvas_image_divers, 0, wxALIGN_TOP | wxALL, 5);
+
+
+    // forcer les tailles des éléments qui ne se dimensionnent pas correctement avec les sizer ...
+    WxButton_auteur->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxButton_serie->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxButton_internet->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxButton_editeur->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxButton_format->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxButton_artiste->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    
+    WxDatePickerCtrl_achat->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxDatePickerCtrl_lecture->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxEdit_valeur->SetMinSize(wxSize(-1, (int)(taillePolice*1.8)));
+    WxEdit_reference->SetMinSize(wxSize(-1, (int)(taillePolice*1.8)));
+    WxEdit_nb_pages->SetMinSize(wxSize(-1, (int)(taillePolice*1.8)));
+    WxComboBox_localisation->SetMinSize(wxSize(-1, (int)(taillePolice*1.8)));
+    WxButton_etat->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxButton_localisation->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    
+    WxEdit_titre_o->SetMinSize(wxSize(-1, (int)(taillePolice*1.8)));
+    WxEdit_sous_titre_o->SetMinSize(wxSize(-1, (int)(taillePolice*1.8)));
+    WxButton_serie_o->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxButton_pays->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxButton_langue->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+    WxButton_traducteur->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+/*
+    CK_avertirNouveau_auteur->SetMinSize(wxSize(-1, (int)(taillePolice*1.5)));
+    CK_use_splash_screen->SetMinSize(wxSize(-1, (int)(taillePolice*1.5)));
+    CK_cleanTmpOnExit->SetMinSize(wxSize(-1, (int)(taillePolice*1.5)));
+    CK_UseSauvegarde->SetMinSize(wxSize(-1, (int)(taillePolice*1.5)));
+    RB_SauveDossierBase->SetMinSize(wxSize(-1, (int)(taillePolice*1.5)));
+    RB_SauveDossierSpecifie->SetMinSize(wxSize(-1, (int)(taillePolice*1.5)));
+    ET_Rep_Sauvegarde->SetMinSize(wxSize(-1, (int)(taillePolice*1.8)));
+    WxCheckBox_proxy->SetMinSize(wxSize(-1, (int)(taillePolice*1.5)));
+    WxCheck_verifVersion->SetMinSize(wxSize(-1, (int)(taillePolice*1.5)));
+    ET_EnteteGauche->SetMinSize(wxSize(-1, (int)(taillePolice*1.8)));
+    ET_PiedPageGauche->SetMinSize(wxSize(-1, (int)(taillePolice*1.8)));
+    CH_saisieRapide_ISBNabsent->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+*/
+//    WxStaticText20->SetMinSize(wxSize(-1, (int)(taillePolice*2)));
+
+
+
+
+
     //intitialisation de la note
     WxSlider_note->SetValue(5);
     WxStaticText_val_note->SetLabel(_("5"));
@@ -1007,9 +1290,10 @@ void Nouv_livre::CreateGUIControls(void)
     x+=30; 
     //canvas_note1 = new ImageCanvas(n_detail, ID_IMAGECANVAS_STAR1, wxPoint(x,y-5),wxSize(15,15) );
     wxString texte;
-    for (i=0;i<6;i++) {
+    for (i=0;i<5;i++) {
         texte.Printf("star:%d",i);
         canvas_note[i] = new ImageCanvas(n_detail, ID_IMAGECANVAS_STAR1+i, wxPoint(x,y-5),wxSize(15,15) );
+        WxSize_canvasNote->Add(canvas_note[i]);
 /*        if (i<2) 
             canvas_note[i]->init(star2_XPM);
         if (i==2)
@@ -1034,10 +1318,20 @@ void Nouv_livre::CreateGUIControls(void)
     init_combo(WxComboBox_langue, "langue");
     init_combo(WxComboBox_traducteur, "traducteur");
     SetFocus();
+
+    // remettre la taille mémorisée +
+    // forcer un changement de taille pour que les éléments se redimensionnent
+    long dlgW = 500;
+    long dlgH = 460;
+    param->GetOrSet("config", "INIT", "SIZE_NOUVLIVRE_DLG", dlgW, dlgH);
+    SetSize(wxSize(dlgW+1, dlgH));
+    SetSize(wxSize(dlgW, dlgH));
+    Center();
+
 }
 
 void Nouv_livre::create_radiobox()
-{ 
+{
     int count;
     wxString *items = new wxString[PARTICULARITE_NB];
     
@@ -1045,9 +1339,13 @@ void Nouv_livre::create_radiobox()
         items[count] = monlivre.get_label_particularite(count);
     }    
     count=PARTICULARITE_NB; 
-   	wxRadioBox_particularite =  new wxRadioBox(n_detail, ID_WXRADIOBOX_PARTICULARITE, _("Particularité") , wxPoint(360,70),wxSize(200,(21+count*21)), count,items,1, wxRA_SPECIFY_COLS );
-   	delete [] items;
+   	wxRadioBox_particularite =  new wxRadioBox(n_detail, ID_WXRADIOBOX_PARTICULARITE, _("Particularité"), 
+                                wxPoint(560,70), wxDefaultSize, count,items,1, wxRA_SPECIFY_COLS);
+   	WxSizer_particularite->Add(wxRadioBox_particularite, 0, wxALIGN_CENTER | wxALL, 5);
+
+    delete [] items;
 }
+
 void Nouv_livre::Nouv_livreClose(wxCloseEvent& event)
 {
     //int i;
@@ -1055,6 +1353,8 @@ void Nouv_livre::Nouv_livreClose(wxCloseEvent& event)
     // use Destroy instead.
     /*for (i=0;i<5;i++) 
         delete canvas_note[i];*/
+	ParamManager* param = ParamManager::GetInstance("config");
+    param->Set("config", "INIT", "SIZE_NOUVLIVRE_DLG", (long)(GetSize().x), (long)(GetSize().y));
         
     Destroy();
 }
@@ -1079,6 +1379,9 @@ void Nouv_livre::WxButton_nouv_okClick(wxCommandEvent& event)
         //wxMessageBox("rhha","probleme", wxOK | wxICON_INFORMATION, this);
         }    
         
+    	ParamManager* param = ParamManager::GetInstance("config");
+        param->Set("config", "INIT", "SIZE_NOUVLIVRE_DLG", (long)(GetSize().x), (long)(GetSize().y));
+
         wxLogMessage("Nouv_livre::WxButton_nouv_okClick() - avant Destroy()");
         Destroy();
         wxLogMessage("Nouv_livre::WxButton_nouv_okClick() - après Destroy()");
@@ -1093,6 +1396,9 @@ void Nouv_livre::WxButton_nouv_okClick(wxCommandEvent& event)
  */
 void Nouv_livre::WxButton_nouv_annulClick(wxCommandEvent& event)
 {
+	ParamManager* param = ParamManager::GetInstance("config");
+    param->Set("config", "INIT", "SIZE_NOUVLIVRE_DLG", (long)(GetSize().x), (long)(GetSize().y));
+
     //wxMessageBox("rhha","probleme", wxOK | wxICON_INFORMATION, this);
     SetReturnCode(0);
     EndModal(0);
@@ -1972,6 +2278,20 @@ void Nouv_livre::mise_a_jour(rech_internet *rech) {
             wxMessageBox("Probleme de chargement de l'image","probleme", wxOK | wxICON_EXCLAMATION, this);
         }*/
     }
+    
+    // analyser le titre pour y reconnaitre série et no_serie le cas échéant
+    wxRegEx reSerieTome ("^([^,].*), [tT]ome ([0-9]*).*$");
+    wxLogMessage("vérification des RE : %d ", reSerieTome.IsValid());
+    if (reSerieTome.Matches(WxEdit_titre->GetValue())) {
+        wxString nomSerie = reSerieTome.GetMatch(WxEdit_titre->GetValue(), 1);
+        wxString noSerie = reSerieTome.GetMatch(WxEdit_titre->GetValue(), 2);
+        wxLogMessage("série identifiée --> '%s' - '%s' ; GetMatchCount() : %d", 
+                     nomSerie.c_str(), noSerie.c_str(),
+                     reSerieTome.GetMatchCount());
+        WxComboBox_serie->SetValue(nomSerie);
+        WxEdit_no_serie->SetValue(noSerie);
+    }
+    
 }
 /*
  * WxButton_internetClick
@@ -2106,4 +2426,20 @@ void Nouv_livre::Nouv_livreInitDialog(wxInitDialogEvent& event)
     } else {
         event.Skip(false);
     }
+}
+
+/*
+ * Nouv_livreSize
+ */
+void Nouv_livre::Nouv_livreSize(wxSizeEvent& event)
+{
+	wxLogMessage("Nouv_livreSize()");
+
+	event.Skip();
+    
+    // WxNotebook_nouv->SetSelection(WxNotebook_nouv->GetSelection()) force un pseudo-changement d'onglet 
+    // qui permet un retaillage correct de tous les composants même quand le nombre de lignes d'onglets change
+    Freeze();
+    WxNotebook_nouv->SetSelection(WxNotebook_nouv->GetSelection());
+    Thaw();
 }

@@ -399,6 +399,11 @@ aka :
     node_cible=cherche_node("Author",papa_root);
     if (node_cible != NULL) {
         caract.Auteur=node_cible->GetNodeContent();
+    } else {
+        node_cible=cherche_node("Creator",papa_root,"Scenario");
+        if (node_cible != NULL) {
+            caract.Auteur=node_cible->GetNodeContent();
+        }
     }
     node_cible=cherche_node("Publisher",papa_root);
     if (node_cible != NULL) {

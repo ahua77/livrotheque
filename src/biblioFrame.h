@@ -64,6 +64,9 @@
 ////Header Include Start
 #include <wx/menu.h>
 #include <wx/statusbr.h>
+#include <wx/checkbox.h>
+#include <wx/textctrl.h>
+#include <wx/stattext.h>
 #include <wx/toolbar.h>
 ////Header Include End
 #include <wx/splitter.h>
@@ -120,6 +123,7 @@ private:
     wxArrayInt LignesSelectionnees();
     wxArrayInt rowIdSelectionnes();
     wxString BuildHTML();
+    int selectionneRowid(int rowidLivre, bool addToSelection = false);
 
 };
 
@@ -132,6 +136,8 @@ private:
 public:
     enum {
     ////GUI Enum Control ID Start
+			ID_MNU_OUVRIR_1015 = 1015,
+			
 			ID_MNU_FICHIER_QUIT = 1010,
 			ID_MNU_OUVRIR_1022 = 1022,
 			ID_MNU_CREERUNEBASE_1023 = 1023,
@@ -173,9 +179,15 @@ public:
 			ID_MNU__APROPOS_1047 = 1047,
 			ID_MNU_VERIFIER_VERSION = 1072,
 			
-			ID_MNU_OUVRIR_1015 = 1015,
-			
 			ID_BARRE_STATUT = 1009,
+			ID_TOOLB_LECTEURCODESBARRE = 1089,
+			ID_WX_CK_saisieISBN_ajouteSelection = 1086,
+			ID_WXSEPARATOR11 = 1088,
+			ID_WX_ET_SaisieRapide = 1079,
+			ID_WXSTATICTEXT2 = 1085,
+			ID_WXSEPARATOR9 = 1080,
+			ID_WXSEPARATOR10 = 1082,
+			ID_WXSEPARATOR8 = 1078,
 			ID_WXTOOLBUTTON_ABOUT = 1055,
 			ID_WXSEPARATOR5 = 1056,
 			ID_TOOLB_PARAM = 1065,
@@ -208,14 +220,16 @@ public:
     virtual ~biblioFrame();
 public:
   ////GUI Control Declaration Start
-		wxMenuBar *monmenu;
 		wxMenu *WxPopupMenu_grille;
+		wxMenuBar *monmenu;
 		wxStatusBar *barre_statut;
+		wxCheckBox *wxCK_saisieISBN_ajouteSelection;
+		wxTextCtrl *Wx_ET_SaisieRapide;
+		wxStaticText *wxStaticText2;
 		wxToolBar *toolb_princ;
  ////GUI Control Declaration End
 
     wxSplitterWindow* split_princip;
-    wxSplitterWindow* split_gauche;
     wxComboBox* choix_arbre;
     arboCtrl* arbre;
     bool m_arbreLettreOuverte[26];
@@ -241,6 +255,10 @@ public:
     // wxArrayString list_from;
     bool grille_ok;
     livroEasyPrinting imprimehtml;
+    
+    bool wxCK_saisieISBN_ajouteSelection_aJour;
+
+
 public:
 
     void biblioFrameClose(wxCloseEvent& event);
@@ -274,6 +292,7 @@ public:
 	void MnuordredetriClick(wxCommandEvent& event);
 	void OnSelectlignegrille(wxGridEvent &event);
 	void get_colonne(wxString nomchamp, wxString idlivre, wxString &nomaffich, wxString &valeur);
+    void AfficheLivre(int rowid);
 	void AfficheLivre(wxString id_l);
 	int trouve_ligne(wxString Label);
 	void sauve_config();
@@ -304,6 +323,11 @@ public:
 	void OnMnuAfficherAttenteInsertion(wxCommandEvent& event);
 
     void killSplash();
+	void Wx_ET_SaisieRapideEnter(wxCommandEvent& event);
+	void toolb_princMenu(wxCommandEvent& event);
+	void toolb_lecteurCodesBarreClick(wxCommandEvent& event);
+		void wxCK_saisieISBN_ajouteSelectionClick(wxCommandEvent& event);
+		void wxCK_saisieISBN_ajouteSelectionUpdateUI(wxUpdateUIEvent& event);
 		
 private:
     wxSplashScreen* m_splash;

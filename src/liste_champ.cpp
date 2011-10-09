@@ -73,8 +73,8 @@ BEGIN_EVENT_TABLE(liste_champ,wxDialog)
 	////Manual Code End
 	
 	EVT_CLOSE(liste_champ::liste_champClose)
-	EVT_BUTTON(ID_WXBUTTON_NETTOYER,liste_champ::WxButton_nettoyerClick)
 	EVT_MENU(ID_MNU_SUPPRIME_1008 , liste_champ::Mnusupprime1008Click)
+	EVT_BUTTON(ID_WXBUTTON_NETTOYER,liste_champ::WxButton_nettoyerClick)
 	EVT_BUTTON(ID_WXBUTTON_INSERER,liste_champ::WxButton_insererClick)
 	EVT_BUTTON(wxID_CANCEL,liste_champ::WxButton_okClick)
 	EVT_GRID_CELL_LEFT_CLICK(liste_champ::grilleCellLeftClick)
@@ -147,16 +147,16 @@ void liste_champ::CreateGUIControls(void)
 	WxButton_ok->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 	WxBoxSizer_button->Add(WxButton_ok,0,wxALIGN_CENTER | wxALL,5);
 
-	WxButton_inserer = new wxButton(this, ID_WXBUTTON_INSERER, wxT("Inserer"), wxPoint(95, 5), wxSize(80, 28), 0, wxDefaultValidator, wxT("WxButton_inserer"));
+	WxButton_inserer = new wxButton(this, ID_WXBUTTON_INSERER, wxT("Insérer"), wxPoint(95, 5), wxSize(80, 28), 0, wxDefaultValidator, wxT("WxButton_inserer"));
 	WxButton_inserer->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 	WxBoxSizer_button->Add(WxButton_inserer,0,wxALIGN_CENTER | wxALL,5);
-
-	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_SUPPRIME_1008, wxT("Supprimer la ligne courante"), wxT(""), wxITEM_NORMAL);
 
 	WxButton_nettoyer = new wxButton(this, ID_WXBUTTON_NETTOYER, wxT("Nettoyer"), wxPoint(185, 5), wxSize(80, 28), 0, wxDefaultValidator, wxT("WxButton_nettoyer"));
 	WxButton_nettoyer->SetToolTip(wxT("Supprimer tous les éléments sans aucun livre"));
 	WxButton_nettoyer->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
 	WxBoxSizer_button->Add(WxButton_nettoyer,0,wxALIGN_CENTER | wxALL,5);
+
+	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_SUPPRIME_1008, wxT("Supprimer la ligne courante"), wxT(""), wxITEM_NORMAL);
 
 	SetTitle(wxT("liste"));
 	SetIcon(wxNullIcon);

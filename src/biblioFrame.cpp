@@ -64,6 +64,7 @@
 #include "splash.xpm"
 ////Header Include Start
 #include "Images/Self_biblioFrame_XPM.xpm"
+#include "Images/biblioFrame_toolb_lecteurCodesBarre_XPM.xpm"
 #include "Images/biblioFrame_WxToolButton_about_XPM.xpm"
 #include "Images/biblioFrame_toolb_parametres_XPM.xpm"
 #include "Images/biblioFrame_WxToolButton_stat_XPM.xpm"
@@ -91,6 +92,7 @@
 #include "treeItemDataLong.h"
 #include "arboCtrl.h"
 
+
 #define style_dialog_choix wxSYSTEM_MENU|wxCAPTION
 
 const int ID_MODIFIELIVRE = wxNewId();
@@ -114,7 +116,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_GRID_CMD_LABEL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnGrilleLabelLeftClick)
 	EVT_GRID_CMD_SELECT_CELL(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
 	//EVT_GRID_CMD_CELL_LEFT_CLICK(ID_WXGRID_GRILLE, biblioFrame::OnSelectlignegrille)
-    EVT_COMBOBOX(ID_COMBOBOX, biblioFrame::OnComboboxSelected)
+	EVT_COMBOBOX(ID_COMBOBOX, biblioFrame::OnComboboxSelected)
 	EVT_MENU(ID_EFFACELIVRE , biblioFrame::popup_effacelivre)
 	EVT_MENU(ID_DUPLIQUELIVRE , biblioFrame::dupliquelivre)
 	EVT_MENU(ID_MODIFIELIVRE , biblioFrame::modifielivre)
@@ -125,6 +127,7 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	////Manual Code End
 	
 	EVT_CLOSE(biblioFrame::biblioFrameClose)
+	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
 	EVT_MENU(ID_MNU_OUVRIR_1022, biblioFrame::OuvrirClick)
 	EVT_MENU(ID_MNU_CREERUNEBASE_1023, biblioFrame::toolb_NouvClick)
 	EVT_MENU(ID_MNU_MENUITEM30_1058, biblioFrame::Mnuitem_imprimerlivre)
@@ -156,7 +159,10 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_MNU_EXPORTER_ANALYSE_SERIES, biblioFrame::OnMnuExporterAnalyseSeries)
 	EVT_MENU(ID_MNU__APROPOS_1047, biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_MNU_VERIFIER_VERSION, biblioFrame::OnVerifierVersion)
-	EVT_MENU(ID_MNU_OUVRIR_1015 , biblioFrame::popup_MnuouvrirClick)
+	EVT_MENU(ID_TOOLB_LECTEURCODESBARRE,biblioFrame::toolb_lecteurCodesBarreClick)
+	EVT_CHECKBOX(ID_WX_CK_saisieISBN_ajouteSelection,biblioFrame::wxCK_saisieISBN_ajouteSelectionClick)
+	EVT_UPDATE_UI(ID_WX_CK_saisieISBN_ajouteSelection,biblioFrame::wxCK_saisieISBN_ajouteSelectionUpdateUI)
+	EVT_TEXT_ENTER(ID_WX_ET_SaisieRapide,biblioFrame::Wx_ET_SaisieRapideEnter)
 	EVT_MENU(ID_WXTOOLBUTTON_ABOUT,biblioFrame::Mnuapropos1047Click)
 	EVT_MENU(ID_TOOLB_PARAM,biblioFrame::parametrer)
 	EVT_MENU(ID_WXTOOLBUTTON_STAT,biblioFrame::Mnustatistique1048Click)
@@ -169,6 +175,8 @@ BEGIN_EVENT_TABLE(biblioFrame,wxFrame)
 	EVT_MENU(ID_TOOLB_OUVRIR,biblioFrame::OuvrirClick)
 	EVT_MENU(ID_TOOLB_NOUV,biblioFrame::toolb_NouvClick)
 	EVT_MENU(ID_TOOLB_QUIT,biblioFrame::toolb_quitClick)
+	
+	EVT_MENU(ID_TOOLB_PRINC,biblioFrame::toolb_princMenu)
 END_EVENT_TABLE()
     ////Event Table End
 
@@ -178,7 +186,7 @@ biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title
     : wxFrame( parent, id, title, position, size, style), imprimehtml("Livrothèque", this)
 {
     m_splash = NULL;
-
+    wxCK_saisieISBN_ajouteSelection_aJour = false;
     // creation d'un param manager pour la base config qui reste actif pendant toute la duree de vie du programme
     wxString fichier_conf;    
     fichier_conf=::wxGetCwd();
@@ -197,6 +205,12 @@ biblioFrame::biblioFrame( wxWindow *parent, wxWindowID id, const wxString &title
                 useSplash = false;
         }
     }
+  
+    long taillePolice = 10;
+    param->GetOrSet("config", "INIT", "TAILLE_POLICE", taillePolice);
+    wxFont fonte = GetFont();
+    fonte.SetPointSize(taillePolice);
+    SetFont(fonte);
   
     CreateGUIControls();
     if (useSplash) {
@@ -406,9 +420,33 @@ void biblioFrame::CreateGUIControls(void)
 	wxBitmap WxToolButton_about_DISABLE_BITMAP (wxNullBitmap);
 	toolb_princ->AddTool(ID_WXTOOLBUTTON_ABOUT, wxT("WxToolButton_about"), WxToolButton_about_BITMAP, WxToolButton_about_DISABLE_BITMAP, wxITEM_NORMAL, wxT("a propos"), wxT("A propos de la livrotheque"));
 
-	barre_statut = new wxStatusBar(this, ID_BARRE_STATUT);
+	toolb_princ->AddSeparator();
 
-	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
+	toolb_princ->AddSeparator();
+
+	toolb_princ->AddSeparator();
+
+	wxStaticText2 = new wxStaticText(toolb_princ, ID_WXSTATICTEXT2, wxT("ISBN :"), wxPoint(330, 0), wxDefaultSize, 0, wxT("wxStaticText2"));
+	wxStaticText2->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	toolb_princ->AddControl(wxStaticText2);
+
+	Wx_ET_SaisieRapide = new wxTextCtrl(toolb_princ, ID_WX_ET_SaisieRapide, wxT(""), wxPoint(365, 0), wxSize(121, 17), 0, wxDefaultValidator, wxT("Wx_ET_SaisieRapide"));
+	Wx_ET_SaisieRapide->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	toolb_princ->AddControl(Wx_ET_SaisieRapide);
+
+	toolb_princ->AddSeparator();
+
+	wxCK_saisieISBN_ajouteSelection = new wxCheckBox(toolb_princ, ID_WX_CK_saisieISBN_ajouteSelection, wxT("ajoute"), wxPoint(491, 0), wxSize(50, 17), 0, wxDefaultValidator, wxT("wxCK_saisieISBN_ajouteSelection"));
+	wxCK_saisieISBN_ajouteSelection->SetToolTip(wxT("ajoute à la sélection dans la liste de livres"));
+	wxCK_saisieISBN_ajouteSelection->SetHelpText(wxT("ajoute à la sélection dans la liste de livres"));
+	wxCK_saisieISBN_ajouteSelection->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("MS Sans Serif")));
+	toolb_princ->AddControl(wxCK_saisieISBN_ajouteSelection);
+
+	wxBitmap toolb_lecteurCodesBarre_BITMAP (biblioFrame_toolb_lecteurCodesBarre_XPM);
+	wxBitmap toolb_lecteurCodesBarre_DISABLE_BITMAP (wxNullBitmap);
+	toolb_princ->AddTool(ID_TOOLB_LECTEURCODESBARRE, wxT(""), toolb_lecteurCodesBarre_BITMAP, toolb_lecteurCodesBarre_DISABLE_BITMAP, wxITEM_NORMAL, wxT(""), wxT(""));
+
+	barre_statut = new wxStatusBar(this, ID_BARRE_STATUT);
 
 	monmenu = new wxMenuBar();
 	wxMenu *ID_MNU_FICHIER_QUIT_Mnu_Obj = new wxMenu(0);
@@ -466,8 +504,10 @@ void biblioFrame::CreateGUIControls(void)
 	monmenu->Append(ID_MNU_APROPOS_1046_Mnu_Obj, wxT("Aide"));
 	SetMenuBar(monmenu);
 
+	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
+
 	SetStatusBar(barre_statut);
-	toolb_princ->SetToolBitmapSize(wxSize(16,16));
+	toolb_princ->SetToolBitmapSize(wxSize(24,24));
 	toolb_princ->SetToolSeparation(12);
 	toolb_princ->Realize();
 	SetToolBar(toolb_princ);
@@ -480,16 +520,18 @@ void biblioFrame::CreateGUIControls(void)
     split_princip = new wxSplitterWindow( this, ID_SPLITTERWINDOW, wxDefaultPosition, wxSize(100, 100), wxWANTS_CHARS|wxNO_BORDER );
     split_princip->SetMinimumPaneSize(10);
 
-    split_gauche = new wxSplitterWindow( split_princip, ID_SPLITTERWINDOW1, wxDefaultPosition, wxSize(100, 100), wxWANTS_CHARS|wxNO_BORDER );
-
+    wxPanel* panel_gauche = new wxPanel(split_princip);
+    wxBoxSizer* sizer_gauche = new wxBoxSizer(wxVERTICAL);
+    panel_gauche->SetSizer(sizer_gauche);
+    
     wxString* choix_arbreStrings = NULL;
-    choix_arbre = new wxComboBox( split_gauche, ID_COMBOBOX, _T(""), wxDefaultPosition, wxDefaultSize, 0, choix_arbreStrings, 
+    choix_arbre = new wxComboBox( panel_gauche, ID_COMBOBOX, _T(""), wxDefaultPosition, wxDefaultSize, 0, choix_arbreStrings, 
                                  wxWANTS_CHARS|wxCB_DROPDOWN|wxCB_READONLY );
     for (int typeArbo = 0; typeArbo < E_TAC_LASTVALUE; typeArbo++) {
         choix_arbre->Append(arboCtrl::typeArboCtrlStr((E_typeArboCtrl)typeArbo), (void*)(typeArbo));
     }
 
-    arbre = new arboCtrl (split_gauche, ID_TREE_ARBRE, this, amoi);
+    arbre = new arboCtrl (panel_gauche, ID_TREE_ARBRE, this, amoi);
 
     // reprendre le type d'arbo sauvegardé dans la config - après la création de arbre pour pouvoir le mettre aussi à jour
     ParamManager* param = ParamManager::GetInstance("config");
@@ -498,8 +540,8 @@ void biblioFrame::CreateGUIControls(void)
     choix_arbre->Select(indexTypeArbo);
     OnComboboxSelected_interne();   // déclenchement explicite de l'événement
     
-    split_gauche->SplitHorizontally(choix_arbre, arbre, 20);
-//    split_gauche->Unsplit(choix_arbre);
+    sizer_gauche->Add(choix_arbre, 0, wxEXPAND | wxALL, 0);
+    sizer_gauche->Add(arbre, 1, wxEXPAND | wxALL, 0);
     
     split_droit = new wxSplitterWindow( split_princip, ID_SPLITTERWINDOW2, wxDefaultPosition, wxSize(100, 500), wxWANTS_CHARS|wxNO_BORDER );
     split_droit->SetMinimumPaneSize(10);
@@ -515,7 +557,7 @@ void biblioFrame::CreateGUIControls(void)
 		grille->DeleteCols(0, ir);
     grille->SetDefaultColSize(50);
     grille->SetDefaultRowSize(15);
-    grille->SetColLabelSize(15);
+    grille->SetColLabelSize(GetFont().GetPointSize()*2);
     grille->SetRowLabelSize(0);
 	grille->SetSelectionMode(wxGrid::wxGridSelectRows);
 
@@ -523,7 +565,7 @@ void biblioFrame::CreateGUIControls(void)
     visuhtml->SetBorders(0);
     split_droit->SplitHorizontally(grille, visuhtml, 200);
 
-    split_princip->SplitVertically(split_gauche, split_droit, 120);
+    split_princip->SplitVertically(panel_gauche, split_droit, 120);
 
     split_droit->SetSashPosition(400);
     
@@ -574,8 +616,6 @@ void biblioFrame::biblioFrameClose(wxCloseEvent& event)
 
 void biblioFrame::OnSplitterwindowSashPosChanged( wxSplitterEvent& event )
 {
-//@begin wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING event handler for ID_SPLITTERWINDOW1 in biblioframe.
-    // Before editing this code, remove the block markers.
     int pos=event.GetSashPosition();
     wxString texte;
     //texte.Printf("pouet:%d",pos);
@@ -583,18 +623,15 @@ void biblioFrame::OnSplitterwindowSashPosChanged( wxSplitterEvent& event )
     if (pos<10) {
         event.SetSashPosition(10);
     }
-    split_gauche->SetSashPosition(18,false);
 
     wxLogMessage("biblioFrame::OnSplitterwindowSashPosChanged()");
 
     //event.Skip();
-//@end wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING event handler for ID_SPLITTERWINDOW1 in biblioframe. 
 }
 
 
 void biblioFrame::OnSplitterwindowDclick( wxSplitterEvent& event )
 {
-    //split_gauche->SetSashPosition(18,false);
     //wxMessageBox("POUET","tralala", wxOK | wxICON_INFORMATION, this);
     event.Veto();
 }
@@ -744,6 +781,8 @@ void biblioFrame::parametrer(wxCommandEvent& event)
     if (retShow == wxID_OK) {
         remplir_grille();
     }
+
+    wxCK_saisieISBN_ajouteSelection_aJour = false;
     wxLogMessage("biblioFrame::parametrer() - sortie");
 }
 
@@ -890,6 +929,19 @@ void biblioFrame::remplir_grille(wxString where, wxArrayString list_from)
                 int taille;
                 amoi.get_value_char(champ, texte, taille);
                 
+                
+                // cas particulier : afficher en clair le champ particularite
+                if (champ > 0) {
+                    wxString nomChamp = liste_choisis_nom[champ-1];
+                    if (nomChamp == "particularite") {
+                        long valChamp = 0;
+                        sscanf(texte, "%ld", &valChamp);
+                        texte = monlivre.get_label_particularite(valChamp);
+                    }
+                    // wxLogMessage("remplir_grille() - champ = %d - liste_choisis[] = %d (%s) - texte = %s", 
+                    //              champ, liste_choisis[champ-1], liste_choisis_nom[champ-1].c_str(), texte.c_str());
+                }
+                
                 if (useLargeurMax && largeurMax > 0 && (long)(texte.Length()) > largeurMax) {
                     wxString texteRestant = texte;
                     texte = "";
@@ -952,7 +1004,7 @@ void biblioFrame::remplir_grille(wxString where, wxArrayString list_from)
         // grille->SetColLabelValue(iCol,liste_choisis_nom[iCol]);
         grille->SetColLabelValue(iCol, textCol);
     }    
-    grille->SetColLabelSize(15);
+    grille->SetColLabelSize(GetFont().GetPointSize()*2);
     grille->SetRowLabelSize(0);
 //    grille->EnableEditing(false);
     grille->AutoSizeColumns(true);
@@ -989,7 +1041,10 @@ void biblioFrame::creation_select_livre(wxString &select, wxString where, wxArra
         texte=liste_a_choisir[liste_tri[i]];
         if (texte.Left(3) == "id_") {
             //join_list.Add(liste_tri[i]);
-            join_list.Add(texte);
+            present=join_list.Index(texte);
+            if (present == wxNOT_FOUND ) {
+                join_list.Add(texte);
+            }
             sansid=texte.Mid(3);
             order_by+="upper("+sansid+".nom) COLLATE tri_sans_accent"+", ";
         } else if (texte.Left(5) == "date_") {
@@ -1282,7 +1337,14 @@ void biblioFrame::MnuordredetriClick(wxCommandEvent& event)
    
     //event.Skip();
 }
-void biblioFrame::AfficheLivre(wxString id_l){
+
+void biblioFrame::AfficheLivre(int rowid)
+{
+    AfficheLivre(wxString::Format("%d", rowid));
+}
+
+void biblioFrame::AfficheLivre(wxString id_l)
+{
     wxString html_deb, html_fin;
     wxString html_tout;
     wxString query, mess, texte;
@@ -1412,6 +1474,13 @@ void biblioFrame::AfficheLivre(wxString id_l){
     html_tout=html_deb+html_fin;
     //visuhtml->SetPage(html_tout);
 
+    ParamManager* param = ParamManager::GetInstance("config");
+    long taillePolice = 10;
+    param->GetOrSet("config", "INIT", "TAILLE_POLICE", taillePolice);
+    int tabSize[7];
+    for (int ii = 0; ii < 7; ii++)
+        tabSize[ii] = taillePolice + (ii-2)*2;
+    visuhtml->SetFonts("Arial", "Courier New", tabSize);
 
 /*
     fichier.Open(gettempdir()+"\\"+id_l+".htm",wxFile::write);
@@ -1764,169 +1833,6 @@ void biblioFrame::Mnuitem_imprimerlivre(wxCommandEvent& event)
     event.Skip();
 }*/
 
-BEGIN_EVENT_TABLE(bellegrille, wxGrid)
- 	EVT_KEY_DOWN(bellegrille::OnKeyDown)
-END_EVENT_TABLE()
-
-void bellegrille::OnKeyDown(wxKeyEvent &event){
-    int key;
-    wxString mess;
-    wxArrayInt selection;
-    int sel;
-    
-    selection=GetSelectedRows();
-    if (selection.GetCount() == 0) 
-        sel=GetGridCursorRow();
-    else
-        sel=selection[0];
-
-    
-    key=event.GetKeyCode();
-    if (key == WXK_DOWN) {
-        if (sel<(GetNumberRows()-1)) {
-            SelectRow(sel+1);
-            SetGridCursor(sel+1,0);
-            MakeCellVisible(sel+1, 0);
-        }
-        event.Skip(false);
-        return;
-    } else if (key == WXK_UP) {
-        if (sel > 0) {
-            SelectRow(sel-1);
-            SetGridCursor(sel-1,0);
-            MakeCellVisible(sel-1, 0);
-        }
-        event.Skip(false);
-        return;
-    } else if (key == WXK_RIGHT) {
-        event.Skip(false);
-        return;
-    } else if (key == WXK_LEFT) {
-        event.Skip(false);
-        return;
-    } else if (key == WXK_DELETE) {
-        //wxMessageBox("plouf","probleme", wxOK | wxICON_EXCLAMATION, this);
-        if (GetNumberRows()>0) {
-            wxCommandEvent customevent( wxEVENT_SUPPRESSION, GetId() );
-            customevent.SetEventObject( this );
-            mess=GetRowLabelValue(sel);
-            // Give it some contents
-            customevent.SetString( mess );
-            // Send it
-            GetEventHandler()->ProcessEvent( customevent );
-        }
-        event.Skip(true);
-        return;
-    }
-/*        mess.Printf("%d", key);
-        wxMessageBox("plouf "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);*/
-    //event.Skip();
-}
-
-wxString bellegrille::BuildHTML( )
-{
-    int nRow, nCol, nMaxRows;
-    wxString strValue;
-    wxString strContent;
-    
-    strContent.Empty();
-
-    strContent += wxT("<html>\n");
-    strContent += wxT("<body>\n");
-
-    strContent += wxT("<center>\n");
-    strContent += wxT("<table border=1 width=\"100%\">\n");
-    strContent += wxT("<tr bgcolor=\"#C0C0C0\">\n");
-    // column headers
-    for( nCol = 0; nCol < GetNumberCols(); nCol++ )
-    {
-        strContent += wxT("<th align=\"center\" valign=\"bottom\">");
-        strValue = GetColLabelValue( nCol );
-        if( strValue.IsEmpty() )
-        {
-            strValue = wxT("&nbsp");
-        }
-        strContent += strValue;
-        strContent += wxT("</th>\n");
-    }
-    strContent += wxT("</tr>\n");
-
-    // data rows
-    nMaxRows = GetNumberRows();
-    for( nRow = 0; nRow < nMaxRows; nRow++ )
-    {
-        strContent += wxT("<tr>\n");
-
-        for( nCol = 0; nCol < GetNumberCols(); nCol++ )
-        {
-            strContent += wxT("<td align=\"left\" valign=\"center\">");
-            strValue = GetCellValue( nRow, nCol );
-            if( strValue.IsEmpty() )
-            {
-                strValue = wxT("&nbsp");
-            }
-            strContent += strValue;
-            strContent += wxT("</td>\n");
-        }
-        strContent += wxT("</tr>\n");
-    }
-    strContent += wxT("</table>\n");
-    strContent += wxT("</center>\n");
-
-    strContent += wxT("</body>\n");
-    strContent += wxT("</html>\n");
-
-    return strContent;
-} 
-
-wxArrayInt bellegrille::LignesSelectionnees()
-{
-    wxArrayInt liste = GetSelectedRows();
-
-    wxGridCellCoordsArray arr1 = GetSelectionBlockTopLeft();
-    wxGridCellCoordsArray arr2 = GetSelectionBlockBottomRight();
-    for (size_t ii = 0; ii < arr1.GetCount(); ii++) {
-        for (int jj = arr1[ii].GetRow(); jj <= arr2[ii].GetRow(); jj++)
-            liste.Add(jj);
-    }
-    
-    return liste;
-}
-
-wxArrayInt bellegrille::rowIdSelectionnes()
-{
-    wxArrayInt liste;
-    wxArrayInt listeRow = GetSelectedRows();
-    for (size_t ii = 0; ii < listeRow.GetCount(); ii++) {
-        long rowid = -1;
-        GetLabelValue(0, listeRow[ii]).ToLong(&rowid);
-        liste.Add(rowid);
-    }
-
-    wxGridCellCoordsArray arr1 = GetSelectionBlockTopLeft();
-    wxGridCellCoordsArray arr2 = GetSelectionBlockBottomRight();
-    for (size_t ii = 0; ii < arr1.GetCount(); ii++) {
-        for (int jj = arr1[ii].GetRow(); jj <= arr2[ii].GetRow(); jj++) {
-            long rowid = -1;
-            GetLabelValue(0, jj).ToLong(&rowid);
-            liste.Add(rowid);
-        }
-    }
-    
-    
-    wxString listeStr = "(";
-    for (size_t ii = 0; ii < liste.GetCount(); ii++) {
-        listeStr += wxString::Format("%d, ", liste[ii]);
-    }
-    if (liste.GetCount() == 0) 
-        listeStr = "<vide>";
-    else {
-        listeStr = listeStr.Left(listeStr.Len() - 2) + ")";
-    }
-    wxLogMessage("rowIdSelectionnees() --> %s", listeStr.c_str());
-    
-    return liste;
-}
 /*
  * Mnuexporthtml1060Click
  */
@@ -2692,7 +2598,7 @@ wxString biblioFrame::AnalyserSeries(bool htmlMode, bool filtreManquants)
     if (htmlMode) {
         contenu += "</table>\n";
         contenu += "</center>\n";
-        contenu += "</font>\n";
+//        contenu += "</font>\n";
         contenu += "</body></html>";
     }
 
@@ -2740,3 +2646,391 @@ void biblioFrame::OnComboboxSelected_interne()
     ParamManager* param = ParamManager::GetInstance("config");
     param->Set("config", "INIT", "TYPE_ARBO_CTRL", (long)index);
 }
+
+/*
+ *:Wx_ET_SaisieRapideEnter
+ */
+void biblioFrame::Wx_ET_SaisieRapideEnter(wxCommandEvent& event)
+{
+    // récupérer la saisie puis l'effacer et remettre le focus pour être prêt pour la prochaine
+	wxLogMessage("biblioFrame::Wx_ET_SaisieRapideEnter(%s)", Wx_ET_SaisieRapide->GetValue().c_str());
+    wxString isbn = Wx_ET_SaisieRapide->GetValue();
+    Wx_ET_SaisieRapide->SetValue("");
+    Wx_ET_SaisieRapide->SetFocus();
+    
+    // vérifier que la saisie peut être un ISBN. Si non, sortir
+    if (isbn.Len() != 10 && isbn.Len() != 13) {
+        wxMessageBox("la valeur saisie n'est pas un isbn valide");
+        return;
+    }
+    
+    // récupérer les paramètres pour savoir quel comportement adopter
+    ParamManager* param = ParamManager::GetInstance("config");
+    long param1 = E_CA_chercherSurInternet;
+    long param2 = E_CP_selectionner;
+    param->GetOrSet("config", "SAISIE_RAPIDE", "ABSENT_PRESENT", param1, param2);
+    E_choixAbsent choixAbsent = (E_choixAbsent)(param1);
+    E_choixPresent choixPresent = (E_choixPresent)(param2);
+    
+    
+    // chercher si l'ISBN existe en base.
+    wxString query;
+    query.Printf("SELECT livre.rowid FROM livre WHERE livre.isbn = '%s'", isbn.c_str());
+    int ret = amoi.transac_prepare(query);
+    if (ret < 0) {
+        wxString mess;
+        amoi.get_erreur(mess);
+        wxMessageBox("probleme avec la requete " + query + "\nmessage : " + mess);
+    }
+    int rowidLivre = -1;
+    int rowidAAfficher = -1;
+    if (ret >= 0) {
+        ret = amoi.transac_step();
+        bool premierTrouve = true;
+        while (ret == SQLITE_ROW) {
+            
+            if (premierTrouve || (choixPresent != E_CP_modifier))
+                amoi.get_value_int(0, rowidLivre);
+
+            switch (choixPresent) {
+                case E_CP_neRienFaire:
+                    break;
+                case E_CP_prevenir:
+                    if (premierTrouve) {
+                        wxMessageBox("ce livre est présent en base");
+                    }
+                    break;
+                case E_CP_selectionner:
+                    grille->selectionneRowid(rowidLivre, (!premierTrouve));
+                    rowidAAfficher = rowidLivre;
+                    break;
+                case E_CP_ajouterSelection:
+                    grille->selectionneRowid(rowidLivre, true);
+                    rowidAAfficher = rowidLivre;
+                    break;
+                case E_CP_modifier:
+                    if (premierTrouve) {
+                        grille->selectionneRowid(rowidLivre);
+                        rowidAAfficher = rowidLivre;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            premierTrouve = false;
+
+
+            wxLogMessage("rowid à sélectionner : %d", rowidLivre);
+            // grille->selectionneRowid(rowidLivre);
+            ret = amoi.transac_step();
+        }
+        amoi.transac_fin();
+
+        // on affiche la fiche du dernier livre sélectionné (AfficheLivre doit être appelée hors contexte d'une autre transaction)
+        if (rowidAAfficher != -1) {
+            AfficheLivre(rowidAAfficher);
+        }
+        
+        if (choixPresent == E_CP_modifier && rowidAAfficher != -1) {
+            modifieLivre(wxString::Format("%d", rowidAAfficher));
+        }
+    }
+
+    if (rowidLivre == -1) {
+        switch (choixAbsent) {
+            case E_CA_neRienFaire:
+                break;
+            case E_CA_prevenir:
+                wxMessageBox("ce livre est absent de la base");
+                break;
+            case E_CA_chercherSurInternet: {
+                // chercher l'ISBN sur internet pour création d'une nouvelle fiche
+                wxLogMessage("isbn %s pas en base : chercher sur internet", isbn.c_str());
+                attenteInsertion item;
+                item.isbn(isbn);
+                Nouv_livre* dlg = new Nouv_livre(&amoi, &item, this);
+                ret = dlg->ShowModal();
+                if (ret > 0) {
+                    init_arbre();
+                    int rowid = amoi.last_insert();
+                    grille->selectionneRowid(rowid);
+                    AfficheLivre(rowid);
+                } else {
+                }
+            } break;
+            default:
+                break;
+        }
+    }
+}
+
+
+/*
+ * toolb_princMenu
+ */
+void biblioFrame::toolb_princMenu(wxCommandEvent& event)
+{
+}
+
+/*
+ * toolb_lecteurCodesBarreClick
+ */
+void biblioFrame::toolb_lecteurCodesBarreClick(wxCommandEvent& event)
+{
+    // récupérer en paramètre le chemin de l'application à lancer
+    ParamManager* param = ParamManager::GetInstance("config");
+    wxString pathLecteur = "";
+    param->GetOrSet("config", "SAISIE_RAPIDE", "LECTEUR_CODE_BARRE", pathLecteur);
+    
+    // vérifier que le chemin correspond à un fichier valide
+    if (wxFileExists(pathLecteur)) {
+        // lancer l'application
+        wxExecute(pathLecteur);
+    } else {
+        wxMessageBox("Indiquez dans les paramètres (onglet saisie rapide / lecteur de codes barre) "
+                     "le chemin de l'application de lecture des codes barre à lancer");
+    }
+}
+
+/*
+ * wxCK_saisieISBN_ajouteSelectionClick
+ */
+void biblioFrame::wxCK_saisieISBN_ajouteSelectionClick(wxCommandEvent& event)
+{
+    // case cochée --> passer en mode "ajouter le ou les livres à la sélection en cours"
+    // case décochée --> passer en mode "sélectionner le ou les livres"
+    bool etatApres = wxCK_saisieISBN_ajouteSelection->GetValue();
+    E_choixPresent choix = E_CP_selectionner;
+    if (etatApres)
+        choix = E_CP_ajouterSelection;
+        
+    // écrire en base config, sans modifier choixAbsent
+    long valLongAbsent = E_CA_chercherSurInternet;
+    long valLongPresent = E_CP_selectionner;
+	ParamManager* param = ParamManager::GetInstance("config");
+    param->GetOrSet("config", "SAISIE_RAPIDE", "ABSENT_PRESENT", valLongAbsent, valLongPresent);
+    
+    valLongPresent = choix;
+    param->Set("config", "SAISIE_RAPIDE", "ABSENT_PRESENT", valLongAbsent, valLongPresent);
+    
+    // remettre le focus dans la zone de saisie rapide
+    Wx_ET_SaisieRapide->SetFocus();
+}
+
+/*
+ * wxCK_saisieISBN_ajouteSelectionUpdateUI
+ */
+void biblioFrame::wxCK_saisieISBN_ajouteSelectionUpdateUI(wxUpdateUIEvent& event)
+{
+    // wxLogMessage("biblioFrame::wxCK_saisieISBN_ajouteSelectionUpdateUI() - aJour = %d", wxCK_saisieISBN_ajouteSelection_aJour);
+
+    if (wxCK_saisieISBN_ajouteSelection_aJour)
+        return;
+            
+    wxLogMessage("biblioFrame::wxCK_saisieISBN_ajouteSelectionUpdateUI()");
+
+    // cocher la case pour le mode "ajouter le ou les livres à la sélection en cours" - la décocher pour tous les autres modes
+    long valLongAbsent = E_CA_chercherSurInternet;
+    long valLongPresent = E_CP_selectionner;
+	ParamManager* param = ParamManager::GetInstance("config");
+    param->GetOrSet("config", "SAISIE_RAPIDE", "ABSENT_PRESENT", valLongAbsent, valLongPresent);
+
+    if (valLongPresent == E_CP_ajouterSelection)
+        wxCK_saisieISBN_ajouteSelection->SetValue(true);
+    else
+        wxCK_saisieISBN_ajouteSelection->SetValue(false);
+        
+    wxCK_saisieISBN_ajouteSelection_aJour = true;
+}
+
+
+
+// -----------------------------------------------------------------------------
+// class bellegrille
+// -----------------------------------------------------------------------------
+BEGIN_EVENT_TABLE(bellegrille, wxGrid)
+ 	EVT_KEY_DOWN(bellegrille::OnKeyDown)
+END_EVENT_TABLE()
+
+void bellegrille::OnKeyDown(wxKeyEvent &event){
+    int key;
+    wxString mess;
+    wxArrayInt selection;
+    int sel;
+    
+    selection=GetSelectedRows();
+    if (selection.GetCount() == 0) 
+        sel=GetGridCursorRow();
+    else
+        sel=selection[0];
+
+    
+    key=event.GetKeyCode();
+    if (key == WXK_DOWN) {
+        if (sel<(GetNumberRows()-1)) {
+            SelectRow(sel+1);
+            SetGridCursor(sel+1,0);
+            MakeCellVisible(sel+1, 0);
+        }
+        event.Skip(false);
+        return;
+    } else if (key == WXK_UP) {
+        if (sel > 0) {
+            SelectRow(sel-1);
+            SetGridCursor(sel-1,0);
+            MakeCellVisible(sel-1, 0);
+        }
+        event.Skip(false);
+        return;
+    } else if (key == WXK_RIGHT) {
+        event.Skip(false);
+        return;
+    } else if (key == WXK_LEFT) {
+        event.Skip(false);
+        return;
+    } else if (key == WXK_DELETE) {
+        //wxMessageBox("plouf","probleme", wxOK | wxICON_EXCLAMATION, this);
+        if (GetNumberRows()>0) {
+            wxCommandEvent customevent( wxEVENT_SUPPRESSION, GetId() );
+            customevent.SetEventObject( this );
+            mess=GetRowLabelValue(sel);
+            // Give it some contents
+            customevent.SetString( mess );
+            // Send it
+            GetEventHandler()->ProcessEvent( customevent );
+        }
+        event.Skip(true);
+        return;
+    }
+/*        mess.Printf("%d", key);
+        wxMessageBox("plouf "+mess,"probleme", wxOK | wxICON_EXCLAMATION, this);*/
+    //event.Skip();
+}
+
+wxString bellegrille::BuildHTML( )
+{
+    int nRow, nCol, nMaxRows;
+    wxString strValue;
+    wxString strContent;
+    
+    strContent.Empty();
+
+    strContent += wxT("<html>\n");
+    strContent += wxT("<body>\n");
+
+    strContent += wxT("<center>\n");
+    strContent += wxT("<table border=1 width=\"100%\">\n");
+    strContent += wxT("<tr bgcolor=\"#C0C0C0\">\n");
+    // column headers
+    for( nCol = 0; nCol < GetNumberCols(); nCol++ )
+    {
+        strContent += wxT("<th align=\"center\" valign=\"bottom\">");
+        strValue = GetColLabelValue( nCol );
+        if( strValue.IsEmpty() )
+        {
+            strValue = wxT("&nbsp");
+        }
+        strContent += strValue;
+        strContent += wxT("</th>\n");
+    }
+    strContent += wxT("</tr>\n");
+
+    // data rows
+    nMaxRows = GetNumberRows();
+    for( nRow = 0; nRow < nMaxRows; nRow++ )
+    {
+        strContent += wxT("<tr>\n");
+
+        for( nCol = 0; nCol < GetNumberCols(); nCol++ )
+        {
+            strContent += wxT("<td align=\"left\" valign=\"center\">");
+            strValue = GetCellValue( nRow, nCol );
+            if( strValue.IsEmpty() )
+            {
+                strValue = wxT("&nbsp");
+            }
+            strContent += strValue;
+            strContent += wxT("</td>\n");
+        }
+        strContent += wxT("</tr>\n");
+    }
+    strContent += wxT("</table>\n");
+    strContent += wxT("</center>\n");
+
+    strContent += wxT("</body>\n");
+    strContent += wxT("</html>\n");
+
+    return strContent;
+} 
+
+wxArrayInt bellegrille::LignesSelectionnees()
+{
+    wxArrayInt liste = GetSelectedRows();
+
+    wxGridCellCoordsArray arr1 = GetSelectionBlockTopLeft();
+    wxGridCellCoordsArray arr2 = GetSelectionBlockBottomRight();
+    for (size_t ii = 0; ii < arr1.GetCount(); ii++) {
+        for (int jj = arr1[ii].GetRow(); jj <= arr2[ii].GetRow(); jj++)
+            liste.Add(jj);
+    }
+    
+    return liste;
+}
+
+wxArrayInt bellegrille::rowIdSelectionnes()
+{
+    wxArrayInt liste;
+    wxArrayInt listeRow = GetSelectedRows();
+    for (size_t ii = 0; ii < listeRow.GetCount(); ii++) {
+        long rowid = -1;
+        GetLabelValue(0, listeRow[ii]).ToLong(&rowid);
+        liste.Add(rowid);
+    }
+
+    wxGridCellCoordsArray arr1 = GetSelectionBlockTopLeft();
+    wxGridCellCoordsArray arr2 = GetSelectionBlockBottomRight();
+    for (size_t ii = 0; ii < arr1.GetCount(); ii++) {
+        for (int jj = arr1[ii].GetRow(); jj <= arr2[ii].GetRow(); jj++) {
+            long rowid = -1;
+            GetLabelValue(0, jj).ToLong(&rowid);
+            liste.Add(rowid);
+        }
+    }
+    
+    
+    wxString listeStr = "(";
+    for (size_t ii = 0; ii < liste.GetCount(); ii++) {
+        listeStr += wxString::Format("%d, ", liste[ii]);
+    }
+    if (liste.GetCount() == 0) 
+        listeStr = "<vide>";
+    else {
+        listeStr = listeStr.Left(listeStr.Len() - 2) + ")";
+    }
+    wxLogMessage("rowIdSelectionnees() --> %s", listeStr.c_str());
+    
+    return liste;
+}
+
+// sélectionne le ou les livres avec le rowidLivre passé en paramètre
+// retourne le nombre de livres trouvés
+int bellegrille::selectionneRowid(int rowidLivre, bool addToSelection /* = false */)
+{
+    int nLivres = 0;
+    for (int nRow = 0; nRow < GetNumberRows(); nRow++ ) {
+        long rowid = -1;
+        GetLabelValue(0, nRow).ToLong(&rowid);
+        if (rowid == rowidLivre) {
+            nLivres ++;
+            SelectRow(nRow, addToSelection);
+            MakeCellVisible(nRow, 0);
+        }
+    }
+    
+    return nLivres;
+}
+
+// -----------------------------------------------------------------------------
+// fin de : class bellegrille
+// -----------------------------------------------------------------------------
+
