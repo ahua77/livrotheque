@@ -507,7 +507,7 @@ void biblioFrame::CreateGUIControls(void)
 	WxPopupMenu_grille = new wxMenu(wxT(""));WxPopupMenu_grille->Append(ID_MNU_OUVRIR_1015, wxT("Choix des colonnes"), wxT("Permet de choisir les colonnes affichée pour chaque livre"), wxITEM_NORMAL);
 
 	SetStatusBar(barre_statut);
-	toolb_princ->SetToolBitmapSize(wxSize(24,24));
+	toolb_princ->SetToolBitmapSize(wxSize(16,16));
 	toolb_princ->SetToolSeparation(12);
 	toolb_princ->Realize();
 	SetToolBar(toolb_princ);
