@@ -338,7 +338,7 @@ aka :
     wxDateTime now_GMT = now.ToGMT();
     
     //wxString parametres="AWSAccessKeyId=0ND0TZ192YKWMRM086R2&IdType=ISBN&ItemId="+ws_isbn+"&Operation=ItemLookup&ResponseGroup=Medium%2CEditorialReview%2CReviews%2CSubjects&SearchIndex=Books&Service=AWSECommerceService&Timestamp="+now.FormatISODate()+"T"+now.FormatISOTime()+".000Z&Version=2007-07-16";
-    wxString parametres="AWSAccessKeyId=0ND0TZ192YKWMRM086R2&IdType=ISBN&ItemId="+ws_isbn+"&Operation=ItemLookup&ResponseGroup=Medium%2CEditorialReview%2CReviews&SearchIndex=Books&Service=AWSECommerceService&Timestamp="+now_GMT.FormatISODate()+"T"+now_GMT.FormatISOTime()+".000Z&Version=2007-07-16";
+    wxString parametres="AWSAccessKeyId=0ND0TZ192YKWMRM086R2&AssociateTag=httppeepaifre-20&IdType=ISBN&ItemId="+ws_isbn+"&Operation=ItemLookup&ResponseGroup=Medium%2CEditorialReview%2CReviews&SearchIndex=Books&Service=AWSECommerceService&Timestamp="+now_GMT.FormatISODate()+"T"+now_GMT.FormatISOTime()+".000Z&Version=2007-07-16";
     //wxMessageBox(parametres,"parametres", wxOK | wxICON_EXCLAMATION);
 
     wxString adresse="ecs.amazonaws.fr";
