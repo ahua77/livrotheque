@@ -553,7 +553,7 @@ BuildCmd=
 
 [VersionInfo]
 Major=1
-Minor=6
+Minor=7
 Release=1
 Build=0
 LanguageID=1036
