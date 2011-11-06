@@ -322,7 +322,7 @@ aka :
     http://ecs.amazonaws.fr/onca/xml?AWSAccessKeyId=0ND0TZ192YKWMRM086R2&IdType=ISBN&ItemId=9782070426829&Operation=ItemLookup&ResponseGroup=Medium%2CEditorialReview%2CReviews%2CSubjects&SearchIndex=Books&Service=AWSECommerceService&Timestamp=2009-09-03T15%3A33%3A35.000Z&Version=2007-07-16&Signature=
     M7vJrb82hcfMvzT2o8QcRG2MILdN6YQo4CsHr3OKBgU%3D
 */    
-    wxString test_encode="GET\necs.amazonaws.fr\n/onca/xml\nAWSAccessKeyId=0ND0TZ192YKWMRM086R2&IdType=ISBN&ItemId=9782070426829&Operation=ItemLookup&ResponseGroup=Medium%2CEditorialReview%2CReviews%2CSubjects&SearchIndex=Books&Service=AWSECommerceService&Timestamp=2009-09-04T15%3A20%3A43.000Z&Version=2007-07-16";
+    // wxString test_encode="GET\necs.amazonaws.fr\n/onca/xml\nAWSAccessKeyId=0ND0TZ192YKWMRM086R2&IdType=ISBN&ItemId=9782070426829&Operation=ItemLookup&ResponseGroup=Medium%2CEditorialReview%2CReviews%2CSubjects&SearchIndex=Books&Service=AWSECommerceService&Timestamp=2009-09-04T15%3A20%3A43.000Z&Version=2007-07-16";
 //                             GET\necs.amazonaws.fr\n/onca/xml\nAWSAccessKeyId=0ND0TZ192YKWMRM086R2&IdType=ISBN&ItemId=9782070426829&Operation=ItemLookup&ResponseGroup=Medium%2CEditorialReview%2CReviews%2CSubjects&SearchIndex=Books&Service=AWSECommerceService&Timestamp=2009-09-04T13%3A22%3A16.000Z&Version=2007-07-16
     //strcpy(uencode,"GET\nwebservices.amazon.com\n/onca/xml\nAWSAccessKeyId=0ND0TZ192YKWMRM086R2&IdType=ISBN&ItemId=9782070426829&Operation=ItemLookup&ResponseGroup=Medium%2CEditorialReview%2CReviews%2CSubjects&SearchIndex=Books&Service=AWSECommerceService&Timestamp=2009-09-04T13%3A22%3A16.000Z&Version=2007-07-16");
     
@@ -956,7 +956,7 @@ int LIVRE_HTML::chercher_texte(wxString texte,liste_caracteristiques& l_livre,in
     	texte.Replace(" ","%20");
         // recherche via AMAZON
         wxDateTime now = wxDateTime::Now();
-        wxString parametres="AWSAccessKeyId=0ND0TZ192YKWMRM086R2&Keywords="+texte+"&Operation=ItemSearch&ResponseGroup=Medium&SearchIndex=Books&Service=AWSECommerceService&Timestamp="+now.FormatISODate()+"T"+now.FormatISOTime()+".000Z";
+        wxString parametres="AWSAccessKeyId=0ND0TZ192YKWMRM086R2&AssociateTag=httppeepaifre-20&Keywords="+texte+"&Operation=ItemSearch&ResponseGroup=Medium&SearchIndex=Books&Service=AWSECommerceService&Timestamp="+now.FormatISODate()+"T"+now.FormatISOTime()+".000Z";
         wxString adresse="ecs.amazonaws.fr";
 
         // recherche via AMAZON
